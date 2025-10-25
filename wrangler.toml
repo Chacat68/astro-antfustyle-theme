@@ -1,0 +1,5 @@
+name = "astro-antfustyle-theme"
+compatibility_date = "2025-10-25"
+
+[assets]
+directory = "./dist"
