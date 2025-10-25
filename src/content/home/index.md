@@ -6,47 +6,43 @@
 
 ---
 
-**Optimized Infrastructure**
+**最新文章**
 
-- Zero UI Framework
-- [SEO-Friendly](./blog/faqs-and-known-issues/#about-seo-and-accessibility)
-- [Auto-Generated RSS Feed](./blog/faqs-and-known-issues/#rss-subscription-scope)
-- [Dynamic OG Image Generation](./blog/about-open-graph-images/)
-- [Subpath Deployment](./blog/basic-configuration/#configuring-site) Support
-- Optimized and Responsive Images
-- VS Code Snippets for Fast Coding
-- [Well-Structured Project](./blog/project-structure/)
-- High [Lighthouse Performance](./blog/faqs-and-known-issues/#lighthouse-scores)
+- [为什么意志力戒不掉坏习惯？](./blog/think05-habit-breaking-myth/) - 思维成长
+- [Qwen-Image-Edit：精确语义与外观编辑的双能手](./blog/ai7-qwen-image-edit/) - 人工智能
+- [把青涩藏进勇气，让光在成长里点亮](./blog/hua8-yang-naiwen-tuikai-shijie-de-men-mv/) - 音乐欣赏
+- [《如愿》粤语版：盛世小团圆的深情告白](./blog/hk17-ruyuan-cantonese/) - 音乐欣赏
+- [期望效应：为什么说你行你就行](./blog/others11-expectation-effect/) - 它山之石
+- [华语集《陈绮贞的诗意时光》](./blog/hua1/) - 音乐欣赏
 
-**Content Management**
+**内容分类**
 
-- Markdown & MDX Support
-- [Math Equations Rendering](./blog/faqs-and-known-issues/#choosing-a-math-rendering-engine)
-- [Callouts (Alerts/Admonitions)](./blog/markdown-mdx-extended-features/#callouts-alerts--admonitions)
-- [Code Syntax Highlighting & Annotations](./blog/markdown-mdx-extended-features/#fully-featured-code-blocks)
-- Ready-To-Use [Remark Directives](./blog/markdown-mdx-extended-features/#image-caption--link-image)
-- Customizable Layouts, Views, and Navigation
-- [Configurable Animated Backgrounds](./blog/faqs-and-known-issues/#page-backgrounds) (Take a look around!)
-- [Showcase Your GitHub Releases and PRs](./blog/customizing-github-activity-pages)
-- [Highlight Your Creative Work or Curated Posts](./blog/recreating-current-pages/#highlights)
-- [Share Your Short Notes or Quick Thoughts](./blog/recreating-current-pages/#shorts)
-- [Create Your Personal Gallery](./blog/recreating-current-pages/#photos)
+- � **人工智能** - AI工具、大模型应用、技术趋势
+  - [从零开始的AI工具之旅：主流AI应用深度体验与分析](./blog/ai1/)
+  - [Qwen-Image-Edit：精确语义与外观编辑的双能手](./blog/ai7-qwen-image-edit/)
+  - [设计思考：AI融入生活的一年观察](./blog/think02/)
+- 🎵 **音乐欣赏** - 粤语港乐、华语歌曲、音乐评论
+  - [《如愿》粤语版：盛世小团圆的深情告白](./blog/hk17-ruyuan-cantonese/)
+  - [港乐集《C.Y.KONG&Jean》](./blog/hk1/)
+  - [港乐集《麦浚龙：痴恋三部曲》](./blog/hk3/)
+- 🧠 **思维成长** - 心理学、自我提升、行为改变
+  - [为什么意志力戒不掉坏习惯？](./blog/think05-habit-breaking-myth/)
+  - [期望效应：为什么说你行你就行](./blog/others11-expectation-effect/)
+  - [真正的平静不在远方，就在当下的每一刻](./blog/others10-inner-peace/)
+- � **设计思考** - 设计原则、创意思维、审美实践
+  - [设计思考：迪特·拉姆斯的十大设计原则](./blog/design1/)
+  - [设计素材库：收集、整理与检索的三步法](./blog/design2/)
+  - [读《美学的经济》：审美价值的商业实践](./blog/book2/)
+- 📚 **它山之石** - 经典著作、诗歌美文、智慧启蒙
+  - [《IF 如果》](./blog/wen-1/)
+  - [泰戈尔的生命之歌：《生如夏花》赏析](./blog/others2/)
+  - [自尊的六大支柱：一份生活指南](./blog/others1/)
+- 💭 **生活随笔** - 日常思考、旅行记录、感悟瞬间
+  - [随笔：在忙碌中寻找幸福时刻](./blog/diary1/)
+  - [写给32岁的自己：关于创作与决策的思考](./blog/diary2/)
+  - [未曾预想的问题](./blog/think01/)
 
-**User Experience**
-
-- Responsive Layout
-- Full-Platform TOC Support
-- Light & Dark Modes Toggle
-- Smooth View Transitions
-- Loading Progress Indicator
-- [Search Functionality](./blog/faqs-and-known-issues/#search-functionality)
-- [Image Zoom Preview](./blog/faqs-and-known-issues/#image-zoom)
-- Social Media Sharing
-- [Integrated Giscus Comments](./blog/advanced-configuration/#configure-giscus-comments)
-- [Accessibility Enhancements](./blog/faqs-and-known-issues/#about-seo-and-accessibility)
-- Keyboard-Friendly
-
-> [More features](https://github.com/users/lin-stephanie/projects/4) are continuously being added! 🚀
+> 更多功能请参考blog中的文章！
 
 ---
 
