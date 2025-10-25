@@ -1,7 +1,7 @@
 ---
 title: 从脆弱到反脆弱：在不确定性中茁壮成长
-published: 2025-06-26 01:00:00
-updated: 2025-06-26 01:00:00
+pubDate: 2025-06-26 01:00:00
+lastModDate: 2025-06-26 01:00:00
 description: '探索反脆弱的核心理念，学会在混乱和不确定性中获得成长和收益'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250626010422293.png?imageSlim'
 tags: [反脆弱, 个人成长, 不确定性, 韧性, 思维模型]

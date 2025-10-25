@@ -1,7 +1,7 @@
 ---
 title: 61技术探索与生活随笔
-published: 2025-06-01 19:30:00
-updated: 2025-06-01 19:30:00
+pubDate: 2025-06-01 19:30:00
+lastModDate: 2025-06-01 19:30:00
 description: '记录61假期期间的技术探索与生活感悟，包括开源视频平台部署和MCP技术体验。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250602134914997.png?imageSlim'
 tags: [技术探索, 开源项目, MCP, 阿里云, 工作效率, 学习曲线]

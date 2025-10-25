@@ -1,7 +1,7 @@
 ---
 title: FLUX.1 Kontext Dev：开源图像编辑模型的新突破
-published: 2025-06-28 03:00:00
-updated: 2025-06-28 03:00:00
+pubDate: 2025-06-28 03:00:00
+lastModDate: 2025-06-28 03:00:00
 description: 'FLUX.1 Kontext Dev是Black Forest Labs推出的开源图像编辑模型，支持文本和图像同时输入，具备出色的角色一致性和精确编辑能力。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250628031141285.png?imageSlim'
 tags: [AI, 图像编辑, FLUX, 开源, 工具, 效率, 本地]

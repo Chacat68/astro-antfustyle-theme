@@ -1,7 +1,7 @@
 ---
 title: 未曾预想的问题
-published: 2024-09-24
-updated: 2024-09-24
+pubDate: 2024-09-24
+lastModDate: 2024-09-24
 description: '生活里发生的随机事件，有时候真的让你哭笑不得。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170623402.png?imageSlim'
 tags: [思维成长, 认知, 成长]

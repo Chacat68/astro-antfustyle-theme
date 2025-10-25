@@ -1,7 +1,7 @@
 ---
 title: 51假期与老友重聚
-published: 2025-05-05 19:00:00
-updated: 2025-05-05 19:00:00
+pubDate: 2025-05-05 19:00:00
+lastModDate: 2025-05-05 19:00:00
 description: '记录五一假期与老友重聚的温暖时光，一起分享生活中的美好与烦恼。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250506060623027.png?imageSlim'
 tags: [友情, 生活感悟, 广州, 五一假期, 夜游, 人生困境, 心灵对话]

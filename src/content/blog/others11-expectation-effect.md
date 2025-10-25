@@ -1,7 +1,7 @@
 ---
 title: 期望效应：为什么说你行你就行
-published: 2025-09-15
-updated: 2025-09-15
+pubDate: 2025-09-15
+lastModDate: 2025-09-15
 description: '探索期望效应的神奇力量，了解积极期待如何改变我们的人生轨迹，以及如何运用这一心理现象创造更美好的未来'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250911025808891.webp?imageSlim'
 tags: [期望效应, 皮格马利翁效应, 心理学, 自我实现, 积极心理学]

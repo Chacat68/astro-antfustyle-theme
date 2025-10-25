@@ -1,7 +1,7 @@
 ---
 title: 为什么意志力戒不掉坏习惯？
-published: 2025-10-24
-updated: 2025-10-24
+pubDate: 2025-10-24
+lastModDate: 2025-10-24
 description: '揭秘习惯形成的科学原理，意志力为何对改变习惯无效，以及如何通过习惯替换法轻松建立新习惯'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042645752.png?imageSlim'
 tags: [习惯养成, 意志力, 心理学, 自我提升, 行为改变, 思维成长, 科学]

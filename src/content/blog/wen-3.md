@@ -1,7 +1,7 @@
 ---
 title: 不要温和地走进那良夜
-published: 2023-03-06
-updated: 2023-03-06
+pubDate: 2023-03-06
+lastModDate: 2023-03-06
 description: '不要温和地走进那良夜：共处痛苦与快乐，面对失败，独处喜欢自己的陪伴。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173335960.png?imageSlim'
 tags: [生活,诗句,英文,生命]

@@ -1,7 +1,7 @@
 ---
 title: 生活暂停键：寻找新的生活重心
-published: 2022-09-21
-updated: 2022-09-21
+pubDate: 2022-09-21
+lastModDate: 2022-09-21
 description: '在工作暂停期间，如何重新规划生活节奏，包括时间管理、信息摄入控制、家庭生活等方面的思考和实践。通过具体的生活安排，寻找新的生活重心和意义。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042817782.png?imageSlim'
 tags: [生活节奏,时间管理,信息控制,家庭生活,创造力,健康]

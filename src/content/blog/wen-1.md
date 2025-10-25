@@ -1,7 +1,7 @@
 ---
 title: 《IF 如果》
-published: 2020-01-17
-updated: 2020-01-17
+pubDate: 2020-01-17
+lastModDate: 2020-01-17
 description: '分享了Rudyard Kipling的诗歌《If》的翻译。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173209859.png?imageSlim'
 tags: [生活,诗句,英文,Rudyard Kipling]

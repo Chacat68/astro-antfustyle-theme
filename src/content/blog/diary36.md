@@ -1,7 +1,7 @@
 ---
 title: 睡眠的力量：重新审视生命中被忽视的三分之一
-published: 2025-07-07
-updated: 2025-07-07
+pubDate: 2025-07-07
+lastModDate: 2025-07-07
 description: '从科学的角度重新认识睡眠，探索这个被现代社会遗忘的生命密码。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250707004239754.png?imageSlim'
 tags: [睡眠, 健康, 生活, 科学]

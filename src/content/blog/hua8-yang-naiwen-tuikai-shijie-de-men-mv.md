@@ -1,7 +1,7 @@
 ---
 title: 把青涩藏进勇气，让光在成长里点亮
-published: 2024-10-08
-updated: 2025-10-18
+pubDate: 2024-10-08
+lastModDate: 2025-10-18
 description: '《推开世界的门》以清新流畅的旋律与纪录片式影像，陪伴每一次推门而出的勇气，尤其适合毕业季的你我。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251018044235001.webp?imageSlim'
 tags: [音乐, 杨乃文, 推开世界的门, MV, 华语, 毕业季]

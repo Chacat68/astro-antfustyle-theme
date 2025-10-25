@@ -1,7 +1,7 @@
 ---
 title: 费曼学习法：用简单性来掌握复杂知识
-published: 2025-10-16
-updated: 2025-10-16
+pubDate: 2025-10-16
+lastModDate: 2025-10-16
 description: '费曼学习法是一种高效的学习技巧，通过用简单的语言解释复杂概念，来检验和深化自己的理解。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173209859.png?imageSlim'
 tags: [学习法, 费曼, 高效学习, 知识管理, 教学相长]

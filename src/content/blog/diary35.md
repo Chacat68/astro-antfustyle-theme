@@ -1,7 +1,7 @@
 ---
 title: 人间有味是清欢：缅怀蔡澜先生
-published: 2025-06-28 02:00:00
-updated: 2025-06-28 02:00:00
+pubDate: 2025-06-28 02:00:00
+lastModDate: 2025-06-28 02:00:00
 description: '缅怀一代才子蔡澜先生，回顾他在美食、文学、电影中留下的珍贵足迹'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250628030136150.png?imageSlim'
 tags: [蔡澜, 缅怀, 美食, 文学, 人生智慧]

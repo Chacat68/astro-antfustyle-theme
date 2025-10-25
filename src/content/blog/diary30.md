@@ -1,7 +1,7 @@
 ---
 title: blog 劳动节改版小记
-published: 2025-05-03 03:00:00
-updated: 2025-05-03 03:00:00
+pubDate: 2025-05-03 03:00:00
+lastModDate: 2025-05-03 03:00:00
 description: '记录使用 fuwari 主题进行博客改版的过程，包括 Vercel 部署、从旧主题迁移功能（项目、友链、文章列表样式）以及使用 AI IDE 辅助开发的体验。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250503031704734.png?imageSlim'
 tags: [Astro, fuwari, Vercel, 博客, 主题定制, 前端开发, AI编程]

@@ -1,7 +1,7 @@
 ---
 title: 勇往直前：白桦《船》中的不屈与坚韧
-published: 2024-09-05
-updated: 2024-09-05
+pubDate: 2024-09-05
+lastModDate: 2024-09-05
 description: '面对强大于自身千万倍的对手，能援救自己的只有清醒和勇敢。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173051624.png?imageSlim'
 tags: [诗句, 中文, 船, 命运, 际遇]

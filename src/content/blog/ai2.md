@@ -1,7 +1,7 @@
 ---
 title: AI助手的进化：从通用到个性化定制
-published: 2023-11-21
-updated: 2023-11-21
+pubDate: 2023-11-21
+lastModDate: 2023-11-21
 description: '23年10月阶段性对AI观感的思考，一种更可控的方式出现，AI变成了一种能力.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175756636.png?imageSlim'
 tags: [AI, 设计, 创作, 工具, 效率]

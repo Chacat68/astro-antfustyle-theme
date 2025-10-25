@@ -1,7 +1,7 @@
 ---
 title: 记录最近跑步的快乐
-published: 2024-06-04
-updated: 2024-06-04
+pubDate: 2024-06-04
+lastModDate: 2024-06-04
 description: '不管怎样，先跑起来！酸痛会有，快乐亦然！'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104010152140.png?imageSlim'
 tags: [跑步, 快乐, 酸痛, 生活]

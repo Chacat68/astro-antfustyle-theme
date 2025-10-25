@@ -1,7 +1,7 @@
 ---
 title: 把热烈收进克制，让爱在时间里升温
-published: 2025-10-17
-updated: 2025-10-17
+pubDate: 2025-10-17
+lastModDate: 2025-10-17
 description: '《慢冷》由姚若龙作词、萧煌奇作曲，以细腻的抒情与故事化的影像，书写在自我修复与亲密关系之间的温柔距离。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251017031856047.webp?imageSlim'
 tags: [音乐, 梁静茹, 慢冷, MV, 华语]
