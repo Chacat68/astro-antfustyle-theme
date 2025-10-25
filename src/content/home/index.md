@@ -49,16 +49,12 @@
 <p>
   <span class="inline-block mr-1.5 mb-2">Find me on</span>
   <span class="inline-flex flex-wrap gap-2 op-75">
-    <a href="https://github.com/lin-stephanie/astro-antfustyle-theme">
+    <a href="https://github.com/Chacat68">
       <span i-simple-icons-github></span> GitHub</a>
-    <a href="https://github.com/lin-stephanie/astro-antfustyle-theme">
+    <a href="https://x.com/Chacat68">
       <span i-ri-twitter-x-fill></span> Twitter</a>
-    <a href="https://github.com/lin-stephanie/astro-antfustyle-theme">
-      <span i-simple-icons-instagram></span> Instagram</a>
-    <a href="https://github.com/lin-stephanie/astro-antfustyle-theme">
-      <span i-simple-icons-mastodon></span> Mastodon</a>
-    <a href="https://github.com/lin-stephanie/astro-antfustyle-theme">
-      <span i-simple-icons-youtube></span> YouTube</a>
+    <a href="https://bsky.app/profile/chacat68.bsky.social">
+      <span i-simple-icons-mastodon></span> Bluesky</a>
   </span>
 </p>
 
