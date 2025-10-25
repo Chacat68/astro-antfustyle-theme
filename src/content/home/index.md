@@ -54,7 +54,7 @@
     <a href="https://x.com/Chacat68">
       <span i-ri-twitter-x-fill></span> Twitter</a>
     <a href="https://bsky.app/profile/chacat68.bsky.social">
-      <span i-simple-icons-mastodon></span> Bluesky</a>
+      <span i-simple-icons-bluesky></span> Bluesky</a>
   </span>
 </p>
 
