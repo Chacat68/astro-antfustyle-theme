@@ -43,98 +43,135 @@ export const pageSchema = z.object({
 export type PageSchema = z.infer<typeof pageSchema>
 
 /* Posts */
-export const postSchema = z.object({
-  title: z
-    .string()
-    .max(60)
-    .describe(
-      "**Required**. Sets the post title, limited to **60 characters**. This follows Moz's recommendation, ensuring approximately 90% of titles display correctly in SERPs and preventing truncation on smaller screens or social platforms. [Learn more](https://moz.com/learn/seo/title-tag)."
-    ),
-  subtitle: z
-    .string()
-    .default('')
-    .describe(
-      'Provides a post subtitle. If provided, it will be displayed below the title. If not needed, leave the field as an empty string or delete it.'
-    ),
-  description: z
-    .string()
-    .default('')
-    .describe(
-      'Provides a brief description, used in meta tags for SEO and sharing purposes. If not needed, leave the field as an empty string or delete it, and the `SITE.description` will be used directly.'
-    ),
-  pubDate: z.coerce
-    .date()
-    .describe(
-      '**Required**. Specifies the publication date. See supported formats [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse#examples).'
-    ),
-  lastModDate: z
-    .union([z.coerce.date(), z.literal('')])
-    .optional()
-    .describe(
-      'Tracks the last modified date. If not needed, leave the field as an empty string or delete it.'
-    ),
-  minutesRead: z
-    .number()
-    .optional()
-    .describe(
-      'Provides an estimated reading time in minutes. To auto-generate, delete the field; to hide it on the page, enter 0'
-    ),
-  radio: z
-    .boolean()
-    .default(false)
-    .describe(
-      'Indicates if the post includes audio content or links to an external audio source. If `true`, an icon will be added to the post item in the list.'
-    ),
-  video: z
-    .boolean()
-    .default(false)
-    .describe(
-      'Indicates if the post includes video content or links to an external video source. If `true`, an icon will be added to the post item in the list.'
-    ),
-  platform: z
-    .string()
-    .default('')
-    .describe(
-      'Specifies the platform where the audio or video content is published. If provided, the platform name will be displayed. If not needed, leave the field as an empty string or delete it.'
-    ),
-  ogImage: z
-    .union([z.string(), z.boolean()])
-    .default(true)
-    .describe(
-      'Specifies the Open Graph (OG) image for social media sharing. To auto-generate OG image, delete the field or set to `true`. To disable it, set the field to `false`. To use a custom image, provide the full filename from `/public/og-images/`.'
-    ),
-  toc: z
-    .boolean()
-    .default(true)
-    .describe(
-      'Controls whether the table of contents (TOC) is generated for the post.'
-    ),
-  share: z
-    .boolean()
-    .default(true)
-    .describe('Controls whether social sharing is available for the post.'),
-  giscus: z
-    .boolean()
-    .default(true)
-    .describe('Controls whether Giscus comments are available for the post.'),
-  search: z
-    .boolean()
-    .default(true)
-    .describe(
-      'Defines a URL to redirect the post. If not needed, delete the field or set to `false`'
-    ),
-  redirect: z
-    .string()
-    .url('Invalid url.')
-    .optional()
-    .describe('Defines a URL to redirect the post.'),
-  draft: z
-    .boolean()
-    .default(false)
-    .describe(
-      'Marks the post as a draft. If `true`, it is only visible in development and excluded from production builds.'
-    ),
-})
+export const postSchema = z
+  .object({
+    title: z
+      .string()
+      .max(60)
+      .describe(
+        "**Required**. Sets the post title, limited to **60 characters**. This follows Moz's recommendation, ensuring approximately 90% of titles display correctly in SERPs and preventing truncation on smaller screens or social platforms. [Learn more](https://moz.com/learn/seo/title-tag)."
+      ),
+    subtitle: z
+      .string()
+      .default('')
+      .describe(
+        'Provides a post subtitle. If provided, it will be displayed below the title. If not needed, leave the field as an empty string or delete it.'
+      ),
+    description: z
+      .string()
+      .default('')
+      .describe(
+        'Provides a brief description, used in meta tags for SEO and sharing purposes. If not needed, leave the field as an empty string or delete it, and the `SITE.description` will be used directly.'
+      ),
+    pubDate: z.coerce
+      .date()
+      .optional()
+      .describe(
+        '**Required**. Specifies the publication date. See supported formats [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse#examples).'
+      ),
+    published: z.coerce
+      .date()
+      .optional()
+      .describe(
+        'Deprecated. Use `pubDate` instead. Specifies the publication date.'
+      ),
+    lastModDate: z
+      .union([z.coerce.date(), z.literal('')])
+      .optional()
+      .describe(
+        'Tracks the last modified date. If not needed, leave the field as an empty string or delete it.'
+      ),
+    updated: z.coerce
+      .date()
+      .optional()
+      .describe(
+        'Deprecated. Use `lastModDate` instead. Tracks the last modified date.'
+      ),
+    minutesRead: z
+      .number()
+      .optional()
+      .describe(
+        'Provides an estimated reading time in minutes. To auto-generate, delete the field; to hide it on the page, enter 0'
+      ),
+    radio: z
+      .boolean()
+      .default(false)
+      .describe(
+        'Indicates if the post includes audio content or links to an external audio source. If `true`, an icon will be added to the post item in the list.'
+      ),
+    video: z
+      .boolean()
+      .default(false)
+      .describe(
+        'Indicates if the post includes video content or links to an external video source. If `true`, an icon will be added to the post item in the list.'
+      ),
+    platform: z
+      .string()
+      .default('')
+      .describe(
+        'Specifies the platform where the audio or video content is published. If provided, the platform name will be displayed. If not needed, leave the field as an empty string or delete it.'
+      ),
+    ogImage: z
+      .union([z.string(), z.boolean()])
+      .default(true)
+      .describe(
+        'Specifies the Open Graph (OG) image for social media sharing. To auto-generate OG image, delete the field or set to `true`. To disable it, set the field to `false`. To use a custom image, provide the full filename from `/public/og-images/`.'
+      ),
+    toc: z
+      .boolean()
+      .default(true)
+      .describe(
+        'Controls whether the table of contents (TOC) is generated for the post.'
+      ),
+    share: z
+      .boolean()
+      .default(true)
+      .describe('Controls whether social sharing is available for the post.'),
+    giscus: z
+      .boolean()
+      .default(true)
+      .describe('Controls whether Giscus comments are available for the post.'),
+    search: z
+      .boolean()
+      .default(true)
+      .describe(
+        'Defines a URL to redirect the post. If not needed, delete the field or set to `false`'
+      ),
+    redirect: z
+      .string()
+      .url('Invalid url.')
+      .optional()
+      .describe('Defines a URL to redirect the post.'),
+    draft: z
+      .boolean()
+      .default(false)
+      .describe(
+        'Marks the post as a draft. If `true`, it is only visible in development and excluded from production builds.'
+      ),
+  })
+  .superRefine((data, ctx) => {
+    // Handle pubDate/published field mapping
+    if (!data.pubDate && data.published) {
+      data.pubDate = data.published
+    }
+    if (!data.pubDate) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['pubDate'],
+        message: 'Either pubDate or published field is required',
+      })
+    }
+
+    // Handle lastModDate/updated field mapping
+    if (!data.lastModDate && data.updated) {
+      data.lastModDate = data.updated
+    }
+
+    // Clean up deprecated fields
+    const dataObj = data as Record<string, unknown>
+    delete dataObj.published
+    delete dataObj.updated
+  })
 
 export type PostSchema = z.infer<typeof postSchema>
 
