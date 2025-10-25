@@ -34,7 +34,7 @@
     "@iconify/json": "^2.2.394",
     "@types/node": "^24.7.2",
     "@types/nprogress": "^0.2.3",
-    "@types/p5": "^1.7.6",
+    "@types/p5": "^1.7.7",
     "@typescript-eslint/parser": "^8.46.0",
     "@unocss/reset": "66.5.3",
     "astro": "^5.14.4",

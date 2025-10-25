@@ -6,6 +6,50 @@
 
 ---
 
+**Optimized Infrastructure**
+
+- Zero UI Framework
+- [SEO-Friendly](./blog/faqs-and-known-issues/#about-seo-and-accessibility)
+- [Auto-Generated RSS Feed](./blog/faqs-and-known-issues/#rss-subscription-scope)
+- [Dynamic OG Image Generation](./blog/about-open-graph-images/)
+- [Subpath Deployment](./blog/basic-configuration/#configuring-site) Support
+- Optimized and Responsive Images
+- VS Code Snippets for Fast Coding
+- [Well-Structured Project](./blog/project-structure/)
+- High [Lighthouse Performance](./blog/faqs-and-known-issues/#lighthouse-scores)
+
+**Content Management**
+
+- Markdown & MDX Support
+- [Math Equations Rendering](./blog/faqs-and-known-issues/#choosing-a-math-rendering-engine)
+- [Callouts (Alerts/Admonitions)](./blog/markdown-mdx-extended-features/#callouts-alerts--admonitions)
+- [Code Syntax Highlighting & Annotations](./blog/markdown-mdx-extended-features/#fully-featured-code-blocks)
+- Ready-To-Use [Remark Directives](./blog/markdown-mdx-extended-features/#image-caption--link-image)
+- Customizable Layouts, Views, and Navigation
+- [Configurable Animated Backgrounds](./blog/faqs-and-known-issues/#page-backgrounds) (Take a look around!)
+- [Showcase Your GitHub Releases and PRs](./blog/customizing-github-activity-pages)
+- [Highlight Your Creative Work or Curated Posts](./blog/recreating-current-pages/#highlights)
+- [Share Your Short Notes or Quick Thoughts](./blog/recreating-current-pages/#shorts)
+- [Create Your Personal Gallery](./blog/recreating-current-pages/#photos)
+
+**User Experience**
+
+- Responsive Layout
+- Full-Platform TOC Support
+- Light & Dark Modes Toggle
+- Smooth View Transitions
+- Loading Progress Indicator
+- [Search Functionality](./blog/faqs-and-known-issues/#search-functionality)
+- [Image Zoom Preview](./blog/faqs-and-known-issues/#image-zoom)
+- Social Media Sharing
+- [Integrated Giscus Comments](./blog/advanced-configuration/#configure-giscus-comments)
+- [Accessibility Enhancements](./blog/faqs-and-known-issues/#about-seo-and-accessibility)
+- Keyboard-Friendly
+
+> [More features](https://github.com/users/lin-stephanie/projects/4) are continuously being added! 🚀
+
+---
+
 <p>
   Visit the theme's
   <a
