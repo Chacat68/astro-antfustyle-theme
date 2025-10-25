@@ -47,15 +47,6 @@
 ---
 
 <p>
-  Visit the theme's
-  <a
-    class="inline-block ml-1.5 op-75"
-    href="https://github.com/lin-stephanie/astro-antfustyle-theme"
-  >
-  <span i-simple-icons-github></span> GitHub repo</a>
-</p>
-
-<p>
   <span class="inline-block mr-1.5 mb-2">Find me on</span>
   <span class="inline-flex flex-wrap gap-2 op-75">
     <a href="https://github.com/lin-stephanie/astro-antfustyle-theme">
@@ -73,11 +64,4 @@
 
 ---
 
-If you find this theme helpful, consider supporting the project maintainer or the style designer. Your support means more than you know. Thank you! ❤️
-
-<div class="flex flex-wrap gap-4">
-  <a class="btn-rose" href="https://github.com/sponsors/lin-stephanie">
-    <span class="i-ph-heart-duotone"></span> Support Stephanie Lin (Maintainer)</a>
-  <a class="btn-yellow" href="https://github.com/sponsors/antfu">
-    <span class="i-ph-lightning-duotone"></span> Support Anthony Fu (Designer)</a>
-</div>
+感谢你阅读我的博客！如果这些内容对你有所启发或帮助，那就是对我最大的鼓励。你的支持和陪伴，意义非凡。谢谢！❤️
