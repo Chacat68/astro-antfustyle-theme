@@ -57,20 +57,20 @@ export const UI: Ui = {
   ],
   socialLinks: [
     {
-      link: 'https://github.com/lin-stephanie/astro-antfustyle-theme',
-      title: 'AntfuStyle on Github',
+      link: 'https://github.com/Chacat68',
+      title: 'Github',
       displayMode: 'alwaysIcon',
       icon: 'i-uil-github-alt',
     },
     {
-      link: 'https://x.com/astrodotbuild',
-      title: 'Astro on Twitter',
+      link: 'https://x.com/Chacat68',
+      title: 'CHACAT on X',
       displayMode: 'alwaysIcon',
       icon: 'i-ri-twitter-x-fill',
     },
     {
-      link: 'https://bsky.app/profile/astro.build',
-      title: 'Astro on Bluesky',
+      link: 'https://bsky.app/profile/chacat68.bsky.social',
+      title: 'CHACAT on Bluesky',
       displayMode: 'alwaysIcon',
       icon: 'i-meteor-icons-bluesky',
     },
