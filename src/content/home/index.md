@@ -6,14 +6,11 @@
 
 ---
 
-**最新文章**
+import LatestPosts from '~/components/widgets/LatestPosts.astro'
 
-- [为什么意志力戒不掉坏习惯？](./blog/think05-habit-breaking-myth/) - 思维成长
-- [Qwen-Image-Edit：精确语义与外观编辑的双能手](./blog/ai7-qwen-image-edit/) - 人工智能
-- [把青涩藏进勇气，让光在成长里点亮](./blog/hua8-yang-naiwen-tuikai-shijie-de-men-mv/) - 音乐欣赏
-- [《如愿》粤语版：盛世小团圆的深情告白](./blog/hk17-ruyuan-cantonese/) - 音乐欣赏
-- [期望效应：为什么说你行你就行](./blog/others11-expectation-effect/) - 它山之石
-- [华语集《陈绮贞的诗意时光》](./blog/hua1/) - 音乐欣赏
+<LatestPosts limit={6} />
+
+---
 
 **内容分类**
 
