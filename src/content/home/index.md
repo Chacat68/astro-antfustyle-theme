@@ -7,46 +7,8 @@
 ---
 
 import LatestPosts from '~/components/widgets/LatestPosts.astro'
-import CategoryPosts from '~/components/widgets/CategoryPosts.astro'
 
-export const categories = [
-  {
-    name: '人工智能',
-    icon: '🤖',
-    description: 'AI工具、大模型应用、技术趋势'
-  },
-  {
-    name: '音乐欣赏',
-    icon: '🎵',
-    description: '粤语港乐、华语歌曲、音乐评论'
-  },
-  {
-    name: '思维成长',
-    icon: '🧠',
-    description: '心理学、自我提升、行为改变'
-  },
-  {
-    name: '设计思考',
-    icon: '🎨',
-    description: '设计原则、创意思维、审美实践'
-  },
-  {
-    name: '它山之石',
-    icon: '📚',
-    description: '经典著作、诗歌美文、智慧启蒙'
-  },
-  {
-    name: '生活随笔',
-    icon: '💭',
-    description: '日常思考、旅行记录、感悟瞬间'
-  }
-]
-
-<LatestPosts limit={6} />
-
----
-
-<CategoryPosts categories={categories} postsPerCategory={3} />
+<LatestPosts limit={10} />
 
 ---
 
