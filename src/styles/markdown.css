@@ -339,7 +339,7 @@ html:not(.dark) .img-dark {
   display: none;
 }
 
-/* ::vedio */
+/* ::video */
 .rds-video {
   z-index: 150;
   position: relative;
@@ -487,4 +487,15 @@ html:not(.dark) .img-dark {
 
 .external-link-cursor {
   cursor: var(--external-link-cursor);
+}
+
+/* Responsive Videos */
+.prose iframe,
+.prose video {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
 }
