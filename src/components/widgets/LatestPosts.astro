@@ -1,0 +1,61 @@
+---
+import { getFilteredPosts, getSortedPosts } from '~/utils/data'
+import { resolvePath } from '~/utils/path'
+
+interface Props {
+  limit?: number
+}
+
+const { limit = 6 } = Astro.props
+
+// 获取最新的博客文章
+const allPosts = await getFilteredPosts('blog')
+const sortedPosts = getSortedPosts(allPosts)
+const latestPosts = sortedPosts.slice(0, limit)
+---
+
+<div class="latest-posts">
+  <h2>最新文章</h2>
+  <ul class="post-list">
+    {
+      latestPosts.map((post) => (
+        <li>
+          <a href={resolvePath(`/blog/${post.id}`)}>{post.data.title}</a>
+          {post.data.category && (
+            <span class="category"> - {post.data.category}</span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .latest-posts {
+    margin-bottom: 2rem;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .post-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.8;
+  }
+
+  .post-list a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-list a:hover {
+    text-decoration: underline;
+  }
+
+  .category {
+    opacity: 0.7;
+    font-size: 0.9em;
+  }
+</style>
