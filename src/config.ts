@@ -7,8 +7,8 @@ export const SITE: Site = {
   description:
     'A customizable, feature-rich Astro theme for blog and portfolio creation',
   author: 'Stephanie Lin',
-  lang: 'en',
-  ogLocale: 'en_US',
+  lang: 'zh-CN',
+  ogLocale: 'zh_CN',
   imageDomains: ['cdn.bsky.app', 'images.unsplash.com'],
 }
 
@@ -182,7 +182,7 @@ export const FEATURES: Features = {
       'data-reactions-enabled': '1',
       'data-emit-metadata': '0',
       'data-input-position': 'bottom',
-      'data-lang': 'en',
+      'data-lang': 'zh-CN',
     },
   ],
 
