@@ -7,37 +7,46 @@
 ---
 
 import LatestPosts from '~/components/widgets/LatestPosts.astro'
+import CategoryPosts from '~/components/widgets/CategoryPosts.astro'
+
+export const categories = [
+  {
+    name: '人工智能',
+    icon: '🤖',
+    description: 'AI工具、大模型应用、技术趋势'
+  },
+  {
+    name: '音乐欣赏',
+    icon: '🎵',
+    description: '粤语港乐、华语歌曲、音乐评论'
+  },
+  {
+    name: '思维成长',
+    icon: '🧠',
+    description: '心理学、自我提升、行为改变'
+  },
+  {
+    name: '设计思考',
+    icon: '🎨',
+    description: '设计原则、创意思维、审美实践'
+  },
+  {
+    name: '它山之石',
+    icon: '📚',
+    description: '经典著作、诗歌美文、智慧启蒙'
+  },
+  {
+    name: '生活随笔',
+    icon: '💭',
+    description: '日常思考、旅行记录、感悟瞬间'
+  }
+]
 
 <LatestPosts limit={6} />
 
 ---
 
-**内容分类**
-
-- � **人工智能** - AI工具、大模型应用、技术趋势
-  - [从零开始的AI工具之旅：主流AI应用深度体验与分析](./blog/ai1/)
-  - [Qwen-Image-Edit：精确语义与外观编辑的双能手](./blog/ai7-qwen-image-edit/)
-  - [设计思考：AI融入生活的一年观察](./blog/think02/)
-- 🎵 **音乐欣赏** - 粤语港乐、华语歌曲、音乐评论
-  - [《如愿》粤语版：盛世小团圆的深情告白](./blog/hk17-ruyuan-cantonese/)
-  - [港乐集《C.Y.KONG&Jean》](./blog/hk1/)
-  - [港乐集《麦浚龙：痴恋三部曲》](./blog/hk3/)
-- 🧠 **思维成长** - 心理学、自我提升、行为改变
-  - [为什么意志力戒不掉坏习惯？](./blog/think05-habit-breaking-myth/)
-  - [期望效应：为什么说你行你就行](./blog/others11-expectation-effect/)
-  - [真正的平静不在远方，就在当下的每一刻](./blog/others10-inner-peace/)
-- � **设计思考** - 设计原则、创意思维、审美实践
-  - [设计思考：迪特·拉姆斯的十大设计原则](./blog/design1/)
-  - [设计素材库：收集、整理与检索的三步法](./blog/design2/)
-  - [读《美学的经济》：审美价值的商业实践](./blog/book2/)
-- 📚 **它山之石** - 经典著作、诗歌美文、智慧启蒙
-  - [《IF 如果》](./blog/wen-1/)
-  - [泰戈尔的生命之歌：《生如夏花》赏析](./blog/others2/)
-  - [自尊的六大支柱：一份生活指南](./blog/others1/)
-- 💭 **生活随笔** - 日常思考、旅行记录、感悟瞬间
-  - [随笔：在忙碌中寻找幸福时刻](./blog/diary1/)
-  - [写给32岁的自己：关于创作与决策的思考](./blog/diary2/)
-  - [未曾预想的问题](./blog/think01/)
+<CategoryPosts categories={categories} postsPerCategory={3} />
 
 ---
 

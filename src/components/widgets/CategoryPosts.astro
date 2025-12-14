@@ -1,0 +1,117 @@
+---
+import { getFilteredPosts, getSortedPosts } from '~/utils/data'
+import { resolvePath } from '~/utils/path'
+
+interface CategoryConfig {
+  name: string
+  icon: string
+  description: string
+  limit?: number
+}
+
+interface Props {
+  categories: CategoryConfig[]
+  postsPerCategory?: number
+}
+
+const { categories, postsPerCategory = 3 } = Astro.props
+
+// 获取所有博客文章
+const allPosts = await getFilteredPosts('blog')
+const sortedPosts = getSortedPosts(allPosts)
+
+// 按分类组织文章
+const postsByCategory = categories
+  .map((categoryConfig) => {
+    const posts = sortedPosts
+      .filter((post) => post.data.category === categoryConfig.name)
+      .slice(0, categoryConfig.limit || postsPerCategory)
+
+    return {
+      ...categoryConfig,
+      posts,
+    }
+  })
+  .filter((cat) => cat.posts.length > 0) // 只显示有文章的分类
+---
+
+<div class="category-posts">
+  <h2>内容分类</h2>
+  <ul class="category-list">
+    {
+      postsByCategory.map((category) => (
+        <li class="category-item">
+          <div class="category-header">
+            <span class="category-icon">{category.icon}</span>
+            <strong class="category-name">{category.name}</strong>
+            <span class="category-desc"> - {category.description}</span>
+          </div>
+          <ul class="post-list">
+            {category.posts.map((post) => (
+              <li>
+                <a href={resolvePath(`/blog/${post.id}`)}>{post.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .category-posts {
+    margin-bottom: 2rem;
+  }
+
+  .category-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .category-item {
+    margin-bottom: 1.5rem;
+  }
+
+  .category-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .category-icon {
+    margin-right: 0.25rem;
+  }
+
+  .category-name {
+    font-weight: 600;
+  }
+
+  .category-desc {
+    opacity: 0.7;
+    font-size: 0.9em;
+  }
+
+  .post-list {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .post-list li {
+    margin-bottom: 0.25rem;
+    line-height: 1.6;
+  }
+
+  .post-list li::before {
+    content: '- ';
+    margin-right: 0.25rem;
+  }
+
+  .post-list a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-list a:hover {
+    text-decoration: underline;
+  }
+</style>
