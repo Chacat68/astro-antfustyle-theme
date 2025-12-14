@@ -63,6 +63,30 @@ export const postSchema = z
       .describe(
         'Provides a brief description, used in meta tags for SEO and sharing purposes. If not needed, leave the field as an empty string or delete it, and the `SITE.description` will be used directly.'
       ),
+    image: z
+      .string()
+      .default('')
+      .describe(
+        'Specifies the cover image URL for the post. If not needed, leave the field as an empty string or delete it.'
+      ),
+    tags: z
+      .array(z.string())
+      .default([])
+      .describe(
+        'Specifies tags for categorizing the post. If not needed, leave as an empty array or delete it.'
+      ),
+    category: z
+      .string()
+      .default('')
+      .describe(
+        'Specifies the category of the post. If not needed, leave the field as an empty string or delete it.'
+      ),
+    lang: z
+      .string()
+      .optional()
+      .describe(
+        'Specifies the language of the post (e.g., "zh-CN", "en"). If not specified, the default site language is used.'
+      ),
     pubDate: z.coerce
       .date()
       .optional()
