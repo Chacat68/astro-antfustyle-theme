@@ -27,19 +27,21 @@ export const UI: Ui = {
       text: 'Projects',
     },
     {
-      path: '/highlights',
-      title: 'Highlights',
-      displayMode: 'iconToTextOnMobile',
-      text: 'Highlights',
-      icon: 'i-ri-screenshot-line',
-    },
-    {
       path: '/photos',
       title: 'Photos',
       displayMode: 'iconToTextOnMobile',
       text: 'Photos',
       icon: 'i-ri-camera-ai-line',
     },
+    /*
+    {
+      path: '/highlights',
+      title: 'Highlights',
+      displayMode: 'iconToTextOnMobile',
+      text: 'Highlights',
+      icon: 'i-ri-screenshot-line',
+    },
+    /*
     /*
     {
       path: '/shorts',
