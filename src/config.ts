@@ -40,6 +40,7 @@ export const UI: Ui = {
       text: 'Photos',
       icon: 'i-ri-camera-ai-line',
     },
+    /*
     {
       path: '/shorts',
       title: 'Shorts',
@@ -47,13 +48,14 @@ export const UI: Ui = {
       text: 'Shorts',
       icon: 'i-meteor-icons-grid',
     },
-    {
-      path: '/changelog',
-      title: 'Changelog',
-      displayMode: 'iconToTextOnMobile',
-      text: 'Changelog',
-      icon: 'i-ri-draft-line',
-    },
+    */
+    // {
+    //   path: '/changelog',
+    //   title: 'Changelog',
+    //   displayMode: 'iconToTextOnMobile',
+    //   text: 'Changelog',
+    //   icon: 'i-ri-draft-line',
+    // },
   ],
   socialLinks: [
     {
@@ -127,7 +129,10 @@ export const UI: Ui = {
  *  - Set to `[true, {...}]` to enable and configure the feature.
  */
 export const FEATURES: Features = {
+  // 页面进入动画
   slideEnterAnim: [true, { enterStep: 60 }],
+
+  // Open Graph 图片生成配置
   ogImage: [
     true,
     {
@@ -136,6 +141,8 @@ export const FEATURES: Features = {
       fallbackBgType: 'plum',
     },
   ],
+
+  // 目录 (Table of Contents) 配置
   toc: [
     true,
     {
@@ -145,6 +152,8 @@ export const FEATURES: Features = {
       displayMode: 'content',
     },
   ],
+
+  // 分享按钮配置
   share: [
     true,
     {
@@ -159,6 +168,8 @@ export const FEATURES: Features = {
       email: false,
     },
   ],
+
+  // 评论系统配置
   giscus: [
     true,
     {
@@ -174,6 +185,8 @@ export const FEATURES: Features = {
       'data-lang': 'en',
     },
   ],
+
+  // 搜索功能配置
   search: [
     true,
     {
