@@ -1,0 +1,212 @@
+---
+import { getFilteredPosts } from '~/utils/data'
+
+// Blog posts
+const posts = await getFilteredPosts('blog')
+
+const now = new Date()
+
+const postDates = posts
+  .map((post) => post.data.pubDate || post.data.published)
+  .filter((d): d is Date => d instanceof Date)
+
+const startDate = postDates.length
+  ? new Date(Math.min(...postDates.map((d) => d.valueOf())))
+  : now
+
+function formatYMD(date: Date) {
+  return date.toISOString().split('T')[0]
+}
+
+function getDurationParts(from: Date, to: Date) {
+  let years = to.getFullYear() - from.getFullYear()
+  let months = to.getMonth() - from.getMonth()
+  let days = to.getDate() - from.getDate()
+
+  if (days < 0) {
+    const lastMonth = new Date(to.getFullYear(), to.getMonth(), 0)
+    days += lastMonth.getDate()
+    months -= 1
+  }
+
+  if (months < 0) {
+    months += 12
+    years -= 1
+  }
+
+  return {
+    years: Math.max(0, years),
+    months: Math.max(0, months),
+    days: Math.max(0, days),
+  }
+}
+
+const durationParts = getDurationParts(startDate, now)
+const daysOperating = Math.max(
+  0,
+  Math.floor((now.valueOf() - startDate.valueOf()) / 86400000) + 1
+)
+
+function countChars(text: string) {
+  const cjk = text.match(/[\u4e00-\u9fff]/g)?.length ?? 0
+  const latinWords = text.match(/[A-Za-z0-9]+(?:'[A-Za-z0-9]+)?/g)?.length ?? 0
+  return cjk + latinWords
+}
+
+let totalWordCount = 0
+for (const post of posts) {
+  totalWordCount += countChars(post.body ?? '')
+}
+
+const yearCountMap = new Map<number, number>()
+for (const post of posts) {
+  const pubDate = post.data.pubDate || post.data.published
+  if (!pubDate) continue
+  const y = pubDate.getFullYear()
+  yearCountMap.set(y, (yearCountMap.get(y) ?? 0) + 1)
+}
+
+const yearCounts = Array.from(yearCountMap.entries())
+  .sort((a, b) => b[0] - a[0])
+  .map(([year, count]) => ({ year, count }))
+---
+
+<div class="site-stats">
+  <div class="stats-header">
+    <h3>网站数据统计</h3>
+  </div>
+
+  <dl class="stats-list">
+    <div class="stat">
+      <dt>经营时间</dt>
+      <dd>
+        <span class="stat-main">
+          自 {formatYMD(startDate)} 至今，共 {daysOperating.toLocaleString()} 天
+        </span>
+        <span class="stat-sub">
+          （{durationParts.years}年{durationParts.months}个月{
+            durationParts.days
+          }天）
+        </span>
+      </dd>
+    </div>
+
+    <div class="stat">
+      <dt>全部文章总字数</dt>
+      <dd>
+        <span class="stat-main">{totalWordCount.toLocaleString()}</span>
+      </dd>
+    </div>
+
+    <div class="stat">
+      <dt>每一年的文章数量</dt>
+      <dd>
+        <div class="year-counts">
+          {
+            yearCounts.length
+              ? yearCounts.map((item) => (
+                  <span class="year-item">
+                    <span class="year">{item.year}</span>
+                    <span class="count">{item.count} 篇</span>
+                  </span>
+                ))
+              : '暂无数据'
+          }
+        </div>
+      </dd>
+    </div>
+  </dl>
+</div>
+
+<style>
+  .site-stats {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background: var(--color-bg-secondary, rgba(0, 0, 0, 0.05));
+  }
+
+  :global(:root.dark) .site-stats {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .stats-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .stats-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .stats-list {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+  }
+
+  .stat {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  @media (max-width: 640px) {
+    .stat {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+
+  dt {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #666);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .stat-main {
+    font-size: 1rem;
+  }
+
+  .stat-sub {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #666);
+  }
+
+  .year-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .year-item {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: baseline;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.375rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  :global(:root.dark) .year-item {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .year {
+    font-weight: 600;
+  }
+
+  .count {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #666);
+  }
+</style>
