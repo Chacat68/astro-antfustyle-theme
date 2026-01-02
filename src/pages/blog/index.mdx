@@ -10,6 +10,7 @@ ogImage: true
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import ListView from '~/components/views/ListView.astro'
+import ArticleHeatmap from '~/components/widgets/ArticleHeatmap.astro'
 
 <BaseLayout
   title={frontmatter.title}
@@ -22,6 +23,7 @@ import ListView from '~/components/views/ListView.astro'
     title={frontmatter.title}
     subtitle={frontmatter.subtitle}
   >
+    <ArticleHeatmap />
     <ListView collectionType="blog" pageToc={frontmatter.toc} />
   </StandardLayout>
 </BaseLayout>
