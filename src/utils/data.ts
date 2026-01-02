@@ -54,9 +54,11 @@ export async function getFilteredPosts(collection: 'blog' | 'changelog') {
 export function getSortedPosts(
   posts: CollectionEntryList<'blog' | 'changelog'>
 ) {
-  return posts.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  )
+  return posts.sort((a, b) => {
+    const bd = b.data.pubDate?.valueOf() ?? 0
+    const ad = a.data.pubDate?.valueOf() ?? 0
+    return bd - ad
+  })
 }
 
 /**
@@ -252,9 +254,11 @@ export function processBlueskyPosts(data: CollectionEntryList<'highlights'>) {
 export async function getShortsFromBlog(data: CollectionEntryList<'blog'>) {
   const cards: CardItemData[] = []
   const basePath = resolvePath('/blog')
-  const sortedData = data.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  )
+  const sortedData = data.sort((a, b) => {
+    const bd = b.data.pubDate?.valueOf() ?? 0
+    const ad = a.data.pubDate?.valueOf() ?? 0
+    return bd - ad
+  })
 
   for (const item of sortedData) {
     const slug = item.id

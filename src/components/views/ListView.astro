@@ -38,7 +38,7 @@ if (collectionType === 'blog' || collectionType === 'changelog') {
   if (tocEnabled) {
     const yearsSet = new Set<number>()
     sortedBlogItems.forEach((item) => {
-      const year = getYear(item.data.pubDate)
+      const year = getYear(item.data.pubDate!)
       yearsSet.add(year)
     })
 
@@ -113,13 +113,13 @@ if (collectionType === 'feeds') {
           return (
             <>
               {!isSameYear(
-                data.pubDate,
+                data.pubDate!,
                 sortedBlogItems[idx - 1]?.data.pubDate
               ) && (
                 <Categorizer
                   {idx}
                   needId={tocEnabled}
-                  text={getYear(data.pubDate).toString()}
+                  text={getYear(data.pubDate!).toString()}
                 />
               )}
               <ListItem
@@ -130,7 +130,7 @@ if (collectionType === 'feeds') {
                 title={data.title}
                 video={data.video}
                 radio={data.radio}
-                date={data.pubDate}
+                date={data.pubDate!}
                 {minutesRead}
                 platform={data.platform}
               />

@@ -1,5 +1,47 @@
 [
   {
+    "id": "「Project : Otherworld」",
+    "link": "https://www.chawfoo.com/projects/",
+    "desc": "使用自制引擎开发的二次元角色扮演游戏，AI辅助的技术与游戏世界观设计。",
+    "icon": "i-ph-planet-duotone",
+    "category": "个人项目"
+  },
+  {
+    "id": "「AI Art」",
+    "link": "https://www.chawfoo.com/projects/",
+    "desc": "使用AI Models生成的艺术品，并用Midjourney、Comfyui、FLUX、SD等工具制作。",
+    "icon": "i-ph-palette-duotone",
+    "category": "个人项目"
+  },
+  {
+    "id": "「建筑指南」",
+    "link": "https://arch.chawfoo.com/",
+    "desc": "这是一本关于我个人对建筑指南的理解，记录了建筑设计的创作过程。",
+    "icon": "i-ph-buildings-duotone",
+    "category": "个人项目"
+  },
+  {
+    "id": "「Godot Demo」",
+    "link": "https://github.com/Chacat68/fygame",
+    "desc": "使用Godot游戏引擎制作的小游戏演示，包含2D像素风格的平台跳跃游戏。",
+    "icon": "i-simple-icons-godotengine",
+    "category": "个人项目"
+  },
+  {
+    "id": "「NotionNext博客」",
+    "link": "https://notion-next-kohl-rho-39.vercel.app/",
+    "desc": "NotionNext博客是一个基于Notion的博客系统，使用Next.js作为前端框架，Vercel作为部署平台。",
+    "icon": "i-simple-icons-notion",
+    "category": "个人项目"
+  },
+  {
+    "id": "「壁纸和摄影集合」",
+    "link": "https://unsplash.com/@chacat68",
+    "desc": "将一些通过AI创作的壁纸和摄影作品上传到Unsplash，免费与大家分享。",
+    "icon": "i-ph-camera-duotone",
+    "category": "个人项目"
+  },
+  {
     "id": "astro",
     "link": "https://github.com/withastro/astro",
     "desc": "The web framework for content-driven websites",
