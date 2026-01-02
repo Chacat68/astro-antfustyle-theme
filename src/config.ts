@@ -51,13 +51,13 @@ export const UI: Ui = {
       icon: 'i-meteor-icons-grid',
     },
     */
-    // {
-    //   path: '/changelog',
-    //   title: 'Changelog',
-    //   displayMode: 'iconToTextOnMobile',
-    //   text: 'Changelog',
-    //   icon: 'i-ri-draft-line',
-    // },
+    {
+      path: '/changelog',
+      title: 'Changelog',
+      displayMode: 'iconToTextOnMobile',
+      text: 'Changelog',
+      icon: 'i-ri-draft-line',
+    },
   ],
   socialLinks: [
     {
