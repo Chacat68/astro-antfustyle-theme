@@ -35,6 +35,13 @@
     "category": "技术探索"
   },
   {
+    "id": "gametools游戏工具集",
+    "link": "https://github.com/Chacat68/",
+    "desc": "一个集成了策划本地化、跨项目翻译对应、JSON检测、Excel处理、翻译提取、批量改表等功能的多功能游戏开发工具集。",
+    "icon": "i-ph-toolbox-duotone",
+    "category": "技术探索"
+  },
+  {
     "id": "「壁纸和摄影集合」",
     "link": "https://unsplash.com/@chacat68",
     "desc": "将一些通过AI创作的壁纸和摄影作品上传到Unsplash，免费与大家分享。",
