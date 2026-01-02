@@ -7,7 +7,12 @@ import Warning from '~/components/base/Warning.astro'
 import { UI } from '~/config'
 import { formatDate, isDiffMonth } from '~/utils/datetime'
 import { withBasePath } from '~/utils/path'
-import { matchLogo, extractPackageName, processVersion } from '~/utils/data'
+import {
+  matchLogo,
+  extractPackageName,
+  extractVersionNum,
+  processVersion,
+} from '~/utils/data'
 
 import type { RepoWithOwner, Url, Icon } from '~/types'
 import type { CollectionEntry } from 'astro:content'
@@ -17,6 +22,7 @@ export type ExtendedReleaseData = CollectionEntry<'releases'>['data'] & {
   pkgName: string
   mainLogo: Url | Icon
   subLogo: Url | Icon | undefined
+  publishedAt: string
   versionType: 'major' | 'minor' | 'patch' | 'pre'
   versionParts: [string, string]
 }
@@ -62,9 +68,12 @@ if (collectionType === 'releases') {
         `https://github.com/${item.data.repoOwner}.png`
       const subLogo = matchLogo(pkgName, subLogoMatches)
 
-      const [versionType, ...versionParts] = processVersion(
-        item.data.versionNum
-      )
+      const versionNum =
+        item.data.versionNum ?? extractVersionNum(item.data.tagName)
+      const [versionType, ...versionParts] = processVersion(versionNum)
+
+      // Loader typing marks `publishedAt` optional, but UI expects a valid time string.
+      const publishedAt = item.data.publishedAt ?? new Date().toISOString()
 
       return {
         ...item.data,
@@ -72,6 +81,7 @@ if (collectionType === 'releases') {
         pkgName,
         mainLogo,
         subLogo,
+        publishedAt,
         versionType,
         versionParts,
       }
@@ -163,7 +173,7 @@ if (collectionType === 'prs') {
           <span>
             Last fetched:
             <time
-              class="inline-block text-[var(--fg-deeper)]"
+              class="inline-block text-(--fg-deeper)"
               datetime={new Date().toISOString()}
               title={new Date().toISOString()}
             >
@@ -173,7 +183,7 @@ if (collectionType === 'prs') {
           <span class="lt-sm:hidden">&nbsp;|&nbsp;</span>
           <span>
             Scheduled refresh:
-            <span class="text-[var(--fg-deeper)]">Every Saturday</span>
+            <span class="text-(--fg-deeper)">Every Saturday</span>
           </span>
         </p>
         <p class="my-0! lt-sm:my-1.5!">

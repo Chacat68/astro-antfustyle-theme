@@ -122,9 +122,11 @@ const content =
           }
           {collectionType === 'prs' && <span>#{item.number}</span>}
         </Link>
-        <time class="op-60 text-sm lt-sm:text-3.2" datetime={time} title={time}>
-          {formatDate(time, false)}
-        </time>
+        {time && (
+          <time class="op-60 text-sm lt-sm:text-3.2" datetime={time} title={time}>
+            {formatDate(time, false)}
+          </time>
+        )}
       </div>
     </div>
   </summary>

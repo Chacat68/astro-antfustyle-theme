@@ -27,7 +27,7 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post)
 const title = frontmatter.title
 const description = frontmatter.description
 const ogImage = frontmatter.ogImage
-const pubDate = frontmatter.pubDate.toISOString()
+const pubDate = frontmatter.pubDate!.toISOString()
 const lastModDate =
   frontmatter.lastModDate && frontmatter.lastModDate.toISOString()
 const subtitle = frontmatter.subtitle
