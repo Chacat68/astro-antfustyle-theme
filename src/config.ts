@@ -4,9 +4,8 @@ export const SITE: Site = {
   website: 'https://astro-antfustyle-theme.vercel.app/',
   base: '/',
   title: '付之一笑',
-  description:
-    'A customizable, feature-rich Astro theme for blog and portfolio creation',
-  author: 'Stephanie Lin',
+  description: '阅读、跑步、思考、创作',
+  author: 'Chacat',
   lang: 'zh-CN',
   ogLocale: 'zh_CN',
   imageDomains: ['cdn.bsky.app', 'images.unsplash.com'],
