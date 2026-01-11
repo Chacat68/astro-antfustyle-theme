@@ -1,4 +1,4 @@
-import { glob, file } from 'astro/loaders'
+import { glob, file, type Loader } from 'astro/loaders'
 import { defineCollection } from 'astro:content'
 
 import { feedLoader } from '@ascorbic/feed-loader'
@@ -15,29 +15,13 @@ import {
   photoSchema,
 } from '~/content/schema'
 
-interface RemoteLoaderContext {
-  logger: {
-    warn: (message: string) => void
-  }
-  store?: {
-    clear?: () => void
-  }
-}
+function withSafeRemoteLoader(loader: Loader, name: string): Loader {
+  type LoaderArgs = Parameters<Loader['load']>[0]
 
-interface RemoteLoader<TContext extends RemoteLoaderContext> {
-  load: (args: TContext) => Promise<unknown>
-  name?: string
-  [key: string]: unknown
-}
-
-function withSafeRemoteLoader<TContext extends RemoteLoaderContext>(
-  loader: RemoteLoader<TContext>,
-  name: string
-) {
   return {
     ...loader,
     name,
-    load: async (args: TContext) => {
+    load: async (args: LoaderArgs) => {
       try {
         await loader.load(args)
       } catch (err) {
