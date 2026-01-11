@@ -1,19 +1,22 @@
 ---
-title: Projects
-subtitle: 正在参与制作的项目，内容创作等
-description: 这里展示了我正在参与制作的项目、内容创作等。欢迎查看并参与其中！
-bgType: dot
-toc: true
-ogImage: true
----
-
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import GroupView from '~/components/views/GroupView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
+const frontmatter = {
+  title: 'Projects',
+  subtitle: '正在参与制作的项目，内容创作等',
+  description:
+    '这里展示了我正在参与制作的项目、内容创作等。欢迎查看并参与其中！',
+  bgType: 'dot',
+  toc: true,
+  ogImage: true,
+} as const
+
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+---
 
 <BaseLayout
   title={t('page.projects.title')}
@@ -27,16 +30,6 @@ const t = useTranslations(locale)
     subtitle={t('page.projects.subtitle')}
     isCentered={true}
   >
-    {/* <div slot="head" class="flex flex-wrap justify-center items-center gap-4">
-      <Link class="btn-orange" href={withBasePath('/releases/')}>
-        <span class="i-ph-rocket-launch-duotone"></span>
-        <span class="ml-1.5">Latest Releases</span>
-      </Link>
-      <Link class="btn-violet" href={withBasePath('/prs/')}>
-        <span class="i-lucide-git-pull-request"></span>
-        <span class="ml-1.5">Recent Pull Requests</span>
-      </Link>
-    </div> */}
     <GroupView collectionType="projects" pageToc={frontmatter.toc} />
   </StandardLayout>
 </BaseLayout>

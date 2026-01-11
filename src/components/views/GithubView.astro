@@ -52,6 +52,8 @@ const configGuideHref = ensureTrailingSlash(
 const MAX_PER_PKG = 5
 const WARNING = t('github.noDataWarningHtml', { href: configGuideHref })
 
+const hasGithubToken = Boolean(import.meta.env.GITHUB_TOKEN)
+
 let isEmpty = false
 
 /* Releases */
@@ -59,54 +61,62 @@ let releases: CollectionEntry<'releases'>[] = []
 let extendedReleases: ExtendedReleaseData[] = []
 
 if (collectionType === 'releases') {
-  releases = await getCollection(collectionType)
+  if (!hasGithubToken) {
+    isEmpty = true
+  } else {
+    try {
+      releases = await getCollection(collectionType)
+    } catch {
+      releases = []
+    }
 
-  const pkgCountMap: Record<string, number> = {}
-  extendedReleases = releases
-    .map((item) => {
-      const isInMonorepo = monorepos.includes(
-        item.data.repoNameWithOwner as RepoWithOwner
-      )
-      const pkgName = isInMonorepo
-        ? extractPackageName(item.data.tagName)
-        : item.data.repoName
+    const pkgCountMap: Record<string, number> = {}
+    extendedReleases = releases
+      .map((item) => {
+        const isInMonorepo = monorepos.includes(
+          item.data.repoNameWithOwner as RepoWithOwner
+        )
+        const pkgName = isInMonorepo
+          ? extractPackageName(item.data.tagName)
+          : item.data.repoName
 
-      const mainLogo =
-        matchLogo(pkgName, mainLogoOverrides) ||
-        `https://github.com/${item.data.repoOwner}.png`
-      const subLogo = matchLogo(pkgName, subLogoMatches)
+        const mainLogo =
+          matchLogo(pkgName, mainLogoOverrides) ||
+          `https://github.com/${item.data.repoOwner}.png`
+        const subLogo = matchLogo(pkgName, subLogoMatches)
 
-      const versionNum =
-        item.data.versionNum ?? extractVersionNum(item.data.tagName)
-      const [versionType, ...versionParts] = processVersion(versionNum)
+        const versionNum =
+          item.data.versionNum ?? extractVersionNum(item.data.tagName)
+        const [versionType, ...versionParts] = processVersion(versionNum)
 
-      // Loader typing marks `publishedAt` optional, but UI expects a valid time string.
-      const publishedAt = item.data.publishedAt ?? new Date().toISOString()
+        // Loader typing marks `publishedAt` optional, but UI expects a valid time string.
+        const publishedAt = item.data.publishedAt ?? new Date().toISOString()
 
-      return {
-        ...item.data,
-        isInMonorepo,
-        pkgName,
-        mainLogo,
-        subLogo,
-        publishedAt,
-        versionType,
-        versionParts,
-      }
-    })
-    // filters releases to ensure each pkg has no more than a specified maximum number
-    .filter((item) => {
-      if ((pkgCountMap[item.pkgName] || 0) < MAX_PER_PKG) {
-        pkgCountMap[item.pkgName] = (pkgCountMap[item.pkgName] || 0) + 1
-        return true
-      }
-      return false
-    })
-    .sort((a, b) => {
-      return +new Date(b.publishedAt) - +new Date(a.publishedAt)
-    })
+        return {
+          ...item.data,
+          isInMonorepo,
+          pkgName,
+          mainLogo,
+          subLogo,
+          publishedAt,
+          versionType,
+          versionParts,
+        }
+      })
+      // filters releases to ensure each pkg has no more than a specified maximum number
+      .filter((item) => {
+        if ((pkgCountMap[item.pkgName] || 0) < MAX_PER_PKG) {
+          pkgCountMap[item.pkgName] = (pkgCountMap[item.pkgName] || 0) + 1
+          return true
+        }
+        return false
+      })
+      .sort((a, b) => {
+        return +new Date(b.publishedAt) - +new Date(a.publishedAt)
+      })
 
-  isEmpty = releases.length === 0 || extendedReleases.length === 0
+    isEmpty = releases.length === 0 || extendedReleases.length === 0
+  }
 }
 
 /* PRs */
@@ -114,32 +124,40 @@ let prs: CollectionEntry<'prs'>[] = []
 let extendedPrs: ExtendedPrData[] = []
 
 if (collectionType === 'prs') {
-  prs = await getCollection(collectionType)
+  if (!hasGithubToken) {
+    isEmpty = true
+  } else {
+    try {
+      prs = await getCollection(collectionType)
+    } catch {
+      prs = []
+    }
 
-  extendedPrs = prs
-    .filter(
-      (item) =>
-        item.data.state !== 'CLOSED' &&
-        !item.data.isDraft &&
-        !/\b(?:chore|docs|i18n)\b/.test(item.data.title)
-    )
-    .map((item) => {
-      const mainLogo =
-        matchLogo(item.data.repository.name, mainLogoOverrides) ||
-        `https://github.com/${item.data.repository.owner.login}.png`
-      const subLogo = matchLogo(item.data.repository.name, subLogoMatches)
+    extendedPrs = prs
+      .filter(
+        (item) =>
+          item.data.state !== 'CLOSED' &&
+          !item.data.isDraft &&
+          !/\b(?:chore|docs|i18n)\b/.test(item.data.title)
+      )
+      .map((item) => {
+        const mainLogo =
+          matchLogo(item.data.repository.name, mainLogoOverrides) ||
+          `https://github.com/${item.data.repository.owner.login}.png`
+        const subLogo = matchLogo(item.data.repository.name, subLogoMatches)
 
-      return {
-        ...item.data,
-        mainLogo,
-        subLogo,
-      }
-    })
-    .sort((a, b) => {
-      return +new Date(b.createdAt) - +new Date(a.createdAt)
-    })
+        return {
+          ...item.data,
+          mainLogo,
+          subLogo,
+        }
+      })
+      .sort((a, b) => {
+        return +new Date(b.createdAt) - +new Date(a.createdAt)
+      })
 
-  isEmpty = prs.length === 0 || extendedPrs.length === 0
+    isEmpty = prs.length === 0 || extendedPrs.length === 0
+  }
 }
 ---
 

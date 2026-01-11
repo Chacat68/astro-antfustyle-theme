@@ -1,10 +1,8 @@
----
 import LatestPosts from '~/components/widgets/LatestPosts.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 const locale = getLocale(Astro.props.locale)
 const t = useTranslations(locale)
----
 
 {t('home.intro1')}
 

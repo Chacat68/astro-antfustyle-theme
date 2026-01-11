@@ -10,7 +10,7 @@ import type { CollectionKey } from 'astro:content'
 import type { CardItemData } from '~/components/views/CardItem.astro'
 
 interface Props {
-  collectionType: CollectionKey
+  collectionType: CollectionKey | 'shorts'
   mode: 'masonry' | 'grid'
   gap?: 'number'
   minCardWidth?: number
@@ -43,7 +43,7 @@ if (collectionType === 'highlights') {
   )
 }
 
-if (collectionType === ('shorts' as CollectionKey)) {
+if (collectionType === 'shorts') {
   const posts = await getCollection('blog')
   dataForGrid = await getShortsFromBlog(posts)
 }

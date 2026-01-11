@@ -1,19 +1,21 @@
 ---
-title: Shorts
-subtitle: Share your short notes or quick thoughts
-description: Share your short notes or quick thoughts
-bgType: particle
-toc: false
-ogImage: true
----
-
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import CardView from '~/components/views/CardView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
+const frontmatter = {
+  title: 'Shorts',
+  subtitle: 'Share your short notes or quick thoughts',
+  description: 'Share your short notes or quick thoughts',
+  bgType: 'particle',
+  toc: false,
+  ogImage: true,
+} as const
+
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+---
 
 <BaseLayout
   title={t('page.shorts.title')}

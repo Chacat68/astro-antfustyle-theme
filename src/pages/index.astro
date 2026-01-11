@@ -1,0 +1,73 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import LatestPosts from '~/components/widgets/LatestPosts.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const frontmatter = {
+  title: '关于',
+  subtitle: '',
+  description: '',
+  bgType: 'particle',
+  toc: false,
+  ogImage: false,
+} as const
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+---
+
+<BaseLayout
+  title={t('page.home.title')}
+  description={t('page.home.description')}
+  bgType={frontmatter.bgType}
+  ogImage={frontmatter.ogImage}
+>
+  <StandardLayout title={t('page.home.title')} subtitle={frontmatter.subtitle}>
+    <Fragment slot="article">
+      <p>{t('home.intro1')}</p>
+      <p>{t('home.intro2')}</p>
+
+      <p>
+        <strong>{t('home.roles')}</strong>
+      </p>
+
+      <hr />
+
+      <LatestPosts limit={20} />
+
+      <hr />
+
+      <div>
+        <div class="mb-2">{t('home.findMeOn')}</div>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="https://github.com/Chacat68"
+            class="inline-flex items-center gap-1.5 op-75 hover:op-100"
+          >
+            <span i-simple-icons-github></span>
+            <span>GitHub</span>
+          </a>
+          <a
+            href="https://x.com/Chacat68"
+            class="inline-flex items-center gap-1.5 op-75 hover:op-100"
+          >
+            <span i-ri-twitter-x-fill></span>
+            <span>Twitter</span>
+          </a>
+          <a
+            href="https://bsky.app/profile/chacat68.bsky.social"
+            class="inline-flex items-center gap-1.5 op-75 hover:op-100"
+          >
+            <span i-simple-icons-bluesky></span>
+            <span>Bluesky</span>
+          </a>
+        </div>
+      </div>
+
+      <hr />
+
+      <p>{t('home.thanks')}</p>
+    </Fragment>
+  </StandardLayout>
+</BaseLayout>

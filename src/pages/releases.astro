@@ -1,45 +1,48 @@
 ---
-title: AstroEco is Contributing...
-description: Display your GitHub pull requests using astro-loader-github-prs
-subtitle: ''
-bgType: plum
-toc: false
-ogImage: false
----
-
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import GithubView from '~/components/views/GithubView.astro'
 import Link from '~/components/base/Link.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
+const frontmatter = {
+  title: 'AstroEco is Releasing...',
+  description:
+    'Display your GitHub releases using astro-loader-github-releases',
+  subtitle: '',
+  bgType: 'plum',
+  toc: false,
+  ogImage: false,
+} as const
+
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+---
 
 <BaseLayout
-  title={t('page.prs.title')}
-  description={t('page.prs.description')}
+  title={t('page.releases.title')}
+  description={t('page.releases.description')}
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
 >
   <StandardLayout class="max-w-65ch" isCentered={true}>
     <Fragment slot="head">
       <h1>
-        {t('page.prs.heading')}
-        <span class="animate-pulse">{t('page.prs.headingEmphasis')}</span>
+        {t('page.releases.heading')}
+        <span class="animate-pulse">{t('page.releases.headingEmphasis')}</span>
       </h1>
       <p class="mt--4! op-50 italic">
-        {t('page.prs.subtitlePrefix')}{' '}
+        {t('page.releases.subtitlePrefix')}{' '}
         <Link
-          href="https://github.com/lin-stephanie/astro-loaders/tree/main/packages/astro-loader-github-prs"
+          href="https://github.com/lin-stephanie/astro-loaders/tree/main/packages/astro-loader-github-releases"
           external={true}
           class="op-100!"
         >
-          astro-loader-github-prs
+          astro-loader-github-releases
         </Link>
-        {t('page.prs.subtitleSuffix')}
+        {t('page.releases.subtitleSuffix')}
       </p>
     </Fragment>
-    <GithubView collectionType="prs" />
+    <GithubView collectionType="releases" />
   </StandardLayout>
 </BaseLayout>
