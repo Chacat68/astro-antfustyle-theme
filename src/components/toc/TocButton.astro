@@ -1,5 +1,8 @@
 ---
+import { getLocale, useTranslations } from '~/i18n/translate'
 
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 ---
 
 <button
@@ -9,7 +12,7 @@
     op-0 bg-#8883 dark:bg-#8886 pointer-events-none op-transition
     lt-lgp:(op-50 pointer-events-auto)
     hover:op-100 print:hidden"
-  title="Open table of contents"
+  title={t('a11y.openToc')}
 >
   <div u-i-lucide-table-of-contents class="text-gray-700 dark:text-gray-200">
   </div>
@@ -18,15 +21,21 @@
 <nav
   id="toc-panel"
   class="hidden! z-200 fixed top-10% left-50% translate-x--50%
-    overflow-y-auto flex flex-col
+    overflow-y-auto flex-col
     w-90% max-h-80vh py-4 px-6 rounded-lg
-    bg-[var(--c-bg)] shadow-custom_0_0_10_0 text-[var(--c-text)]"
+    bg-(--c-bg) shadow-custom_0_0_10_0 text-(--c-text)"
 >
-  <div class="pb-1 b-b b-[var(--c-text)]">Table of Contents</div>
+  <div class="pb-1 b-b b-(--c-text)">{t('toc.title')}</div>
   <ul class="text-sm">
     <slot />
   </ul>
 </nav>
+
+<style>
+  #toc-panel {
+    display: flex;
+  }
+</style>
 
 <script>
   import { toggleFadeEffect } from '~/utils/misc'

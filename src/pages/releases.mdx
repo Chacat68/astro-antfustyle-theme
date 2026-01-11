@@ -11,18 +11,34 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import GithubView from '~/components/views/GithubView.astro'
 import Link from '~/components/base/Link.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 
 <BaseLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
+  title={t('page.releases.title')}
+  description={t('page.releases.description')}
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
 >
   <StandardLayout class="max-w-65ch" isCentered={true}>
     <Fragment slot="head">
-      <h1>AstroEco is <span class="animate-pulse">Releasing...</span></h1>
-      <p class="mt--4! op-50 italic"
-      >Display your GitHub releases using <Link href="https://github.com/lin-stephanie/astro-loaders/tree/main/packages/astro-loader-github-releases" external={true} class="op-100!">astro-loader-github-releases</Link></p>
+      <h1>
+        {t('page.releases.heading')}
+        <span class="animate-pulse">{t('page.releases.headingEmphasis')}</span>
+      </h1>
+      <p class="mt--4! op-50 italic">
+        {t('page.releases.subtitlePrefix')}{' '}
+        <Link
+          href="https://github.com/lin-stephanie/astro-loaders/tree/main/packages/astro-loader-github-releases"
+          external={true}
+          class="op-100!"
+        >
+          astro-loader-github-releases
+        </Link>
+        {t('page.releases.subtitleSuffix')}
+      </p>
     </Fragment>
     <GithubView collectionType="releases" />
   </StandardLayout>

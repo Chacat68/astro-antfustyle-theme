@@ -10,20 +10,21 @@ ogImage: true
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import GroupView from '~/components/views/GroupView.astro'
-import Link from '~/components/base/Link.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
-import { withBasePath } from '~/utils/path'
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 
 <BaseLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
+  title={t('page.projects.title')}
+  description={t('page.projects.description')}
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
 >
   <StandardLayout
     class="max-w-300"
-    title={frontmatter.title}
-    subtitle={frontmatter.subtitle}
+    title={t('page.projects.title')}
+    subtitle={t('page.projects.subtitle')}
     isCentered={true}
   >
     {/* <div slot="head" class="flex flex-wrap justify-center items-center gap-4">

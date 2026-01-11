@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content'
 import CardItem from '~/components/views/CardItem.astro'
 import Warning from '~/components/base/Warning.astro'
 import { processBlueskyPosts, getShortsFromBlog } from '~/utils/data'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 import type { CollectionKey } from 'astro:content'
 import type { CardItemData } from '~/components/views/CardItem.astro'
@@ -24,8 +25,10 @@ const {
   maxCardWidth,
 } = Astro.props
 
-const WARNING = `No content available for display.
-  Please review and modify <code>CardView.astro</code> as needed.`
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const WARNING = t('warning.noContentHtml', { file: 'CardView.astro' })
 
 let isEmpty = false
 let dataForMasonry: CardItemData[] = []

@@ -1,12 +1,15 @@
 ---
+import { getLocale, useTranslations } from '~/i18n/translate'
 
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 ---
 
 <button
   id="nav-open-button"
   class="hidden lt-md:block op-60 hover:op-100 op-transition"
-  title="Navigation"
-  aria-label="Navigation"
+  title={t('a11y.navigation')}
+  aria-label={t('a11y.navigation')}
   aria-expanded="false"
   aria-controls="nav-panel"
 >
@@ -16,9 +19,9 @@
 <div
   id="nav-panel"
   class="hidden! z-200 fixed top-10% left-50% translate-x--50%
-    overflow-y-auto flex flex-col gap-5
+    overflow-y-auto flex-col gap-5
     w-90% max-h-80vh py-4 px-6 rounded-lg
-  bg-[var(--c-bg)] shadow-custom_0_0_10_0 text-[var(--c-text)]"
+  bg-(--c-bg) shadow-custom_0_0_10_0 text-(--c-text)"
 >
   <ul>
     <slot name="text" />
@@ -27,6 +30,12 @@
     <slot name="icon" />
   </div>
 </div>
+
+<style>
+  #nav-panel {
+    display: flex;
+  }
+</style>
 
 <script>
   import { toggleFadeEffect } from '~/utils/misc'

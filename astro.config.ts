@@ -12,6 +12,19 @@ import { SITE } from './src/config'
 export default defineConfig({
   site: SITE.website,
   base: SITE.base,
+  i18n: {
+    // Default language lives at root (e.g. /blog), non-default languages are prefixed (e.g. /en/blog)
+    locales: ['zh', 'en'],
+    defaultLocale: 'zh',
+    // Generate /en/* routes by rewriting to zh content until translations exist
+    fallback: {
+      en: 'zh',
+    },
+    routing: {
+      prefixDefaultLocale: false,
+      fallbackType: 'rewrite',
+    },
+  },
   integrations: [
     sitemap(),
     robotsTxt(),

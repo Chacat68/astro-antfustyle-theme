@@ -6,7 +6,10 @@ import GithubItem from '~/components/views/GithubItem.astro'
 import Warning from '~/components/base/Warning.astro'
 import { UI } from '~/config'
 import { formatDate, isDiffMonth } from '~/utils/datetime'
-import { withBasePath } from '~/utils/path'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { getLocale, useTranslations } from '~/i18n/translate'
+import { localeToHtmlLang } from '~/i18n/locale-meta'
 import {
   matchLogo,
   extractPackageName,
@@ -39,10 +42,15 @@ interface Props {
 const { collectionType } = Astro.props
 const { monorepos, mainLogoOverrides, subLogoMatches } = UI.githubView
 
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+const dateLocale = localeToHtmlLang(locale)
+const configGuideHref = ensureTrailingSlash(
+  getRelativeLocaleUrl(locale, 'blog/customizing-github-activity-pages')
+)
+
 const MAX_PER_PKG = 5
-const WARNING = `No GitHub data available for display.
-  See <a href='https://astro-antfustyle-theme.vercel.app/blog/customizing-github-activity-pages/'>
-  Customizing GitHub Activity Pages</a> for details.`
+const WARNING = t('github.noDataWarningHtml', { href: configGuideHref })
 
 let isEmpty = false
 
@@ -171,33 +179,30 @@ if (collectionType === 'prs') {
         <hr class="mt-3em!" />
         <p class="flex lt-sm:flex-col items-center my-0! lt-sm:my-1.5!">
           <span>
-            Last fetched:
+            {t('github.lastFetched')}
             <time
               class="inline-block text-(--fg-deeper)"
               datetime={new Date().toISOString()}
               title={new Date().toISOString()}
             >
-              {formatDate(new Date())}
+              {formatDate(new Date(), true, false, dateLocale)}
             </time>
           </span>
           <span class="lt-sm:hidden">&nbsp;|&nbsp;</span>
           <span>
-            Scheduled refresh:
-            <span class="text-(--fg-deeper)">Every Saturday</span>
+            {t('github.scheduledRefresh')}
+            <span class="text-(--fg-deeper)">{t('github.everySaturday')}</span>
           </span>
         </p>
         <p class="my-0! lt-sm:my-1.5!">
-          See
-          <Link
-            class="op-100!"
-            href={withBasePath('/blog/customizing-github-activity-pages/')}
-          >
-            Customizing GitHub Activity Pages
+          {t('github.see')}
+          <Link class="op-100!" href={configGuideHref}>
+            {t('github.configGuideTitle')}
           </Link>
-          to configure your own
+          {t('github.toConfigure')}
         </p>
         <p class="my-0! lt-sm:my-1.5!">
-          Inspired by
+          {t('github.inspiredBy')}
           <Link
             class="op-100!"
             href={

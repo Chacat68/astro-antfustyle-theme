@@ -1,10 +1,16 @@
+---
 import LatestPosts from '~/components/widgets/LatestPosts.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
-你好，我是查猫CHACAT，85后，从小就是游戏迷和书迷，这两样爱好至今仍是我生活的重要支柱。
+const locale = getLocale(Astro.props.locale)
+const t = useTranslations(locale)
+---
 
-最近专注于读书、创作和跑步，享受安静而有趣的生活节奏。喜欢喝茶聊天，持续创作新内容，为自己源源不断地创造心流体验。
+{t('home.intro1')}
 
-**🎮 游戏开发者 | ✍️ 内容创作者 | 📱 手机摄影师 | 💻 vibe coding苦手**
+{t('home.intro2')}
+
+**{t('home.roles')}**
 
 ---
 
@@ -13,7 +19,7 @@ import LatestPosts from '~/components/widgets/LatestPosts.astro'
 ---
 
 <div>
-  <div class="mb-2">Find me on</div>
+  <div class="mb-2">{t('home.findMeOn')}</div>
   <div class="flex flex-wrap gap-4">
     <a
       href="https://github.com/Chacat68"
@@ -41,4 +47,4 @@ import LatestPosts from '~/components/widgets/LatestPosts.astro'
 
 ---
 
-感谢你阅读我的博客！如果这些内容对你有所启发或帮助，那就是对我最大的鼓励。你的支持和陪伴，意义非凡。谢谢！❤️
+{t('home.thanks')}

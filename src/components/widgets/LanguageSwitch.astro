@@ -1,0 +1,39 @@
+---
+import Link from '~/components/base/Link.astro'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+
+import { ensureTrailingSlash } from '~/utils/path'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const currentPathname = ensureTrailingSlash(Astro.url.pathname)
+const currentLocaleRoot = ensureTrailingSlash(getRelativeLocaleUrl(locale, ''))
+
+const pathWithinLocale = currentPathname.startsWith(currentLocaleRoot)
+  ? currentPathname.slice(currentLocaleRoot.length)
+  : currentPathname.replace(/^\/+/, '')
+
+const normalizedPath = pathWithinLocale.replace(/^\/+/, '').replace(/\/+$/, '')
+
+const targetLocale = locale === 'zh' ? 'en' : 'zh'
+const targetHref = ensureTrailingSlash(
+  getRelativeLocaleUrl(targetLocale, normalizedPath)
+)
+
+const shortLabel = targetLocale === 'en' ? 'EN' : '中'
+const title = `${t('a11y.languageSwitch')}: ${t(`lang.${targetLocale}`)}`
+---
+
+<Link
+  class="op-60 hover:op-100 op-transition"
+  href={targetHref}
+  {title}
+  aria-label={title}
+>
+  <span class="inline-flex items-center gap-1">
+    <span u-i-ri-translate-2 class="text-base" aria-hidden="true"></span>
+    <span class="text-sm font-500">{shortLabel}</span>
+  </span>
+</Link>

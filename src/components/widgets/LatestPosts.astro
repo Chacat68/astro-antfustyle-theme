@@ -1,12 +1,19 @@
 ---
 import { getFilteredPosts, getSortedPosts } from '~/utils/data'
-import { resolvePath } from '~/utils/path'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 interface Props {
   limit?: number
 }
 
 const { limit = 6 } = Astro.props
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+const toPostHref = (id: string) =>
+  ensureTrailingSlash(getRelativeLocaleUrl(locale, `blog/${id}`))
 
 // 获取最新的博客文章
 const allPosts = await getFilteredPosts('blog')
@@ -15,12 +22,12 @@ const latestPosts = sortedPosts.slice(0, limit)
 ---
 
 <div class="latest-posts">
-  <h2>最新文章</h2>
+  <h2>{t('widget.latestPosts')}</h2>
   <ul class="post-list">
     {
       latestPosts.map((post) => (
         <li>
-          <a href={resolvePath(`/blog/${post.id}`)}>{post.data.title}</a>
+          <a href={toPostHref(post.id)}>{post.data.title}</a>
           {post.data.category && (
             <span class="category"> - {post.data.category}</span>
           )}

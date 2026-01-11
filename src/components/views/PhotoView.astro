@@ -1,6 +1,7 @@
 ---
 import Loader from '~/components/widgets/Loader.astro'
 import ImageViewer from '~/components/widgets/ImageViewer.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 import { hash } from '~/pages/photos/photos.[hash].json'
 
@@ -21,6 +22,9 @@ const {
   layout = 'masonry',
   masonryStrategy = 'sequential',
 } = Astro.props as Props
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 ---
 
 <div class="mx-20 lt-lgp:mx-10 lt-md:mx-1">
@@ -40,7 +44,7 @@ const {
         flex items-center justify-center w-10 h-10 rounded-full
         op-30 op-transition lt-lgp:(op-50! bg-#8883 dark:bg-#8886)
         hover:(op-100! bg-#8883) print:hidden"
-      title="Layout toggle"
+      title={t('a11y.layoutToggle')}
     >
       <div u-i-ri-layout-masonry-line class="icon-masonry hidden"></div>
       <div u-i-ri-layout-grid-2-line class="icon-grid hidden"></div>

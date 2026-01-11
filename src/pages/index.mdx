@@ -10,14 +10,18 @@ ogImage: false
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import RenderPage from '~/components/views/RenderPage.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 
 <BaseLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
+  title={t('page.home.title')}
+  description={t('page.home.description')}
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
 >
-  <StandardLayout title={frontmatter.title} subtitle={frontmatter.subtitle}>
+  <StandardLayout title={t('page.home.title')} subtitle={frontmatter.subtitle}>
     <RenderPage
       slot="article"
       collectionType="home"

@@ -1,12 +1,15 @@
 ---
+import { getLocale, useTranslations } from '~/i18n/translate'
 
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 ---
 
 <button
   id="theme-switch"
   class="op-60 hover:op-100 op-transition"
-  title="Toggles light & dark"
-  aria-label="Toggles light & dark"
+  title={t('a11y.themeToggle')}
+  aria-label={t('a11y.themeToggle')}
 >
   <div u-i-ri-sun-line u-dark:i-ri-moon-line></div>
 </button>

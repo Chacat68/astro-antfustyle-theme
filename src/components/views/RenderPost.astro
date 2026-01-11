@@ -10,6 +10,7 @@ import ShareLink from '~/components/widgets/ShareLink.astro'
 import Giscus from '~/components/widgets/Giscus.astro'
 import ImageViewer from '~/components/widgets/ImageViewer.astro'
 import { FEATURES } from '~/config'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 import type { CollectionEntry } from 'astro:content'
 
@@ -20,6 +21,9 @@ interface Props {
 
 const { post, isCommentable = false } = Astro.props
 const { toc, share, giscus, search } = FEATURES
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 
 const { data: frontmatter } = post
 const { Content, headings, remarkPluginFrontmatter } = await render(post)
@@ -49,9 +53,7 @@ const isSearchable =
 const searchFilter =
   isSearchable && search[1].filter ? `collection:${collectionType}` : undefined
 
-const WARNING = `This is a draft post that will not be published
-in production. Set the post's <code>draft</code> property in
-frontmatter to <code>false</code> or remove it to publish the post.`
+const WARNING = t('warning.draftPostHtml')
 ---
 
 <BaseLayout {title} {description} {ogImage} {pubDate} {lastModDate}>

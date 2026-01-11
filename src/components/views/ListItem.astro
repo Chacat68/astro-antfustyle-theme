@@ -1,8 +1,11 @@
 ---
 import Link from '~/components/base/Link.astro'
 
-import { withBasePath } from '~/utils/path'
+import { ensureTrailingSlash } from '~/utils/path'
 import { formatDate } from '~/utils/datetime'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { getLocale, useTranslations } from '~/i18n/translate'
+import { localeToHtmlLang } from '~/i18n/locale-meta'
 
 interface Props {
   idx: number
@@ -29,13 +32,21 @@ const {
   minutesRead,
   platform,
 } = Astro.props
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+const dateLocale = localeToHtmlLang(locale)
+
+const internalHref = ensureTrailingSlash(
+  getRelativeLocaleUrl(locale, `${collectionType}/${postSlug ?? ''}`)
+)
 ---
 
 <div class="slide-enter" style={{ '--enter-stage': idx }}>
   <Link
     u-flex="~ items-center lt-md:(col items-start) gap-2"
     class="border-b-none! mb-6 mt-2 op-transition!"
-    href={redirect ?? withBasePath(`/${collectionType}/${postSlug}/`)}
+    href={redirect ?? internalHref}
     external={redirect ? true : false}
     enableNewTabWarning={redirect ? true : false}
   >
@@ -46,8 +57,8 @@ const {
           <span
             u-i-ri-film-line
             class="flex-none op-50 align-middle"
-            title="Provided in video"
-            aria-label="Provided in video"
+            title={t('list.video')}
+            aria-label={t('list.video')}
           />
         )
       }
@@ -56,8 +67,8 @@ const {
           <span
             u-i-ri-radio-line
             class="flex-none op-50 align-middle"
-            title="Provided in radio"
-            aria-label="Provided in radio"
+            title={t('list.radio')}
+            aria-label={t('list.radio')}
           />
         )
       }
@@ -65,11 +76,13 @@ const {
         class="op-50 text-sm ws-nowrap"
         datetime={new Date(date).toISOString()}
       >
-        {formatDate(date, false)}
+        {formatDate(date, false, false, dateLocale)}
       </time>
       {
         typeof minutesRead === 'number' && minutesRead > 0 && (
-          <span class="op-40 text-sm ws-nowrap">· {minutesRead} min</span>
+          <span class="op-40 text-sm ws-nowrap">
+            · {minutesRead} {t('post.min')}
+          </span>
         )
       }
       {platform && <span class="op-40 text-sm ws-nowrap">· {platform}</span>}

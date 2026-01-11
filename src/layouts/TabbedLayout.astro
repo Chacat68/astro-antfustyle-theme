@@ -1,7 +1,9 @@
 ---
 import Link from '~/components/base/Link.astro'
-import { ensureTrailingSlash, resolvePath } from '~/utils/path'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
 import { UI } from '~/config'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 import type { Tabs } from '~/types'
 
@@ -10,6 +12,9 @@ interface Props {
 }
 
 const { subtitle } = Astro.props
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 
 let tabs: Tabs
 if (
@@ -22,10 +27,22 @@ if (
 }
 
 const currentPath = ensureTrailingSlash(Astro.url.pathname)
-const isActive = (href: string) => currentPath === resolvePath(href)
+const toHref = (path: string) =>
+  ensureTrailingSlash(getRelativeLocaleUrl(locale, path.replace(/^\/+/, '')))
+const isActive = (href: string) => currentPath === toHref(href)
+
+const tabKeyByPath: Record<string, string> = {
+  '/changelog': 'nav.changelog',
+  '/feeds': 'nav.blog',
+  '/streams': 'nav.blog',
+}
 ---
 
-<nav id="nav-tabs" class="prose mx-auto mb-8" aria-label="Page sections">
+<nav
+  id="nav-tabs"
+  class="prose mx-auto mb-8"
+  aria-label={t('a11y.pageSections')}
+>
   <div
     u-flex="~ gap-3 lt-sm:(col wrap gap-1)"
     class="mb-0 text-3xl select-none"
@@ -39,13 +56,11 @@ const isActive = (href: string) => currentPath === resolvePath(href)
             'active': isActive(tab.path),
             'inactive': !isActive(tab.path),
           }}
-          href={resolvePath(tab.path)}
+          href={toHref(tab.path)}
           role="tab"
-          aria-current={
-            Astro.url.pathname === resolvePath(tab.path) ? 'page' : false
-          }
+          aria-current={currentPath === toHref(tab.path) ? 'page' : false}
         >
-          {tab.title}
+          {t(tabKeyByPath[tab.path.replace(/\/+$/, '')] ?? tab.title)}
         </Link>
       ))
     }

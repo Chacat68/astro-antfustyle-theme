@@ -86,6 +86,7 @@ export const UI: Ui = {
       'socialLinks',
       'hr',
       'searchButton',
+      'langButton',
       'themeButton',
       'rssLink',
     ],

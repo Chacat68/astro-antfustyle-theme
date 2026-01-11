@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets'
+import { getLocale, useTranslations } from '~/i18n/translate'
 import type { ImageMetadata } from 'astro'
 import type { LocalImageProps, RemoteImageProps } from 'astro:assets'
 
@@ -13,6 +14,9 @@ export interface Props {
 }
 
 const { images, imageProps, autoplayDelay = 3000 } = Astro.props
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 ---
 
 <image-carousel
@@ -20,7 +24,7 @@ const { images, imageProps, autoplayDelay = 3000 } = Astro.props
   data-autoplay-delay={autoplayDelay}
   role="region"
   aria-roledescription="carousel"
-  aria-label="Image carousel"
+  aria-label={t('a11y.imageCarousel')}
   aria-live="polite"
 >
   {
@@ -28,7 +32,7 @@ const { images, imageProps, autoplayDelay = 3000 } = Astro.props
       <div class="op-transition-600" role="group" aria-roledescription="slide">
         {/* @ts-expect-error(ignore) */}
         <Image
-          class="aspect-[16/9] object-cover"
+          class="aspect-16/9 object-cover"
           src={item.src}
           alt={item.alt}
           {...(typeof item.src === 'string'

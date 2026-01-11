@@ -1,14 +1,21 @@
 ---
 import Link from '~/components/base/Link.astro'
-import { withBasePath } from '~/utils/path'
+import { ensureTrailingSlash } from '~/utils/path'
 import { SITE } from '~/config'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { getLocale } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const homeHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, ''))
 ---
 
 <Link
   class="select-none op-transition"
-  href={withBasePath('/')}
+  href={homeHref}
   aria-label={SITE.author}
-  aria-current={Astro.url.pathname === `${withBasePath('/')}` ? 'page' : false}
+  aria-current={ensureTrailingSlash(Astro.url.pathname) === homeHref
+    ? 'page'
+    : false}
 >
   <div class="logo-container">
     <span class="logo-text">付之一笑</span>
