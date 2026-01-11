@@ -8,7 +8,11 @@ import Warning from '~/components/base/Warning.astro'
 
 import { FEATURES } from '~/config'
 import { isSameYear, getYear } from '~/utils/datetime'
-import { getFilteredPosts, getSortedPosts } from '~/utils/data'
+import {
+  getFilteredPosts,
+  getLocalizedBlogPosts,
+  getSortedPosts,
+} from '~/utils/data'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 import type { CollectionEntry, CollectionKey } from 'astro:content'
@@ -36,9 +40,12 @@ const tocEnabled = Array.isArray(toc) && toc[0] && pageToc
 let years: string[] = []
 
 /* Posts */
-let sortedBlogItems: CollectionEntry<'blog' | 'changelog'>[] = []
+let sortedBlogItems: CollectionEntry<'blog' | 'blog_en' | 'changelog'>[] = []
 if (collectionType === 'blog' || collectionType === 'changelog') {
-  const blogItems = await getFilteredPosts(collectionType)
+  const blogItems =
+    collectionType === 'blog'
+      ? await getLocalizedBlogPosts(Astro.currentLocale)
+      : await getFilteredPosts(collectionType)
   sortedBlogItems = getSortedPosts(blogItems)
 
   if (tocEnabled) {

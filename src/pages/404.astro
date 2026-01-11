@@ -1,0 +1,19 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const title = '404'
+const subtitle = ''
+const bgType = false
+const ogImage = false
+---
+
+<BaseLayout {title} description={t('page.404.description')} {bgType} {ogImage}>
+  <StandardLayout {title} {subtitle}>
+    <p slot="article">{t('page.404.message')}</p>
+  </StandardLayout>
+</BaseLayout>
