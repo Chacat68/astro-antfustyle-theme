@@ -6,6 +6,7 @@ import Toc from '~/components/toc/Toc.astro'
 import Categorizer from '~/components/base/Categorizer.astro'
 import GroupItem from '~/components/views/GroupItem.astro'
 import { FEATURES } from '~/config'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 import type { CollectionKey } from 'astro:content'
 import type { GroupItemData } from '~/components/views/GroupItem.astro'
@@ -17,8 +18,10 @@ interface Props {
 
 const { collectionType, pageToc } = Astro.props
 
-const WARNING = `No content available for display.
-  Please review and modify <code>GroupView.astro</code> as needed.`
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const WARNING = t('warning.noContentHtml', { file: 'GroupView.astro' })
 
 let isEmpty = false
 let data: Record<string, GroupItemData[]> = {}

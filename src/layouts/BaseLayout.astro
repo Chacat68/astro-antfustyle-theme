@@ -14,8 +14,11 @@ import Footer from '~/components/base/Footer.astro'
 import ToTopButton from '~/components/widgets/ToTopButton.astro'
 import Backdrop from '~/components/base/Backdrop.astro'
 
-import { SITE, UI, FEATURES } from '~/config'
-import { withBasePath } from '~/utils/path'
+import { UI, FEATURES } from '~/config'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { getLocale, useTranslations } from '~/i18n/translate'
+import { localeToHtmlLang } from '~/i18n/locale-meta'
 
 import type { BgType } from '~/types'
 
@@ -30,6 +33,10 @@ interface Props {
 
 const { title, description, ogImage, bgType, pubDate, lastModDate } =
   Astro.props
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+const localeHome = ensureTrailingSlash(getRelativeLocaleUrl(locale, ''))
 
 let style: Record<string, string> = {}
 
@@ -47,7 +54,7 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
 ---
 
 <!doctype html>
-<html lang={SITE.lang}>
+<html lang={localeToHtmlLang(locale)}>
   <head>
     <Head {title} {description} {ogImage} {pubDate} {lastModDate} />
   </head>
@@ -66,7 +73,7 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
       href="#main"
       class="sr-only focus:(not-sr-only fixed start-1 top-1.5 op-20)"
     >
-      Skip to content
+      {t('a11y.skipToContent')}
     </Link>
 
     <!-- Nav Bar -->
@@ -78,7 +85,7 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
       <slot />
       <!-- Share -->
       {
-        Astro.url.pathname !== withBasePath('/') && (
+        ensureTrailingSlash(Astro.url.pathname) !== localeHome && (
           <footer class="slide-enter animate-delay-1000! prose mx-auto mt-8 print:hidden">
             <slot name="share" />
             <br />

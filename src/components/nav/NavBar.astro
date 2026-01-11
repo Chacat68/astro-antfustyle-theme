@@ -2,15 +2,35 @@
 import LogoButton from '~/components/widgets/LogoButton.astro'
 import Divider from '~/components/base/Divider.astro'
 import SearchSwitch from '~/components/widgets/SearchSwitch.astro'
+import LanguageSwitch from '~/components/widgets/LanguageSwitch.astro'
 import ThemeSwitch from '~/components/widgets/ThemeSwitch.astro'
 import RssLink from '~/components/widgets/RssLink.astro'
 import NavItem from '~/components/nav/NavItem.astro'
 import NavSwitch from '~/components/nav/NavSwitch.astro'
 
 import { UI } from '~/config'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 const { navBarLayout, internalNavs, socialLinks } = UI
 const { left, right, mergeOnMobile } = navBarLayout
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const navKeyByPath: Record<string, string> = {
+  '/blog': 'nav.blog',
+  '/projects': 'nav.projects',
+  '/photos': 'nav.photos',
+  '/changelog': 'nav.changelog',
+}
+
+const localizedInternalNavs = internalNavs.map((item) => {
+  const key = navKeyByPath[item.path.replace(/\/+$/, '')]
+  if (!key) return item
+  return 'text' in item
+    ? { ...item, title: t(key), text: t(key) }
+    : { ...item, title: t(key) }
+})
 
 for (const item of new Set(left)) {
   if (new Set(right).has(item)) {
@@ -28,7 +48,7 @@ for (const item of new Set(left)) {
   <nav
     class={`flex items-center gap-4.8 w-full lt-md:justify-end
     ${left.length !== 0 ? (right.length !== 0 ? 'justify-between' : '') : 'justify-end'}`}
-    aria-label="Main menu"
+    aria-label={t('a11y.mainMenu')}
   >
     {
       left.length !== 0 && (
@@ -40,12 +60,14 @@ for (const item of new Set(left)) {
               <Divider class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
             ) : key === 'searchButton' ? (
               <SearchSwitch />
+            ) : key === 'langButton' ? (
+              <LanguageSwitch />
             ) : key === 'themeButton' ? (
               <ThemeSwitch />
             ) : key === 'rssLink' ? (
               <RssLink class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
             ) : key === 'internalNavs' ? (
-              internalNavs.map((item) => (
+              localizedInternalNavs.map((item) => (
                 <NavItem type="internal" {item} {mergeOnMobile} />
               ))
             ) : (
@@ -69,12 +91,14 @@ for (const item of new Set(left)) {
               <Divider class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
             ) : key === 'searchButton' ? (
               <SearchSwitch />
+            ) : key === 'langButton' ? (
+              <LanguageSwitch />
             ) : key === 'themeButton' ? (
               <ThemeSwitch />
             ) : key === 'rssLink' ? (
               <RssLink class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
             ) : key === 'internalNavs' ? (
-              internalNavs.map((item) => (
+              localizedInternalNavs.map((item) => (
                 <NavItem type="internal" {item} {mergeOnMobile} />
               ))
             ) : (
@@ -90,8 +114,8 @@ for (const item of new Set(left)) {
       mergeOnMobile && (
         <NavSwitch>
           <Fragment slot="text">
-            {internalNavs.length !== 0 &&
-              internalNavs.map((item) => (
+            {localizedInternalNavs.length !== 0 &&
+              localizedInternalNavs.map((item) => (
                 <NavItem
                   type="internal"
                   {item}
@@ -110,8 +134,8 @@ for (const item of new Set(left)) {
               ))}
           </Fragment>
           <Fragment slot="icon">
-            {internalNavs.length !== 0 &&
-              internalNavs.map((item) => (
+            {localizedInternalNavs.length !== 0 &&
+              localizedInternalNavs.map((item) => (
                 <NavItem
                   type="internal"
                   {item}
@@ -128,6 +152,7 @@ for (const item of new Set(left)) {
                   mobileItemType="icon"
                 />
               ))}
+            <LanguageSwitch />
             <RssLink class="op-50!" />
           </Fragment>
         </NavSwitch>

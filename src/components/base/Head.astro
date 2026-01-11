@@ -1,10 +1,17 @@
 ---
 import { ClientRouter } from 'astro:transitions'
 import { basename } from 'node:path'
+import {
+  getAbsoluteLocaleUrl,
+  getAbsoluteLocaleUrlList,
+  getRelativeLocaleUrl,
+} from 'astro:i18n'
 
 import { checkFileExistsInDir } from '../../../plugins/remark-generate-og-image'
 import { withBasePath } from '~/utils/path'
 import { SITE } from '~/config'
+import { getLocale } from '~/i18n/translate'
+import { localeToOgLocale } from '~/i18n/locale-meta'
 
 interface Props {
   title?: string
@@ -16,6 +23,8 @@ interface Props {
 
 const { title, description, ogImage, pubDate, lastModDate } = Astro.props
 
+const locale = getLocale(Astro.currentLocale)
+
 const siteName = new URL(SITE.website).hostname
 
 const pageTitle =
@@ -24,6 +33,15 @@ const pageTitle =
 const pageDescription = description || SITE.description
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+
+const currentLocaleRoot = getRelativeLocaleUrl(locale, '')
+const pathname = Astro.url.pathname
+const pathWithinLocale = pathname.startsWith(currentLocaleRoot)
+  ? pathname.slice(currentLocaleRoot.length)
+  : pathname.replace(/^\/+/, '')
+
+const alternateUrls = getAbsoluteLocaleUrlList(pathWithinLocale)
+const xDefaultUrl = getAbsoluteLocaleUrl('zh', pathWithinLocale)
 
 const generatedOgImage = checkFileExistsInDir(
   'public/og-images',
@@ -99,7 +117,7 @@ const webPageData = {
 <meta property="og:description" content={pageDescription} />
 <meta property="og:image" content={ogImageURL} />
 <meta property="og:site_name" content={siteName} />
-<meta property="og:locale" content={SITE.ogLocale} />
+<meta property="og:locale" content={localeToOgLocale(locale)} />
 {
   pubDate && (
     <>
@@ -120,6 +138,16 @@ const webPageData = {
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
+<!-- hreflang -->
+{
+  alternateUrls.map((href) => {
+    const url = new URL(href)
+    const hreflang = url.pathname.startsWith('/en') ? 'en' : 'zh-CN'
+    return <link rel="alternate" hreflang={hreflang} href={href} />
+  })
+}
+<link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
+
 <!-- Icon -->
 <link rel="icon" type="image/svg+xml" href={withBasePath('/favicon.svg')} />
 <link rel="icon" sizes="32x32" href={withBasePath('/favicon.ico')} />
@@ -135,8 +163,8 @@ const webPageData = {
 <link
   rel="alternate"
   type="application/rss+xml"
-  title={withBasePath('/rss.xml')}
-  href="/rss.xml"
+  title={`${SITE.title} RSS`}
+  href={withBasePath('/rss.xml')}
 />
 
 <!-- Google JSON-LD Structured Data -->

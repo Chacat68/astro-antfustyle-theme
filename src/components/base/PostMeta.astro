@@ -1,6 +1,8 @@
 ---
 import { formatDate } from '~/utils/datetime'
 import { UI } from '~/config'
+import { getLocale, useTranslations } from '~/i18n/translate'
+import { localeToHtmlLang } from '~/i18n/locale-meta'
 
 interface Props {
   pubDate: string
@@ -11,16 +13,28 @@ interface Props {
 const { pubDate, lastModDate, minutesRead } = Astro.props
 
 const isMinimal = UI.postMetaStyle === 'minimal'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+const dateLocale = localeToHtmlLang(locale)
 ---
 
 {
   isMinimal ? (
     <div class="mt--6! op-50">
-      <time datetime={pubDate}>{formatDate(pubDate)}</time>
-      {minutesRead !== 0 && <span> · {minutesRead} min</span>}
+      <time datetime={pubDate}>
+        {formatDate(pubDate, true, false, dateLocale)}
+      </time>
+      {minutesRead !== 0 && (
+        <span>
+          {' '}
+          · {minutesRead} {t('post.min')}
+        </span>
+      )}
       {lastModDate && (
         <time class="lt-sm:hidden" datetime={lastModDate}>
-          · Updated {formatDate(lastModDate)}
+          · {t('post.updated')}{' '}
+          {formatDate(lastModDate, true, false, dateLocale)}
         </time>
       )}
     </div>
@@ -28,17 +42,25 @@ const isMinimal = UI.postMetaStyle === 'minimal'
     <div class="flex justify-start items-center gap-4 mt--6! op-50">
       <div>
         <span class="i-ri-calendar-line mr-1.2" />
-        <time datetime={pubDate}>{formatDate(pubDate)}</time>
+        <time datetime={pubDate}>
+          {formatDate(pubDate, true, false, dateLocale)}
+        </time>
       </div>
       {lastModDate && (
         <div class="lt-sm:hidden">
           <span class="i-ri-history-fill mr-1.2" />
-          <time datetime={lastModDate}>{formatDate(lastModDate)}</time>
+          <time datetime={lastModDate}>
+            {formatDate(lastModDate, true, false, dateLocale)}
+          </time>
         </div>
       )}
       <div>
         <span class="i-ri-timer-line mr-1.2 ml--0.6" />
-        {minutesRead !== 0 && <span>{minutesRead} min read</span>}
+        {minutesRead !== 0 && (
+          <span>
+            {minutesRead} {t('post.minRead')}
+          </span>
+        )}
       </div>
     </div>
   )

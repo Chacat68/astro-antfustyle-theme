@@ -25,4 +25,4 @@ const tocEnabled = Array.isArray(toc) && toc[0] && pageToc
 ---
 
 {tocEnabled && <Toc {headings} />}
-<Content />
+<Content locale={Astro.currentLocale} />

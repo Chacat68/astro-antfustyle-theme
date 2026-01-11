@@ -10,16 +10,20 @@ ogImage: true
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import CardView from '~/components/views/CardView.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 
 <BaseLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
+  title={t('page.shorts.title')}
+  description={t('page.shorts.description')}
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
 >
   <StandardLayout
-    title={frontmatter.title}
-    subtitle={frontmatter.subtitle}
+    title={t('page.shorts.title')}
+    subtitle={t('page.shorts.subtitle')}
     isCentered={true}
   >
     <CardView collectionType="shorts" mode="grid" />

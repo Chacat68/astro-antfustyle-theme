@@ -1,6 +1,8 @@
 ---
 import Link from '~/components/base/Link.astro'
 import { formatDate } from '~/utils/datetime'
+import { getLocale } from '~/i18n/translate'
+import { localeToHtmlLang } from '~/i18n/locale-meta'
 
 import type { ExtendedReleaseData, ExtendedPrData } from './GithubView.astro'
 
@@ -19,6 +21,9 @@ type Props =
     }
 
 const { collectionType, idx, item, isDiffMonth } = Astro.props
+
+const locale = getLocale(Astro.currentLocale)
+const dateLocale = localeToHtmlLang(locale)
 
 const isOrg =
   collectionType === 'releases'
@@ -124,7 +129,7 @@ const content =
         </Link>
         {time && (
           <time class="op-60 text-sm lt-sm:text-3.2" datetime={time} title={time}>
-            {formatDate(time, false)}
+            {formatDate(time, false, false, dateLocale)}
           </time>
         )}
       </div>

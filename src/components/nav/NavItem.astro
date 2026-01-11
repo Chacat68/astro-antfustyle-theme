@@ -1,6 +1,8 @@
 ---
 import Link from '~/components/base/Link.astro'
-import { resolvePath } from '~/utils/path'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { getLocale } from '~/i18n/translate'
 
 import type { InternalNav, SocialLink } from '~/types'
 
@@ -20,12 +22,21 @@ type Props =
 
 const { type, item, mergeOnMobile, mobileItemType } = Astro.props
 
-const href = type == 'internal' ? resolvePath(item.path) : item.link
+const locale = getLocale(Astro.currentLocale)
+const href =
+  type === 'internal'
+    ? ensureTrailingSlash(
+        getRelativeLocaleUrl(
+          locale,
+          item.path.replace(/^\/+/, '').replace(/\/+$/, '')
+        )
+      )
+    : item.link
 const rel = type === 'internal' ? undefined : 'me'
 const external = type === 'internal' ? false : true
 const ariaCurrent =
   type === 'internal'
-    ? Astro.url.pathname === resolvePath(item.path)
+    ? ensureTrailingSlash(Astro.url.pathname) === ensureTrailingSlash(href)
       ? 'page'
       : false
     : undefined

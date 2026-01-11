@@ -2,6 +2,8 @@
 import { FEATURES } from '~/config'
 import { withBasePath } from '~/utils/path'
 import { parseTuple } from '~/utils/data'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 const { search } = FEATURES
 if (!search || (Array.isArray(search) && !search[0])) return
@@ -15,6 +17,10 @@ if (includes.length === 0)
 const filterEnabled = filter && includes.length > 1
 const batchSize = parseTuple(batchLoadSize, 'batchLoadSize')
 const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+const localeBase = getRelativeLocaleUrl(locale, '')
 ---
 
 <!-- Search Switch -->
@@ -22,8 +28,8 @@ const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
   type="button"
   id="search-switch"
   class="op-60 hover:op-100 op-transition"
-  title="Search"
-  aria-label="Search"
+  title={t('a11y.search')}
+  aria-label={t('a11y.search')}
 >
   <div u-i-grommet-icons-search></div>
 </button>
@@ -33,9 +39,9 @@ const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
   role="dialog"
   id="search-panel"
   class={`hidden z-200 fixed top-15% lt-lgp:(top-10%) left-50% translate-x--50%
-    grid grid-rows-[auto_1fr_auto]
+    grid-rows-[auto_1fr_auto]
     w-42rem lt-lgp:(w-90%) max-h-70vh lt-lgp:(max-h-80vh) p-3 lt-lgp:(pb-1) rounded-lg
-    text-[var(--c-text)] bg-[var(--c-bg)] shadow-custom_0_0_10_0`}
+    text-(--c-text) bg-(--c-bg) shadow-custom_0_0_10_0`}
   aria-modal="true"
   aria-labelledby="search-label"
   aria-keyshortcuts="ArrowUp,ArrowDown,Enter,Esc"
@@ -50,7 +56,7 @@ const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
         <div
           role="tablist"
           class="search-tabs flex gap-2 justify-start items-center text-xs"
-          aria-label="Search categories"
+          aria-label={t('a11y.searchCategories')}
         >
           {includes.map((item) => (
             <button
@@ -75,7 +81,9 @@ const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
         bg-[#88888811] dark:bg-[#88888818]"
     >
       <div u-i-grommet-icons-search></div>
-      <label for="search-input" id="search-label" class="sr-only"></label>
+      <label for="search-input" id="search-label" class="sr-only">
+        {t('a11y.search')}
+      </label>
       <input
         type="search"
         role="combobox"
@@ -98,7 +106,7 @@ const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
     class="overflow-y-auto my-1"
     aria-labelledby="search-input"
     tabindex="-1"
-    data-base={withBasePath('/')}
+    data-base={localeBase}
   >
     <!-- Results -->
     <div id="search-content"></div>
@@ -128,7 +136,7 @@ const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
     </div>
   </div>
   <!-- Shortcuts Footer -->
-  <footer role="note" aria-label="Keyboard shortcuts">
+  <footer role="note" aria-label={t('a11y.keyboardShortcuts')}>
     <ul
       class="flex flex-wrap items-center gap-4.5 lt-md:hidden
         pt-3 border-t border-[#7d7d7d4d]
@@ -141,21 +149,27 @@ const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
         <kbd class="search-kbd-key">
           <div u-i-material-symbols-arrow-downward></div>
         </kbd>
-        <span>Navigate</span>
+        <span>{t('search.navigate')}</span>
       </li>
       <li class="flex items-center gap-1">
         <kbd class="search-kbd-key">
           <div u-i-grommet-icons-return></div>
         </kbd>
-        <span>Go to Page</span>
+        <span>{t('search.goToPage')}</span>
       </li>
       <li class="flex items-center gap-1">
         <kbd class="search-kbd-key">esc</kbd>
-        <span>Close</span>
+        <span>{t('search.close')}</span>
       </li>
     </ul>
   </footer>
 </search-panel>
+
+<style>
+  search-panel:not(.hidden) {
+    display: grid;
+  }
+</style>
 
 <script>
   import { toggleFadeEffect } from '~/utils/misc'

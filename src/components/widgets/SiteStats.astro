@@ -1,5 +1,9 @@
 ---
+import { getLocale, useTranslations } from '~/i18n/translate'
 import { getFilteredPosts } from '~/utils/data'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 
 // Blog posts
 const posts = await getFilteredPosts('blog')
@@ -73,33 +77,42 @@ const yearCounts = Array.from(yearCountMap.entries())
 
 <div class="site-stats">
   <div class="stats-header">
-    <h3>网站数据统计</h3>
+    <h3>{t('sitestats.title')}</h3>
   </div>
 
   <dl class="stats-list">
     <div class="stat">
-      <dt>经营时间</dt>
+      <dt>{t('sitestats.operatingTime')}</dt>
       <dd>
         <span class="stat-main">
-          自 {formatYMD(startDate)} 至今，共 {daysOperating.toLocaleString()} 天
+          {
+            t('sitestats.operatingTimeMain', {
+              start: formatYMD(startDate),
+              days: daysOperating.toLocaleString(),
+            })
+          }
         </span>
         <span class="stat-sub">
-          （{durationParts.years}年{durationParts.months}个月{
-            durationParts.days
-          }天）
+          {
+            t('sitestats.operatingTimeSub', {
+              years: durationParts.years,
+              months: durationParts.months,
+              days: durationParts.days,
+            })
+          }
         </span>
       </dd>
     </div>
 
     <div class="stat">
-      <dt>全部文章总字数</dt>
+      <dt>{t('sitestats.totalWords')}</dt>
       <dd>
         <span class="stat-main">{totalWordCount.toLocaleString()}</span>
       </dd>
     </div>
 
     <div class="stat">
-      <dt>每一年的文章数量</dt>
+      <dt>{t('sitestats.postsPerYear')}</dt>
       <dd>
         <div class="year-counts">
           {
@@ -107,10 +120,12 @@ const yearCounts = Array.from(yearCountMap.entries())
               ? yearCounts.map((item) => (
                   <span class="year-item">
                     <span class="year">{item.year}</span>
-                    <span class="count">{item.count} 篇</span>
+                    <span class="count">
+                      {t('sitestats.yearItemCount', { count: item.count })}
+                    </span>
                   </span>
                 ))
-              : '暂无数据'
+              : t('sitestats.noData')
           }
         </div>
       </dd>

@@ -1,8 +1,12 @@
 ---
+import { getLocale } from '~/i18n/translate'
+import { localeToGiscusLang } from '~/i18n/locale-meta'
 
+const locale = getLocale(Astro.currentLocale)
+const giscusLang = localeToGiscusLang(locale)
 ---
 
-<div class="giscus"></div>
+<div class="giscus" data-giscus-lang={giscusLang}></div>
 
 <script>
   import { FEATURES } from '~/config'
@@ -13,8 +17,13 @@
   const giscusConfig = Array.isArray(FEATURES.giscus) && FEATURES.giscus[1]
   const giscusTemplateScript = document.createElement('script')
 
+  const giscusLang =
+    document.querySelector<HTMLElement>('.giscus')?.dataset.giscusLang || 'en'
+
   Object.entries({
     ...giscusConfig,
+    // Override config language per route locale
+    'data-lang': giscusLang,
     ...{
       id: 'giscus-script',
       src: 'https://giscus.app/client.js',
