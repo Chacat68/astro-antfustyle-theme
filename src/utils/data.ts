@@ -9,6 +9,7 @@ import {
 import { atUriToPostUri } from 'astro-loader-bluesky-posts'
 
 import { resolvePath } from './path'
+import { getLocale } from '~/i18n/translate'
 
 import type { CollectionEntry, CollectionKey } from 'astro:content'
 import type { CardItemData } from '~/components/views/CardItem.astro'
@@ -42,17 +43,40 @@ export function parseTuple(
  * Retrieves filtered posts from the specified content collection.
  * In production, it filters out draft posts.
  */
-export async function getFilteredPosts(collection: 'blog' | 'changelog') {
+export async function getFilteredPosts<
+  K extends 'blog' | 'blog_en' | 'changelog',
+>(collection: K) {
   return await getCollection(collection, ({ data }) => {
     return import.meta.env.PROD ? !data.draft : true
   })
 }
 
 /**
+ * Retrieves blog posts for the current locale.
+ * - zh: uses `blog`
+ * - en: prefers `blog_en`, falling back to `blog` per-post if a translation is missing
+ */
+export async function getLocalizedBlogPosts(locale: unknown) {
+  const zhPosts = await getFilteredPosts('blog')
+
+  if (getLocale(locale) !== 'en') return zhPosts
+
+  let enPosts: CollectionEntry<'blog_en'>[] = []
+  try {
+    enPosts = await getFilteredPosts('blog_en')
+  } catch {
+    // The `blog_en` collection may not be generated if it's empty.
+    return zhPosts
+  }
+  const enById = new Map(enPosts.map((p) => [p.id, p]))
+  return zhPosts.map((p) => enById.get(p.id) ?? p)
+}
+
+/**
  * Sorts an array of posts by their publication date in descending order.
  */
 export function getSortedPosts(
-  posts: CollectionEntryList<'blog' | 'changelog'>
+  posts: CollectionEntryList<'blog' | 'blog_en' | 'changelog'>
 ) {
   return posts.sort((a, b) => {
     const bd = b.data.pubDate?.valueOf() ?? 0

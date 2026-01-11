@@ -24,7 +24,12 @@ const home = defineCollection({
 })
 
 const blog = defineCollection({
-  loader: glob({ base: './src/content/blog', pattern: '**/[^_]*.{md,mdx}' }),
+  loader: glob({ base: './src/content/blog/zh', pattern: '**/[^_]*.{md,mdx}' }),
+  schema: postSchema,
+})
+
+const blog_en = defineCollection({
+  loader: glob({ base: './src/content/blog/en', pattern: '**/[^_]*.{md,mdx}' }),
   schema: postSchema,
 })
 
@@ -107,6 +112,7 @@ export const collections = {
   pages,
   home,
   blog,
+  blog_en,
   projects,
   releases,
   prs,

@@ -1,5 +1,5 @@
 ---
-import { getFilteredPosts, getSortedPosts } from '~/utils/data'
+import { getLocalizedBlogPosts, getSortedPosts } from '~/utils/data'
 import { ensureTrailingSlash } from '~/utils/path'
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
@@ -24,7 +24,7 @@ const toPostHref = (id: string) =>
   ensureTrailingSlash(getRelativeLocaleUrl(locale, `blog/${id}`))
 
 // 获取所有博客文章
-const allPosts = await getFilteredPosts('blog')
+const allPosts = await getLocalizedBlogPosts(Astro.currentLocale)
 const sortedPosts = getSortedPosts(allPosts)
 
 // 按分类组织文章

@@ -1,12 +1,12 @@
 ---
 import { getLocale, useTranslations } from '~/i18n/translate'
-import { getFilteredPosts } from '~/utils/data'
+import { getLocalizedBlogPosts } from '~/utils/data'
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 
 // Blog posts
-const posts = await getFilteredPosts('blog')
+const posts = await getLocalizedBlogPosts(Astro.currentLocale)
 
 const now = new Date()
 

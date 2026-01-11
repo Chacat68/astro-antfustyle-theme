@@ -192,7 +192,7 @@ export const FEATURES: Features = {
   search: [
     true,
     {
-      includes: ['blog', 'changelog'],
+      includes: ['blog', 'blog_en', 'changelog'],
       filter: true,
       navHighlight: true,
       batchLoadSize: [true, 5],
