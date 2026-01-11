@@ -159,8 +159,8 @@ export const FEATURES: Features = {
   share: [
     true,
     {
-      twitter: [true, '@ste7lin'],
-      bluesky: [true, '@ste7lin.bsky.social'],
+      twitter: [true, '@Chacat68'],
+      bluesky: [true, '@Chacat68.bsky.social'],
       mastodon: false,
       facebook: false,
       pinterest: false,
@@ -173,7 +173,7 @@ export const FEATURES: Features = {
 
   // 评论系统配置
   giscus: [
-    true,
+    false,
     {
       'data-repo': 'lin-stephanie/astro-antfustyle-theme',
       'data-repo-id': 'R_kgDOLylKbA',

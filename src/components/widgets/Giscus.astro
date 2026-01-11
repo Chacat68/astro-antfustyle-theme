@@ -46,7 +46,8 @@ const giscusLang = localeToGiscusLang(locale)
   }
 
   const addGiscusScript = () => {
-    if (!document.querySelector('.giscus')) return
+    const container = document.querySelector('.giscus')
+    if (!container) return
 
     // Always clone a fresh <script> to ensure it executes again;
     // reused or previously inserted scripts won't run
@@ -59,7 +60,7 @@ const giscusLang = localeToGiscusLang(locale)
         ? giscusThemeDark
         : giscusThemeLight
     )
-    document.body.appendChild(clonedScript)
+    container.appendChild(clonedScript)
   }
 
   document.addEventListener('astro:before-swap', removeOldGiscus)
