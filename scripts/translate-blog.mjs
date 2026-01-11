@@ -6,6 +6,36 @@ const projectRoot = process.cwd()
 const zhDir = path.join(projectRoot, 'src/content/blog/zh')
 const enDir = path.join(projectRoot, 'src/content/blog/en')
 
+async function loadDotEnvFiles() {
+  const candidates = ['.env.local', '.env']
+
+  for (const filename of candidates) {
+    const filePath = path.join(projectRoot, filename)
+    try {
+      const raw = await fs.readFile(filePath, 'utf8')
+      for (const line of raw.split(/\r?\n/)) {
+        const trimmed = line.trim()
+        if (!trimmed || trimmed.startsWith('#')) continue
+        const eq = trimmed.indexOf('=')
+        if (eq === -1) continue
+        const key = trimmed.slice(0, eq).trim()
+        let value = trimmed.slice(eq + 1).trim()
+        if (!key) continue
+        if (
+          (value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'"))
+        ) {
+          value = value.slice(1, -1)
+        }
+        // Do not override existing env vars
+        if (process.env[key] == null) process.env[key] = value
+      }
+    } catch {
+      // ignore missing/unreadable env file
+    }
+  }
+}
+
 function parseArgs(argv) {
   const args = {
     files: [],
@@ -235,6 +265,8 @@ function resolveProviderConfig(args) {
 }
 
 async function main() {
+  await loadDotEnvFiles()
+
   const args = parseArgs(process.argv.slice(2))
 
   const provider = resolveProviderConfig(args)
