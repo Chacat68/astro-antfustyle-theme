@@ -27,13 +27,11 @@ const title = `${t('a11y.languageSwitch')}: ${t(`lang.${targetLocale}`)}`
 ---
 
 <Link
-  class="op-60 hover:op-100 op-transition"
+  class="inline-flex items-center gap-1 op-60 hover:op-100 op-transition"
   href={targetHref}
   {title}
   aria-label={title}
 >
-  <span class="inline-flex items-center gap-1">
-    <span u-i-ri-translate-2 class="text-base" aria-hidden="true"></span>
-    <span class="text-sm font-500">{shortLabel}</span>
-  </span>
+  <span u-i-ri-translate-2 aria-hidden="true"></span>
+  <span class="text-sm font-500">{shortLabel}</span>
 </Link>
