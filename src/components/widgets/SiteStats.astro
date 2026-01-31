@@ -73,6 +73,10 @@ for (const post of posts) {
 const yearCounts = Array.from(yearCountMap.entries())
   .sort((a, b) => b[0] - a[0])
   .map(([year, count]) => ({ year, count }))
+
+function formatWordCount(count: number) {
+  return (count / 1000).toFixed(1) + 'k'
+}
 ---
 
 <div class="site-stats">
@@ -107,7 +111,7 @@ const yearCounts = Array.from(yearCountMap.entries())
     <div class="stat">
       <dt>{t('sitestats.totalWords')}</dt>
       <dd>
-        <span class="stat-main">{totalWordCount.toLocaleString()}</span>
+        <span class="stat-main">{formatWordCount(totalWordCount)}</span>
       </dd>
     </div>
 
