@@ -249,14 +249,22 @@ export const friendSchema = z.object({
     .describe(
       '**Required**. A brief description about the friend or their blog.'
     ),
+  avatar: z
+    .string()
+    .url('Invalid url.')
+    .optional()
+    .describe(
+      'URL of the friend avatar image. If provided, it will be displayed instead of the icon.'
+    ),
   icon: z
     .string()
     .regex(
       /^i-[\w-]+(:[\w-]+)?$/,
       'Icon must be in the format `i-<collection>-<icon>` or `i-<collection>:<icon>` as per [UnoCSS](https://unocss.dev/presets/icons) specs.'
     )
+    .optional()
     .describe(
-      '**Required**. Icon representing the friend. It must be in the format `i-<collection>-<icon>` or `i-<collection>:<icon>` as per [UnoCSS](https://unocss.dev/presets/icons) specs. [Check all available icons here](https://icones.js.org/).'
+      'Icon representing the friend. Used as fallback when avatar is not provided. It must be in the format `i-<collection>-<icon>` or `i-<collection>:<icon>` as per [UnoCSS](https://unocss.dev/presets/icons) specs. [Check all available icons here](https://icones.js.org/).'
     ),
   category: z.string().describe('**Required**. Category of the friend link.'),
 })

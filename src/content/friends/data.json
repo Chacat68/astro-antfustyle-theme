@@ -1,16 +1,16 @@
 [
   {
-    "id": "示例博客",
-    "link": "https://example.com",
-    "desc": "这是一个示例友链，请替换为你朋友的博客信息。",
-    "icon": "i-ph-user-circle-duotone",
+    "id": "张洪Heo",
+    "link": "https://blog.zhheo.com/",
+    "desc": "分享设计与科技生活",
+    "avatar": "https://blog.zhheo.com/img/avatar.png",
     "category": "博客"
   },
   {
-    "id": "技术社区",
-    "link": "https://example.org",
-    "desc": "这是一个示例技术社区链接，请替换为实际内容。",
-    "icon": "i-ph-code-duotone",
-    "category": "社区"
+    "id": "Tangly的学习笔记",
+    "link": "https://tangly1024.com/",
+    "desc": "NotionNext的作者 NotNext",
+    "avatar": "https://blog-1259751088.cos.ap-shanghai.myqcloud.com/uPic/Friend%20Links.webp",
+    "category": "博客"
   }
 ]
