@@ -1,0 +1,16 @@
+[
+  {
+    "id": "示例博客",
+    "link": "https://example.com",
+    "desc": "这是一个示例友链，请替换为你朋友的博客信息。",
+    "icon": "i-ph-user-circle-duotone",
+    "category": "博客"
+  },
+  {
+    "id": "技术社区",
+    "link": "https://example.org",
+    "desc": "这是一个示例技术社区链接，请替换为实际内容。",
+    "icon": "i-ph-code-duotone",
+    "category": "社区"
+  }
+]

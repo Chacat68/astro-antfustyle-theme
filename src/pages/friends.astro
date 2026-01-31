@@ -1,0 +1,34 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import GroupView from '~/components/views/GroupView.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const frontmatter = {
+  title: 'Friends',
+  subtitle: '我的朋友们，感谢你们的支持与陪伴',
+  description: '这里展示了我的博客朋友们，感谢他们的支持与陪伴！',
+  bgType: 'dot',
+  toc: true,
+  ogImage: true,
+} as const
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+---
+
+<BaseLayout
+  title={t('page.friends.title')}
+  description={t('page.friends.description')}
+  bgType={frontmatter.bgType}
+  ogImage={frontmatter.ogImage}
+>
+  <StandardLayout
+    class="max-w-300"
+    title={t('page.friends.title')}
+    subtitle={t('page.friends.subtitle')}
+    isCentered={true}
+  >
+    <GroupView collectionType="friends" pageToc={frontmatter.toc} />
+  </StandardLayout>
+</BaseLayout>

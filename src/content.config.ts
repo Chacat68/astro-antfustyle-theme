@@ -11,6 +11,7 @@ import {
   postSchema,
   postSchemaEn,
   projectSchema,
+  friendSchema,
   streamSchema,
   photoSchema,
 } from '~/content/schema'
@@ -55,6 +56,11 @@ const blog_en = defineCollection({
 const projects = defineCollection({
   loader: file('./src/content/projects/data.json'),
   schema: projectSchema,
+})
+
+const friends = defineCollection({
+  loader: file('./src/content/friends/data.json'),
+  schema: friendSchema,
 })
 
 const releases = defineCollection({
@@ -145,6 +151,7 @@ export const collections = {
   blog,
   blog_en,
   projects,
+  friends,
   releases,
   prs,
   highlights,
