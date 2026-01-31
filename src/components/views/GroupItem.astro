@@ -6,7 +6,8 @@ export interface GroupItemData {
     id: string;
     link: string;
     desc: string;
-    icon: string;
+    icon?: string;
+    avatar?: string;
 }
 
 interface Props {
@@ -34,10 +35,18 @@ const { maxGroupColumns, showGroupItemColorOnHover } = UI.groupView
         external={true}
       >
         <div class="pt-2 pr-5">
-          <div
-            class={`group-hover:data-show-color:saturate-100 op-50 saturate-0 leading-9 text-7.5 ${item.icon}`}
-            data-show-color={showGroupItemColorOnHover ? '' : undefined}
-          />
+          {item.avatar ? (
+            <img
+              src={item.avatar}
+              alt={item.id}
+              class="w-12 h-12 rounded-full object-cover op-80 group-hover:op-100 transition-opacity duration-300"
+            />
+          ) : (
+            <div
+              class={`group-hover:data-show-color:saturate-100 op-50 saturate-0 leading-9 text-7.5 ${item.icon || 'i-ph-user-circle-duotone'}`}
+              data-show-color={showGroupItemColorOnHover ? '' : undefined}
+            />
+          )}
         </div>
         <div class="flex-auto">
           <div>{item.id}</div>
