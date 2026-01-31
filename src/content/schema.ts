@@ -235,6 +235,34 @@ export const projectSchema = z.object({
 
 export type ProjectSchema = z.infer<typeof projectSchema>
 
+/* Friends */
+export const friendSchema = z.object({
+  id: z
+    .string()
+    .describe('**Required**. Name of the friend/blog to be displayed.'),
+  link: z
+    .string()
+    .url('Invalid url.')
+    .describe('**Required**. URL linking to the friend blog or website.'),
+  desc: z
+    .string()
+    .describe(
+      '**Required**. A brief description about the friend or their blog.'
+    ),
+  icon: z
+    .string()
+    .regex(
+      /^i-[\w-]+(:[\w-]+)?$/,
+      'Icon must be in the format `i-<collection>-<icon>` or `i-<collection>:<icon>` as per [UnoCSS](https://unocss.dev/presets/icons) specs.'
+    )
+    .describe(
+      '**Required**. Icon representing the friend. It must be in the format `i-<collection>-<icon>` or `i-<collection>:<icon>` as per [UnoCSS](https://unocss.dev/presets/icons) specs. [Check all available icons here](https://icones.js.org/).'
+    ),
+  category: z.string().describe('**Required**. Category of the friend link.'),
+})
+
+export type FriendSchema = z.infer<typeof friendSchema>
+
 /* Photos */
 export const photoSchema = z.object({
   id: z

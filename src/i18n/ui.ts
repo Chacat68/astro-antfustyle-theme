@@ -112,6 +112,10 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.projects.subtitle': '正在参与制作的项目，内容创作等',
     'page.projects.description':
       '这里展示了我正在参与制作的项目、内容创作等。欢迎查看并参与其中！',
+    'page.friends.title': '友链',
+    'page.friends.subtitle': '我的朋友们，感谢你们的支持与陪伴',
+    'page.friends.description':
+      '这里展示了我的博客朋友们，感谢他们的支持与陪伴！',
     'page.releases.title': 'AstroEco 正在发布…',
     'page.releases.description':
       '使用 astro-loader-github-releases 展示 GitHub Releases',
@@ -256,6 +260,10 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.projects.subtitle': 'Projects, creations and more',
     'page.projects.description':
       'A collection of projects and creations I am working on. Feel free to explore and join!',
+    'page.friends.title': 'Friends',
+    'page.friends.subtitle': 'My friends, thanks for your support',
+    'page.friends.description':
+      'A collection of my blog friends. Thanks for their support and companionship!',
     'page.releases.title': 'AstroEco is Releasing...',
     'page.releases.description':
       'Display your GitHub releases using astro-loader-github-releases',

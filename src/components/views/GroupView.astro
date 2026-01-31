@@ -39,6 +39,19 @@ if (collectionType === 'projects') {
     }, {})
 }
 
+/* Friends */
+if (collectionType === 'friends') {
+  const friends = await getCollection(collectionType)
+  isEmpty = friends.length === 0
+
+  data = friends
+    .map((f) => f.data)
+    .reduce((acc: Record<string, GroupItemData[]>, { category, ...rest }) => {
+      ;(acc[category] ??= []).push(rest)
+      return acc
+    }, {})
+}
+
 /* Toc */
 const { toc } = FEATURES
 const tocEnabled = Array.isArray(toc) && toc[0] && pageToc
