@@ -26,6 +26,13 @@ export const UI: Ui = {
       text: 'Projects',
     },
     {
+      path: '/friends',
+      title: 'Friends',
+      displayMode: 'iconToTextOnMobile',
+      text: 'Friends',
+      icon: 'i-ri-group-line',
+    },
+    {
       path: '/photos',
       title: 'Photos',
       displayMode: 'iconToTextOnMobile',
