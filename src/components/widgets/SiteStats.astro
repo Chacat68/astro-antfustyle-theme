@@ -75,16 +75,16 @@ const yearCounts = Array.from(yearCountMap.entries())
   .map(([year, count]) => ({ year, count }))
 
 function formatWordCount(count: number, locale: string) {
+  const formatted = count.toLocaleString()
   if (locale === 'zh' && count >= 10000) {
-    return (count / 10000).toFixed(1) + '万字'
+    const wan = (count / 10000).toFixed(1)
+    return `${formatted}（${wan}万字）`
   }
   if (locale === 'en' && count >= 1000) {
-    return (count / 1000).toFixed(1) + 'k'
+    const k = (count / 1000).toFixed(1)
+    return `${formatted} (${k}k)`
   }
-  if (locale === 'zh') {
-    return count.toLocaleString() + '字'
-  }
-  return count.toLocaleString()
+  return formatted
 }
 ---
 
