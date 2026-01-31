@@ -74,8 +74,17 @@ const yearCounts = Array.from(yearCountMap.entries())
   .sort((a, b) => b[0] - a[0])
   .map(([year, count]) => ({ year, count }))
 
-function formatWordCount(count: number) {
-  return (count / 1000).toFixed(1) + 'k'
+function formatWordCount(count: number, locale: string) {
+  if (locale === 'zh' && count >= 10000) {
+    return (count / 10000).toFixed(1) + '万字'
+  }
+  if (locale === 'en' && count >= 1000) {
+    return (count / 1000).toFixed(1) + 'k'
+  }
+  if (locale === 'zh') {
+    return count.toLocaleString() + '字'
+  }
+  return count.toLocaleString()
 }
 ---
 
@@ -111,7 +120,7 @@ function formatWordCount(count: number) {
     <div class="stat">
       <dt>{t('sitestats.totalWords')}</dt>
       <dd>
-        <span class="stat-main">{formatWordCount(totalWordCount)}</span>
+        <span class="stat-main">{formatWordCount(totalWordCount, locale)}</span>
       </dd>
     </div>
 
