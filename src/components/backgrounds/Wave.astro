@@ -1,0 +1,82 @@
+---
+// Wave background animation - 多条正弦波叠加效果
+---
+
+<bg-wave
+  class="z--1 fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden"
+>
+</bg-wave>
+
+<script>
+  import p5 from 'p5'
+  import type { default as P5Instance } from 'p5'
+
+  class BgWaveElement extends HTMLElement {
+    p5Instance: P5Instance | null = null
+
+    connectedCallback() {
+      const sketch = (p: P5Instance) => {
+        const WAVE_COUNT = 5
+        const AMPLITUDE_BASE = 30
+        const SPEED = 0.02
+
+        const width = window.innerWidth
+        const height = window.innerHeight
+
+        let time = 0
+
+        p.setup = () => {
+          p.createCanvas(width, height)
+          p.noFill()
+        }
+
+        p.draw = () => {
+          p.clear()
+          time += SPEED
+
+          const isDark = document.documentElement.classList.contains('dark')
+
+          for (let w = 0; w < WAVE_COUNT; w++) {
+            const alpha = 20 + w * 8
+            const color = isDark
+              ? p.color(96, 165, 250, alpha) // 群青亮色
+              : p.color(37, 99, 235, alpha) // 群青深色
+
+            p.stroke(color)
+            p.strokeWeight(1.5)
+
+            p.beginShape()
+            for (let x = 0; x <= width; x += 5) {
+              const amplitude = AMPLITUDE_BASE + w * 15
+              const frequency = 0.005 + w * 0.002
+              const phase = w * 0.5
+
+              const y =
+                height / 2 +
+                Math.sin(x * frequency + time + phase) * amplitude +
+                Math.sin(x * frequency * 0.5 + time * 0.7 + phase) *
+                  amplitude *
+                  0.5
+
+              p.vertex(x, y + (w - WAVE_COUNT / 2) * 40)
+            }
+            p.endShape()
+          }
+        }
+      }
+
+      this.p5Instance = new p5(sketch, this)
+    }
+
+    disconnectedCallback() {
+      if (this.p5Instance) {
+        this.p5Instance.remove()
+        this.p5Instance = null
+      }
+    }
+  }
+
+  if (!customElements.get('bg-wave')) {
+    customElements.define('bg-wave', BgWaveElement)
+  }
+</script>

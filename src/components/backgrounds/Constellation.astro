@@ -1,0 +1,114 @@
+---
+// Constellation background animation - 星座连线效果
+---
+
+<bg-constellation
+  class="z--1 fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden"
+>
+</bg-constellation>
+
+<script>
+  import p5 from 'p5'
+  import type { default as P5Instance } from 'p5'
+
+  interface Star {
+    x: number
+    y: number
+    size: number
+    twinkleSpeed: number
+    twinkleOffset: number
+  }
+
+  class BgConstellationElement extends HTMLElement {
+    p5Instance: P5Instance | null = null
+
+    connectedCallback() {
+      const sketch = (p: P5Instance) => {
+        const STAR_COUNT = 80
+        const CONNECTION_DISTANCE = 150
+        const MAX_CONNECTIONS = 3
+
+        const width = window.innerWidth
+        const height = window.innerHeight
+        const stars: Star[] = []
+
+        function createStar(): Star {
+          return {
+            x: p.random(width),
+            y: p.random(height),
+            size: p.random(1.5, 3.5),
+            twinkleSpeed: p.random(0.02, 0.05),
+            twinkleOffset: p.random(p.TWO_PI),
+          }
+        }
+
+        p.setup = () => {
+          p.createCanvas(width, height)
+          p.noStroke()
+
+          for (let i = 0; i < STAR_COUNT; i++) {
+            stars.push(createStar())
+          }
+        }
+
+        p.draw = () => {
+          p.clear()
+
+          const isDark = document.documentElement.classList.contains('dark')
+          const time = p.millis() * 0.001
+
+          // Draw connections first
+          stars.forEach((star, i) => {
+            let connections = 0
+            stars.forEach((other, j) => {
+              if (i >= j || connections >= MAX_CONNECTIONS) return
+
+              const d = p.dist(star.x, star.y, other.x, other.y)
+              if (d < CONNECTION_DISTANCE) {
+                const alpha = p.map(d, 0, CONNECTION_DISTANCE, 40, 0)
+                const lineColor = isDark
+                  ? p.color(148, 163, 184, alpha)
+                  : p.color(100, 116, 139, alpha)
+
+                p.stroke(lineColor)
+                p.strokeWeight(0.5)
+                p.line(star.x, star.y, other.x, other.y)
+                connections++
+              }
+            })
+          })
+
+          // Draw stars
+          p.noStroke()
+          stars.forEach((star) => {
+            const twinkle =
+              (Math.sin(time * star.twinkleSpeed * 10 + star.twinkleOffset) +
+                1) /
+              2
+            const alpha = 80 + twinkle * 175
+
+            const starColor = isDark
+              ? p.color(226, 232, 240, alpha)
+              : p.color(30, 58, 95, alpha)
+
+            p.fill(starColor)
+            p.circle(star.x, star.y, star.size * (0.8 + twinkle * 0.4))
+          })
+        }
+      }
+
+      this.p5Instance = new p5(sketch, this)
+    }
+
+    disconnectedCallback() {
+      if (this.p5Instance) {
+        this.p5Instance.remove()
+        this.p5Instance = null
+      }
+    }
+  }
+
+  if (!customElements.get('bg-constellation')) {
+    customElements.define('bg-constellation', BgConstellationElement)
+  }
+</script>
