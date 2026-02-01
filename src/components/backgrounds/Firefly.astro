@@ -1,0 +1,121 @@
+---
+// Firefly background animation - 萤火虫效果
+---
+
+<bg-firefly
+  class="z--1 fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden"
+>
+</bg-firefly>
+
+<script>
+  import p5 from 'p5'
+  import type { default as P5Instance } from 'p5'
+
+  interface Firefly {
+    x: number
+    y: number
+    vx: number
+    vy: number
+    size: number
+    glowPhase: number
+    glowSpeed: number
+    maxGlow: number
+  }
+
+  class BgFireflyElement extends HTMLElement {
+    p5Instance: P5Instance | null = null
+
+    connectedCallback() {
+      const sketch = (p: P5Instance) => {
+        const FIREFLY_COUNT = 40
+        const SPEED = 0.5
+
+        const width = window.innerWidth
+        const height = window.innerHeight
+        const fireflies: Firefly[] = []
+
+        function createFirefly(): Firefly {
+          return {
+            x: p.random(width),
+            y: p.random(height),
+            vx: (p.random() - 0.5) * SPEED,
+            vy: (p.random() - 0.5) * SPEED,
+            size: p.random(2, 5),
+            glowPhase: p.random(p.TWO_PI),
+            glowSpeed: p.random(0.02, 0.05),
+            maxGlow: p.random(150, 255),
+          }
+        }
+
+        p.setup = () => {
+          p.createCanvas(width, height)
+          p.noStroke()
+
+          for (let i = 0; i < FIREFLY_COUNT; i++) {
+            fireflies.push(createFirefly())
+          }
+        }
+
+        p.draw = () => {
+          p.clear()
+
+          const isDark = document.documentElement.classList.contains('dark')
+          const time = p.millis() * 0.001
+
+          fireflies.forEach((ff) => {
+            // Update position with gentle wandering
+            ff.x += ff.vx + Math.sin(time * 0.5 + ff.glowPhase) * 0.3
+            ff.y += ff.vy + Math.cos(time * 0.3 + ff.glowPhase) * 0.3
+
+            // Wrap around edges
+            if (ff.x < -20) ff.x = width + 20
+            if (ff.x > width + 20) ff.x = -20
+            if (ff.y < -20) ff.y = height + 20
+            if (ff.y > height + 20) ff.y = -20
+
+            // Calculate glow intensity
+            const glow =
+              (Math.sin(time * ff.glowSpeed * 20 + ff.glowPhase) + 1) / 2
+            const alpha = 30 + glow * ff.maxGlow
+
+            // Draw glow layers
+            for (let r = ff.size * 4; r > 0; r -= ff.size * 0.8) {
+              const layerAlpha = alpha * (r / (ff.size * 4)) * 0.3
+
+              if (isDark) {
+                // 暗色模式：温暖的金黄色萤火虫
+                p.fill(60, 180, 255, layerAlpha * 0.7) // 群青色调
+              } else {
+                // 亮色模式：柔和的蓝色光点
+                p.fill(37, 99, 235, layerAlpha * 0.5)
+              }
+
+              p.ellipse(ff.x, ff.y, r, r)
+            }
+
+            // Draw core
+            if (isDark) {
+              p.fill(147, 197, 253, alpha) // 亮蓝色核心
+            } else {
+              p.fill(59, 130, 246, alpha * 0.8)
+            }
+            p.ellipse(ff.x, ff.y, ff.size, ff.size)
+          })
+        }
+      }
+
+      this.p5Instance = new p5(sketch, this)
+    }
+
+    disconnectedCallback() {
+      if (this.p5Instance) {
+        this.p5Instance.remove()
+        this.p5Instance = null
+      }
+    }
+  }
+
+  if (!customElements.get('bg-firefly')) {
+    customElements.define('bg-firefly', BgFireflyElement)
+  }
+</script>
