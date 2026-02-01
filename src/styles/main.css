@@ -1,15 +1,21 @@
 :root {
-  --c-bg: #fff;
-  --c-scrollbar: #ddd;
-  --c-scrollbar-hover: #bbb;
-  --c-text: #000;
+  /* 群青配色 - 亮色模式 */
+  --c-bg: #f8fafc;
+  --c-scrollbar: #cbd5e1;
+  --c-scrollbar-hover: #94a3b8;
+  --c-text: #1e3a5f;
+  --c-accent: #2563eb;
+  --c-border: #e2e8f0;
 }
 
 :root.dark {
-  --c-bg: #050505;
-  --c-scrollbar: #222;
-  --c-scrollbar-hover: #444;
-  --c-text: #fff;
+  /* 群青配色 - 暗色模式 */
+  --c-bg: #0f172a;
+  --c-scrollbar: #334155;
+  --c-scrollbar-hover: #475569;
+  --c-text: #e2e8f0;
+  --c-accent: #60a5fa;
+  --c-border: #1e293b;
 }
 
 html {
@@ -28,7 +34,7 @@ body {
 }
 
 ::selection {
-  background: #8884;
+  background: #3b82f644;
 }
 
 /* NProgress */

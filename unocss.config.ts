@@ -36,11 +36,12 @@ const socialIcons = socialLinks
 
 const projectIcons = projecstData.map((item) => item.icon)
 
+// 莫兰迪风格语义色
 const githubVersionColor: Record<string, string> = {
-  major: 'bg-rose/15 text-rose-7 dark:text-rose-3',
-  minor: 'bg-purple/15 text-purple-7 dark:text-purple-3',
-  patch: 'bg-green/15 text-green-7 dark:text-green-3',
-  pre: 'bg-teal/15 text-teal-7 dark:text-teal-3',
+  major: 'bg-[#B89A9A]/20 text-[#8B6F6F] dark:text-[#C9B0B0]',
+  minor: 'bg-[#8BA7B8]/20 text-[#5E7A8A] dark:text-[#A3BCC9]',
+  patch: 'bg-[#8BAB9A]/20 text-[#5E8A6F] dark:text-[#A3C9B4]',
+  pre: 'bg-[#C9B896]/20 text-[#8A7A5E] dark:text-[#D8CDB0]',
 }
 const githubVersionClass = Object.keys(githubVersionColor).map(
   (k) => `github-${k}`
