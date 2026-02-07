@@ -36,12 +36,12 @@ const socialIcons = socialLinks
 
 const projectIcons = projecstData.map((item) => item.icon)
 
-// 莫兰迪风格语义色
+// 青铜配色语义色
 const githubVersionColor: Record<string, string> = {
-  major: 'bg-[#B89A9A]/20 text-[#8B6F6F] dark:text-[#C9B0B0]',
-  minor: 'bg-[#8BA7B8]/20 text-[#5E7A8A] dark:text-[#A3BCC9]',
-  patch: 'bg-[#8BAB9A]/20 text-[#5E8A6F] dark:text-[#A3C9B4]',
-  pre: 'bg-[#C9B896]/20 text-[#8A7A5E] dark:text-[#D8CDB0]',
+  major: 'bg-[#A67458]/20 text-[#8A5D42] dark:text-[#c08a6a]',
+  minor: 'bg-[#3E848C]/20 text-[#2a6068] dark:text-[#7AB8BF]',
+  patch: 'bg-[#7AB8BF]/20 text-[#3E848C] dark:text-[#C4EEF2]',
+  pre: 'bg-[#C4EEF2]/20 text-[#025159] dark:text-[#a0d5db]',
 }
 const githubVersionClass = Object.keys(githubVersionColor).map(
   (k) => `github-${k}`
