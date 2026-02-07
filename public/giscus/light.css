@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 main {
-  --primary-default: 8, 155, 91;
-  --bg-default: 246, 246, 247;
+  --primary-default: 62, 132, 140;
+  --bg-default: 240, 248, 249;
   --color-prettylights-syntax-comment: #6e7781;
   --color-prettylights-syntax-constant: #0550ae;
   --color-prettylights-syntax-entity: #8250df;
