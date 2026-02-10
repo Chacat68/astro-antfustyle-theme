@@ -28,6 +28,13 @@
     "category": "游戏开发"
   },
   {
+    "id": "「卧龙吟2」",
+    "link": "https://www.taptap.cn/app/225515",
+    "desc": "卧龙吟2，一款三国题材的策略游戏。",
+    "icon": "i-ph-sword-duotone",
+    "category": "游戏开发"
+  },
+  {
     "id": "「NotionNext博客」",
     "link": "https://notion-next-kohl-rho-39.vercel.app/",
     "desc": "NotionNext博客是一个基于Notion的博客系统，使用Next.js作为前端框架，Vercel作为部署平台。",
