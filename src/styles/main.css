@@ -1,21 +1,15 @@
 :root {
-  /* 青铜配色 - 亮色模式 */
-  --c-bg: #f0f8f9;
-  --c-scrollbar: #7ab8bf;
-  --c-scrollbar-hover: #3e848c;
-  --c-text: #025159;
-  --c-accent: #a67458;
-  --c-border: #c4eef2;
+  --c-bg: #fff;
+  --c-scrollbar: #ddd;
+  --c-scrollbar-hover: #bbb;
+  --c-text: #000;
 }
 
 :root.dark {
-  /* 青铜配色 - 暗色模式 */
-  --c-bg: #031e22;
-  --c-scrollbar: #0a3d44;
-  --c-scrollbar-hover: #3e848c;
-  --c-text: #c4eef2;
-  --c-accent: #c08a6a;
-  --c-border: #0a3038;
+  --c-bg: #050505;
+  --c-scrollbar: #222;
+  --c-scrollbar-hover: #444;
+  --c-text: #fff;
 }
 
 html {
@@ -34,7 +28,7 @@ body {
 }
 
 ::selection {
-  background: #3e848c44;
+  background: #8884;
 }
 
 /* NProgress */
