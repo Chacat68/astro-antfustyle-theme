@@ -136,7 +136,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Home content
     'home.intro1':
-      '你好，我是查猫CHACAT，85后，从小就是游戏迷和书迷，这两样爱好至今仍是我生活的重要支柱。',
+      '你好，我是Charliefoo，85后，从小就是游戏迷和书迷，这两样爱好至今仍是我生活的重要支柱。',
     'home.intro2':
       '最近专注于读书、创作和跑步，享受安静而有趣的生活节奏。喜欢喝茶聊天，持续创作新内容，为自己源源不断地创造心流体验。',
     'home.roles':
@@ -284,7 +284,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Home content
     'home.intro1':
-      "Hi, I'm CHACAT. I've been a gamer and a bookworm since childhood—both are still a big part of my life today.",
+      "Hi, I'm Charliefoo. I've been a gamer and a bookworm since childhood—both are still a big part of my life today.",
     'home.intro2':
       "Lately I'm focusing on reading, creating, and running—enjoying a quiet but interesting rhythm. I love tea and long chats, and I keep making new things to stay in flow.",
     'home.roles':
