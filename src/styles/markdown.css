@@ -4,11 +4,10 @@
 
 /* Prose Complement */
 .prose {
-  /* 青铜配色 - 亮色模式 */
-  --fg-light: #3e848c;
-  --fg: #1a5c63;
-  --fg-deep: #025159;
-  --fg-deeper: #011f24;
+  --fg-light: #888;
+  --fg: #555;
+  --fg-deep: #222;
+  --fg-deeper: var(--c-text);
 
   color: var(--fg);
 }
@@ -32,11 +31,10 @@
 }
 
 html.dark .prose {
-  /* 青铜配色 - 暗色模式 */
-  --fg-light: #7ab8bf;
-  --fg: #a0d5db;
-  --fg-deep: #c4eef2;
-  --fg-deeper: #e8f8fa;
+  --fg-light: #888;
+  --fg: #bbb;
+  --fg-deep: #ddd;
+  --fg-deeper: var(--c-text);
 }
 
 .prose blockquote {
