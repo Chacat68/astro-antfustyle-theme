@@ -43,7 +43,7 @@ Accept uncertainty and imperfection. Accept that things won't always go as I wis
 
 Talk to yourself using the third-person perspective (Third-person self-talk), especially using your own name.
 
-For example, when CHACAT feels everything is going wrong, reflecting with "Why has CHACAT gotten into this situation where everything seems to go wrong?" activates a lower emotional level and creates less sense of despair than asking in the first person, "Why am I so useless?"
+For example, when Charliefoo feels everything is going wrong, reflecting with "Why has Charliefoo gotten into this situation where everything seems to go wrong?" activates a lower emotional level and creates less sense of despair than asking in the first person, "Why am I so useless?"
 
 When we fall into a depressive mood, we often stage sad internal dramas: a little angel guides our emotions, reflects on the present, and persuades our rational mind to accept ourselves. (*Most people's internal monologues use the first-person perspective to converse with themselves.*)
 
