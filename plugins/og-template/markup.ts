@@ -3,12 +3,19 @@ import backgroundBase64 from './base64'
 
 import type { BgType } from '../../src/types'
 
+const ogBgTypes = ['plum', 'dot', 'rose', 'particle'] as const
+type OgBgType = (typeof ogBgTypes)[number]
+
+function isOgBgType(bgType: BgType): bgType is OgBgType {
+  return (ogBgTypes as readonly string[]).includes(bgType)
+}
+
 export const ogImageMarkup = (
   authorOrBrand: string,
   title: string,
   bgType: BgType
 ) => {
-  if (!['plum', 'dot', 'rose', 'particle'].includes(bgType))
+  if (!isOgBgType(bgType))
     throw new Error(
       "The value of 'bgType' must be one of the following: 'plum', 'dot', 'rose', 'particle'."
     )
