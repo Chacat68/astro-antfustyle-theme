@@ -28,6 +28,13 @@
     "category": "游戏开发"
   },
   {
+    "id": "「江湖」",
+    "link": "https://www.chawfoo.com/projects/",
+    "desc": "武侠题材卡牌游戏原型：回合制对局 + 牌组构筑，采用原创江湖世界观与门派体系（致敬传统武侠氛围），围绕招式、内功、轻功与奇遇构建策略组合。",
+    "icon": "i-ph-sword-duotone",
+    "category": "游戏开发"
+  },
+  {
     "id": "「卧龙吟2」",
     "link": "https://www.taptap.cn/app/225515",
     "desc": "RTS+SLG玩法模型，经典卧龙吟IP二代新作",
