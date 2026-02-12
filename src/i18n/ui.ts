@@ -132,7 +132,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitleSuffix': '展示你的 GitHub Pull Requests',
 
     'page.home.title': '关于',
-    'page.home.description': '',
+    'page.home.description': '付之一笑 — Charliefoo 的个人博客，专注于阅读、跑步、思考与创作，记录生活中的点滴感悟与技术探索。',
 
     // Home content
     'home.intro1':
@@ -280,7 +280,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitleSuffix': '',
 
     'page.home.title': 'About',
-    'page.home.description': '',
+    'page.home.description': 'Charliefoo\'s personal blog focused on reading, running, thinking, and creating. Recording insights and technical explorations from life.',
 
     // Home content
     'home.intro1':

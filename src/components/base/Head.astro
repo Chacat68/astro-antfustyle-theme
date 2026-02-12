@@ -28,11 +28,14 @@ const locale = getLocale(Astro.currentLocale)
 const siteName = new URL(SITE.website).hostname
 
 const pageTitle =
-  title && title !== SITE.title ? `${title} - ${SITE.title}` : SITE.title
+  title && title !== SITE.title
+    ? `${title} - ${SITE.title}`
+    : `${SITE.title} - ${SITE.description}`
 
 const pageDescription = description || SITE.description
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+canonicalURL.protocol = 'https:'
 
 const currentLocaleRoot = getRelativeLocaleUrl(locale, '')
 const pathname = Astro.url.pathname
@@ -68,13 +71,22 @@ const ogImageURL = new URL(
 const blogPostingData = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': canonicalURL.href,
+  },
   'headline': pageTitle,
   'image': ogImageURL,
-  'url': canonicalURL,
+  'url': canonicalURL.href,
   'datePublished': pubDate,
   ...(lastModDate && { dateModified: lastModDate }),
   ...(description && { description: description }),
   'author': {
+    '@type': 'Person',
+    'name': SITE.author,
+    'url': SITE.website,
+  },
+  'publisher': {
     '@type': 'Person',
     'name': SITE.author,
     'url': SITE.website,
@@ -84,12 +96,14 @@ const blogPostingData = {
 // https://jsonld.com/web-page/
 const webPageData = {
   '@context': 'https://schema.org',
-  '@type': 'webPage',
+  '@type': 'WebPage',
   'name': `${title || SITE.title}`,
+  'url': canonicalURL.href,
   ...(description && { description: description }),
   'publisher': {
-    '@type': 'ProfilePage',
-    'name': `${SITE.author}'s Personal Website`,
+    '@type': 'Person',
+    'name': SITE.author,
+    'url': SITE.website,
   },
 }
 ---
@@ -105,6 +119,7 @@ const webPageData = {
 <meta name="title" content={pageTitle} />
 <meta name="description" content={pageDescription} />
 <meta name="author" content={SITE.author} />
+<meta name="robots" content="index, follow" />
 
 <!-- Color -->
 <meta name="theme-color" content="" />
