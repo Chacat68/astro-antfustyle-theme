@@ -2,6 +2,7 @@
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import LatestPosts from '~/components/widgets/LatestPosts.astro'
+import { UI } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 // 随机选择背景类型
@@ -23,6 +24,12 @@ const frontmatter = {
   toc: false,
   ogImage: false,
 } as const
+
+const socialLabel = (title: string) => {
+  if (title === 'Github') return 'GitHub'
+  const onIndex = title.lastIndexOf(' on ')
+  return onIndex >= 0 ? title.slice(onIndex + 4) : title
+}
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -52,27 +59,20 @@ const t = useTranslations(locale)
       <div>
         <div class="mb-2">{t('home.findMeOn')}</div>
         <div class="flex flex-wrap gap-4">
-          <a
-            href="https://github.com/Chacat68"
-            class="inline-flex items-center gap-1.5 op-75 hover:op-100"
-          >
-            <span class="i-simple-icons-github" aria-hidden="true"></span>
-            <span>GitHub</span>
-          </a>
-          <a
-            href="https://x.com/Chacat68"
-            class="inline-flex items-center gap-1.5 op-75 hover:op-100"
-          >
-            <span class="i-ri-twitter-x-fill" aria-hidden="true"></span>
-            <span>Twitter</span>
-          </a>
-          <a
-            href="https://bsky.app/profile/chacat68.bsky.social"
-            class="inline-flex items-center gap-1.5 op-75 hover:op-100"
-          >
-            <span class="i-simple-icons-bluesky" aria-hidden="true"></span>
-            <span>Bluesky</span>
-          </a>
+          {
+            UI.socialLinks.map((item) => (
+              <a
+                href={item.link}
+                title={item.title}
+                class="inline-flex items-center gap-1.5 op-75 hover:op-100"
+              >
+                {'icon' in item && (
+                  <span class={item.icon} aria-hidden="true" />
+                )}
+                <span>{socialLabel(item.title)}</span>
+              </a>
+            ))
+          }
         </div>
       </div>
 

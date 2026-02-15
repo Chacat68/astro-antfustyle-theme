@@ -84,6 +84,12 @@ export const UI: Ui = {
       displayMode: 'alwaysIcon',
       icon: 'i-meteor-icons-bluesky',
     },
+    {
+      link: 'https://neodb.social/users/Charliefoo/',
+      title: 'Charliefoo on NeoDB',
+      displayMode: 'alwaysIcon',
+      icon: 'i-ph-book-open-duotone',
+    },
   ],
   navBarLayout: {
     left: [],
