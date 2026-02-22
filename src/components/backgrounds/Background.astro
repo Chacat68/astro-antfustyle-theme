@@ -5,7 +5,7 @@ import Rose from '~/components/backgrounds/Rose.astro'
 import Particle from '~/components/backgrounds/Particle.astro'
 import Wave from '~/components/backgrounds/Wave.astro'
 import Constellation from '~/components/backgrounds/Constellation.astro'
-import Firefly from '~/components/backgrounds/Firefly.astro'
+import Matrix from '~/components/backgrounds/Matrix.astro'
 
 interface Props {
   type: string
@@ -20,4 +20,4 @@ const { type } = Astro.props
 {type === 'particle' && <Particle />}
 {type === 'wave' && <Wave />}
 {type === 'constellation' && <Constellation />}
-{type === 'firefly' && <Firefly />}
+{type === 'matrix' && <Matrix />}
