@@ -99,20 +99,47 @@
         p.draw = () => {
           p.clear()
 
-          // update and draw particles
+          // Update particles & build spatial grid in one pass
+          // Grid cell size equals DISTANCE so adjacent cells cover all possible connections
+          const cellsX = Math.ceil((width + 40) / DISTANCE)
+          const grid = new Map<number, Particle[]>()
+
           particles.forEach((particle) => {
             updateParticle(particle)
+            const gx = Math.max(0, Math.floor(particle.x / DISTANCE))
+            const gy = Math.max(0, Math.floor(particle.y / DISTANCE))
+            const key = gy * cellsX + gx
+            if (!grid.has(key)) grid.set(key, [])
+            grid.get(key)!.push(particle)
+          })
+
+          // Draw particles and connections (only check 9 neighboring cells per particle)
+          particles.forEach((particle) => {
             drawParticle(particle)
 
-            // draw connections
-            particles.forEach((other) => {
-              const d = p.dist(particle.x, particle.y, other.x, other.y)
-              if (d < DISTANCE) {
-                p.stroke(COLOR)
-                p.strokeWeight(0.5)
-                p.line(particle.x, particle.y, other.x, other.y)
+            const gx = Math.max(0, Math.floor(particle.x / DISTANCE))
+            const gy = Math.max(0, Math.floor(particle.y / DISTANCE))
+
+            for (let dx = -1; dx <= 1; dx++) {
+              for (let dy = -1; dy <= 1; dy++) {
+                const key = (gy + dy) * cellsX + (gx + dx)
+                const cell = grid.get(key)
+                if (!cell) continue
+
+                for (const other of cell) {
+                  if (other === particle) continue
+                  const d = Math.hypot(
+                    particle.x - other.x,
+                    particle.y - other.y
+                  )
+                  if (d < DISTANCE) {
+                    p.stroke(COLOR)
+                    p.strokeWeight(0.5)
+                    p.line(particle.x, particle.y, other.x, other.y)
+                  }
+                }
               }
-            })
+            }
           })
         }
       }
