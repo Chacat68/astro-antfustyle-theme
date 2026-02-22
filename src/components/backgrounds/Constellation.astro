@@ -14,6 +14,8 @@
   interface Star {
     x: number
     y: number
+    vx: number
+    vy: number
     size: number
     twinkleSpeed: number
     twinkleOffset: number
@@ -36,6 +38,8 @@
           return {
             x: p.random(width),
             y: p.random(height),
+            vx: (p.random() - 0.5) * 0.18,
+            vy: (p.random() - 0.5) * 0.18,
             size: p.random(1.5, 3.5),
             twinkleSpeed: p.random(0.02, 0.05),
             twinkleOffset: p.random(p.TWO_PI),
@@ -57,25 +61,59 @@
           const isDark = document.documentElement.classList.contains('dark')
           const time = p.millis() * 0.001
 
-          // Draw connections first
+          // Update star positions (slow drift, wrap around screen)
+          stars.forEach((star) => {
+            star.x += star.vx
+            star.y += star.vy
+            if (star.x < 0) star.x += width
+            if (star.x > width) star.x -= width
+            if (star.y < 0) star.y += height
+            if (star.y > height) star.y -= height
+          })
+
+          // Build spatial grid for O(n) amortized connection checks
+          const cellSize = CONNECTION_DISTANCE
+          const cellsX = Math.ceil(width / cellSize)
+          const grid = new Map<number, number[]>()
+          stars.forEach((star, i) => {
+            const gx = Math.max(0, Math.floor(star.x / cellSize))
+            const gy = Math.max(0, Math.floor(star.y / cellSize))
+            const key = gy * cellsX + gx
+            if (!grid.has(key)) grid.set(key, [])
+            grid.get(key)!.push(i)
+          })
+
+          // Draw connections using spatial grid
           stars.forEach((star, i) => {
             let connections = 0
-            stars.forEach((other, j) => {
-              if (i >= j || connections >= MAX_CONNECTIONS) return
+            const gx = Math.max(0, Math.floor(star.x / cellSize))
+            const gy = Math.max(0, Math.floor(star.y / cellSize))
 
-              const d = p.dist(star.x, star.y, other.x, other.y)
-              if (d < CONNECTION_DISTANCE) {
-                const alpha = p.map(d, 0, CONNECTION_DISTANCE, 40, 0)
-                const lineColor = isDark
-                  ? p.color(148, 163, 184, alpha)
-                  : p.color(100, 116, 139, alpha)
+            outer: for (let dx = -1; dx <= 1; dx++) {
+              for (let dy = -1; dy <= 1; dy++) {
+                const key = (gy + dy) * cellsX + (gx + dx)
+                const cell = grid.get(key)
+                if (!cell) continue
 
-                p.stroke(lineColor)
-                p.strokeWeight(0.5)
-                p.line(star.x, star.y, other.x, other.y)
-                connections++
+                for (const j of cell) {
+                  if (j <= i) continue // avoid duplicates and self-comparison
+                  if (connections >= MAX_CONNECTIONS) break outer
+
+                  const other = stars[j]
+                  const d = p.dist(star.x, star.y, other.x, other.y)
+                  if (d < CONNECTION_DISTANCE) {
+                    const alpha = p.map(d, 0, CONNECTION_DISTANCE, 40, 0)
+                    const lineColor = isDark
+                      ? p.color(148, 163, 184, alpha)
+                      : p.color(100, 116, 139, alpha)
+                    p.stroke(lineColor)
+                    p.strokeWeight(0.5)
+                    p.line(star.x, star.y, other.x, other.y)
+                    connections++
+                  }
+                }
               }
-            })
+            }
           })
 
           // Draw stars
