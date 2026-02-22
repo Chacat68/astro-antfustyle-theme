@@ -1,0 +1,118 @@
+---
+
+---
+
+<canvas
+  id="matrix-canvas"
+  class="fixed top-0 left-0 w-full h-full -z-1 pointer-events-none op-60 dark:op-40"
+></canvas>
+
+<script>
+  function initMatrix() {
+    const canvas = document.getElementById('matrix-canvas') as HTMLCanvasElement
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    let w = window.innerWidth
+    let h = window.innerHeight
+    canvas.width = w
+    canvas.height = h
+
+    const letters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+{}|:"<>?~`-=[]\\;\',./'
+    const fontSize = 16
+    let columns = Math.floor(w / fontSize)
+
+    let drops: number[] = []
+    for (let x = 0; x < columns; x++) {
+      drops[x] = 1
+    }
+
+    // 适配暗色模式检测来改变颜色，或者使用统一的绿色
+    const getTextColor = () => {
+      const isDark = document.documentElement.classList.contains('dark')
+      // 提供一种更柔和、主题化的颜色，或者经典的黑客帝国绿
+      return isDark ? '#0f0' : '#0a0'
+    }
+
+    function draw() {
+      if (!ctx || !canvas) return
+
+      // 半透明背景实现残影效果
+      const isDark = document.documentElement.classList.contains('dark')
+      ctx.fillStyle = isDark
+        ? 'rgba(0, 0, 0, 0.05)'
+        : 'rgba(255, 255, 255, 0.05)'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      ctx.fillStyle = getTextColor()
+      ctx.font = `${fontSize}px monospace`
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length))
+
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize)
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0
+        }
+        drops[i]++
+      }
+    }
+
+    let animationFrameId: number
+    let lastDrawTime = 0
+    const fps = 30
+    const interval = 1000 / fps
+
+    function animate(time: number) {
+      if (time - lastDrawTime > interval) {
+        draw()
+        lastDrawTime = time
+      }
+      animationFrameId = requestAnimationFrame(animate)
+    }
+
+    animationFrameId = requestAnimationFrame(animate)
+
+    // 处理窗口大小改变
+    const handleResize = () => {
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = w
+      canvas.height = h
+
+      columns = Math.floor(w / fontSize)
+      const newDrops: number[] = []
+      for (let x = 0; x < columns; x++) {
+        newDrops[x] = drops[x] || 1
+      }
+      drops = newDrops
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    // 清理函数
+    return () => {
+      cancelAnimationFrame(animationFrameId)
+      window.removeEventListener('resize', handleResize)
+    }
+  }
+
+  // Astro page switch 兼容
+  document.addEventListener('astro:page-load', () => {
+    initMatrix()
+  })
+
+  // 以防只有初次加载
+  if (
+    document.readyState === 'complete' ||
+    document.readyState === 'interactive'
+  ) {
+    initMatrix()
+  } else {
+    document.addEventListener('DOMContentLoaded', initMatrix)
+  }
+</script>
