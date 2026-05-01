@@ -4,7 +4,7 @@ pubDate: 2024-12-31
 lastModDate: 2024-12-31
 description: '算是这一年的记录，快乐生活.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104172842744.png?imageSlim'
-tags: [稀缺, 生活, 生活, 日常]
+tags: [稀缺, 生活, 日常]
 category: '生活随笔'
 draft: false
 ---

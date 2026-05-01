@@ -1,8 +1,8 @@
 ---
 title: 笔记作为思想生态系统的养分
-pubDate: 2025-03-30 22:50:00
-lastModDate: 2025-03-30 22:50:00
-description: '将笔记视为思想生态系统的养分，而非静态存储，可以促进思想的有机生长与智慧的自然涌现'
+pubDate: 2025-03-30
+lastModDate: 2025-03-30
+description: '将笔记视为思想生态系统的养分，而非静态存储，可以促进思想的有机生长与智慧的自然涌现。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170033588.png?imageSlim'
 tags: [知识管理, 思想生态, AI工具, 复杂系统, 涌现性]
 category: '人工智能'

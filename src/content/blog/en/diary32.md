@@ -1,7 +1,7 @@
 ---
 title: 61 Technical Exploration and Life Notes
-pubDate: 2025-06-01 19:30:00
-lastModDate: 2025-06-01 19:30:00
+pubDate: 2025-06-01
+lastModDate: 2025-06-01
 description: 'Documenting technical explorations and life reflections during the 61 holiday, including open-source video platform deployment and MCP technology experience.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250602134914997.png?imageSlim'
 tags: [Technical Exploration, Open Source Projects, MCP, Alibaba Cloud, Work Efficiency, Learning Curve]

@@ -1,7 +1,7 @@
 ---
 title: "Game Maker's Toolkit: An In-Depth Analysis of Game Design"
-pubDate: 2025-08-10 22:00:00
-lastModDate: 2025-08-10 22:00:00
+pubDate: 2025-08-10
+lastModDate: 2025-08-10
 description: "Recommending Game Maker''s Toolkit, the premier game design analysis channel on YouTube, for a deep dive into how Mark Brown unravels the mysteries of game design through a professional lens."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250810222923259.webp?imageSlim'
 tags: [YouTube Recommendation, Game Design, Video Analysis, Educational Content, Indie Development]

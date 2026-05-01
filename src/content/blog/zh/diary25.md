@@ -4,7 +4,7 @@ pubDate: 2024-11-04
 lastModDate: 2024-11-04
 description: '中年人生的自我救赎，探索不同的可能性。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104172011526.png?imageSlim'
-tags: [稀缺, 生活, 生活, 日常]
+tags: [稀缺, 生活, 日常]
 category: '生活随笔'
 draft: false
 ---

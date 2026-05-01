@@ -1,7 +1,7 @@
 ---
 title: Casual Notes - When Fate Arrives
-pubDate: 2025-04-21 02:00:00
-lastModDate: 2025-04-21 02:00:00
+pubDate: 2025-04-21
+lastModDate: 2025-04-21
 description: 'Sharing adjustments to my personal rhythm, shifts in mindset, and experiences of balancing physical and mental health through walking and creative work. Recording reflections on life after entering middle age and the process of rebuilding order.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501122604256.png?imageSlim'
 tags: [Life Reflections, Mindset Adjustment, Middle Age Life, Health Management, Daily Habits]

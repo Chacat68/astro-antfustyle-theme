@@ -53,6 +53,13 @@ export const pageSchema = z.object({
 
 export type PageSchema = z.infer<typeof pageSchema>
 
+function createDateOnlySchema(fieldName: string) {
+  return z
+    .string()
+    .date(`${fieldName} must be YYYY-MM-DD.`)
+    .transform((value) => new Date(value))
+}
+
 /* Posts */
 function createPostSchema(options?: { titleMax?: number }) {
   const titleMax = options?.titleMax ?? 60
@@ -101,26 +108,23 @@ function createPostSchema(options?: { titleMax?: number }) {
         .describe(
           'Specifies the language of the post (e.g., "zh-CN", "en"). If not specified, the default site language is used.'
         ),
-      pubDate: z.coerce
-        .date()
+      pubDate: createDateOnlySchema('pubDate')
         .optional()
         .describe(
-          '**Required**. Specifies the publication date. See supported formats [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse#examples).'
+          '**Required**. Specifies the publication date in `YYYY-MM-DD` format.'
         ),
-      published: z.coerce
-        .date()
+      published: createDateOnlySchema('published')
         .optional()
         .describe(
           'Deprecated. Use `pubDate` instead. Specifies the publication date.'
         ),
       lastModDate: z
-        .union([z.coerce.date(), z.literal('')])
+        .union([createDateOnlySchema('lastModDate'), z.literal('')])
         .optional()
         .describe(
-          'Tracks the last modified date. If not needed, leave the field as an empty string or delete it.'
+          'Tracks the last modified date in `YYYY-MM-DD` format. If not needed, leave the field as an empty string or delete it.'
         ),
-      updated: z.coerce
-        .date()
+      updated: createDateOnlySchema('updated')
         .optional()
         .describe(
           'Deprecated. Use `lastModDate` instead. Tracks the last modified date.'

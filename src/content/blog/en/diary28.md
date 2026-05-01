@@ -1,7 +1,7 @@
 ---
 title: Ten Years of Experience Living with Rhinitis
-pubDate: 2025-03-22 22:24:00
-lastModDate: 2025-03-22 22:24:00
+pubDate: 2025-03-22
+lastModDate: 2025-03-22
 description: 'Sharing personal years of experience battling rhinitis and effective prevention and management methods, including daily care, environmental adjustments, and self-management advice.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501122718310.png?imageSlim'
 tags: [Healthy Living, Rhinitis Prevention, Life Experience, Health Management]
