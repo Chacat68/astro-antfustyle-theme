@@ -1,7 +1,7 @@
 ---
 title: "FLUX.1 Kontext Dev: A New Breakthrough in Open-Source Image Editing Models"
-pubDate: 2025-06-28 03:00:00
-lastModDate: 2025-06-28 03:00:00
+pubDate: 2025-06-28
+lastModDate: 2025-06-28
 description: 'FLUX.1 Kontext Dev is an open-source image editing model launched by Black Forest Labs. It supports simultaneous text and image input and possesses excellent character consistency and precise editing capabilities.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250628031141285.png?imageSlim'
 tags: [AI, Image Editing, FLUX, Open Source, Tools, Efficiency, Local]
