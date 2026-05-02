@@ -43,13 +43,38 @@ const t = useTranslations(locale)
   import { toggleFadeEffect } from '~/utils/misc'
 
   document.addEventListener('astro:page-load', () => {
-    /* Open nav panel when user click on button */
-    const handleBtnClickToOpen = () => {
-      toggleFadeEffect('backdrop', true, 'hidden')
-      toggleFadeEffect('nav-panel', true, 'hidden!')
+    const navOpenButton = document.getElementById('nav-open-button')
+    const navPanel = document.getElementById('nav-panel')
+
+    const setExpanded = (expanded: boolean) => {
+      navOpenButton?.setAttribute('aria-expanded', expanded ? 'true' : 'false')
     }
 
-    const navOpenButton = document.getElementById('nav-open-button')
-    navOpenButton?.addEventListener('click', handleBtnClickToOpen)
+    const isNavPanelOpen = () => {
+      return navPanel ? !navPanel.classList.contains('hidden!') : false
+    }
+
+    const openNavPanel = () => {
+      toggleFadeEffect('backdrop', true, 'hidden')
+      toggleFadeEffect('nav-panel', true, 'hidden!')
+      setExpanded(true)
+    }
+
+    const closeNavPanel = () => {
+      toggleFadeEffect('nav-panel', false, 'hidden!')
+      toggleFadeEffect('backdrop', false, 'hidden')
+      setExpanded(false)
+    }
+
+    const handleBtnClickToToggle = () => {
+      if (isNavPanelOpen()) {
+        closeNavPanel()
+        return
+      }
+
+      openNavPanel()
+    }
+
+    navOpenButton?.addEventListener('click', handleBtnClickToToggle)
   })
 </script>
