@@ -1,7 +1,7 @@
 ---
 title: "Reading \"The Aesthetics of Economy\": The Commercial Practice of Aesthetic Value"
-pubDate: 2021-07-24
-lastModDate: 2021-07-24
+pubDate: '2021-07-24'
+lastModDate: '2021-07-24'
 description: 'Shares reflections on the "Rework" series of books, discussing independently operated business models, the advantages of remote work, and a calm company culture.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501121955371.png?imageSlim'
 tags: [Aesthetics, Economics, Philosophy, Interdisciplinary Thinking, Aesthetic Economics, Aesthetics and Economy, Aesthetics and Economics, Interdisciplinary Thinking on Aesthetics and Economics]

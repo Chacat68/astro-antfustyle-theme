@@ -1,7 +1,7 @@
 ---
 title: Reunion with Old Friends During the May Day Holiday
-pubDate: 2025-05-05
-lastModDate: 2025-05-05
+pubDate: '2025-05-05'
+lastModDate: '2025-05-05'
 description: 'Recording the warm moments of reuniting with old friends during the May Day holiday, sharing the joys and troubles of life together.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250506060623027.png?imageSlim'
 tags: [Friendship, Life Reflections, Guangzhou, May Day Holiday, Night Strolls, Life's Struggles, Heart-to-Heart Talks]

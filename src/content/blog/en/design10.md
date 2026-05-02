@@ -1,7 +1,7 @@
 ---
 title: "ComfyUI in Practice: A Complete Guide to Models, Plugins, and Workflows"
-pubDate: 2024-10-03
-lastModDate: 2024-10-03
+pubDate: '2024-10-03'
+lastModDate: '2024-10-03'
 description: 'ComfyUI is a node-based graphical user interface specifically designed for Stable Diffusion.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174614910.png?imageSlim'
 tags: [ComfyUI, Practical Experience, Creation, Tools]

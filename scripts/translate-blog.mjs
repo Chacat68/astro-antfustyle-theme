@@ -72,7 +72,6 @@ function parseArgs(argv) {
 }
 
 function printHelp() {
-  // eslint-disable-next-line no-console
   console.log(`
 Translate blog posts from zh -> en using DeepSeek (OpenAI-compatible API).
 
@@ -221,7 +220,6 @@ async function translateWithRetry({ apiKey, model, input, relPath }) {
 
       const backoffMs = Math.min(120000, 1500 * 2 ** (attempt - 1))
       const jitterMs = Math.floor(Math.random() * 500)
-      // eslint-disable-next-line no-console
       console.warn(
         `retry (${attempt}/${maxAttempts}) after ${backoffMs + jitterMs}ms: ${relPath} (status ${status})`
       )
@@ -271,7 +269,6 @@ async function main() {
 
   const provider = resolveProviderConfig(args)
   if (!provider.apiKey) {
-    // eslint-disable-next-line no-console
     console.error(provider.missingKeyMessage)
     process.exit(1)
   }
@@ -299,7 +296,6 @@ async function main() {
     try {
       if (!args.overwrite) {
         await fs.access(outPath)
-        // eslint-disable-next-line no-console
         console.log(`skip (exists): ${rel}`)
         skipped += 1
         continue
@@ -309,7 +305,6 @@ async function main() {
     }
 
     const input = await fs.readFile(filePath, 'utf8')
-    // eslint-disable-next-line no-console
     console.log(`translating: ${rel}`)
 
     try {
@@ -325,21 +320,17 @@ async function main() {
       done += 1
     } catch (err) {
       failed += 1
-      // eslint-disable-next-line no-console
       console.error(`failed: ${rel}`)
-      // eslint-disable-next-line no-console
       console.error(err)
     }
   }
 
-  // eslint-disable-next-line no-console
   console.log(
     `\nDone. Translated ${done} file(s). Skipped ${skipped}. Failed ${failed}.`
   )
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
   console.error(err)
   process.exit(1)
 })

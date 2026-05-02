@@ -1,7 +1,7 @@
 ---
 title: "The Path to Improvement: Do Just a Little Every Day, But Never Stop"
-pubDate: 2025-12-17
-lastModDate: 2025-12-17
+pubDate: '2025-12-17'
+lastModDate: '2025-12-17'
 description: "A 6-minute video reminded me: Don't spend your energy \"talking about dreams\"; use it in a little bit of action every day."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251221142443160.webp?imageSlim'
 tags: [Self-Improvement, Action, Habit Building, Compound Interest, Procrastination, Psychology]

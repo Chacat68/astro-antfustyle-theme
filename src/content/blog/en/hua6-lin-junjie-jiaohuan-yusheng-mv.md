@@ -1,7 +1,7 @@
 ---
 title: At the Intersection of Reality and Ideals, Exchanging Courage and Love
-pubDate: 2025-10-16
-lastModDate: 2025-10-16
+pubDate: '2025-10-16'
+lastModDate: '2025-10-16'
 description: '"Exchange for the Rest of My Life" is a representative single released by JJ Lin in 2020. The MV, starring Ethan Juan, tells a gentle yet restrained story about the choices and guardianship of love amidst life’s trade-offs.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251017025836936.webp?imageSlim'
 tags: [Music, JJ Lin, Exchange for the Rest of My Life, MV, Chinese Pop]

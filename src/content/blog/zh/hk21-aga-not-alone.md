@@ -1,7 +1,7 @@
 ---
 title: AGA《不许你注定一人》翻唱：温柔声线里的坚定告白
-pubDate: 2026-03-05
-lastModDate: 2026-03-05
+pubDate: '2026-03-05'
+lastModDate: '2026-03-05'
 description: 'AGA 江海迦以细腻声线翻唱 Dear Jane《不许你注定一人》，把原版的炽热告白唱成温柔却坚定的陪伴。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260305051244012.webp?imageSlim'
 tags: [粤语音乐, AGA, Dear Jane, 不许你注定一人, 翻唱, 港乐, Live]

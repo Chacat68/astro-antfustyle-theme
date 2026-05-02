@@ -1,7 +1,7 @@
 ---
 title: Gemini：让创作更有想象力的AI助手
-published: 2025-12-09
-updated: 2025-12-09
+published: '2025-12-09'
+updated: '2025-12-09'
 description: '从文字到图像，Google Gemini Pro 正在改变我的创作方式，它的画图功能让想象变得触手可及。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251209093435644.webp?imageSlim'
 tags: [人工智能, Gemini, 创作工具, 图像生成]

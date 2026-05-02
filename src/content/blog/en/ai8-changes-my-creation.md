@@ -1,7 +1,7 @@
 ---
 title: How AI Has Transformed My Creative Process
-published: 2025-12-01
-updated: 2025-12-01
+published: '2025-12-01'
+updated: '2025-12-01'
 description: 'From writing to game development, AI is quietly changing how I create, leading me to rethink the relationship between humans and tools.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251201132147061.webp?imageSlim'
 tags: [Artificial Intelligence, Creation, Writing, Game Development]

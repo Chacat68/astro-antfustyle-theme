@@ -1,7 +1,7 @@
 ---
 title: Unexpected Problems
-pubDate: 2024-09-24
-lastModDate: 2024-09-24
+pubDate: '2024-09-24'
+lastModDate: '2024-09-24'
 description: 'Random events in life can sometimes leave you at a loss whether to laugh or cry.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170623402.png?imageSlim'
 tags: [Mindset Growth, Cognition, Growth]

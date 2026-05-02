@@ -52,7 +52,7 @@ export default defineConfig({
         'Access-Control-Allow-Origin': '*',
       },
     },
-    build: { chunkSizeWarningLimit: 1200 },
+    build: { chunkSizeWarningLimit: 700 },
   },
   // https://docs.astro.build/en/reference/experimental-flags/
   experimental: {

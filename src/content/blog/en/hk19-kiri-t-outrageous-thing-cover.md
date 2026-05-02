@@ -1,7 +1,7 @@
 ---
 title: "Listening to Tangtang Sing \"At Least Do One Outrageous Thing\": Turns Out Bravery Can Also Be Clumsy"
-pubDate: 2025-12-30
-lastModDate: 2025-12-30
+pubDate: '2025-12-30'
+lastModDate: '2025-12-30'
 description: "A cover by Tangtang YuzeTang: With the song 'At Least Do One Outrageous Thing,' she sings about the ill-timed bravery, clumsiness, and fervent hopes of youth—both passionately and gently."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260102005403136.webp?imageSlim'
 tags: [Cantonese Music, Hong Kong Music, Cover, Cover Song, Kiri T, At Least Do One Outrageous Thing]

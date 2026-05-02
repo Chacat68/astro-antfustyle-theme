@@ -1,7 +1,7 @@
 ---
 title: "Getting Started with Isometric Tilemaps in Godot: A Quick Guide"
-pubDate: 2025-03-22
-lastModDate: 2025-03-22
+pubDate: '2025-03-22'
+lastModDate: '2025-03-22'
 description: 'This article introduces the concept of isometric projection and its application in games, and provides a detailed explanation of how to configure and use isometric tilemaps in the Godot engine. It covers basic setup of tilemap nodes, Y-sorting, tile size configuration, creating multi-tile objects, and advanced features like using tilemap layers.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170818848.png?imageSlim'
 tags: [Game Development, Godot Engine, Isometric Projection, Tilemaps, 2D Games]

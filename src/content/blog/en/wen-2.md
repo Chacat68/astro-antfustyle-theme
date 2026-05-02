@@ -1,7 +1,7 @@
 ---
 title: The Invitation《生活的邀请函》
-pubDate: 2023-03-04
-lastModDate: 2023-03-04
+pubDate: '2023-03-04'
+lastModDate: '2023-03-04'
 description: 'The Invitation: To coexist with pain and joy, to face failure, and to enjoy your own company in solitude.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173248808.png?imageSlim'
 tags: [Life, Poetry, English, Existence]

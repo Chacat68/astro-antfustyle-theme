@@ -1,7 +1,7 @@
 ---
 title: A Brief Overview of Game Map Creation Process
-pubDate: 2020-12-21
-lastModDate: 2020-12-21
+pubDate: '2020-12-21'
+lastModDate: '2020-12-21'
 description: 'Introduces the map design methodology for strategy games, including prototype construction, terrain detailing, and flow line design. Through practical examples, it helps readers understand how to design reasonable and engaging game maps.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175457785.png?imageSlim'
 tags: [Game Design, Map Creation, Strategy Games, Terrain Design, Three Kingdoms, Design Methodology]

@@ -1,7 +1,7 @@
 ---
 title: "Cantonese Music Collection: \"Juno Mak: The Obsession Trilogy\""
-pubDate: 2022-04-17
-lastModDate: 2022-04-17
+pubDate: '2022-04-17'
+lastModDate: '2022-04-17'
 description: "Shares a Cantonese song trilogy by Juno Mak, exploring the lyrics' depiction of first love, nostalgia, and regret, as well as the singer's unique musical style in the Hong Kong music scene."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501172118922.png?imageSlim'
 tags: [Cantonese Music, Hong Kong Singer, Juno Mak, Music Review, Cantopop]

@@ -1,7 +1,7 @@
 ---
 title: "Cantonese Music Collection: \"Kindergarten\""
-pubDate: 2023-09-11
-lastModDate: 2023-09-11
+pubDate: '2023-09-11'
+lastModDate: '2023-09-11'
 description: "Shares the cover of the song \"Kindergarten\" by the Hong Kong Southern District Children's Choir. The lyrics depict the emotional journey from kindergarten to adulthood, expressing reluctance to leave parental care and confusion about growing up."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501171953716.png?imageSlim'
 tags: [Cantonese Music, Cover, Growth, Hong Kong Choir, Children's Choir]

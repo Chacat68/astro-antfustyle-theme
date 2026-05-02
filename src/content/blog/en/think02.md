@@ -1,7 +1,7 @@
 ---
 title: "Design Reflections: A Year of Observing AI Integration into Daily Life"
-pubDate: 2024-09-26
-lastModDate: 2024-09-26
+pubDate: '2024-09-26'
+lastModDate: '2024-09-26'
 description: 'Since the explosion of GPT-3.5, in just over a year, the application of large language models has expanded from the geek community to a broader audience.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170413063.png?imageSlim'
 tags: [GPT, AI Tools, Translation, Writing, Large Language Models]

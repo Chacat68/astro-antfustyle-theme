@@ -1,7 +1,7 @@
 ---
 title: Everyone Has Their Own Timeline
-pubDate: 2023-03-13
-lastModDate: 2023-03-13
+pubDate: '2023-03-13'
+lastModDate: '2023-03-13'
 description: 'In the time zone arranged for you by destiny, everything is on time.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173421681.png?imageSlim'
 tags: [Life, Poetry, English, Time, Destiny, Circumstances]

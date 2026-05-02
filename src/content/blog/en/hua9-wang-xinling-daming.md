@@ -1,7 +1,7 @@
 ---
 title: "Cyndi Wang's \"Deep Slumber\": Willful Immersion and Awakening"
-pubDate: 2025-10-31
-lastModDate: 2025-10-31
+pubDate: '2025-10-31'
+lastModDate: '2025-10-31'
 description: 'With a deep voice and poetic imagery, "Deep Slumber" invites you into an inner dialogue about growth, forgetting, and starting anew.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251031024536829.webp?imageSlim'
 tags: [Music, Cyndi Wang, Deep Slumber, Mandarin, New Album]

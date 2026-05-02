@@ -1,7 +1,7 @@
 ---
 title: "The Evolution of AI Assistants: From General-Purpose to Personalized Customization"
-pubDate: 2023-11-21
-lastModDate: 2023-11-21
+pubDate: '2023-11-21'
+lastModDate: '2023-11-21'
 description: 'Reflections on AI in October 2023: A more controllable approach emerges, turning AI into a capability.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175756636.png?imageSlim'
 tags: [AI, Design, Creation, Tools, Efficiency]

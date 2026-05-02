@@ -1,7 +1,7 @@
 ---
 title: "Simple Writing Guide: Using Conversational Language to Overcome Writing Anxiety"
-pubDate: 2024-06-28
-lastModDate: 2024-06-28
+pubDate: '2024-06-28'
+lastModDate: '2024-06-28'
 description: 'There was a time when I was always too shy to publish what I wrote, worrying that the language wasn’t elegant enough. However, for readers, readability is more important than sophisticated expression. One technique to make your writing more readable is: write in a conversational style.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173638695.png?imageSlim'
 tags: [Writing, Conversation, Daily Life]

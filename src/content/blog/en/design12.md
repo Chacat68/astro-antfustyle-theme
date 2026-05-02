@@ -1,7 +1,7 @@
 ---
 title: "Infinite Zoom: An Analysis of Camera Design in SLG Games"
-pubDate: 2021-11-18
-lastModDate: 2021-11-18
+pubDate: '2021-11-18'
+lastModDate: '2021-11-18'
 description: 'Discusses the application of infinite zoom design in games, including design approaches and solutions for zoom levels, information layering, and resource management queues.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174459433.png?imageSlim'
 tags: [Game Design, Infinite Zoom, Resource Management, Information Layering, Strategy Games]

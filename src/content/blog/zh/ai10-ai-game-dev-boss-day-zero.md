@@ -1,7 +1,7 @@
 ---
 title: 当老板的第0天：我的员工是个AI
-published: 2026-03-19
-updated: 2026-03-19
+published: '2026-03-19'
+updated: '2026-03-19'
 description: '记录我如何把 AI 当成游戏开发搭档，用 Claude 和 Godot 4.5 制作一款可随机生成的平台跳跃游戏。'
 tags: [人工智能, AI编程, 游戏开发, Claude, Godot]
 category: '人工智能'

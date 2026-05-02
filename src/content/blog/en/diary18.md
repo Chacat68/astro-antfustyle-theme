@@ -1,7 +1,7 @@
 ---
 title: "Casual Notes: A Study on the Art Styles of Farming Games"
-pubDate: 2024-06-10
-lastModDate: 2024-06-10
+pubDate: '2024-06-10'
+lastModDate: '2024-06-10'
 description: 'This is the preliminary inspiration and material collection for the simulation management game project we are planning!'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104011637394.png?imageSlim'
 tags: [Farming, Games, Reference, Pixel]

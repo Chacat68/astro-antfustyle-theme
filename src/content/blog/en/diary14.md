@@ -1,7 +1,7 @@
 ---
 title: A Stumbling 2023
-pubDate: 2023-12-30
-lastModDate: 2023-12-30
+pubDate: '2023-12-30'
+lastModDate: '2023-12-30'
 description: 'A stumbling 2023, filled with frequent changes, life adjustments, and resetting goals.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042453713.png?imageSlim'
 tags: [Life, Emotions, Reading, Life Philosophy]

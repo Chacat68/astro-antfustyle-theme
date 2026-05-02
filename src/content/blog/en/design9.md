@@ -1,7 +1,7 @@
 ---
 title: "From Zero to Game: Creating a Godot Game in Under 5 Hours"
-pubDate: 2024-05-25
-lastModDate: 2024-05-25
+pubDate: '2024-05-25'
+lastModDate: '2024-05-25'
 description: 'An experience log using Godot 4.2. It feels much more mature than the 3.x stage and can now be used as a creative tool.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174647235.png?imageSlim'
 tags: [Godot, Experience, Creation, Tools]

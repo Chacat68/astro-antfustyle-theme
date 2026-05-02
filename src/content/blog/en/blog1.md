@@ -1,7 +1,7 @@
 ---
 title: Building a Personal Blog with Notion
-pubDate: 2023-04-25
-lastModDate: 2023-04-25
+pubDate: '2023-04-25'
+lastModDate: '2023-04-25'
 description: 'The deployment and configuration process for building a personal blog using Notion.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042536930.png?imageSlim'
 tags: [Business Model, Remote Work, Company Culture, Independent Operation, Innovation, Productivity]

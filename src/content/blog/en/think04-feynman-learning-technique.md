@@ -1,7 +1,7 @@
 ---
 title: "The Feynman Learning Technique: Mastering Complex Knowledge Through Simplicity"
-pubDate: 2025-10-16
-lastModDate: 2025-10-16
+pubDate: '2025-10-16'
+lastModDate: '2025-10-16'
 description: 'The Feynman Learning Technique is a highly effective learning method that tests and deepens your understanding by explaining complex concepts in simple language.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173209859.png?imageSlim'
 tags: [Learning Method, Feynman, Efficient Learning, Knowledge Management, Teaching and Learning]

@@ -1,7 +1,7 @@
 ---
 title: Recording the Joy of Running Lately
-pubDate: 2024-06-04
-lastModDate: 2024-06-04
+pubDate: '2024-06-04'
+lastModDate: '2024-06-04'
 description: 'No matter what, just start running! There will be soreness, but there will also be joy!'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104010152140.png?imageSlim'
 tags: [Running, Joy, Soreness, Life]

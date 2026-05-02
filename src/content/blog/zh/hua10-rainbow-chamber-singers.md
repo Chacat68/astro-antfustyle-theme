@@ -1,7 +1,7 @@
 ---
 title: 我喜欢《彩虹合唱团》的歌
-pubDate: 2025-11-15
-lastModDate: 2025-11-15
+pubDate: '2025-11-15'
+lastModDate: '2025-11-15'
 description: '彩虹合唱团以真诚、善良与幽默，唱响生活的琐碎与美好，我也到了开始能听懂歌词里故事的年纪。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251115024230341.webp?imageSlim'
 tags: [音乐, 彩虹合唱团, 合唱, 华语, 神曲]

@@ -1,7 +1,7 @@
 ---
 title: "Farewell to Life: For My Departed Grandmother"
-pubDate: 2024-08-08
-lastModDate: 2024-08-08
+pubDate: '2024-08-08'
+lastModDate: '2024-08-08'
 description: 'Life is a constant cycle of meetings and farewells; all connections must eventually come to an end. Fortunately, along the journey we shared, we left behind few regrets.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/uPic/1291723111260_.pic.jpg'
 tags: [Family, Passing, Emotions, Daily Life]

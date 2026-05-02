@@ -16,6 +16,8 @@ import {
   photoSchema,
 } from '~/content/schema'
 
+const githubToken = process.env.GITHUB_TOKEN
+
 function withSafeRemoteLoader(loader: Loader, name: string): Loader {
   type LoaderArgs = Parameters<Loader['load']>[0]
 
@@ -27,8 +29,9 @@ function withSafeRemoteLoader(loader: Loader, name: string): Loader {
         await loader.load(args)
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err)
-        args.logger.warn(`[${name}] ${message}`)
-        args.store?.clear?.()
+        args.logger.warn(
+          `[${name}] ${message}; keeping previously synced data.`
+        )
       }
     },
   }
@@ -75,7 +78,7 @@ const releases = defineCollection({
       ],
       monthsBack: 2,
       entryReturnType: 'byRelease',
-      clearStore: true,
+      githubToken,
     }),
     'github-releases'
   ),
@@ -87,7 +90,7 @@ const prs = defineCollection({
       search:
         'repo:withastro/astro repo:withastro/starlight repo:lin-stephanie/astro-antfustyle-theme',
       monthsBack: 1,
-      clearStore: true,
+      githubToken,
     }),
     'github-prs'
   ),

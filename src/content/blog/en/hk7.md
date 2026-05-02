@@ -1,7 +1,7 @@
 ---
 title: "Cantonese Music Collection: Eason Chan's \"Heartbreak Trilogy\""
-pubDate: 2025-02-01
-lastModDate: 2025-02-01
+pubDate: '2025-02-01'
+lastModDate: '2025-02-01'
 description: 'Whether possessed or not, one will remember someone; whether happy or not, it stays within the body.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/2025-02-01-12-29-08.png?imageSlim'
 tags: [Cantonese Music, Eason Chan, Love Songs, Heartbreak Trilogy]

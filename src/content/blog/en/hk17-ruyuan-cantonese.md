@@ -1,7 +1,7 @@
 ---
 title: "Cantonese Version of 'As Wished': A Heartfelt Ode to a Prosperous Era's Small Reunion"
-pubDate: 2025-10-02
-lastModDate: 2025-10-02
+pubDate: '2025-10-02'
+lastModDate: '2025-10-02'
 description: '"Not the Lyric God" and Tangtang YuzeTang present the Cantonese version of "As Wished," expressing deep love for the motherland with a moving melody, paying tribute to the martyrs, and celebrating the small reunion in a prosperous era.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251002135529489.webp?imageSlim'
 tags: [Cantonese Music, As Wished, Cantonese Version, Cover, Patriotism, Prosperous Era]

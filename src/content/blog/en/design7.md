@@ -1,7 +1,7 @@
 ---
 title: "Designer's Inspiration Management: A Fresh Experience with Eagle 4.0"
-pubDate: 2024-02-19
-lastModDate: 2024-02-19
+pubDate: '2024-02-19'
+lastModDate: '2024-02-19'
 description: "Methods and steps for building an inspiration library using Eagle, including techniques for material collection, organization, and search, as well as an introduction to the software's plugin system and the functionality of some plugins."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174749078.png?imageSlim'
 tags: [Game Design, Map Making, Strategy Games, Terrain Design, Three Kingdoms, Design Methods]

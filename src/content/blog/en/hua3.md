@@ -1,7 +1,7 @@
 ---
 title: Jiao Anpu talking + "About I Love You"
-pubDate: 2025-05-12
-lastModDate: 2025-05-12
+pubDate: '2025-05-12'
+lastModDate: '2025-05-12'
 description: "All you long for has departed, you've asked yourself countless times. Before we must realize we will ultimately have nothing, at least you can say, I love you."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250512011933011.png?imageSlim'
 tags: [Music, Jiao Anpu, About I Love You, Mandarin]

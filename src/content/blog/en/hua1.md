@@ -1,7 +1,7 @@
 ---
 title: The Poetic Moments of Cheer Chen
-pubDate: 2025-02-01
-lastModDate: 2025-02-01
+pubDate: '2025-02-01'
+lastModDate: '2025-02-01'
 description: "Cheer Chen's music is always filled with poetry. With her gentle voice, she narrates the small, certain joys of life."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/2025-02-03-12-10-05.png?imageSlim'
 tags: [Life, Chinese Music, Cheer Chen, Music, Folk]

@@ -1,7 +1,7 @@
 ---
 title: 听糖糖唱《至少做一件离谱的事》：原来勇敢也可以很笨拙
-pubDate: 2025-12-30
-lastModDate: 2025-12-30
+pubDate: '2025-12-30'
+lastModDate: '2025-12-30'
 description: "来自糖糖YuzeTang的翻唱：用一首《至少做一件离谱的事》，把青春里那些不合时宜的勇敢、笨拙与热望，唱得既热烈又温柔。"
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260102005403136.webp?imageSlim'
 tags: [粤语音乐, 港乐, Cover, 翻唱, Kiri T, 至少做一件离谱的事]

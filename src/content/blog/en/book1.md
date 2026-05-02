@@ -1,7 +1,7 @@
 ---
 title: "Reading \"Rework\": A Simpler Path to Business Success"
-pubDate: 2020-12-07
-lastModDate: 2020-12-07
+pubDate: '2020-12-07'
+lastModDate: '2020-12-07'
 description: 'Shares reflections on the "Rework" book series, discussing independently operated business models, the advantages of remote work, and a calm company culture.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501122048862.png?imageSlim'
 tags: [Business Model, Remote Work, Company Culture, Independent Operation, Innovation, Productivity]

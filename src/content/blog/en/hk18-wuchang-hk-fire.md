@@ -1,7 +1,7 @@
 ---
 title: "\"Impermanence\": The Fire is Merciless, May Heaven Protect Hong Kong"
-pubDate: 2025-12-05
-lastModDate: 2025-12-05
+pubDate: '2025-12-05'
+lastModDate: '2025-12-05'
 description: 'In the face of the pain caused by the Hong Kong fire, "Not the Lyric God" and Sister Xin offer warm solace with the song "Impermanence," hoping to convey strength and comfort the hearts of our Hong Kong compatriots through music.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251205013641416.webp?imageSlim'
 tags: [Cantonese Music, Impermanence, Hong Kong, Cover, Hong Kong Music, TVB]

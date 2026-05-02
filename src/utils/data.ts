@@ -54,7 +54,7 @@ export async function getFilteredPosts<
 /**
  * Retrieves blog posts for the current locale.
  * - zh: uses `blog`
- * - en: prefers `blog_en`, falling back to `blog` per-post if a translation is missing
+ * - en: uses `blog_en` when translations exist, otherwise falls back to `blog`
  */
 export async function getLocalizedBlogPosts(locale: unknown) {
   const zhPosts = await getFilteredPosts('blog')
@@ -68,8 +68,8 @@ export async function getLocalizedBlogPosts(locale: unknown) {
     // The `blog_en` collection may not be generated if it's empty.
     return zhPosts
   }
-  const enById = new Map(enPosts.map((p) => [p.id, p]))
-  return zhPosts.map((p) => enById.get(p.id) ?? p)
+
+  return enPosts.length > 0 ? enPosts : zhPosts
 }
 
 /**

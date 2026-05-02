@@ -137,17 +137,14 @@ async function main() {
     if (changed) {
       await fs.writeFile(filePath, updated, 'utf8')
       fixed += 1
-      // eslint-disable-next-line no-console
       console.log(`fixed: ${path.relative(enDir, filePath)}`)
     }
   }
 
-  // eslint-disable-next-line no-console
   console.log(`\nDone. Fixed ${fixed} file(s).`)
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
   console.error(err)
   process.exit(1)
 })

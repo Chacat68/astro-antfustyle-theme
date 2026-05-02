@@ -1,7 +1,7 @@
 ---
 title: "Kenshi Yonezu's \"Lemon\" Cantonese Version: Music to Break the Hell"
-pubDate: 2025-08-27
-lastModDate: 2025-08-27
+pubDate: '2025-08-27'
+lastModDate: '2025-08-27'
 description: "The Cantonese version of \"Lemon\" with lyrics rewritten by \"Not the Lyric God,\" combined with Dayo Wong\\'s \"Breaking the Hell\" clip, uses music to dispel curses for friends and light a lamp of hope."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250826003909110.webp?imageSlim'
 tags: [Cantonese Music, Kenshi Yonezu, Lemon, Cantonese Version, Cover, Healing]
