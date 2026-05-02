@@ -18,13 +18,34 @@
     { id: 'search-panel', button: 'search-switch', hiddenClass: 'hidden' },
   ]
 
+  const setPanelButtonExpanded = (buttonId: string, expanded: boolean) => {
+    const button = document.getElementById(buttonId)
+    if (button?.hasAttribute('aria-expanded')) {
+      button.setAttribute('aria-expanded', expanded ? 'true' : 'false')
+    }
+  }
+
+  const closePanel = ({
+    id,
+    button,
+    hiddenClass,
+  }: {
+    id: string
+    button: string
+    hiddenClass: string
+  }) => {
+    toggleFadeEffect(id, false, hiddenClass)
+    setPanelButtonExpanded(button, false)
+  }
+
   /* Close panel when user click on backdrop */
   document.addEventListener('astro:page-load', () => {
     const handleClick = () => {
-      for (const { id, hiddenClass } of PANELS) {
+      for (const panelConfig of PANELS) {
+        const { id, hiddenClass } = panelConfig
         const panel = document.getElementById(id)
         if (panel && !panel.classList.contains(hiddenClass)) {
-          toggleFadeEffect(id, false, hiddenClass)
+          closePanel(panelConfig)
           break
         }
       }
@@ -49,7 +70,7 @@
         !panel.classList.contains(hiddenClass) &&
         (isFocusOutside || event.key === 'Escape')
       ) {
-        toggleFadeEffect(id, false, hiddenClass)
+        closePanel({ id, button, hiddenClass })
         toggleFadeEffect('backdrop', false, 'hidden')
         if (panel.contains(focusEl)) {
           document.getElementById(button)?.focus()
