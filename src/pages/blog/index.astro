@@ -1,0 +1,32 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import ListView from '~/components/views/ListView.astro'
+import SiteStats from '~/components/widgets/SiteStats.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const page = {
+  bgType: 'dot',
+  toc: false,
+  ogImage: true,
+} as const
+---
+
+<BaseLayout
+  title={t('page.blog.title')}
+  description={t('page.blog.description')}
+  bgType={page.bgType}
+  ogImage={page.ogImage}
+>
+  <StandardLayout
+    class="prose"
+    title={t('page.blog.title')}
+    subtitle={t('page.blog.subtitle')}
+  >
+    <SiteStats />
+    <ListView collectionType="blog" pageToc={page.toc} />
+  </StandardLayout>
+</BaseLayout>

@@ -4,6 +4,12 @@ import rss from '@astrojs/rss'
 import { SITE } from '~/config'
 import { withBasePath } from '~/utils/path'
 
+function getAbsoluteSiteUrl(path) {
+  const url = new URL(withBasePath(path), SITE.website)
+  url.protocol = 'https:'
+  return url.href
+}
+
 export async function GET() {
   const blog = await getCollection('blog')
 
@@ -16,23 +22,23 @@ export async function GET() {
   return rss({
     title: SITE.title,
     description: SITE.description,
-    site: SITE.website,
+    site: getAbsoluteSiteUrl('/'),
     customData: `
       <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
       <image>
         <title>${SITE.title}</title>
-        <url>${SITE.website}/icon-512.png</url>
-        <link>${SITE.website}</link>
+        <url>${getAbsoluteSiteUrl('/icon-512.png')}</url>
+        <link>${getAbsoluteSiteUrl('/')}</link>
       </image>`,
 
     items: sortedBlogItems.map((item) => ({
       title: `${item.data.title}`,
-      link: withBasePath(`/blog/${item.id}`),
+      link: getAbsoluteSiteUrl(`/blog/${item.id}/`),
       pubDate: item.data.pubDate,
       description: item.data.description,
       author: SITE.author,
     })),
 
-    stylesheet: withBasePath('/rss-styles.xsl'),
+    stylesheet: getAbsoluteSiteUrl('/rss-styles.xsl'),
   })
 }

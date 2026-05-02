@@ -41,6 +41,8 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post)
 const title = frontmatter.title
 const description = frontmatter.description
 const ogImage = frontmatter.ogImage
+const tags = frontmatter.tags
+const category = frontmatter.category
 const pubDate = frontmatter.pubDate!.toISOString()
 const lastModDate =
   frontmatter.lastModDate && frontmatter.lastModDate.toISOString()
@@ -72,6 +74,8 @@ const WARNING = t('warning.draftPostHtml')
   {ogImage}
   {pubDate}
   {lastModDate}
+  {tags}
+  {category}
   {availableLocales}
   {canonicalLocale}
   {noindex}

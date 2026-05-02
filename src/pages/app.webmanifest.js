@@ -1,13 +1,15 @@
 import { withBasePath } from '~/utils/path'
+import { SITE } from '~/config'
 
 export async function GET() {
   // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest
   const manifest = {
     id: withBasePath('/'),
-    name: 'Astro AntfuStyle Theme',
-    short_name: 'AntfuStyle',
-    description:
-      'A customizable, feature-rich Astro theme for blog and portfolio',
+    name: SITE.title,
+    short_name: SITE.title,
+    description: SITE.description,
+    lang: SITE.lang,
+    categories: ['blog', 'personal', 'lifestyle'],
     icons: [
       {
         src: withBasePath('icon-192.png'),

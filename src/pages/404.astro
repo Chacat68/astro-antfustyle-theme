@@ -12,7 +12,13 @@ const bgType = false
 const ogImage = false
 ---
 
-<BaseLayout {title} description={t('page.404.description')} {bgType} {ogImage}>
+<BaseLayout
+  {title}
+  description={t('page.404.description')}
+  {bgType}
+  {ogImage}
+  noindex={true}
+>
   <StandardLayout {title} {subtitle}>
     <p slot="article">{t('page.404.message')}</p>
   </StandardLayout>

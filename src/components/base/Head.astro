@@ -5,7 +5,7 @@ import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n'
 
 import { checkFileExistsInDir } from '../../../plugins/remark-generate-og-image'
 import { withBasePath } from '~/utils/path'
-import { SITE } from '~/config'
+import { SITE, UI } from '~/config'
 import { getLocale } from '~/i18n/translate'
 import { localeToHtmlLang, localeToOgLocale } from '~/i18n/locale-meta'
 
@@ -17,6 +17,8 @@ interface Props {
   ogImage?: string | boolean
   pubDate?: string
   lastModDate?: string
+  tags?: string[]
+  category?: string
   availableLocales?: AppLocale[]
   canonicalLocale?: AppLocale
   noindex?: boolean
@@ -28,6 +30,8 @@ const {
   ogImage,
   pubDate,
   lastModDate,
+  tags = [],
+  category,
   availableLocales = ['zh', 'en'],
   canonicalLocale: canonicalLocaleProp,
   noindex = false,
@@ -36,14 +40,15 @@ const {
 const locale = getLocale(Astro.currentLocale)
 const canonicalLocale = getLocale(canonicalLocaleProp ?? locale)
 
-const siteName = new URL(SITE.website).hostname
-
 const pageTitle =
-  title && title !== SITE.title
-    ? `${title} - ${SITE.title}`
-    : `${SITE.title} - ${SITE.description}`
+  title && title !== SITE.title ? `${title} - ${SITE.title}` : SITE.title
 
 const pageDescription = description || SITE.description
+const schemaName = title || SITE.title
+const normalizedTags = tags.filter((tag) => tag.trim().length > 0)
+const robotsContent = noindex
+  ? 'noindex, follow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 
 const currentLocaleRoot = getRelativeLocaleUrl(locale, '')
 const pathname = Astro.url.pathname
@@ -57,12 +62,20 @@ const canonicalURL = new URL(
 canonicalURL.protocol = 'https:'
 
 const alternateUrlEntries = Array.from(new Set(availableLocales)).map(
-  (locale) => ({
-    locale,
-    href: getAbsoluteLocaleUrl(locale, pathWithinLocale),
-  })
+  (availableLocale) => {
+    const hrefURL = new URL(
+      getAbsoluteLocaleUrl(availableLocale, pathWithinLocale)
+    )
+    hrefURL.protocol = 'https:'
+
+    return {
+      locale: availableLocale,
+      href: hrefURL.href,
+    }
+  }
 )
-const xDefaultUrl = getAbsoluteLocaleUrl('zh', pathWithinLocale)
+const xDefaultURL = new URL(getAbsoluteLocaleUrl('zh', pathWithinLocale))
+xDefaultURL.protocol = 'https:'
 
 const generatedOgImage = checkFileExistsInDir(
   'public/og-images',
@@ -82,8 +95,18 @@ const ogImageURL = new URL(
   assignedOgImage ||
     generatedOgImage ||
     withBasePath('og-images', 'og-image.png'),
-  Astro.url
+  SITE.website
 ).href
+const ogImageAlt = `${schemaName} - ${SITE.title}`
+const sitemapURL = new URL(withBasePath('/sitemap-index.xml'), SITE.website)
+  .href
+const rssURL = new URL(withBasePath('/rss.xml'), SITE.website).href
+const siteRootURL = new URL(withBasePath('/'), SITE.website)
+const websiteId = new URL(withBasePath('/#website'), SITE.website).href
+const personId = new URL(withBasePath('/#person'), SITE.website).href
+const pageId = `${canonicalURL.href}#webpage`
+const imageId = `${canonicalURL.href}#primaryimage`
+const breadcrumbId = `${canonicalURL.href}#breadcrumb`
 
 const enableAnalytics =
   import.meta.env.PROD && import.meta.env.PUBLIC_ENABLE_ANALYTICS !== 'false'
@@ -94,45 +117,144 @@ const umamiWebsiteId =
   '729709c3-0b6c-4a94-8406-15016bd4472d'
 const ahrefsKey = import.meta.env.PUBLIC_AHREFS_KEY || 'IHHLuVKFCFQS33iCD+EctA'
 
-// https://jsonld.com/blog-post/
-const blogPostingData = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  'mainEntityOfPage': {
-    '@type': 'WebPage',
-    '@id': canonicalURL.href,
+function formatBreadcrumbName(segment: string) {
+  try {
+    return decodeURIComponent(segment).replace(/[-_]/g, ' ')
+  } catch {
+    return segment.replace(/[-_]/g, ' ')
+  }
+}
+
+const breadcrumbSegments = pathWithinLocale.split('/').filter(Boolean)
+const breadcrumbItems = [
+  {
+    '@type': 'ListItem',
+    'position': 1,
+    'name': SITE.title,
+    'item': siteRootURL.href,
   },
-  'headline': pageTitle,
-  'image': ogImageURL,
-  'url': canonicalURL.href,
-  'datePublished': pubDate,
-  ...(lastModDate && { dateModified: lastModDate }),
-  ...(description && { description: description }),
-  'author': {
-    '@type': 'Person',
-    'name': SITE.author,
-    'url': SITE.website,
-  },
+  ...breadcrumbSegments.map((segment, index) => {
+    const segmentPath = breadcrumbSegments.slice(0, index + 1).join('/')
+    const itemURL = new URL(getAbsoluteLocaleUrl(canonicalLocale, segmentPath))
+    itemURL.protocol = 'https:'
+
+    return {
+      '@type': 'ListItem',
+      'position': index + 2,
+      'name':
+        index === breadcrumbSegments.length - 1
+          ? schemaName
+          : formatBreadcrumbName(segment),
+      'item': itemURL.href,
+    }
+  }),
+]
+
+const breadcrumbData = breadcrumbSegments.length
+  ? {
+      '@type': 'BreadcrumbList',
+      '@id': breadcrumbId,
+      'itemListElement': breadcrumbItems,
+    }
+  : undefined
+
+const personData = {
+  '@type': 'Person',
+  '@id': personId,
+  'name': SITE.author,
+  'url': siteRootURL.href,
+  'sameAs': UI.socialLinks.map((item) => item.link),
+}
+
+const websiteData = {
+  '@type': 'WebSite',
+  '@id': websiteId,
+  'url': siteRootURL.href,
+  'name': SITE.title,
+  'description': SITE.description,
+  'inLanguage': localeToHtmlLang(canonicalLocale),
   'publisher': {
-    '@type': 'Person',
-    'name': SITE.author,
-    'url': SITE.website,
+    '@id': personId,
   },
 }
 
-// https://jsonld.com/web-page/
-const webPageData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  'name': `${title || SITE.title}`,
-  'url': canonicalURL.href,
-  ...(description && { description: description }),
-  'publisher': {
-    '@type': 'Person',
-    'name': SITE.author,
-    'url': SITE.website,
-  },
+const imageData = {
+  '@type': 'ImageObject',
+  '@id': imageId,
+  'url': ogImageURL,
+  'contentUrl': ogImageURL,
+  'width': 1200,
+  'height': 630,
+  'caption': ogImageAlt,
 }
+
+const pageData = pubDate
+  ? {
+      '@type': 'BlogPosting',
+      '@id': `${canonicalURL.href}#blogposting`,
+      'mainEntityOfPage': {
+        '@id': pageId,
+      },
+      'headline': schemaName,
+      'name': schemaName,
+      'description': pageDescription,
+      'url': canonicalURL.href,
+      'image': {
+        '@id': imageId,
+      },
+      'thumbnailUrl': ogImageURL,
+      'datePublished': pubDate,
+      'dateModified': lastModDate || pubDate,
+      'author': {
+        '@id': personId,
+      },
+      'publisher': {
+        '@id': personId,
+      },
+      'isPartOf': {
+        '@id': websiteId,
+      },
+      'inLanguage': localeToHtmlLang(canonicalLocale),
+      ...(breadcrumbData && { breadcrumb: { '@id': breadcrumbId } }),
+      ...(category && { articleSection: category }),
+      ...(normalizedTags.length > 0 && { keywords: normalizedTags.join(', ') }),
+    }
+  : {
+      '@type': 'WebPage',
+      '@id': pageId,
+      'url': canonicalURL.href,
+      'name': schemaName,
+      'description': pageDescription,
+      'isPartOf': {
+        '@id': websiteId,
+      },
+      'about': {
+        '@id': personId,
+      },
+      'primaryImageOfPage': {
+        '@id': imageId,
+      },
+      'image': {
+        '@id': imageId,
+      },
+      'inLanguage': localeToHtmlLang(canonicalLocale),
+      ...(breadcrumbData && { breadcrumb: { '@id': breadcrumbId } }),
+    }
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    personData,
+    websiteData,
+    imageData,
+    pageData,
+    ...(breadcrumbData ? [breadcrumbData] : []),
+  ],
+}
+const structuredDataJson = JSON.stringify(structuredData).replace(
+  /</g,
+  '\\u003c'
+)
 ---
 
 <!-- Global Metadata -->
@@ -146,39 +268,66 @@ const webPageData = {
 <meta name="title" content={pageTitle} />
 <meta name="description" content={pageDescription} />
 <meta name="author" content={SITE.author} />
-<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+<meta name="robots" content={robotsContent} />
 
 <!-- Color -->
-<meta name="theme-color" content="" />
+<meta
+  name="theme-color"
+  media="(prefers-color-scheme: light)"
+  content="#ffffff"
+/>
+<meta
+  name="theme-color"
+  media="(prefers-color-scheme: dark)"
+  content="#0f0f0f"
+/>
 <meta name="color-scheme" content="light dark" />
 
 <!-- Open Graph & Facebook -->
 <meta property="og:type" content={pubDate ? 'article' : 'website'} />
-<meta property="og:url" content={canonicalURL} />
+<meta property="og:url" content={canonicalURL.href} />
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={pageDescription} />
 <meta property="og:image" content={ogImageURL} />
-<meta property="og:site_name" content={siteName} />
+<meta property="og:image:secure_url" content={ogImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogImageAlt} />
+<meta property="og:site_name" content={SITE.title} />
 <meta property="og:locale" content={localeToOgLocale(canonicalLocale)} />
+{
+  alternateUrlEntries
+    .filter(({ locale }) => locale !== canonicalLocale)
+    .map(({ locale }) => (
+      <meta property="og:locale:alternate" content={localeToOgLocale(locale)} />
+    ))
+}
 {
   pubDate && (
     <>
       <meta property="article:author" content={SITE.author} />
       <meta property="article:published_time" content={pubDate} />
-      <meta property="article:modified_time" content={lastModDate} />
+      {lastModDate && (
+        <meta property="article:modified_time" content={lastModDate} />
+      )}
+      {category && <meta property="article:section" content={category} />}
+      {normalizedTags.map((tag) => (
+        <meta property="article:tag" content={tag} />
+      ))}
     </>
   )
 }
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:url" content={canonicalURL.href} />
 <meta property="twitter:title" content={pageTitle} />
 <meta property="twitter:description" content={pageDescription} />
 <meta property="twitter:image" content={ogImageURL} />
+<meta property="twitter:image:alt" content={ogImageAlt} />
 
 <!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
+<link rel="canonical" href={canonicalURL.href} />
 
 <!-- hreflang -->
 {
@@ -186,7 +335,7 @@ const webPageData = {
     <link rel="alternate" hreflang={localeToHtmlLang(locale)} href={href} />
   ))
 }
-<link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
+<link rel="alternate" hreflang="x-default" href={xDefaultURL.href} />
 
 <!-- Icon -->
 <link rel="icon" type="image/svg+xml" href={withBasePath('/favicon.svg')} />
@@ -197,32 +346,18 @@ const webPageData = {
 <link rel="manifest" href={withBasePath('/app.webmanifest')} />
 
 <!-- Sitemap -->
-<link rel="sitemap" href={withBasePath('/sitemap-index.xml')} />
+<link rel="sitemap" type="application/xml" href={sitemapURL} />
 
 <!-- RSS -->
 <link
   rel="alternate"
   type="application/rss+xml"
   title={`${SITE.title} RSS`}
-  href={withBasePath('/rss.xml')}
+  href={rssURL}
 />
 
 <!-- Google JSON-LD Structured Data -->
-{
-  pubDate ? (
-    <script
-      is:inline
-      type="application/ld+json"
-      set:html={JSON.stringify(blogPostingData)}
-    />
-  ) : (
-    <script
-      is:inline
-      type="application/ld+json"
-      set:html={JSON.stringify(webPageData)}
-    />
-  )
-}
+<script is:inline type="application/ld+json" set:html={structuredDataJson} />
 
 {
   enableAnalytics && (

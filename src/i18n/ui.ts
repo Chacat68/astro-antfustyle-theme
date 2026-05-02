@@ -105,6 +105,11 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Pages
     'page.404.description': '页面未找到',
     'page.404.message': '这里什么也没有，不过很高兴见到你！',
+    'page.blog.title': '博客',
+    'page.blog.subtitle':
+      '最近专注于读书、创作和跑步，持续创作新内容，为自己源源不断地创造心流体验。',
+    'page.blog.description':
+      '你好，我是 Charliefoo，85 后游戏迷和书迷。在这里分享阅读笔记、跑步记录、游戏开发心得和生活感悟。',
     'page.shorts.title': '短分享',
     'page.shorts.subtitle': '分享一些短笔记或碎碎念',
     'page.shorts.description': '分享一些短笔记或碎碎念',
@@ -116,6 +121,14 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.friends.subtitle': '我的朋友们，感谢你们的支持与陪伴',
     'page.friends.description':
       '这里展示了我的博客朋友们，感谢他们的支持与陪伴！',
+    'page.photos.title': '相册',
+    'page.photos.subtitle': '我的个人相册，记录生活中的美好瞬间',
+    'page.photos.description':
+      '个人相册页面：记录生活中的美好瞬间，通过镜头捕捉日常的精彩与感动，分享手机摄影作品。',
+    'page.changelog.title': '更新日志',
+    'page.changelog.subtitle': '',
+    'page.changelog.description':
+      '记录博客的每一次迭代和改进，追踪功能更新、设计优化和技术升级，展示网站持续进化的历程。',
     'page.releases.title': 'AstroEco 正在发布…',
     'page.releases.description':
       '使用 astro-loader-github-releases 展示 GitHub Releases',
@@ -254,6 +267,11 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Pages
     'page.404.description': 'Page not found',
     'page.404.message': 'Nice to meet you tho!',
+    'page.blog.title': 'Blog',
+    'page.blog.subtitle':
+      'Reading notes, running logs, creative work, and life.',
+    'page.blog.description':
+      "Charliefoo's personal blog on reading, running, game development, AI tools, music, and everyday creative practice.",
     'page.shorts.title': 'Shorts',
     'page.shorts.subtitle': 'Share your short notes or quick thoughts',
     'page.shorts.description': 'Share your short notes or quick thoughts',
@@ -265,6 +283,14 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.friends.subtitle': 'My friends, thanks for your support',
     'page.friends.description':
       'A collection of my blog friends. Thanks for their support and companionship!',
+    'page.photos.title': 'Photos',
+    'page.photos.subtitle': 'Personal photos and moments from daily life',
+    'page.photos.description':
+      'A personal photo gallery collecting daily moments, mobile photography, and visual notes from life.',
+    'page.changelog.title': 'Changelog',
+    'page.changelog.subtitle': '',
+    'page.changelog.description':
+      'Site release notes covering feature updates, design improvements, and technical changes.',
     'page.releases.title': 'AstroEco is Releasing...',
     'page.releases.description':
       'Display your GitHub releases using astro-loader-github-releases',

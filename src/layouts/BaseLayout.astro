@@ -30,6 +30,8 @@ interface Props {
   bgType?: BgType | false
   pubDate?: string
   lastModDate?: string
+  tags?: string[]
+  category?: string
   availableLocales?: AppLocale[]
   canonicalLocale?: AppLocale
   noindex?: boolean
@@ -42,6 +44,8 @@ const {
   bgType,
   pubDate,
   lastModDate,
+  tags,
+  category,
   availableLocales,
   canonicalLocale,
   noindex,
@@ -75,6 +79,8 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
       {ogImage}
       {pubDate}
       {lastModDate}
+      {tags}
+      {category}
       {availableLocales}
       {canonicalLocale}
       {noindex}

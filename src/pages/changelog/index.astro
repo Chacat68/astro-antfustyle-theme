@@ -1,0 +1,30 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import TabbedLayout from '~/layouts/TabbedLayout.astro'
+import ListView from '~/components/views/ListView.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+const isEnglishFallback = locale === 'en'
+
+const page = {
+  bgType: false,
+  toc: false,
+  ogImage: false,
+} as const
+---
+
+<BaseLayout
+  title={t('page.changelog.title')}
+  description={t('page.changelog.description')}
+  bgType={page.bgType}
+  ogImage={page.ogImage}
+  availableLocales={['zh']}
+  canonicalLocale="zh"
+  noindex={isEnglishFallback}
+>
+  <TabbedLayout subtitle={t('page.changelog.subtitle')}>
+    <ListView collectionType="changelog" pageToc={page.toc} />
+  </TabbedLayout>
+</BaseLayout>

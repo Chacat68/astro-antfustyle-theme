@@ -49,6 +49,12 @@ export const pageSchema = z.object({
     .describe(
       'Specifies the Open Graph (OG) image for social media sharing. To auto-generate OG image, delete the field or set to `true`. To disable it, set the field to `false`. To use a custom image, provide the full filename from `/public/og-images/`.'
     ),
+  noindex: z
+    .boolean()
+    .default(false)
+    .describe(
+      'Prevents low-value or duplicate utility pages from being indexed while still allowing crawlers to follow links.'
+    ),
 })
 
 export type PageSchema = z.infer<typeof pageSchema>

@@ -5,6 +5,7 @@ description: '精选集页面：展示精心策划的创意作品和优质内容
 bgType: false
 toc: false
 ogImage: false
+noindex: true
 ---
 
 import BaseLayout from '~/layouts/BaseLayout.astro'
@@ -16,6 +17,7 @@ import CardView from '~/components/views/CardView.astro'
   description={frontmatter.description}
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
+  noindex={frontmatter.noindex}
 >
   <StandardLayout
     title={frontmatter.title}
