@@ -1,0 +1,29 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import PhotoView from '~/components/views/PhotoView.astro'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const page = {
+  bgType: false,
+  ogImage: false,
+} as const
+---
+
+<BaseLayout
+  title={t('page.photos.title')}
+  description={t('page.photos.description')}
+  bgType={page.bgType}
+  ogImage={page.ogImage}
+>
+  <StandardLayout
+    title={t('page.photos.title')}
+    subtitle={t('page.photos.subtitle')}
+    isCentered={true}
+  >
+    <PhotoView />
+  </StandardLayout>
+</BaseLayout>

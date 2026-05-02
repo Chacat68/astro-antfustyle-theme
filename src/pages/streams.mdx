@@ -5,6 +5,7 @@ subtitle: 'Example: displaying Astro streams with local JSON data'
 bgType: false
 toc: false
 ogImage: false
+noindex: true
 ---
 
 import BaseLayout from '~/layouts/BaseLayout.astro'
@@ -16,6 +17,7 @@ import ListView from '~/components/views/ListView.astro'
   description={frontmatter.description}
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
+  noindex={frontmatter.noindex}
 >
   <TabbedLayout subtitle={frontmatter.subtitle}>
     <ListView collectionType="streams" pageToc={frontmatter.toc} />

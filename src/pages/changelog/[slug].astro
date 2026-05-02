@@ -1,6 +1,9 @@
 ---
 import RenderPost from '~/components/views/RenderPost.astro'
 import { getFilteredPosts } from '~/utils/data'
+import { getLocale } from '~/i18n/translate'
+
+import type { AppLocale } from '~/i18n/locales'
 
 export async function getStaticPaths() {
   const posts = await getFilteredPosts('changelog')
@@ -12,6 +15,15 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props
+const locale = getLocale(Astro.currentLocale)
+const isEnglishFallback = locale === 'en'
+const availableLocales: AppLocale[] = ['zh']
+const canonicalLocale: AppLocale = 'zh'
 ---
 
-<RenderPost {post} />
+<RenderPost
+  {post}
+  {availableLocales}
+  {canonicalLocale}
+  noindex={isEnglishFallback}
+/>
