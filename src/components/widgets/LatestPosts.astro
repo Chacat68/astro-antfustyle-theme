@@ -1,8 +1,10 @@
 ---
 import { getLocalizedBlogPosts, getSortedPosts } from '~/utils/data'
+import { formatDate } from '~/utils/datetime'
 import { ensureTrailingSlash } from '~/utils/path'
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import { localeToHtmlLang } from '~/i18n/locale-meta'
 
 interface Props {
   limit?: number
@@ -12,6 +14,7 @@ const { limit = 6 } = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+const dateLocale = localeToHtmlLang(locale)
 const toPostHref = (id: string) =>
   ensureTrailingSlash(getRelativeLocaleUrl(locale, `blog/${id}`))
 
@@ -21,48 +24,136 @@ const sortedPosts = getSortedPosts(allPosts)
 const latestPosts = sortedPosts.slice(0, limit)
 ---
 
-<div class="latest-posts">
-  <h2>{t('widget.latestPosts')}</h2>
-  <ul class="post-list">
+<section class="latest-posts" aria-labelledby="latest-posts-heading">
+  <h2 id="latest-posts-heading">{t('widget.latestPosts')}</h2>
+  <ol class="latest-post-list">
     {
       latestPosts.map((post) => (
-        <li>
-          <a href={toPostHref(post.id)}>{post.data.title}</a>
-          {post.data.category && (
-            <span class="category"> - {post.data.category}</span>
-          )}
+        <li class="latest-post-item">
+          <a class="latest-post-link" href={toPostHref(post.id)}>
+            <span class="latest-post-meta">
+              <time datetime={post.data.pubDate?.toISOString()}>
+                {post.data.pubDate &&
+                  formatDate(post.data.pubDate, false, false, dateLocale)}
+              </time>
+              {post.data.category && (
+                <span class="latest-post-category">{post.data.category}</span>
+              )}
+            </span>
+            <span class="latest-post-title">{post.data.title}</span>
+            {post.data.description && (
+              <span class="latest-post-description">
+                {post.data.description}
+              </span>
+            )}
+          </a>
         </li>
       ))
     }
-  </ul>
-</div>
+  </ol>
+</section>
 
 <style>
   .latest-posts {
-    margin-bottom: 2rem;
+    margin-block: 2.25rem 2rem;
   }
 
-  .post-list {
+  .latest-post-list {
+    display: grid;
+    gap: 0.75rem;
+
     list-style: none;
     padding: 0;
+    margin: 0;
   }
 
-  .post-list li {
-    margin-bottom: 0.5rem;
-    line-height: 1.8;
+  .latest-post-item {
+    padding-left: 0;
+    margin: 0;
   }
 
-  .post-list a {
-    text-decoration: none;
+  .latest-post-item::before {
+    content: none;
+  }
+
+  .latest-post-link {
+    display: grid;
+    gap: 0.35rem;
+
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--c-border) !important;
+    border-radius: 0.5rem;
+
     color: inherit;
+    background: var(--c-surface);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.035);
+    opacity: 1 !important;
+    text-decoration: none;
+
+    transition:
+      background 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      transform 180ms ease;
   }
 
-  .post-list a:hover {
-    text-decoration: underline;
+  .latest-post-link:hover,
+  .latest-post-link:focus-visible {
+    border-color: color-mix(
+      in srgb,
+      var(--c-accent) 34%,
+      var(--c-border)
+    ) !important;
+    background: color-mix(in srgb, var(--c-surface) 78%, var(--c-accent-soft));
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
   }
 
-  .category {
-    opacity: 0.7;
-    font-size: 0.9em;
+  .latest-post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+
+    color: var(--c-muted);
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .latest-post-category {
+    color: var(--c-accent);
+    font-weight: 600;
+  }
+
+  .latest-post-category::before {
+    content: '/';
+    margin-right: 0.45rem;
+    color: var(--c-muted);
+    font-weight: 400;
+  }
+
+  .latest-post-title {
+    color: var(--fg-deeper);
+    font-size: 1.03rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .latest-post-description {
+    display: -webkit-box;
+    overflow: hidden;
+
+    color: var(--fg);
+    font-size: 0.92rem;
+    line-height: 1.65;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  @media (max-width: 767.9px) {
+    .latest-post-link {
+      padding: 0.82rem 0.85rem;
+    }
   }
 </style>
