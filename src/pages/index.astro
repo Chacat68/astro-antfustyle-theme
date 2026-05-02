@@ -47,7 +47,7 @@ const t = useTranslations(locale)
       <p>{t('home.intro1')}</p>
       <p>{t('home.intro2')}</p>
 
-      <p>
+      <p class="home-roles">
         <strong>{t('home.roles')}</strong>
       </p>
 
@@ -57,9 +57,9 @@ const t = useTranslations(locale)
 
       <hr />
 
-      <div>
+      <div class="home-socials">
         <div class="mb-2">{t('home.findMeOn')}</div>
-        <div class="flex flex-wrap gap-4">
+        <div class="home-social-links flex flex-wrap gap-2">
           {
             UI.socialLinks.map((item) => (
               <a

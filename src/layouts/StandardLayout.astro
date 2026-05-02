@@ -20,7 +20,7 @@ const {
 
 <header
   class:list={{
-    'prose mx-auto mb-8': true,
+    'page-header prose mx-auto mb-8': true,
     'text-center': isCentered,
   }}
 >
@@ -31,7 +31,7 @@ const {
 {
   Astro.slots.has('article') && (
     <article
-      class="slide-enter-content prose mx-auto"
+      class="slide-enter-content prose page-article mx-auto"
       data-pagefind-body={isSearchable ? '' : undefined}
       data-pagefind-filter={
         isSearchable && searchFilter ? searchFilter : undefined
