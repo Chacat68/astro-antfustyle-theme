@@ -1,7 +1,7 @@
 ---
 title: "Random Thoughts: Scarce Sunny Days and Happiness"
-pubDate: 2024-11-04
-lastModDate: 2024-11-04
+pubDate: '2024-11-04'
+lastModDate: '2024-11-04'
 description: 'Scarcity is a fragment of daily life that is easily overlooked.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042104415.png?imageSlim'
 tags: [scarcity, life, living, daily]

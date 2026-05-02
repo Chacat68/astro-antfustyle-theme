@@ -1,7 +1,7 @@
 ---
 title: "AI Art Creation: Revolution from Concept Art to 3D Modeling"
-pubDate: 2022-12-04
-lastModDate: 2022-12-04
+pubDate: '2022-12-04'
+lastModDate: '2022-12-04'
 description: 'Introduces the application of AI in 2D and 3D design and discusses future development trends.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501043448303.png?imageSlim'
 tags: [AI, Design, Asset Library, Tools, Efficiency]

@@ -1,7 +1,7 @@
 ---
 title: Notes as Nutrients for a Thought Ecosystem
-pubDate: 2025-03-30
-lastModDate: 2025-03-30
+pubDate: '2025-03-30'
+lastModDate: '2025-03-30'
 description: 'Viewing notes as nutrients for a thought ecosystem, rather than static storage, fosters the organic growth of ideas and the natural emergence of wisdom.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170033588.png?imageSlim'
 tags: [Knowledge Management, Thought Ecosystem, AI Tools, Complex Systems, Emergence]

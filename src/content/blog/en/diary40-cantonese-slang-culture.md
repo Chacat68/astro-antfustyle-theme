@@ -1,7 +1,7 @@
 ---
 title: "More Than Pronunciation: Exploring Lingnan Culture Through Cantonese Slang"
-pubDate: 2025-12-14
-lastModDate: 2025-12-14
+pubDate: '2025-12-14'
+lastModDate: '2025-12-14'
 description: 'The charm of Cantonese lies not only in the cadence of its nine tones and six pitches but also in its vivid and witty slang. This article will take you on a journey through Cantonese slang from the perspectives of food, numbers, loanwords, and more, exploring the profound cultural heritage of Lingnan behind these expressions.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251214151822744.webp?imageSlim'
 tags: [Cantonese, Culture, Language, Lingnan, Slang]

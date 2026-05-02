@@ -1,7 +1,7 @@
 ---
 title: C.Y.KONG & Jean Collection
-pubDate: 2020-02-17
-lastModDate: 2020-02-17
+pubDate: '2020-02-17'
+lastModDate: '2020-02-17'
 description: 'Introducing the works and influence of Hong Kong musicians C.Y.KONG and Jean Chien.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104154227788.png?imageSlim'
 tags: [Hong Kong Music, Cantonese, Composer, Music, CY Kong, Jean Chien]

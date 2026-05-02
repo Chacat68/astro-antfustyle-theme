@@ -1,7 +1,7 @@
 ---
 title: "Card-Based Thinking: Let Ideas Snap Together Like LEGO"
-pubDate: 2026-02-24
-lastModDate: 2026-02-24
+pubDate: '2026-02-24'
+lastModDate: '2026-02-24'
 description: 'Break your ideas into independent cards that you can shuffle, recombine, and smash together to spark something new — a way to keep your thinking fluid.'
 image: ''
 tags: [Thinking, Knowledge Management, Card Notes, Writing, Creativity]

@@ -1,7 +1,7 @@
 ---
 title: "Life Notes: Everyday on the Road"
-pubDate: 2025-11-28
-lastModDate: 2025-11-28
+pubDate: '2025-11-28'
+lastModDate: '2025-11-28'
 description: "Reuniting with old friends, finding life's rhythm through cycling, and feeling nature's gifts in the mountains."
 ogImage: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251130135456866.webp?imageSlim'
 tags: [Cycling, Hiking, Friendship, Daily Life]

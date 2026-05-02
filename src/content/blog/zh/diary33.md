@@ -1,7 +1,7 @@
 ---
 title: 拆掉思维里的墙：我的成长型思维实践
-pubDate: 2025-06-22
-lastModDate: 2025-06-22
+pubDate: '2025-06-22'
+lastModDate: '2025-06-22'
 description: '探讨成长型思维的核心理念，介绍如何通过实践培养成长型思维。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250623020759494.png?imageSlim'
 tags: [成长型思维, 个人成长, 学习能力, 角度, 思维模型]

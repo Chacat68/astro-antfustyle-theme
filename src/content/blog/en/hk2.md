@@ -1,7 +1,7 @@
 ---
 title: Fiona Sit's Fantastical World - A Collection of Hong Kong Music
-pubDate: 2021-05-21
-lastModDate: 2021-05-21
+pubDate: '2021-05-21'
+lastModDate: '2021-05-21'
 description: 'Recently saw Fiona Sit on "Sisters Who Make Waves 3". She is one of my favorite Cantonese female singers.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501191517005.png?imageSlim'
 tags: [Life, Cantonese Singer, Fiona Sit, Music, Cantonese]

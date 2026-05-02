@@ -1,7 +1,7 @@
 ---
 title: "A Little Life Note: The Joy of Playing Pool Again"
-pubDate: 2025-12-08
-lastModDate: 2025-12-08
+pubDate: '2025-12-08'
+lastModDate: '2025-12-08'
 description: "At a pool hall near home, I rediscovered long-lost focus and joy, dispelling life's boredom one shot and one ball at a time."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251208012733802.webp?imageSlim'
 tags: [Pool, Billiards, Leisure, Daily Life]

@@ -1,7 +1,7 @@
 ---
 title: "The 80s Dancefloor Never Cleared: Zhang Qiang Still Lights Up the Night"
-pubDate: 2026-02-06
-lastModDate: 2026-02-06
+pubDate: '2026-02-06'
+lastModDate: '2026-02-06'
 description: 'In Zhang Qiang’s songs, you can hear neon lights, dance floors, and city heartbreak. From her early cover-hit era to retro synth collaborations with New Pants, she turns pure liveliness into a signature style.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260206014647024.webp?imageSlim'
 tags: [Music, Zhang Qiang, Chinese Music, 1980s, Disco, Retro, New Pants]

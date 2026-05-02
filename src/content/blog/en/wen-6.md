@@ -1,7 +1,7 @@
 ---
 title: Looking at Self-Acceptance Through the Past
-pubDate: 2024-06-23
-lastModDate: 2024-06-23
+pubDate: '2024-06-23'
+lastModDate: '2024-06-23'
 description: 'Becoming a person who loves oneself, learning self-affirmation, self-acceptance, and self-delight, is a mandatory course in life.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173518649.png?imageSlim'
 tags: [Self-Love, Self-Affirmation, Self-Acceptance, Self-Delight]

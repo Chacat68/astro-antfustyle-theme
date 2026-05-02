@@ -1,7 +1,7 @@
 ---
 title: "Calm Amidst Upheaval: 2024 Life Notes"
-pubDate: 2024-12-31
-lastModDate: 2024-12-31
+pubDate: '2024-12-31'
+lastModDate: '2024-12-31'
 description: 'A record of this year, living happily.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104172842744.png?imageSlim'
 tags: [scarcity, life, living, daily]

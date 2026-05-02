@@ -1,7 +1,7 @@
 ---
 title: I Love the Songs of Rainbow Chamber Singers
-pubDate: 2025-11-15
-lastModDate: 2025-11-15
+pubDate: '2025-11-15'
+lastModDate: '2025-11-15'
 description: "With sincerity, kindness, and humor, Rainbow Chamber Singers give voice to the trivialities and beauties of life. I've reached the age where I can finally understand the stories within their lyrics."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251115024230341.webp?imageSlim'
 tags: [Music, Rainbow Chamber Singers, Choir, Chinese, Viral Songs]

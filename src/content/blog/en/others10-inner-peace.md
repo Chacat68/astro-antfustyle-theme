@@ -1,7 +1,7 @@
 ---
 title: True Peace Is Not in the Distance, But in Every Present Moment
-pubDate: 2025-09-10
-lastModDate: 2025-09-10
+pubDate: '2025-09-10'
+lastModDate: '2025-09-10'
 description: 'Exploring how to find inner peace and focus in the fast-paced modern life through a profound parable'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250911021639881.webp?imageSlim'
 tags: [Inner Peace, Focus, Present-Moment Awareness, Mental Health, Life Philosophy]

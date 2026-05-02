@@ -1,7 +1,7 @@
 ---
 title: "Cantopop Collection: \"If the World Turns Out Not as You Expected\""
-pubDate: 2025-03-09
-lastModDate: 2025-03-09
+pubDate: '2025-03-09'
+lastModDate: '2025-03-09'
 description: "Storms always have an end; you'll finally wait for what you dream of -- Southern District Children's Choir"
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501171355837.png?imageSlim'
 tags: [Cantonese Music, Charmaine Fong, Cantopop Collection, Southern District Children's Choir, Cover]

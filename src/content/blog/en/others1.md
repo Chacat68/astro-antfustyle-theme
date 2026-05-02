@@ -1,7 +1,7 @@
 ---
 title: "The Six Pillars of Self-Esteem: A Life Guide"
-pubDate: 2024-05-15
-lastModDate: 2024-05-15
+pubDate: '2024-05-15'
+lastModDate: '2024-05-15'
 description: 'Based on the theory from the book "The Six Pillars of Self-Esteem," look inward for stability—strong pillars!'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501172954967.png?imageSlim'
 tags: [Life, Poetry, English, Self-Esteem, Fate, Circumstances]

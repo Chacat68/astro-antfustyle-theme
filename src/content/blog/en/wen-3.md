@@ -1,7 +1,7 @@
 ---
 title: Do Not Go Gentle into That Good Night
-pubDate: 2023-03-06
-lastModDate: 2023-03-06
+pubDate: '2023-03-06'
+lastModDate: '2023-03-06'
 description: "Do not go gentle into that good night: Coexisting with pain and joy, facing failure, and enjoying one's own company in solitude."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173335960.png?imageSlim'
 tags: [Life, Poetry, English, Existence]

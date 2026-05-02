@@ -1,7 +1,7 @@
 ---
 title: "Design Asset Library: A Three-Step Method for Collection, Organization, and Retrieval"
-pubDate: 2022-04-23
-lastModDate: 2022-04-23
+pubDate: '2022-04-23'
+lastModDate: '2022-04-23'
 description: 'Introduces how to collect, organize, and retrieve design assets, helping readers build an efficient asset library.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175619482.png?imageSlim'
 tags: [Design, Asset Library, Tools, Efficiency]

@@ -1,7 +1,7 @@
 ---
 title: "The Power of Sleep: Re-examining the Overlooked Third of Life"
-pubDate: 2025-07-07
-lastModDate: 2025-07-07
+pubDate: '2025-07-07'
+lastModDate: '2025-07-07'
 description: 'Rediscover sleep from a scientific perspective and explore this forgotten code of life in modern society.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250707004239754.png?imageSlim'
 tags: [Sleep, Health, Life, Science]

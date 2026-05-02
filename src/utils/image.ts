@@ -19,6 +19,7 @@ interface RemoteImageFail {
 
 const TIMEOUT_MS = 10_000
 const MAX_BYTES = 10_000_000
+const MAX_FETCH_ATTEMPTS = 3
 
 /**
  * Calculates appropriate dimensions for the placeholder
@@ -74,6 +75,37 @@ function makeTimeout(ms: number): AbortSignal {
   return ctrl.signal
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+function shouldRetryStatus(status: number) {
+  return status === 429 || status >= 500
+}
+
+async function fetchWithRetry(url: URL, init: RequestInit, timeoutMs: number) {
+  let lastError: unknown
+
+  for (let attempt = 1; attempt <= MAX_FETCH_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(url, {
+        ...init,
+        signal: makeTimeout(timeoutMs),
+      })
+      if (!shouldRetryStatus(res.status) || attempt === MAX_FETCH_ATTEMPTS) {
+        return res
+      }
+    } catch (err) {
+      lastError = err
+      if (attempt === MAX_FETCH_ATTEMPTS) throw err
+    }
+
+    await sleep(400 * 2 ** (attempt - 1) + Math.floor(Math.random() * 200))
+  }
+
+  throw lastError
+}
+
 /**
  * Combines `Uint8Array[]` into a single `Uint8Array`.
  */
@@ -113,11 +145,14 @@ export async function fetchRemoteImageWithSharp(
 
   // 1. HEAD pre-check (saves a large download)
   try {
-    const head = await fetch(url, {
-      method: 'HEAD',
-      redirect: 'follow',
-      signal: makeTimeout(timeoutMs),
-    })
+    const head = await fetchWithRetry(
+      url,
+      {
+        method: 'HEAD',
+        redirect: 'follow',
+      },
+      timeoutMs
+    )
     const ctype = head.headers.get('content-type') ?? ''
 
     // reject if content-length is too large
@@ -140,11 +175,22 @@ export async function fetchRemoteImageWithSharp(
   }
 
   // 2. GET + download & metadata
-  const res = await fetch(url, {
-    method: 'GET',
-    redirect: 'follow',
-    signal: makeTimeout(timeoutMs),
-  })
+  let res: Response
+  try {
+    res = await fetchWithRetry(
+      url,
+      {
+        method: 'GET',
+        redirect: 'follow',
+      },
+      timeoutMs
+    )
+  } catch (err) {
+    console.warn(
+      `[fetchRemoteImageWithSharp] Download failed after retries: ${(err as Error).message}`
+    )
+    return { isImage: false, data: null, width: null, height: null }
+  }
 
   if (!res.ok || !res.body) {
     console.warn(

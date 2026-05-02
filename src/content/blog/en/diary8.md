@@ -1,7 +1,7 @@
 ---
 title: "Autumn in Beijing: A Cultural Journey Blending Ancient and Modern"
-pubDate: 2022-08-15
-lastModDate: 2022-08-15
+pubDate: '2022-08-15'
+lastModDate: '2022-08-15'
 description: 'A record of my travel experiences in Beijing, including impressions and observations from visiting the Forbidden City, the Old Summer Palace, and other sites.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174317213.png?imageSlim'
 tags: [Travel, Beijing, Forbidden City, Old Summer Palace, Culture]

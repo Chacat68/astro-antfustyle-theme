@@ -1,7 +1,7 @@
 ---
 title: "From Keyboard to Voice: A Breakthrough in Writing Efficiency"
-pubDate: 2022-03-10
-lastModDate: 2022-03-10
+pubDate: '2022-03-10'
+lastModDate: '2022-03-10'
 description: 'Explores the experience of using voice input for writing, including different feelings when using Cantonese and Mandarin input, and how voice input enhances writing efficiency and thought fluency.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174352524.png?imageSlim'
 tags: [Writing Tips, Voice Input, Work Efficiency, Writing Tools, Language Conversion]

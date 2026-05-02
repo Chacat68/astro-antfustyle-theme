@@ -1,7 +1,7 @@
 ---
 title: Steam Region Change Guide (2022)
-pubDate: 2022-08-25
-lastModDate: 2022-08-25
+pubDate: '2022-08-25'
+lastModDate: '2022-08-25'
 description: 'Discusses the reasons for changing Steam regions, the latest policies, specific steps, payment methods, and more.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170736893.png?imageSlim'
 tags: [Steam, Region Change, VPN, Payment Methods, Game Purchases]

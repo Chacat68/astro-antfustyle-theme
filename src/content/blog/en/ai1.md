@@ -1,7 +1,7 @@
 ---
 title: "A Journey into AI Tools from Scratch: In-depth Experience and Analysis of Mainstream AI Applications"
-pubDate: 2023-03-01
-lastModDate: 2023-03-01
+pubDate: '2023-03-01'
+lastModDate: '2023-03-01'
 description: 'Sharing introductory AI experiences, including introductions and usage insights into ChatGPT, Notion with AI, MidJourney, and Stable Diffusion.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175820648.png?imageSlim'
 tags: [AI, Design, Creation, Tools, Productivity]

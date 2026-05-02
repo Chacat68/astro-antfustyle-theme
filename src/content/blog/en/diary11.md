@@ -1,7 +1,7 @@
 ---
 title: "The Evolution of Information Management: Note-Taking Techniques in the AI Era"
-pubDate: 2021-07-25
-lastModDate: 2021-07-25
+pubDate: '2021-07-25'
+lastModDate: '2021-07-25'
 description: 'Reflecting on the overly rough and arbitrary information processing methods of the past, where the flow, connection, and integration of information were problematic.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042536930.png?imageSlim'
 tags: [Notion, Knowledge Management, AI Tools, Mindset Growth, Mathematics, Information Theory]

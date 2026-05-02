@@ -1,7 +1,7 @@
 ---
 title: Methodology for Strategy Game Map System Design
-pubDate: 2025-02-03
-lastModDate: 2025-02-03
+pubDate: '2025-02-03'
+lastModDate: '2025-02-03'
 description: 'Exploring the core elements of strategy game map system design, including key technical solutions for tile selection, data management, information display, and more.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174533830.png?imageSlim'
 tags: [Game Development, Map System, Strategy Games, Technical Solutions]

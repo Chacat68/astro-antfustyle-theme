@@ -1,7 +1,7 @@
 ---
 title: "Life Notes: Returning to My Alma Mater"
-pubDate: 2025-09-01
-lastModDate: 2025-09-01
+pubDate: '2025-09-01'
+lastModDate: '2025-09-01'
 description: 'An afternoon back at my alma mater, searching for youthful memories buried by time, somewhere between the familiar and the unfamiliar.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250909022222406.webp?imageSlim'
 tags: [Alma Mater, Memories, Youth, Time]

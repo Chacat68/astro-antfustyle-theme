@@ -1,7 +1,7 @@
 ---
 title: "Gemini: An AI Assistant That Makes Creation More Imaginative"
-published: 2025-12-09
-updated: 2025-12-09
+published: '2025-12-09'
+updated: '2025-12-09'
 description: 'From text to images, Google Gemini Pro is transforming my creative process. Its image generation feature makes imagination truly tangible.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251209093435644.webp?imageSlim'
 tags: [Artificial Intelligence, Gemini, Creative Tools, Image Generation]

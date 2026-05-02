@@ -1,7 +1,7 @@
 ---
 title: 斯多葛主义概论：历史谱系、理论结构与实践理性
-pubDate: 2026-01-03
-lastModDate: 2026-01-03
+pubDate: '2026-01-03'
+lastModDate: '2026-01-03'
 description: '以学术化视角梳理斯多葛主义的历史背景、三分法体系（逻辑—自然—伦理）、德性伦理与情绪理论，并讨论其当代意义与限度。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260103024012581.webp?imageSlim'
 tags: [斯多葛主义, 古典哲学, 德性伦理, 伦理学, 实践哲学, 情绪理论]

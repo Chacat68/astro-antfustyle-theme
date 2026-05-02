@@ -13,13 +13,23 @@ import { FEATURES } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 import type { CollectionEntry } from 'astro:content'
+import type { AppLocale } from '~/i18n/locales'
 
 interface Props {
   post: CollectionEntry<'blog' | 'blog_en' | 'changelog'>
   isCommentable?: boolean
+  availableLocales?: AppLocale[]
+  canonicalLocale?: AppLocale
+  noindex?: boolean
 }
 
-const { post, isCommentable = false } = Astro.props
+const {
+  post,
+  isCommentable = false,
+  availableLocales,
+  canonicalLocale,
+  noindex,
+} = Astro.props
 const { toc, share, giscus, search } = FEATURES
 
 const locale = getLocale(Astro.currentLocale)
@@ -56,7 +66,16 @@ const searchFilter =
 const WARNING = t('warning.draftPostHtml')
 ---
 
-<BaseLayout {title} {description} {ogImage} {pubDate} {lastModDate}>
+<BaseLayout
+  {title}
+  {description}
+  {ogImage}
+  {pubDate}
+  {lastModDate}
+  {availableLocales}
+  {canonicalLocale}
+  {noindex}
+>
   <StandardLayout {title} {subtitle} {isSearchable} {searchFilter}>
     <Fragment slot="head">
       <PostMeta {pubDate} {lastModDate} {minutesRead} />

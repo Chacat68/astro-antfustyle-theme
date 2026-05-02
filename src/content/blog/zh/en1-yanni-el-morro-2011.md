@@ -1,7 +1,7 @@
 ---
 title: 在古堡与海洋之间，聆听世界的心跳
-pubDate: 2025-10-26
-lastModDate: 2025-10-26
+pubDate: '2025-10-26'
+lastModDate: '2025-10-26'
 description: '2011 年雅尼在波多黎各莫罗城堡的现场音乐会，以古老堡垒为舞台，用纯音乐连接历史与当下，谱写跨越文化的情感共鸣。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251026164649359.webp?imageSlim'
 tags: [音乐, 雅尼, Yanni, 音乐会, 纯音乐, 世界音乐]

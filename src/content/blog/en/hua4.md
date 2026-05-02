@@ -1,7 +1,7 @@
 ---
 title: Cyndi Wang - "I'll Be Fine"
-pubDate: 2025-06-25
-lastModDate: 2025-06-25
+pubDate: '2025-06-25'
+lastModDate: '2025-06-25'
 description: "I'll be fine, even if we part ways, I'll be fine. Those I have loved deeply, even if they can only become secrets in my heart, that gentle strength remains the most precious force on my journey forward."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250625014851848.png?imageSlim'
 tags: [Music, Cyndi Wang, I'll Be Fine, Mandarin, Sweetheart Queen]

@@ -1,7 +1,7 @@
 ---
 title: "\"Seven Times I Have Despised My Soul\" - Kahlil Gibran"
-pubDate: 2023-11-11
-lastModDate: 2023-11-11
+pubDate: '2023-11-11'
+lastModDate: '2023-11-11'
 description: 'Seven contempts for oneself, from nobility to weakness, from ease to error, from virtue to hypocrisy.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173453390.png?imageSlim'
 tags: [Life, Poetry, English, Time, Fate, Circumstances]

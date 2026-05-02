@@ -1,7 +1,7 @@
 ---
 title: "Swing: A Millennial Hong Kong Songwriter Duo that Brought Playfulness and Craft into Pop"
-pubDate: 2026-01-26
-lastModDate: 2026-01-26
+pubDate: '2026-01-26'
+lastModDate: '2026-01-26'
 description: 'From Snowman to Swing, this Hong Kong creative duo left a distinctive millennial imprint on Cantopop with witty arrangements, tight harmonies, and a streak of dark humor.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260130123518269.webp?imageSlim'
 tags: [Hong Kong Music, Cantonese, Swing, Band/Duo, Millennium, Arrangement, Pop Music]

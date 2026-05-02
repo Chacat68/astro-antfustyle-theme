@@ -1,7 +1,7 @@
 ---
 title: "Attack on Titan: Reflections on Right, Wrong, and Redemption"
-pubDate: 2023-11-07
-lastModDate: 2023-11-07
+pubDate: '2023-11-07'
+lastModDate: '2023-11-07'
 description: "Taking advantage of the final season's update, I spent a day binge-watching \"Attack on Titan\" in one go."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174100810.png?imageSlim'
 tags: [Attack on Titan, Movies, Film Viewing, Anime, Life]

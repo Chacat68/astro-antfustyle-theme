@@ -1,5 +1,5 @@
 import { join, basename, dirname } from 'node:path'
-import { readFileSync, existsSync, writeFileSync } from 'node:fs'
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 
 import { decode } from 'html-entities'
@@ -16,6 +16,7 @@ import type { html } from 'satori-html'
 import type { BgType } from '../src/types'
 
 const Inter = readFileSync('plugins/og-template/Inter-Regular-24pt.ttf')
+const fileExistsCache = new Map<string, Set<string>>()
 
 const satoriOptions: SatoriOptions = {
   // debug: true,
@@ -37,9 +38,23 @@ const satoriOptions: SatoriOptions = {
  * (`public/og-images` is equivalent to `./public/og-images` and relative to the cwd)
  */
 export function checkFileExistsInDir(path: string, filename: string) {
-  const fullPath = join(process.cwd(), path, filename)
+  const fullPath = join(process.cwd(), path)
+  let files = fileExistsCache.get(fullPath)
 
-  return existsSync(fullPath)
+  if (!files) {
+    try {
+      files = new Set(
+        readdirSync(fullPath, { withFileTypes: true })
+          .filter((entry) => entry.isFile())
+          .map((entry) => entry.name)
+      )
+    } catch {
+      files = new Set()
+    }
+    fileExistsCache.set(fullPath, files)
+  }
+
+  return files.has(filename)
 }
 
 /**
@@ -86,12 +101,12 @@ async function generateOgImage(
 
     const compressedPngBuffer = await sharp(Buffer.from(svg))
       .png({
-        compressionLevel: 9,
-        quality: 100,
+        compressionLevel: 6,
       })
       .toBuffer()
 
     writeFileSync(output, compressedPngBuffer)
+    fileExistsCache.clear()
   } catch (e) {
     console.error(
       `${chalk.black(getCurrentFormattedTime())} ${chalk.red(`[ERROR] Failed to generate og image for '${basename(output)}'.`)}`

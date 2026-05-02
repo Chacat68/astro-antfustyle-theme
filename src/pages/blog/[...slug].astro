@@ -4,6 +4,22 @@ import { getCollection, getEntry } from 'astro:content'
 
 import { getLocale } from '~/i18n/translate'
 
+import type { CollectionEntry } from 'astro:content'
+import type { AppLocale } from '~/i18n/locales'
+
+let englishPostsById: Map<string, CollectionEntry<'blog_en'>> | undefined
+
+async function getEnglishPostsById() {
+  if (!englishPostsById) {
+    const posts = await getCollection('blog_en', ({ data }) => {
+      return import.meta.env.PROD ? !data.draft : true
+    })
+    englishPostsById = new Map(posts.map((post) => [post.id, post]))
+  }
+
+  return englishPostsById
+}
+
 export async function getStaticPaths() {
   // Use zh posts as the source of truth for slugs.
   const posts = await getCollection('blog', ({ data }) => {
@@ -19,18 +35,21 @@ const locale = getLocale(Astro.currentLocale)
 const slug = Astro.params.slug
 if (!slug) throw new Error('Missing blog post slug')
 
-let enPost = null
-if (locale === 'en') {
-  try {
-    enPost = await getEntry('blog_en', slug)
-  } catch {
-    enPost = null
-  }
-}
+const enPost = locale === 'en' ? (await getEnglishPostsById()).get(slug) : null
 
 const post = enPost ?? (await getEntry('blog', slug))
 
 if (!post) throw new Error(`Blog post not found: ${slug}`)
+
+const isEnglishFallback = locale === 'en' && !enPost
+const availableLocales: AppLocale[] = enPost ? ['zh', 'en'] : ['zh']
+const canonicalLocale: AppLocale = isEnglishFallback ? 'zh' : locale
 ---
 
-<RenderPost {post} isCommentable={true} />
+<RenderPost
+  {post}
+  isCommentable={true}
+  {availableLocales}
+  {canonicalLocale}
+  noindex={isEnglishFallback}
+/>

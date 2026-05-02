@@ -8,7 +8,6 @@
 </bg-constellation>
 
 <script>
-  import p5 from 'p5'
   import type { default as P5Instance } from 'p5'
 
   interface Star {
@@ -24,7 +23,12 @@
   class BgConstellationElement extends HTMLElement {
     p5Instance: P5Instance | null = null
 
-    connectedCallback() {
+    async connectedCallback() {
+      if (this.p5Instance) return
+
+      const { default: p5 } = await import('p5')
+      if (!this.isConnected) return
+
       const sketch = (p: P5Instance) => {
         const STAR_COUNT = 80
         const CONNECTION_DISTANCE = 150

@@ -1,7 +1,7 @@
 ---
 title: "If"
-pubDate: 2020-01-17
-lastModDate: 2020-01-17
+pubDate: '2020-01-17'
+lastModDate: '2020-01-17'
 description: "Shares a translation of Rudyard Kipling's poem \"If\"."
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173209859.png?imageSlim'
 tags: [Life, Poetry, English, Rudyard Kipling]

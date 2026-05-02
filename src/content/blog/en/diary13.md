@@ -1,7 +1,7 @@
 ---
 title: "Wu Bai: Tears Bridge"
-pubDate: 2023-12-12
-lastModDate: 2023-12-12
+pubDate: '2023-12-12'
+lastModDate: '2023-12-12'
 description: 'In that moment, feeling the debt'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174006740.png?imageSlim'
 tags: [Music, Wu Bai, Rock, Emotion, Memory, Life]

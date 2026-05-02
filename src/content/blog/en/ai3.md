@@ -1,7 +1,7 @@
 ---
 title: Ollama Local Large Model Deployment Tutorial
-pubDate: 2024-03-09
-lastModDate: 2024-03-09
+pubDate: '2024-03-09'
+lastModDate: '2024-03-09'
 description: 'A tutorial on using Ollama for local large models, mentioning the Ollama recommended model list: Llama, Mistral, Qwen2, etc.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175723783.png?imageSlim'
 tags: [AI, Design, Ollama, Tools, Efficiency, Local]

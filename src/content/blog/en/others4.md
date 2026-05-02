@@ -1,7 +1,7 @@
 ---
 title: "Paul Graham: How to Do Great Work?"
-pubDate: 2024-12-07
-lastModDate: 2024-12-07
+pubDate: '2024-12-07'
+lastModDate: '2024-12-07'
 description: 'If you collected lists of techniques for doing great work in many different fields, what would the intersection look like? I decided to find out by making it.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173112332.png?imageSlim'
 tags: [Poetry, Chinese, Boat, Fate, Encounter]

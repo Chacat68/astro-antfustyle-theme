@@ -1,7 +1,7 @@
 ---
 title: Priscilla Chan Sings "Thousands of Songs" and "Song of the Sunset" in Succession
-pubDate: 2025-03-29
-lastModDate: 2025-03-29
+pubDate: '2025-03-29'
+lastModDate: '2025-03-29'
 description: 'Priscilla Chan performed "Thousands of Songs" and "Song of the Sunset" on "Infinity and Beyond - Greater Bay Area." These two classics share the same melody but different lyrics, creating a dialogue that pays tribute to Anita Mui and the golden era of Cantopop.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501171503685.png?imageSlim'
 tags: [Cantopop, Priscilla Chan, Anita Mui, Cantopop Classics, Thousands of Songs, Song of the Sunset, Infinity and Beyond]

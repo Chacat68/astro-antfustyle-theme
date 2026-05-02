@@ -20,6 +20,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
 import { localeToHtmlLang } from '~/i18n/locale-meta'
 
+import type { AppLocale } from '~/i18n/locales'
 import type { BgType } from '~/types'
 
 interface Props {
@@ -29,10 +30,22 @@ interface Props {
   bgType?: BgType | false
   pubDate?: string
   lastModDate?: string
+  availableLocales?: AppLocale[]
+  canonicalLocale?: AppLocale
+  noindex?: boolean
 }
 
-const { title, description, ogImage, bgType, pubDate, lastModDate } =
-  Astro.props
+const {
+  title,
+  description,
+  ogImage,
+  bgType,
+  pubDate,
+  lastModDate,
+  availableLocales,
+  canonicalLocale,
+  noindex,
+} = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -56,7 +69,16 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
 <!doctype html>
 <html lang={localeToHtmlLang(locale)}>
   <head>
-    <Head {title} {description} {ogImage} {pubDate} {lastModDate} />
+    <Head
+      {title}
+      {description}
+      {ogImage}
+      {pubDate}
+      {lastModDate}
+      {availableLocales}
+      {canonicalLocale}
+      {noindex}
+    />
   </head>
 
   <body

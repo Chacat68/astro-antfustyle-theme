@@ -1,7 +1,7 @@
 ---
 title: "Cantonese Music Collection: \"相依为命\" (Relying on Each Other for Life)"
-pubDate: 2024-12-11
-lastModDate: 2024-12-11
+pubDate: '2024-12-11'
+lastModDate: '2024-12-11'
 description: 'Even if everything around us makes no sense, I will always be connected with you.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501171820658.png?imageSlim'
 tags: [Cantonese Music, Jordan Chan, Love Song, Companionship, Infinity and Beyond]

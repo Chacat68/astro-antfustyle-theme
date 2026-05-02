@@ -1,7 +1,7 @@
 ---
 title: 《无常》：大火无情，愿天佑香港
-pubDate: 2025-12-05
-lastModDate: 2025-12-05
+pubDate: '2025-12-05'
+lastModDate: '2025-12-05'
 description: '面对香港大火的伤痛，"不是词神"与心姐用一首《无常》送上温暖的慰藉，愿以歌声传递力量，抚慰香港同胞的心灵。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251205013641416.webp?imageSlim'
 tags: [粤语音乐, 无常, 香港, 翻唱, 港乐, TVB]

@@ -1,7 +1,7 @@
 ---
 title: Must-Have Chrome Extensions for 2023
-pubDate: 2023-03-11
-lastModDate: 2023-03-11
+pubDate: '2023-03-11'
+lastModDate: '2023-03-11'
 description: 'Introduction and recommendations for Chrome browser extensions in 2023.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173821439.png?imageSlim'
 tags: [Browser Extensions, Productivity Tools, Translation Tools, Web Optimization, Design Tools]

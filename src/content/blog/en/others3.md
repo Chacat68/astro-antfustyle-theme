@@ -1,7 +1,7 @@
 ---
 title: "Forging Ahead: The Unyielding Resilience in Bai Hua's \"The Ship\""
-pubDate: 2024-09-05
-lastModDate: 2024-09-05
+pubDate: '2024-09-05'
+lastModDate: '2024-09-05'
 description: 'When facing an opponent a thousand times stronger than oneself, only clarity and courage can offer salvation.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173051624.png?imageSlim'
 tags: [Poetry, Chinese, Ship, Fate, Encounter]

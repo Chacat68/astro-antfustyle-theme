@@ -1,17 +1,15 @@
 ---
 import { ClientRouter } from 'astro:transitions'
 import { basename } from 'node:path'
-import {
-  getAbsoluteLocaleUrl,
-  getAbsoluteLocaleUrlList,
-  getRelativeLocaleUrl,
-} from 'astro:i18n'
+import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n'
 
 import { checkFileExistsInDir } from '../../../plugins/remark-generate-og-image'
 import { withBasePath } from '~/utils/path'
 import { SITE } from '~/config'
 import { getLocale } from '~/i18n/translate'
-import { localeToOgLocale } from '~/i18n/locale-meta'
+import { localeToHtmlLang, localeToOgLocale } from '~/i18n/locale-meta'
+
+import type { AppLocale } from '~/i18n/locales'
 
 interface Props {
   title?: string
@@ -19,11 +17,24 @@ interface Props {
   ogImage?: string | boolean
   pubDate?: string
   lastModDate?: string
+  availableLocales?: AppLocale[]
+  canonicalLocale?: AppLocale
+  noindex?: boolean
 }
 
-const { title, description, ogImage, pubDate, lastModDate } = Astro.props
+const {
+  title,
+  description,
+  ogImage,
+  pubDate,
+  lastModDate,
+  availableLocales = ['zh', 'en'],
+  canonicalLocale: canonicalLocaleProp,
+  noindex = false,
+} = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
+const canonicalLocale = getLocale(canonicalLocaleProp ?? locale)
 
 const siteName = new URL(SITE.website).hostname
 
@@ -34,16 +45,23 @@ const pageTitle =
 
 const pageDescription = description || SITE.description
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-canonicalURL.protocol = 'https:'
-
 const currentLocaleRoot = getRelativeLocaleUrl(locale, '')
 const pathname = Astro.url.pathname
 const pathWithinLocale = pathname.startsWith(currentLocaleRoot)
   ? pathname.slice(currentLocaleRoot.length)
   : pathname.replace(/^\/+/, '')
 
-const alternateUrls = getAbsoluteLocaleUrlList(pathWithinLocale)
+const canonicalURL = new URL(
+  getAbsoluteLocaleUrl(canonicalLocale, pathWithinLocale)
+)
+canonicalURL.protocol = 'https:'
+
+const alternateUrlEntries = Array.from(new Set(availableLocales)).map(
+  (locale) => ({
+    locale,
+    href: getAbsoluteLocaleUrl(locale, pathWithinLocale),
+  })
+)
 const xDefaultUrl = getAbsoluteLocaleUrl('zh', pathWithinLocale)
 
 const generatedOgImage = checkFileExistsInDir(
@@ -66,6 +84,15 @@ const ogImageURL = new URL(
     withBasePath('og-images', 'og-image.png'),
   Astro.url
 ).href
+
+const enableAnalytics =
+  import.meta.env.PROD && import.meta.env.PUBLIC_ENABLE_ANALYTICS !== 'false'
+const umamiSrc =
+  import.meta.env.PUBLIC_UMAMI_SRC || 'https://umami.chawfoo.com/script.js'
+const umamiWebsiteId =
+  import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ||
+  '729709c3-0b6c-4a94-8406-15016bd4472d'
+const ahrefsKey = import.meta.env.PUBLIC_AHREFS_KEY || 'IHHLuVKFCFQS33iCD+EctA'
 
 // https://jsonld.com/blog-post/
 const blogPostingData = {
@@ -119,7 +146,7 @@ const webPageData = {
 <meta name="title" content={pageTitle} />
 <meta name="description" content={pageDescription} />
 <meta name="author" content={SITE.author} />
-<meta name="robots" content="index, follow" />
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
 
 <!-- Color -->
 <meta name="theme-color" content="" />
@@ -132,7 +159,7 @@ const webPageData = {
 <meta property="og:description" content={pageDescription} />
 <meta property="og:image" content={ogImageURL} />
 <meta property="og:site_name" content={siteName} />
-<meta property="og:locale" content={localeToOgLocale(locale)} />
+<meta property="og:locale" content={localeToOgLocale(canonicalLocale)} />
 {
   pubDate && (
     <>
@@ -155,11 +182,9 @@ const webPageData = {
 
 <!-- hreflang -->
 {
-  alternateUrls.map((href) => {
-    const url = new URL(href)
-    const hreflang = url.pathname.startsWith('/en') ? 'en' : 'zh-CN'
-    return <link rel="alternate" hreflang={hreflang} href={href} />
-  })
+  alternateUrlEntries.map(({ locale, href }) => (
+    <link rel="alternate" hreflang={localeToHtmlLang(locale)} href={href} />
+  ))
 }
 <link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
 
@@ -199,18 +224,18 @@ const webPageData = {
   )
 }
 
-<!-- Umami Analytics -->
-<script
-  is:inline
-  defer
-  src="https://umami.chawfoo.com/script.js"
-  data-website-id="729709c3-0b6c-4a94-8406-15016bd4472d"></script>
-
-<!-- Ahrefs Analytics -->
-<script
-  is:inline
-  async
-  src="https://analytics.ahrefs.com/analytics.js"
-  data-key="IHHLuVKFCFQS33iCD+EctA"></script>
+{
+  enableAnalytics && (
+    <>
+      <script is:inline defer src={umamiSrc} data-website-id={umamiWebsiteId} />
+      <script
+        is:inline
+        async
+        src="https://analytics.ahrefs.com/analytics.js"
+        data-key={ahrefsKey}
+      />
+    </>
+  )
+}
 
 <ClientRouter />

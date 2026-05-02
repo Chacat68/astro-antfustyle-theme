@@ -1,7 +1,7 @@
 ---
 title: "Tagore's Song of Life: An Appreciation of \"Let Life Be Beautiful Like Summer Flowers\""
-pubDate: 2024-09-03
-lastModDate: 2024-09-03
+pubDate: '2024-09-03'
+lastModDate: '2024-09-03'
 description: '"Let Life Be Beautiful Like Summer Flowers" is a poem written by Tagore, included in "Stray Birds".'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173018725.png?imageSlim'
 tags: [Poetry, English, Self-respect, Fate, Circumstance]

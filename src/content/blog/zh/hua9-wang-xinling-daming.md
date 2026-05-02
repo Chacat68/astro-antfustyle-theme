@@ -1,7 +1,7 @@
 ---
 title: 王心凌《大眠》：心甘情愿的沉溺与觉醒
-pubDate: 2025-10-31
-lastModDate: 2025-10-31
+pubDate: '2025-10-31'
+lastModDate: '2025-10-31'
 description: '《大眠》以深邃的嗓音与诗意的意象，带你进入一场关于成长、遗忘与重新出发的内心对话。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251031024536829.webp?imageSlim'
 tags: [音乐, 王心凌, 大眠, 华语, 新专辑]

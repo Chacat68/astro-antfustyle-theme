@@ -1,7 +1,7 @@
 ---
 title: "Faye Wong: Obsessed Without Regret"
-pubDate: 2024-01-02
-lastModDate: 2024-01-02
+pubDate: '2024-01-02'
+lastModDate: '2024-01-02'
 description: 'Sometimes obsessed, yet without regret, I must go, searching for a new path. Confused but unable to stop, guided only by my feelings.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501172844460.png?imageSlim'
 tags: [Music, Faye Wong, Obsessed Without Regret, Mandarin]

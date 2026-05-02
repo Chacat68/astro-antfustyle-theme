@@ -1,7 +1,7 @@
 ---
 title: "From Curation to Creation: Three Application Scenarios of AI Assistants"
-pubDate: 2023-02-25
-lastModDate: 2023-02-25
+pubDate: '2023-02-25'
+lastModDate: '2023-02-25'
 description: 'Explores the application of AI in the creative process and its future development trends.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175933513.png?imageSlim'
 tags: [AI, Design, Creation, Tools, Efficiency]

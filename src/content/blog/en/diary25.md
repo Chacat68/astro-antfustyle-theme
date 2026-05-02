@@ -1,7 +1,7 @@
 ---
 title: "Farewell to the Mainstream Narrative: Finding New Coordinates in Life"
-pubDate: 2024-11-04
-lastModDate: 2024-11-04
+pubDate: '2024-11-04'
+lastModDate: '2024-11-04'
 description: 'Self-redemption in midlife, exploring different possibilities.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104172011526.png?imageSlim'
 tags: [Scarcity, Life, Living, Daily]

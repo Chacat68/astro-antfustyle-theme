@@ -1,7 +1,7 @@
 ---
 title: 把「杂而不精」变成优势：在不确定时代打造通才复利（视频笔记）
-pubDate: 2026-01-26
-lastModDate: 2026-01-26
+pubDate: '2026-01-26'
+lastModDate: '2026-01-26'
 description: '当环境更像「火场」而不是「棋盘」，通才的价值在于快速适配与跨域组合。给多兴趣一个结构，就能把分散变复利。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260130233103285.webp?imageSlim'
 tags: [自我提升, 学习方法, 职业发展, 通才, 多兴趣, 复利]
