@@ -21,7 +21,7 @@ const t = useTranslations(locale)
   class="hidden! z-200 fixed top-10% left-50% translate-x--50%
     overflow-y-auto flex-col gap-5
     w-90% max-h-80vh py-4 px-6 rounded-lg
-  bg-(--c-bg) shadow-custom_0_0_10_0 text-(--c-text)"
+  border shadow-custom_0_0_10_0 text-(--c-text)"
 >
   <ul>
     <slot name="text" />
@@ -36,6 +36,8 @@ const t = useTranslations(locale)
     display: flex;
     top: max(6rem, 10vh);
     max-height: calc(100vh - max(7rem, 14vh));
+    border-color: var(--c-border);
+    background-color: var(--c-bg);
   }
 </style>
 
