@@ -48,7 +48,7 @@ export const UI: Ui = {
       text: 'Highlights',
       icon: 'i-ri-screenshot-line',
     },
-    /*
+    */
     /*
     {
       path: '/shorts',
