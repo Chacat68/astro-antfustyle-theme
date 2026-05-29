@@ -151,6 +151,66 @@ function addOrReplaceLangFrontmatter(markdown, langValue) {
   return ['---', ...updated, '---', ...rest].join('\n')
 }
 
+function getFrontmatterLines(markdown, relPath) {
+  if (!markdown.startsWith('---')) {
+    throw new Error(`Translated Markdown is missing frontmatter: ${relPath}`)
+  }
+
+  const lines = markdown.split(/\r?\n/)
+  const end = lines.findIndex(
+    (line, index) => index > 0 && line.trim() === '---'
+  )
+  if (end === -1) {
+    throw new Error(
+      `Translated Markdown has unterminated frontmatter: ${relPath}`
+    )
+  }
+
+  return lines.slice(1, end)
+}
+
+function isStructuredYamlValue(value) {
+  if (!value) return true
+
+  const first = value[0]
+  return (
+    first === "'" ||
+    first === '"' ||
+    first === '[' ||
+    first === '{' ||
+    first === '|' ||
+    first === '>'
+  )
+}
+
+function validateFrontmatter(markdown, relPath) {
+  const frontmatterLines = getFrontmatterLines(markdown, relPath)
+
+  for (const [index, line] of frontmatterLines.entries()) {
+    const trimmed = line.trim()
+    if (!trimmed || trimmed.startsWith('#')) continue
+
+    // Nested YAML blocks are preserved from the source post; validate top-level
+    // scalars where AI translations most often introduce invalid `: ` text.
+    if (/^\s/.test(line) || trimmed.startsWith('- ')) continue
+
+    const match = /^([A-Za-z_][\w-]*)\s*:\s*(.*)$/.exec(line)
+    if (!match) {
+      throw new Error(
+        `Invalid frontmatter line ${index + 2} in ${relPath}: ${line}`
+      )
+    }
+
+    const [, key, rawValue] = match
+    const value = rawValue.trim()
+    if (!isStructuredYamlValue(value) && /:\s/.test(value)) {
+      throw new Error(
+        `Invalid frontmatter value for "${key}" in ${relPath}: values containing ": " must be quoted.`
+      )
+    }
+  }
+}
+
 function resolveChatCompletionsUrl(baseUrl) {
   const trimmed = String(baseUrl || '').trim()
   const normalized = trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed
@@ -315,6 +375,7 @@ async function main() {
         relPath: rel,
       })
       const withLang = addOrReplaceLangFrontmatter(translated, 'en')
+      validateFrontmatter(withLang, rel)
 
       await fs.writeFile(outPath, withLang, 'utf8')
       done += 1

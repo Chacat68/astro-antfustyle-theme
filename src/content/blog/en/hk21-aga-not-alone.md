@@ -1,5 +1,5 @@
 ---
-title: AGA's Cover of "No One Is Doomed to Be Alone": A Gentle Yet Steadfast Confession in Soft Vocals
+title: 'AGA''s Cover of "No One Is Doomed to Be Alone": A Gentle Yet Steadfast Confession in Soft Vocals'
 pubDate: '2026-03-05'
 lastModDate: '2026-03-05'
 description: 'AGA (Jiang Haijia) covers Dear Jane''s "No One Is Doomed to Be Alone" with delicate vocals, transforming the original fervent confession into a gentle yet steadfast companionship.'
