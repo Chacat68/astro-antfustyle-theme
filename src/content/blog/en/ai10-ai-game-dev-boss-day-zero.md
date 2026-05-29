@@ -1,5 +1,5 @@
 ---
-title: Day 0 of Being the Boss: My Employee Is an AI
+title: 'Day 0 of Being the Boss: My Employee Is an AI'
 published: '2026-03-19'
 updated: '2026-03-19'
 description: 'A record of how I turned AI into my game development partner, using Claude and Godot 4.5 to create a procedurally generated platformer.'
