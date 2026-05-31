@@ -10,7 +10,7 @@ draft: false
 lang: en
 ---
 
-As a note-taking tool I've consistently used, Notion has inspired me to write many articles about my experience with it. Last November, I compiled these into the article "[Diary9 Notion Note-Taking Practice 2.0](https://www.chawfoo.com/article/diary9)". This year, the addition of AI features prompted me to share my latest experience—it has become my best creative assistant.
+As a note-taking tool I've consistently used, Notion has inspired me to write many articles about my experience with it. Last November, I compiled these into the article "[Diary9 Notion Note-Taking Practice 2.0](/blog/diary9/)". This year, the addition of AI features prompted me to share my latest experience—it has become my best creative assistant.
 
 ## Introducing Notion AI
 

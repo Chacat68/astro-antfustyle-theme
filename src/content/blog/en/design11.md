@@ -49,7 +49,7 @@ In actual projects, the choice of tile type should be based on gameplay needs. F
 
 ### Foundational Settings
 
-In another article of mine, [*A Brief Overview of the Game Map Creation Process*](https://www.chawfoo.com/article/design6), I discussed the methodology for game map planning in detail. Based on years of project experience, I summarize the map creation process into the following three core steps:
+In another article of mine, [*A Brief Overview of the Game Map Creation Process*](/blog/design6/), I discussed the methodology for game map planning in detail. Based on years of project experience, I summarize the map creation process into the following three core steps:
 
 1.  **Definition of Basic Rules**: Systematically plan the core mechanics of the map, including foundational elements like tile shape design, terrain height systems, and collision/exclusion rules (e.g., handling conflicts between buildings and terrain obstacles).
 

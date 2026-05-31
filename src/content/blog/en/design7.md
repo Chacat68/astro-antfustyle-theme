@@ -12,7 +12,7 @@ lang: en
 
 ## Preface
 
-> Back in 2021, I wrote an article titled [《How to Build a Material Library》](https://www.chawfoo.com/article/design2), detailing how to use the Eagle software to create a personal inspiration and material library. In 2022, I updated it with the latest ideas and understanding at the time. This year, Eagle released version 4.0, which brought significant changes to the usage approach, so I decided to rewrite the article entirely.
+> Back in 2021, I wrote an article titled [《How to Build a Material Library》](/blog/design2/), detailing how to use the Eagle software to create a personal inspiration and material library. In 2022, I updated it with the latest ideas and understanding at the time. This year, Eagle released version 4.0, which brought significant changes to the usage approach, so I decided to rewrite the article entirely.
 
 ## Software Introduction
 
