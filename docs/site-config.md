@@ -36,3 +36,7 @@ export const SITE = {
 - `pnpm build`
 
 若需拉取 GitHub Releases / PRs 等远程内容，在仓库 Settings → Secrets 中添加 `GH_TOKEN_FOR_LOADER`（GitHub Personal Access Token）。未配置时构建仍会完成，远程 Loader 会保留上次缓存数据。
+
+## 部署与发布
+
+Cloudflare Workers 生产部署绑定 **`run`** 分支。提交并推送后，应先核对 GitHub 远程 commit，再核对 Cloudflare Worker `blog-4` 构建结果。完整步骤见 [deployment.md](./deployment.md)。
