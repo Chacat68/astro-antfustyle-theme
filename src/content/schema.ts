@@ -185,7 +185,7 @@ function createPostSchema(options?: { titleMax?: number }) {
         .boolean()
         .default(true)
         .describe(
-          'Defines a URL to redirect the post. If not needed, delete the field or set to `false`'
+          'Controls whether the post is included in Pagefind search indexing.'
         ),
       redirect: z
         .string()

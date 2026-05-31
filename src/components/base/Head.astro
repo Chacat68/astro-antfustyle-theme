@@ -108,14 +108,13 @@ const pageId = `${canonicalURL.href}#webpage`
 const imageId = `${canonicalURL.href}#primaryimage`
 const breadcrumbId = `${canonicalURL.href}#breadcrumb`
 
-const enableAnalytics =
+const analyticsEnabled =
   import.meta.env.PROD && import.meta.env.PUBLIC_ENABLE_ANALYTICS !== 'false'
-const umamiSrc =
-  import.meta.env.PUBLIC_UMAMI_SRC || 'https://umami.chawfoo.com/script.js'
-const umamiWebsiteId =
-  import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ||
-  '729709c3-0b6c-4a94-8406-15016bd4472d'
-const ahrefsKey = import.meta.env.PUBLIC_AHREFS_KEY || 'IHHLuVKFCFQS33iCD+EctA'
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID
+const ahrefsKey = import.meta.env.PUBLIC_AHREFS_KEY
+const enableUmami = analyticsEnabled && Boolean(umamiSrc && umamiWebsiteId)
+const enableAhrefs = analyticsEnabled && Boolean(ahrefsKey)
 
 function formatBreadcrumbName(segment: string) {
   try {
@@ -360,16 +359,18 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 <script is:inline type="application/ld+json" set:html={structuredDataJson} />
 
 {
-  enableAnalytics && (
-    <>
-      <script is:inline defer src={umamiSrc} data-website-id={umamiWebsiteId} />
-      <script
-        is:inline
-        async
-        src="https://analytics.ahrefs.com/analytics.js"
-        data-key={ahrefsKey}
-      />
-    </>
+  enableUmami && (
+    <script is:inline defer src={umamiSrc} data-website-id={umamiWebsiteId} />
+  )
+}
+{
+  enableAhrefs && (
+    <script
+      is:inline
+      async
+      src="https://analytics.ahrefs.com/analytics.js"
+      data-key={ahrefsKey}
+    />
   )
 }
 

@@ -217,6 +217,41 @@ const localeBase = getRelativeLocaleUrl(locale, '')
     excerpt: string
   }
 
+  /** 仅保留 Pagefind 可能返回的 <mark> 高亮标签，避免 innerHTML 注入风险 */
+  function sanitizeSearchExcerpt(html: string): string {
+    return html.replace(/<[^>]+>/g, (tag) => {
+      const normalized = tag.toLowerCase()
+      return normalized === '<mark>' || normalized === '</mark>' ? tag : ''
+    })
+  }
+
+  function appendSearchResultItem(
+    parent: ParentNode,
+    href: string,
+    title: string,
+    excerpt: string,
+    options: { ariaSelected?: boolean } = {}
+  ) {
+    const a = document.createElement('a')
+    a.href = href
+    a.className = 'search-result-item'
+    a.setAttribute('role', 'option')
+    a.setAttribute('tabindex', '-1')
+    a.setAttribute('aria-selected', options.ariaSelected ? 'true' : 'false')
+
+    const titleEl = document.createElement('div')
+    titleEl.className = 'search-result-title'
+    titleEl.textContent = title
+
+    const excerptEl = document.createElement('div')
+    excerptEl.className = 'search-result-excerpt'
+    excerptEl.innerHTML = sanitizeSearchExcerpt(excerpt)
+
+    a.append(titleEl, excerptEl)
+    parent.appendChild(a)
+    return a
+  }
+
   const fakeResults = [
     {
       meta: {
@@ -371,20 +406,23 @@ const localeBase = getRelativeLocaleUrl(locale, '')
           this.#showOnlyError(requestId)
         }
       } else {
-        if (this.#content.innerHTML && value) return
+        if (this.#content.childElementCount > 0 && value) return
         if (!value) {
-          this.#content.innerHTML = ''
+          this.#content.replaceChildren()
           return
         }
-        for (const result of fakeResults) {
-          this.#content.innerHTML += `
-            <a href="${this.#results?.dataset.base}" class="search-result-item">
-              <div class="search-result-title">${result.meta.title}</div>
-              <div class="search-result-excerpt">${result.excerpt}</div>
-            </a>`
+        const baseHref = this.#results?.dataset.base ?? '#'
+        for (let i = 0; i < fakeResults.length; i++) {
+          const result = fakeResults[i]
+          appendSearchResultItem(
+            this.#content,
+            baseHref,
+            result.meta.title,
+            result.excerpt,
+            { ariaSelected: i === 0 }
+          )
         }
         this.#selectedItem = this.#content.querySelector('a')
-        this.#selectedItem?.setAttribute('aria-selected', 'true')
       }
     }
 
@@ -528,25 +566,18 @@ const localeBase = getRelativeLocaleUrl(locale, '')
             subResults = this.#sortSubResults(subResults, this.#maxItems)
 
           for (let s = 0; s < subResults.length; s++) {
-            const a = document.createElement('a')
-            a.href = subResults[s].url
-            a.className = 'search-result-item'
-            a.setAttribute('role', 'option')
-            a.setAttribute('tabindex', '-1')
+            const isFirst = r === 0 && s === 0
+            if (isFirst && this.#selectedItem)
+              this.#selectedItem.setAttribute('aria-selected', 'false')
 
-            if (r === 0 && s === 0) {
-              a.setAttribute('aria-selected', 'true')
-              if (this.#selectedItem)
-                this.#selectedItem.setAttribute('aria-selected', 'false')
-              this.#selectedItem = a
-            } else {
-              a.setAttribute('aria-selected', 'false')
-            }
-
-            a.innerHTML = `
-              <div class="search-result-title">${subResults[s].title}</div>
-              <div class="search-result-excerpt">${subResults[s].excerpt}</div>`
-            frag.appendChild(a)
+            const a = appendSearchResultItem(
+              frag,
+              subResults[s].url,
+              subResults[s].title,
+              subResults[s].excerpt,
+              { ariaSelected: isFirst }
+            )
+            if (isFirst) this.#selectedItem = a
           }
         }
 
