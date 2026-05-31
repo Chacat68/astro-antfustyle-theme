@@ -24,7 +24,9 @@ Over the years, I've gradually realized that while social media is convenient, i
 
 ## Podcast Recommendations
 
-Recent podcasts I often listen to: [Jump to](https://www.chawfoo.com/look)
+Recent podcasts I often listen to: [Jump to](#podcast-recommendations)
+
+<span id="podcast-recommendations"></span>
 
 ![](https://blog-1259751088.cos.ap-shanghai.myqcloud.com/uPic/CleanShot%202024-06-25%20at%2020.50.45.png)
 

@@ -44,7 +44,7 @@ To achieve an effect similar to code completion, AI needs a deeper understanding
 
 ### Local Large Models
 
-Applications based on local models on the device side, with Ollama being the most famous among them. I've also written a tutorial on its use: [Ollama Local Large Model Deployment Tutorial](https://www.chawfoo.com/article/ai3)
+Applications based on local models on the device side, with Ollama being the most famous among them. I've also written a tutorial on its use: [Ollama Local Large Model Deployment Tutorial](/blog/ai3/)
 
 Advantages: Fast, not affected by network issues.
 Disadvantages: Some translations may not be precise enough, given the model size is only 7B.
