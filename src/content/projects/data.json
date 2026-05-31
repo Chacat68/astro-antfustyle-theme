@@ -1,14 +1,14 @@
 [
   {
     "id": "「Project : Otherworld」",
-    "link": "https://www.chawfoo.com/projects/",
+    "link": "https://foo-z.com/projects/",
     "desc": "使用自制引擎开发的二次元角色扮演游戏，AI辅助的技术与游戏世界观设计。",
     "icon": "i-ph-planet-duotone",
     "category": "技术探索"
   },
   {
     "id": "「AI Art」",
-    "link": "https://www.chawfoo.com/projects/",
+    "link": "https://foo-z.com/projects/",
     "desc": "使用AI Models生成的艺术品，并用Midjourney、Comfyui、FLUX、SD等工具制作。",
     "icon": "i-ph-palette-duotone",
     "category": "技术探索"
@@ -29,7 +29,7 @@
   },
   {
     "id": "「江湖」",
-    "link": "https://www.chawfoo.com/projects/",
+    "link": "https://foo-z.com/projects/",
     "desc": "武侠题材卡牌游戏原型：回合制对局 + 牌组构筑，采用原创江湖世界观与门派体系（致敬传统武侠氛围），围绕招式、内功、轻功与奇遇构建策略组合。",
     "icon": "i-ph-sword-duotone",
     "category": "游戏开发"

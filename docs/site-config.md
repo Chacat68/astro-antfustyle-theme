@@ -6,7 +6,7 @@
 
 ```ts
 export const SITE = {
-  website: 'https://www.chawfoo.com/',
+  website: 'https://foo-z.com/',
   // ...
 }
 ```
@@ -23,7 +23,7 @@ export const SITE = {
 | `https://www.chawfoo.com/article/diary9` | `/blog/diary9/` |
 | `https://www.chawfoo.com/look` | 改为文内锚点或删除（该页面已不存在） |
 
-项目页中指向本站项目列表的条目，使用完整 URL `https://www.chawfoo.com/projects/`（schema 要求 `link` 为合法 URL，不可用相对路径）。
+项目页中指向本站项目列表的条目，使用完整 URL `https://foo-z.com/projects/`（schema 要求 `link` 为合法 URL，不可用相对路径）。
 
 独立子站（如 `https://arch.chawfoo.com/`）可继续保留完整 URL。
 
