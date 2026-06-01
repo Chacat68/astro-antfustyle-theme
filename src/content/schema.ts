@@ -30,7 +30,6 @@ export const pageSchema = z.object({
         'particle',
         'wave',
         'constellation',
-        'matrix',
       ]),
     ])
     .default(false)
