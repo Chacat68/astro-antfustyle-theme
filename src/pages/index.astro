@@ -5,23 +5,11 @@ import LatestPosts from '~/components/widgets/LatestPosts.astro'
 import { UI } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-// 随机选择背景类型
-const bgTypes = [
-  'plum',
-  'dot',
-  'particle',
-  'wave',
-  'constellation',
-  'matrix',
-] as const
-
-const randomBgType = bgTypes[Math.floor(Math.random() * bgTypes.length)]
-
 const frontmatter = {
   title: '关于',
   subtitle: '',
   description: '',
-  bgType: randomBgType,
+  bgType: 'wave' as const,
   toc: false,
   ogImage: false,
 } as const
