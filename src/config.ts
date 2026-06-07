@@ -40,6 +40,13 @@ export const UI: Ui = {
       text: 'Photos',
       icon: 'i-ri-camera-ai-line',
     },
+    {
+      path: '/gallery',
+      title: 'Gallery',
+      displayMode: 'iconToTextOnMobile',
+      text: 'Gallery',
+      icon: 'i-ri-palette-line',
+    },
     /*
     {
       path: '/highlights',

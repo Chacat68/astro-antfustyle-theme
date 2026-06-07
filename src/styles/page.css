@@ -140,7 +140,7 @@ summary::-webkit-details-marker {
   --uno: 'hover:(shadow-custom_0_0_15_-3 scale-103 transition-transform)';
 }
 
-/* /photos */
+/* /photos, /gallery */
 .photo-view[data-layout='masonry'] .icon-masonry {
   display: block;
 }
@@ -153,6 +153,13 @@ summary::-webkit-details-marker {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--min-photo-width), 1fr));
   gap: var(--photo-gap);
+}
+
+.photo-empty-state {
+  padding-block: 3.5rem;
+  color: var(--c-muted);
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 .photo-figure {

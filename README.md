@@ -36,6 +36,7 @@ AntfuStyle is a flexible and feature-rich [Astro 5](https://astro.build/) theme 
 - Highlight Your Creative Work or Curated Posts
 - Share Your Short Notes or Quick Thoughts
 - Create Your Personal Gallery
+- Dedicated **AI art gallery** at `/gallery` (parallel to `/photos`)
 
 **User Experience**
 
@@ -67,6 +68,28 @@ The [live demo][demo-link] serves as self-documentation, detailing how to config
 If you're eager to deploy your own version right away:
 
 [![Deploy with Netlify](https://raw.githubusercontent.com/lin-stephanie/assets/refs/heads/main/astro-antfustyle-theme/deploy_netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/lin-stephanie/astro-antfustyle-theme) [![Deploy with Vercel](https://raw.githubusercontent.com/lin-stephanie/assets/refs/heads/main/astro-antfustyle-theme/deploy_vercel.svg)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Flin-stephanie%2Fastro-antfustyle-theme&project-name=astro-antfustyle-theme)
+
+## Photo & AI galleries
+
+This fork keeps two masonry-style image pages:
+
+| Route | Data file | Put assets / use `id` |
+| --- | --- | --- |
+| `/photos` | `src/content/photos/data.json` | `src/content/photos/` or remote URLs |
+| `/gallery` | `src/content/ai-gallery/data.json` | `src/content/ai-gallery/` (e.g. `images/foo.webp`) or remote URLs |
+
+Entries use the same shape in both data files:
+
+```json
+[
+  {
+    "id": "images/work-01.webp",
+    "desc": "Prompt, model, date, or a short caption"
+  }
+]
+```
+
+Build-time JSON (`/photos/photos.<hash>.json`, `/gallery/gallery.<hash>.json`) carries thumbnails and placeholders. Toggle layout (masonry / square) is stored per page in `localStorage` (`photo-layout` vs `ai-gallery-layout`). Add remote image hosts to `SITE.imageDomains` in `src/config.ts` when Astro needs to optimize a new domain. Hide the gallery nav item in `src/config.ts` if you do not need it.
 
 ## Preview
 

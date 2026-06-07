@@ -3,7 +3,7 @@ import Loader from '~/components/widgets/Loader.astro'
 import ImageViewer from '~/components/widgets/ImageViewer.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-import { hash } from '~/pages/photos/photos.[hash].json'
+import { hash as defaultPhotosHash } from '~/pages/photos/photos.[hash].json'
 
 interface Props {
   gap?: number
@@ -12,6 +12,16 @@ interface Props {
   batchSize?: number
   layout?: 'masonry' | 'square'
   masonryStrategy?: 'sequential' | 'balanced'
+  /** JSON 路径前缀（不含 `.${hash}.json`），默认 `/photos/photos` */
+  jsonBase?: string
+  /** 与预构建 JSON 对应的短 hash；默认使用相册数据 */
+  contentHash?: string
+  /** localStorage 布局键；多画廊时勿与相册共用同一键 */
+  layoutStorageKey?: string
+  /** Text displayed when the current gallery has no entries. */
+  emptyText?: string
+  /** Text displayed when the gallery JSON cannot be loaded. */
+  errorText?: string
 }
 
 const {
@@ -21,24 +31,38 @@ const {
   batchSize = 15,
   layout = 'masonry',
   masonryStrategy = 'sequential',
+  jsonBase = '/photos/photos',
+  contentHash = defaultPhotosHash,
+  layoutStorageKey = 'photo-layout',
+  emptyText,
+  errorText,
 } = Astro.props as Props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+const resolvedEmptyText = emptyText ?? t('photo.empty')
+const resolvedErrorText = errorText ?? t('photo.error')
 ---
 
 <div class="mx-20 lt-lgp:mx-10 lt-md:mx-1">
   <photo-view
-    data-hash={hash}
+    data-hash={contentHash}
+    data-json-base={jsonBase}
+    data-layout-storage-key={layoutStorageKey}
     data-gap={gap}
     data-min-photo-width={minPhotoWidth}
     data-max-photo-width={maxPhotoWidth}
     data-batch-size={batchSize}
     data-layout={layout}
     data-masonry-strategy={layout === 'masonry' ? masonryStrategy : undefined}
+    data-empty-text={resolvedEmptyText}
+    data-error-text={resolvedErrorText}
     class="photo-view block relative w-full"
   >
     <div class="photo-container"></div>
+    <p class="photo-empty-state hidden" role="status">
+      {resolvedEmptyText}
+    </p>
     <button
       class="photo-layout-toggle z-50 fixed left-5 bottom-6
         flex items-center justify-center w-10 h-10 rounded-full
@@ -60,7 +84,7 @@ const t = useTranslations(locale)
 </div>
 
 <script>
-  import type { PhotoItem } from '~/pages/photos/photos.[hash].json'
+  import type { PhotoGalleryItem } from '~/types/photo-gallery'
 
   class PhotoView extends HTMLElement {
     #initialized = false
@@ -80,13 +104,14 @@ const t = useTranslations(locale)
     #currentIndex = 0
     #isLoading = false
     #allLoaded = false
-    #allItems: PhotoItem[] = []
+    #allItems: PhotoGalleryItem[] = []
 
     #ticking = false
     #distanceToBottom = window.innerHeight * 0.6
 
     #loader: HTMLElement | null = null
     #container: HTMLElement | null = null
+    #emptyState: HTMLElement | null = null
     #button: HTMLButtonElement | null = null
     #resizeObserver: ResizeObserver | null = null
     #debounceTimeout: ReturnType<typeof setTimeout> | null = null
@@ -95,10 +120,21 @@ const t = useTranslations(locale)
       if (this.#initialized) return
       this.#initialized = true
       this.#container = this.querySelector('.photo-container')
+      this.#emptyState = this.querySelector('.photo-empty-state')
+      this.#button = this.querySelector('.photo-layout-toggle')
       this.#loader = document.querySelector('.photo-loader')
 
-      await this.#fetchData()
+      const didLoad = await this.#fetchData()
       this.#getLayout()
+      if (!didLoad) {
+        this.#showEmptyState('error')
+        return
+      }
+      if (this.#allItems.length === 0) {
+        this.#showEmptyState('empty')
+        return
+      }
+
       this.#buildLayout()
       this.#handleWindowScroll()
 
@@ -109,7 +145,6 @@ const t = useTranslations(locale)
       this.#resizeObserver = new ResizeObserver(this.#handleResize)
       this.#resizeObserver.observe(this)
 
-      this.#button = this.querySelector('.photo-layout-toggle')
       this.#button?.addEventListener('click', this.#handleClickToggle)
 
       this.#container?.addEventListener('keydown', this.#handleKeyOpen)
@@ -138,29 +173,52 @@ const t = useTranslations(locale)
         this.#container = null
       }
 
+      this.#emptyState = null
       this.#initialized = false
     }
 
     #fetchData = async () => {
       try {
-        const res = await fetch(`/photos/photos.${this.dataset.hash}.json`)
-        const [_v, data] = (await res.json()) as [string, PhotoItem[]]
-        this.#allItems = data
+        const base = this.dataset.jsonBase || '/photos/photos'
+        const res = await fetch(`${base}.${this.dataset.hash}.json`)
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status} while loading ${res.url}`)
+        }
+        const [_v, data] = (await res.json()) as [string, PhotoGalleryItem[]]
+        this.#allItems = Array.isArray(data) ? data : []
         // if (import.meta.env.DEV) console.log(this.#allItems)
+        return true
       } catch (err) {
         console.error('[PhotoView] fetch error:', err)
+        this.#allItems = []
+        return false
       }
     }
 
+    #showEmptyState = (type: 'empty' | 'error') => {
+      if (this.#loader) this.#loader.style.display = 'none'
+      if (this.#button) this.#button.style.display = 'none'
+      if (this.#emptyState) {
+        this.#emptyState.textContent =
+          type === 'error'
+            ? this.dataset.errorText || 'Failed to load images.'
+            : this.dataset.emptyText || 'No images yet.'
+        this.#emptyState.classList.remove('hidden')
+      }
+      this.style.height = 'auto'
+      this.#allLoaded = true
+      this.#isLoading = false
+    }
+
+    #layoutStorageKey = () => this.dataset.layoutStorageKey || 'photo-layout'
+
     #getLayout = () => {
-      if (localStorage.getItem('photo-layout')) {
-        this.#isMasonry = localStorage.getItem('photo-layout') === 'masonry'
+      const key = this.#layoutStorageKey()
+      if (localStorage.getItem(key)) {
+        this.#isMasonry = localStorage.getItem(key) === 'masonry'
       } else {
         this.#isMasonry = this.dataset.layout === 'masonry'
-        localStorage.setItem(
-          'photo-layout',
-          this.#isMasonry ? 'masonry' : 'square'
-        )
+        localStorage.setItem(key, this.#isMasonry ? 'masonry' : 'square')
       }
 
       this.dataset.layout = this.#isMasonry ? 'masonry' : 'square'
@@ -394,7 +452,7 @@ const t = useTranslations(locale)
       this.#buildLayout()
 
       window.localStorage.setItem(
-        'photo-layout',
+        this.#layoutStorageKey(),
         this.#isMasonry ? 'masonry' : 'square'
       )
     }
