@@ -14,6 +14,7 @@ import {
   friendSchema,
   streamSchema,
   photoSchema,
+  aiGallerySchema,
 } from '~/content/schema'
 
 const githubToken = process.env.GITHUB_TOKEN
@@ -126,6 +127,11 @@ const photos = defineCollection({
   schema: photoSchema,
 })
 
+const aiGallery = defineCollection({
+  loader: file('src/content/ai-gallery/data.json'),
+  schema: aiGallerySchema,
+})
+
 const changelog = defineCollection({
   loader: glob({
     base: './src/content/changelog',
@@ -159,6 +165,7 @@ export const collections = {
   prs,
   highlights,
   photos,
+  aiGallery,
   changelog,
   streams,
   feeds,

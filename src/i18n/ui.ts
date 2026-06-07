@@ -6,6 +6,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'nav.blog': '博客',
     'nav.projects': '项目',
     'nav.photos': '相册',
+    'nav.gallery': 'AI 创作',
     'nav.changelog': '更新日志',
 
     // Global / a11y
@@ -65,6 +66,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Empty states
     'list.empty': '这里还没有内容',
+    'photo.empty': '这里还没有图片',
+    'photo.error': '图片加载失败，请稍后重试',
 
     // Callouts
     'callout.warning': '提示',
@@ -125,6 +128,11 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.photos.subtitle': '我的个人相册，记录生活中的美好瞬间',
     'page.photos.description':
       '个人相册页面：记录生活中的美好瞬间，通过镜头捕捉日常的精彩与感动，分享手机摄影作品。',
+    'page.gallery.title': 'AI 作品集',
+    'page.gallery.subtitle': '用生成式 AI 创作的图像与视觉实验',
+    'page.gallery.description':
+      '集中展示 AI 辅助生成的插画、概念图与视觉习作；数据来自本地 JSON 与可选配图目录。',
+    'page.gallery.empty': '这里还没有 AI 作品',
     'page.changelog.title': '更新日志',
     'page.changelog.subtitle': '',
     'page.changelog.description':
@@ -168,6 +176,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'nav.blog': 'Blog',
     'nav.projects': 'Projects',
     'nav.photos': 'Photos',
+    'nav.gallery': 'AI Gallery',
     'nav.changelog': 'Changelog',
 
     // Global / a11y
@@ -227,6 +236,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Empty states
     'list.empty': 'nothing here yet',
+    'photo.empty': 'No images yet',
+    'photo.error': 'Failed to load images. Please try again later.',
 
     // Callouts
     'callout.warning': 'WARNING',
@@ -287,6 +298,12 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.photos.subtitle': 'Personal photos and moments from daily life',
     'page.photos.description':
       'A personal photo gallery collecting daily moments, mobile photography, and visual notes from life.',
+    'page.gallery.title': 'AI Art Gallery',
+    'page.gallery.subtitle':
+      'Images and visual experiments made with generative AI',
+    'page.gallery.description':
+      'A dedicated gallery for AI-assisted illustrations, concept art, and visual studies. Entries are driven by local JSON and optional assets under `src/content/ai-gallery/`.',
+    'page.gallery.empty': 'No AI artwork yet',
     'page.changelog.title': 'Changelog',
     'page.changelog.subtitle': '',
     'page.changelog.description':

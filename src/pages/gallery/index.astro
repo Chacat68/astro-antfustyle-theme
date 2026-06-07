@@ -1,0 +1,35 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import PhotoView from '~/components/views/PhotoView.astro'
+import { hash } from '~/pages/gallery/gallery.[hash].json'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const page = {
+  bgType: false,
+  ogImage: false,
+} as const
+---
+
+<BaseLayout
+  title={t('page.gallery.title')}
+  description={t('page.gallery.description')}
+  bgType={page.bgType}
+  ogImage={page.ogImage}
+>
+  <StandardLayout
+    title={t('page.gallery.title')}
+    subtitle={t('page.gallery.subtitle')}
+    isCentered={true}
+  >
+    <PhotoView
+      jsonBase="/gallery/gallery"
+      contentHash={hash}
+      layoutStorageKey="ai-gallery-layout"
+      emptyText={t('page.gallery.empty')}
+    />
+  </StandardLayout>
+</BaseLayout>

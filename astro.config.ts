@@ -31,6 +31,7 @@ const englishStaticRoutePaths = [
   '/en/blog/',
   '/en/friends/',
   '/en/photos/',
+  '/en/gallery/',
   '/en/projects/',
   '/en/shorts/',
 ]

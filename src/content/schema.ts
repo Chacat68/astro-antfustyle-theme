@@ -23,14 +23,7 @@ export const pageSchema = z.object({
   bgType: z
     .union([
       z.literal(false),
-      z.enum([
-        'plum',
-        'dot',
-        'rose',
-        'particle',
-        'wave',
-        'constellation',
-      ]),
+      z.enum(['plum', 'dot', 'rose', 'particle', 'wave', 'constellation']),
     ])
     .default(false)
     .describe(
@@ -302,6 +295,21 @@ export const photoSchema = z.object({
 })
 
 export type PhotoSchema = z.infer<typeof photoSchema>
+
+/** AI 作品集 / 画廊：与相册相同字段，图片目录为 `src/content/ai-gallery/` */
+export const aiGallerySchema = z.object({
+  id: z
+    .string()
+    .describe(
+      '**Required**. File (name/path) of the image in the `src/content/ai-gallery/` directory or a remote image URL.'
+    ),
+  desc: z
+    .string()
+    .default('')
+    .describe('Optional caption (e.g. prompt, model, or creation date).'),
+})
+
+export type AiGallerySchema = z.infer<typeof aiGallerySchema>
 
 /* Stremas */
 export const streamSchema = z.object({
