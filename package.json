@@ -83,7 +83,7 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*": [
+    "*.{js,mjs,cjs,ts,mts,astro}": [
       "eslint"
     ]
   },
@@ -95,6 +95,6 @@
     ]
   },
   "engines": {
-    "node": "18.20.8 || ^20.9.0 || ^22.0.0"
+    "node": ">=20.9.0"
   }
 }

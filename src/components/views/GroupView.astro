@@ -7,6 +7,7 @@ import Categorizer from '~/components/base/Categorizer.astro'
 import GroupItem from '~/components/views/GroupItem.astro'
 import { FEATURES } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import { pickLocalized } from '~/i18n/locales'
 
 import type { CollectionKey } from 'astro:content'
 import type { GroupItemData } from '~/components/views/GroupItem.astro'
@@ -26,30 +27,25 @@ const WARNING = t('warning.noContentHtml', { file: 'GroupView.astro' })
 let isEmpty = false
 let data: Record<string, GroupItemData[]> = {}
 
-/* Projects */
-if (collectionType === 'projects') {
-  const projects = await getCollection(collectionType)
-  isEmpty = projects.length === 0
+/* Projects & Friends（desc/category 支持 *En 字段，英文路由 fallback 中文） */
+if (collectionType === 'projects' || collectionType === 'friends') {
+  const entries = await getCollection(collectionType)
+  isEmpty = entries.length === 0
 
-  data = projects
-    .map((p) => p.data)
-    .reduce((acc: Record<string, GroupItemData[]>, { category, ...rest }) => {
-      ;(acc[category] ??= []).push(rest)
-      return acc
-    }, {})
-}
-
-/* Friends */
-if (collectionType === 'friends') {
-  const friends = await getCollection(collectionType)
-  isEmpty = friends.length === 0
-
-  data = friends
-    .map((f) => f.data)
-    .reduce((acc: Record<string, GroupItemData[]>, { category, ...rest }) => {
-      ;(acc[category] ??= []).push(rest)
-      return acc
-    }, {})
+  data = entries
+    .map((entry) => entry.data)
+    .reduce(
+      (
+        acc: Record<string, GroupItemData[]>,
+        { category, categoryEn, desc, descEn, ...rest }
+      ) => {
+        const localizedCategory = pickLocalized(locale, category, categoryEn)
+        const localizedDesc = pickLocalized(locale, desc, descEn)
+        ;(acc[localizedCategory] ??= []).push({ ...rest, desc: localizedDesc })
+        return acc
+      },
+      {}
+    )
 }
 
 /* Toc */

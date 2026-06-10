@@ -4,6 +4,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n'
 
 import { ensureTrailingSlash } from '~/utils/path'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import { getAlternateLocale, type AppLocale } from '~/i18n/locales'
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -17,12 +18,13 @@ const pathWithinLocale = currentPathname.startsWith(currentLocaleRoot)
 
 const normalizedPath = pathWithinLocale.replace(/^\/+/, '').replace(/\/+$/, '')
 
-const targetLocale = locale === 'zh' ? 'en' : 'zh'
+const targetLocale = getAlternateLocale(locale)
 const targetHref = ensureTrailingSlash(
   getRelativeLocaleUrl(targetLocale, normalizedPath)
 )
 
-const shortLabel = targetLocale === 'en' ? 'EN' : '中'
+const SHORT_LABELS: Record<AppLocale, string> = { en: 'EN', zh: '中' }
+const shortLabel = SHORT_LABELS[targetLocale]
 const title = `${t('a11y.languageSwitch')}: ${t(`lang.${targetLocale}`)}`
 ---
 

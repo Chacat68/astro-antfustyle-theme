@@ -1,5 +1,5 @@
 ---
-import Viewer from 'viewerjs'
+import type Viewer from 'viewerjs'
 
 interface Props {
   selector: string
@@ -26,6 +26,7 @@ const {
 
 <script>
   import Viewer from 'viewerjs'
+  import 'viewerjs/dist/viewer.css'
   import { lockScroll, unlockScroll } from '~/utils/misc'
 
   // global default config

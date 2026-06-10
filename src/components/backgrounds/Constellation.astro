@@ -8,7 +8,8 @@
 </bg-constellation>
 
 <script>
-  import type { default as P5Instance } from 'p5'
+  import { defineP5Background } from '~/components/backgrounds/p5-background'
+  import type { P5Sketch } from '~/components/backgrounds/p5-background'
 
   interface Star {
     x: number
@@ -20,137 +21,113 @@
     twinkleOffset: number
   }
 
-  class BgConstellationElement extends HTMLElement {
-    p5Instance: P5Instance | null = null
+  const sketch: P5Sketch = (p) => {
+    const STAR_COUNT = 80
+    const CONNECTION_DISTANCE = 150
+    const MAX_CONNECTIONS = 3
 
-    async connectedCallback() {
-      if (this.p5Instance) return
+    const width = window.innerWidth
+    const height = window.innerHeight
+    const stars: Star[] = []
 
-      const { default: p5 } = await import('p5')
-      if (!this.isConnected) return
+    function createStar(): Star {
+      return {
+        x: p.random(width),
+        y: p.random(height),
+        vx: (p.random() - 0.5) * 0.18,
+        vy: (p.random() - 0.5) * 0.18,
+        size: p.random(1.5, 3.5),
+        twinkleSpeed: p.random(0.02, 0.05),
+        twinkleOffset: p.random(p.TWO_PI),
+      }
+    }
 
-      const sketch = (p: P5Instance) => {
-        const STAR_COUNT = 80
-        const CONNECTION_DISTANCE = 150
-        const MAX_CONNECTIONS = 3
+    p.setup = () => {
+      p.createCanvas(width, height)
+      p.noStroke()
 
-        const width = window.innerWidth
-        const height = window.innerHeight
-        const stars: Star[] = []
+      for (let i = 0; i < STAR_COUNT; i++) {
+        stars.push(createStar())
+      }
+    }
 
-        function createStar(): Star {
-          return {
-            x: p.random(width),
-            y: p.random(height),
-            vx: (p.random() - 0.5) * 0.18,
-            vy: (p.random() - 0.5) * 0.18,
-            size: p.random(1.5, 3.5),
-            twinkleSpeed: p.random(0.02, 0.05),
-            twinkleOffset: p.random(p.TWO_PI),
-          }
-        }
+    p.draw = () => {
+      p.clear()
 
-        p.setup = () => {
-          p.createCanvas(width, height)
-          p.noStroke()
+      const isDark = document.documentElement.classList.contains('dark')
+      const time = p.millis() * 0.001
 
-          for (let i = 0; i < STAR_COUNT; i++) {
-            stars.push(createStar())
-          }
-        }
+      // Update star positions (slow drift, wrap around screen)
+      stars.forEach((star) => {
+        star.x += star.vx
+        star.y += star.vy
+        if (star.x < 0) star.x += width
+        if (star.x > width) star.x -= width
+        if (star.y < 0) star.y += height
+        if (star.y > height) star.y -= height
+      })
 
-        p.draw = () => {
-          p.clear()
+      // Build spatial grid for O(n) amortized connection checks
+      const cellSize = CONNECTION_DISTANCE
+      const cellsX = Math.ceil(width / cellSize)
+      const grid = new Map<number, number[]>()
+      stars.forEach((star, i) => {
+        const gx = Math.max(0, Math.floor(star.x / cellSize))
+        const gy = Math.max(0, Math.floor(star.y / cellSize))
+        const key = gy * cellsX + gx
+        if (!grid.has(key)) grid.set(key, [])
+        grid.get(key)!.push(i)
+      })
 
-          const isDark = document.documentElement.classList.contains('dark')
-          const time = p.millis() * 0.001
+      // Draw connections using spatial grid
+      stars.forEach((star, i) => {
+        let connections = 0
+        const gx = Math.max(0, Math.floor(star.x / cellSize))
+        const gy = Math.max(0, Math.floor(star.y / cellSize))
 
-          // Update star positions (slow drift, wrap around screen)
-          stars.forEach((star) => {
-            star.x += star.vx
-            star.y += star.vy
-            if (star.x < 0) star.x += width
-            if (star.x > width) star.x -= width
-            if (star.y < 0) star.y += height
-            if (star.y > height) star.y -= height
-          })
+        outer: for (let dx = -1; dx <= 1; dx++) {
+          for (let dy = -1; dy <= 1; dy++) {
+            const key = (gy + dy) * cellsX + (gx + dx)
+            const cell = grid.get(key)
+            if (!cell) continue
 
-          // Build spatial grid for O(n) amortized connection checks
-          const cellSize = CONNECTION_DISTANCE
-          const cellsX = Math.ceil(width / cellSize)
-          const grid = new Map<number, number[]>()
-          stars.forEach((star, i) => {
-            const gx = Math.max(0, Math.floor(star.x / cellSize))
-            const gy = Math.max(0, Math.floor(star.y / cellSize))
-            const key = gy * cellsX + gx
-            if (!grid.has(key)) grid.set(key, [])
-            grid.get(key)!.push(i)
-          })
+            for (const j of cell) {
+              if (j <= i) continue // avoid duplicates and self-comparison
+              if (connections >= MAX_CONNECTIONS) break outer
 
-          // Draw connections using spatial grid
-          stars.forEach((star, i) => {
-            let connections = 0
-            const gx = Math.max(0, Math.floor(star.x / cellSize))
-            const gy = Math.max(0, Math.floor(star.y / cellSize))
-
-            outer: for (let dx = -1; dx <= 1; dx++) {
-              for (let dy = -1; dy <= 1; dy++) {
-                const key = (gy + dy) * cellsX + (gx + dx)
-                const cell = grid.get(key)
-                if (!cell) continue
-
-                for (const j of cell) {
-                  if (j <= i) continue // avoid duplicates and self-comparison
-                  if (connections >= MAX_CONNECTIONS) break outer
-
-                  const other = stars[j]
-                  const d = p.dist(star.x, star.y, other.x, other.y)
-                  if (d < CONNECTION_DISTANCE) {
-                    const alpha = p.map(d, 0, CONNECTION_DISTANCE, 40, 0)
-                    const lineColor = isDark
-                      ? p.color(148, 163, 184, alpha)
-                      : p.color(100, 116, 139, alpha)
-                    p.stroke(lineColor)
-                    p.strokeWeight(0.5)
-                    p.line(star.x, star.y, other.x, other.y)
-                    connections++
-                  }
-                }
+              const other = stars[j]
+              const d = p.dist(star.x, star.y, other.x, other.y)
+              if (d < CONNECTION_DISTANCE) {
+                const alpha = p.map(d, 0, CONNECTION_DISTANCE, 40, 0)
+                const lineColor = isDark
+                  ? p.color(148, 163, 184, alpha)
+                  : p.color(100, 116, 139, alpha)
+                p.stroke(lineColor)
+                p.strokeWeight(0.5)
+                p.line(star.x, star.y, other.x, other.y)
+                connections++
               }
             }
-          })
-
-          // Draw stars
-          p.noStroke()
-          stars.forEach((star) => {
-            const twinkle =
-              (Math.sin(time * star.twinkleSpeed * 10 + star.twinkleOffset) +
-                1) /
-              2
-            const alpha = 80 + twinkle * 175
-
-            const starColor = isDark
-              ? p.color(226, 232, 240, alpha)
-              : p.color(30, 58, 95, alpha)
-
-            p.fill(starColor)
-            p.circle(star.x, star.y, star.size * (0.8 + twinkle * 0.4))
-          })
+          }
         }
-      }
+      })
 
-      this.p5Instance = new p5(sketch, this)
-    }
+      // Draw stars
+      p.noStroke()
+      stars.forEach((star) => {
+        const twinkle =
+          (Math.sin(time * star.twinkleSpeed * 10 + star.twinkleOffset) + 1) / 2
+        const alpha = 80 + twinkle * 175
 
-    disconnectedCallback() {
-      if (this.p5Instance) {
-        this.p5Instance.remove()
-        this.p5Instance = null
-      }
+        const starColor = isDark
+          ? p.color(226, 232, 240, alpha)
+          : p.color(30, 58, 95, alpha)
+
+        p.fill(starColor)
+        p.circle(star.x, star.y, star.size * (0.8 + twinkle * 0.4))
+      })
     }
   }
 
-  if (!customElements.get('bg-constellation')) {
-    customElements.define('bg-constellation', BgConstellationElement)
-  }
+  defineP5Background('bg-constellation', sketch)
 </script>

@@ -5,8 +5,11 @@ import Rose from '~/components/backgrounds/Rose.astro'
 import Particle from '~/components/backgrounds/Particle.astro'
 import Wave from '~/components/backgrounds/Wave.astro'
 import Constellation from '~/components/backgrounds/Constellation.astro'
+
+import type { BgType } from '~/types'
+
 interface Props {
-  type: string
+  type: BgType
 }
 
 const { type } = Astro.props

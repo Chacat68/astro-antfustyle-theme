@@ -10,6 +10,8 @@ const t = useTranslations(locale)
   class="op-60 hover:op-100 op-transition"
   title={t('a11y.themeToggle')}
   aria-label={t('a11y.themeToggle')}
+  data-label-light={t('theme.light')}
+  data-label-dark={t('theme.dark')}
 >
   <div u-i-ri-sun-line u-dark:i-ri-moon-line></div>
 </button>
@@ -32,11 +34,17 @@ const t = useTranslations(locale)
 
     if (theme === 'light') {
       document.documentElement.classList.remove('dark')
-      toggleThemeButton.setAttribute('aria-label', 'light')
+      toggleThemeButton.setAttribute(
+        'aria-label',
+        toggleThemeButton.dataset.labelLight || 'light'
+      )
       toggleThemeButton.setAttribute('aria-checked', 'false')
     } else {
       document.documentElement.classList.add('dark')
-      toggleThemeButton.setAttribute('aria-label', 'dark')
+      toggleThemeButton.setAttribute(
+        'aria-label',
+        toggleThemeButton.dataset.labelDark || 'dark'
+      )
       toggleThemeButton.setAttribute('aria-checked', 'true')
     }
 
@@ -91,7 +99,11 @@ const t = useTranslations(locale)
     }
 
     const updateAria = (buttonElement: HTMLElement) => {
-      buttonElement.setAttribute('aria-label', isDark ? 'dark' : 'light')
+      const { labelDark, labelLight } = buttonElement.dataset
+      buttonElement.setAttribute(
+        'aria-label',
+        isDark ? labelDark || 'dark' : labelLight || 'light'
+      )
       buttonElement.setAttribute('aria-checked', isDark ? 'true' : 'false')
     }
 

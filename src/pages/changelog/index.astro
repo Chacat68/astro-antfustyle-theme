@@ -3,10 +3,11 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
 import TabbedLayout from '~/layouts/TabbedLayout.astro'
 import ListView from '~/components/views/ListView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import { isDefaultLocale } from '~/i18n/locales'
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
-const isEnglishFallback = locale === 'en'
+const isEnglishFallback = !isDefaultLocale(locale)
 
 const page = {
   bgType: false,

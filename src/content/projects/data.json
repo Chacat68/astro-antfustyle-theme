@@ -3,70 +3,90 @@
     "id": "「Project : Otherworld」",
     "link": "https://foo-z.com/projects/",
     "desc": "使用自制引擎开发的二次元角色扮演游戏，AI辅助的技术与游戏世界观设计。",
+    "descEn": "An anime-style RPG built with a custom engine, with AI-assisted technology and world-building design.",
     "icon": "i-ph-planet-duotone",
-    "category": "技术探索"
+    "category": "技术探索",
+    "categoryEn": "Tech Explorations"
   },
   {
     "id": "「AI Art」",
     "link": "https://foo-z.com/projects/",
     "desc": "使用AI Models生成的艺术品，并用Midjourney、Comfyui、FLUX、SD等工具制作。",
+    "descEn": "Artworks generated with AI models, created using tools such as Midjourney, ComfyUI, FLUX, and Stable Diffusion.",
     "icon": "i-ph-palette-duotone",
-    "category": "技术探索"
+    "category": "技术探索",
+    "categoryEn": "Tech Explorations"
   },
   {
     "id": "「建筑指南」",
     "link": "https://arch.chawfoo.com/",
     "desc": "这是一本关于我个人对建筑指南的理解，记录了建筑设计的创作过程。",
+    "descEn": "A personal guide to architecture, documenting my understanding of architectural design and its creative process.",
     "icon": "i-ph-buildings-duotone",
-    "category": "内容创作"
+    "category": "内容创作",
+    "categoryEn": "Content Creation"
   },
   {
     "id": "「小王子历险记 (FyGame)」",
     "link": "https://github.com/Chacat68/fygame",
     "desc": "使用Godot游戏引擎制作的小游戏演示，包含2D像素风格的平台跳跃游戏。",
+    "descEn": "A small game demo made with the Godot engine, featuring a 2D pixel-art platformer.",
     "icon": "i-simple-icons-godotengine",
-    "category": "游戏开发"
+    "category": "游戏开发",
+    "categoryEn": "Game Development"
   },
   {
     "id": "「江湖」",
     "link": "https://foo-z.com/projects/",
     "desc": "武侠题材卡牌游戏原型：回合制对局 + 牌组构筑，采用原创江湖世界观与门派体系（致敬传统武侠氛围），围绕招式、内功、轻功与奇遇构建策略组合。",
+    "descEn": "A wuxia-themed card game prototype: turn-based battles with deck building, set in an original jianghu world with sect systems, built around martial moves, inner power, lightness skills, and chance encounters.",
     "icon": "i-ph-sword-duotone",
-    "category": "游戏开发"
+    "category": "游戏开发",
+    "categoryEn": "Game Development"
   },
   {
     "id": "「卧龙吟2」",
     "link": "https://www.taptap.cn/app/225515",
     "desc": "RTS+SLG玩法模型，经典卧龙吟IP二代新作",
+    "descEn": "An RTS + SLG gameplay model; the second installment of the classic Wolong Yin IP.",
     "icon": "i-ph-sword-duotone",
-    "category": "游戏开发"
+    "category": "游戏开发",
+    "categoryEn": "Game Development"
   },
   {
     "id": "「乱轰三国志」",
     "link": "https://www.taptap.cn/app/51289?os=android",
     "desc": "RPG+SLG玩法模型，商业化抽卡游戏，经典三国IP",
+    "descEn": "An RPG + SLG gameplay model; a commercial gacha game based on the classic Three Kingdoms IP.",
     "icon": "i-ph-shield-star-duotone",
-    "category": "游戏开发"
+    "category": "游戏开发",
+    "categoryEn": "Game Development"
   },
   {
     "id": "「NotionNext博客」",
     "link": "https://notion-next-kohl-rho-39.vercel.app/",
     "desc": "NotionNext博客是一个基于Notion的博客系统，使用Next.js作为前端框架，Vercel作为部署平台。",
+    "descEn": "A Notion-based blogging system built with Next.js and deployed on Vercel.",
     "icon": "i-simple-icons-notion",
-    "category": "技术探索"
+    "category": "技术探索",
+    "categoryEn": "Tech Explorations"
   },
   {
     "id": "gametools游戏工具集",
     "link": "https://github.com/Chacat68/",
     "desc": "一个集成了策划本地化、跨项目翻译对应、JSON检测、Excel处理、翻译提取、批量改表等功能的多功能游戏开发工具集。",
+    "descEn": "A multi-purpose game development toolkit covering localization, cross-project translation mapping, JSON validation, Excel processing, translation extraction, and batch table editing.",
     "icon": "i-ph-toolbox-duotone",
-    "category": "技术探索"
+    "category": "技术探索",
+    "categoryEn": "Tech Explorations"
   },
   {
     "id": "「壁纸和摄影集合」",
     "link": "https://unsplash.com/@chacat68",
     "desc": "将一些通过AI创作的壁纸和摄影作品上传到Unsplash，免费与大家分享。",
+    "descEn": "AI-created wallpapers and photography uploaded to Unsplash, shared with everyone for free.",
     "icon": "i-ph-camera-duotone",
-    "category": "内容创作"
+    "category": "内容创作",
+    "categoryEn": "Content Creation"
   }
 ]

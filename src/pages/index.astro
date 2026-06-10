@@ -5,12 +5,9 @@ import LatestPosts from '~/components/widgets/LatestPosts.astro'
 import { UI } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-const frontmatter = {
-  title: '关于',
-  subtitle: '',
-  description: '',
-  bgType: 'wave' as const,
-  toc: false,
+// 页面文案统一由 i18n（page.home.*）提供
+const page = {
+  bgType: 'wave',
   ogImage: false,
 } as const
 
@@ -27,10 +24,10 @@ const t = useTranslations(locale)
 <BaseLayout
   title={t('page.home.title')}
   description={t('page.home.description')}
-  bgType={frontmatter.bgType}
-  ogImage={frontmatter.ogImage}
+  bgType={page.bgType}
+  ogImage={page.ogImage}
 >
-  <StandardLayout title={t('page.home.title')} subtitle={frontmatter.subtitle}>
+  <StandardLayout title={t('page.home.title')}>
     <Fragment slot="article">
       <p>{t('home.intro1')}</p>
       <p>{t('home.intro2')}</p>

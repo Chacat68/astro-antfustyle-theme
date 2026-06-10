@@ -1,0 +1,45 @@
+---
+/**
+ * 导航栏单侧（left/right）组件序列渲染，
+ * 供 NavBar.astro 复用，避免左右两份相同的分支逻辑。
+ */
+import Divider from '~/components/base/Divider.astro'
+import SearchSwitch from '~/components/widgets/SearchSwitch.astro'
+import LanguageSwitch from '~/components/widgets/LanguageSwitch.astro'
+import ThemeSwitch from '~/components/widgets/ThemeSwitch.astro'
+import RssLink from '~/components/widgets/RssLink.astro'
+import NavItem from '~/components/nav/NavItem.astro'
+
+import type { NavBarComponentType, InternalNav, SocialLink } from '~/types'
+
+interface Props {
+  keys: NavBarComponentType[]
+  mergeOnMobile: boolean
+  internalNavs: InternalNav[]
+  socialLinks: SocialLink[]
+}
+
+const { keys, mergeOnMobile, internalNavs, socialLinks } = Astro.props
+---
+
+{
+  keys.map((key) =>
+    key === 'hr' ? (
+      <Divider class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
+    ) : key === 'searchButton' ? (
+      <SearchSwitch />
+    ) : key === 'langButton' ? (
+      <LanguageSwitch />
+    ) : key === 'themeButton' ? (
+      <ThemeSwitch />
+    ) : key === 'rssLink' ? (
+      <RssLink class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
+    ) : key === 'internalNavs' ? (
+      internalNavs.map((item) => (
+        <NavItem type="internal" {item} {mergeOnMobile} />
+      ))
+    ) : (
+      socialLinks.map((item) => <NavItem type="social" {item} {mergeOnMobile} />)
+    )
+  )
+}
