@@ -13,6 +13,8 @@ export const SITE: Site = {
 }
 
 export const UI: Ui = {
+  // 注意：导航的 title/text 仅作 fallback，实际展示文案由
+  // `src/i18n/ui.ts` 的 nav.* 键提供（见 NavBar.astro 的 navKeyByPath）
   internalNavs: [
     {
       path: '/blog',

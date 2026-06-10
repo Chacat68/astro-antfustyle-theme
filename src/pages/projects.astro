@@ -4,11 +4,8 @@ import StandardLayout from '~/layouts/StandardLayout.astro'
 import GroupView from '~/components/views/GroupView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-const frontmatter = {
-  title: 'Projects',
-  subtitle: '正在参与制作的项目，内容创作等',
-  description:
-    '这里展示了我正在参与制作的项目、内容创作等。欢迎查看并参与其中！',
+// 页面文案统一由 i18n（page.projects.*）提供
+const page = {
   bgType: 'dot',
   toc: true,
   ogImage: true,
@@ -21,8 +18,8 @@ const t = useTranslations(locale)
 <BaseLayout
   title={t('page.projects.title')}
   description={t('page.projects.description')}
-  bgType={frontmatter.bgType}
-  ogImage={frontmatter.ogImage}
+  bgType={page.bgType}
+  ogImage={page.ogImage}
 >
   <StandardLayout
     class="max-w-300"
@@ -30,6 +27,6 @@ const t = useTranslations(locale)
     subtitle={t('page.projects.subtitle')}
     isCentered={true}
   >
-    <GroupView collectionType="projects" pageToc={frontmatter.toc} />
+    <GroupView collectionType="projects" pageToc={page.toc} />
   </StandardLayout>
 </BaseLayout>

@@ -33,6 +33,13 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'search.navigate': '导航',
     'search.goToPage': '打开页面',
     'search.close': '关闭',
+    'search.loading': '加载中...',
+    'search.error': '出错了，请重试。',
+    'search.noResults': '未找到相关结果。',
+    'search.more': '更多 +{count}',
+    'search.all': '全部 {count}',
+    'search.placeholder': '搜索',
+    'search.placeholderScoped': '搜索 {type}',
 
     // Theme
     'theme.light': '亮色',
@@ -203,6 +210,13 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'search.navigate': 'Navigate',
     'search.goToPage': 'Go to page',
     'search.close': 'Close',
+    'search.loading': 'Loading...',
+    'search.error': 'Oops! Something went wrong. Try again.',
+    'search.noResults': 'No results found.',
+    'search.more': 'More +{count}',
+    'search.all': 'All {count}',
+    'search.placeholder': 'Search',
+    'search.placeholderScoped': 'Search {type}',
 
     // Theme
     'theme.light': 'light',

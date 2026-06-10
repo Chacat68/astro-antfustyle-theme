@@ -5,7 +5,7 @@ import { getCollection, getEntry } from 'astro:content'
 import { getLocale } from '~/i18n/translate'
 
 import type { CollectionEntry } from 'astro:content'
-import type { AppLocale } from '~/i18n/locales'
+import { isDefaultLocale, DEFAULT_LOCALE, type AppLocale } from '~/i18n/locales'
 
 let englishPostsById: Map<string, CollectionEntry<'blog_en'>> | undefined
 
@@ -35,15 +35,19 @@ const locale = getLocale(Astro.currentLocale)
 const slug = Astro.params.slug
 if (!slug) throw new Error('Missing blog post slug')
 
-const enPost = locale === 'en' ? (await getEnglishPostsById()).get(slug) : null
+const enPost = !isDefaultLocale(locale)
+  ? (await getEnglishPostsById()).get(slug)
+  : null
 
 const post = enPost ?? (await getEntry('blog', slug))
 
 if (!post) throw new Error(`Blog post not found: ${slug}`)
 
-const isEnglishFallback = locale === 'en' && !enPost
-const availableLocales: AppLocale[] = enPost ? ['zh', 'en'] : ['zh']
-const canonicalLocale: AppLocale = isEnglishFallback ? 'zh' : locale
+const isEnglishFallback = !isDefaultLocale(locale) && !enPost
+const availableLocales: AppLocale[] = enPost
+  ? [DEFAULT_LOCALE, 'en']
+  : [DEFAULT_LOCALE]
+const canonicalLocale: AppLocale = isEnglishFallback ? DEFAULT_LOCALE : locale
 ---
 
 <RenderPost

@@ -10,6 +10,7 @@ import { atUriToPostUri } from 'astro-loader-bluesky-posts'
 
 import { resolvePath } from './path'
 import { getLocale } from '~/i18n/translate'
+import { isDefaultLocale } from '~/i18n/locales'
 
 import type { CollectionEntry, CollectionKey } from 'astro:content'
 import type { CardItemData } from '~/components/views/CardItem.astro'
@@ -59,7 +60,7 @@ export async function getFilteredPosts<
 export async function getLocalizedBlogPosts(locale: unknown) {
   const zhPosts = await getFilteredPosts('blog')
 
-  if (getLocale(locale) !== 'en') return zhPosts
+  if (isDefaultLocale(getLocale(locale))) return zhPosts
 
   let enPosts: CollectionEntry<'blog_en'>[] = []
   try {
@@ -289,52 +290,16 @@ export async function getShortsFromBlog(data: CollectionEntryList<'blog'>) {
     const title = item.data.title
     const date = item.data.pubDate
 
-    if (slug === 'markdown-syntax-guide') {
-      cards.push({
-        link: `${basePath}/${slug}`,
-        text: title,
+    const { headings } = await render(item)
+    const itemCards = headings
+      .filter((h) => h.depth === 2)
+      .map((h) => ({
+        link: `${basePath}${slug}/#${h.slug}`,
+        text: `${title}: ${h.text}`,
         date: date,
-      })
-    } else {
-      const { headings } = await render(item)
-      const neededHeadingLevel = slug === 'faqs-and-known-issues' ? 3 : 2
-      let processedTitle = title
-      switch (slug) {
-        case 'faqs-and-known-issues':
-          processedTitle = 'FAQs'
-          break
-        case 'adding-new-posts':
-          processedTitle = 'New Posts'
-          break
-        case 'recreating-current-pages':
-          processedTitle = 'Current Pages'
-          break
-        case 'customizing-github-activity-pages':
-          processedTitle = 'GitHub Activity'
-          break
-        case 'markdown-mdx-extended-features':
-          processedTitle = 'Extended Features'
-          break
-        case 'managing-image-assets':
-          processedTitle = 'Asset Management'
-          break
-        case 'about-open-graph-images':
-          processedTitle = 'Open Graph'
-          break
-      }
+      }))
 
-      const itemCards = headings
-        .filter(
-          (h) => h.depth === neededHeadingLevel && h.text !== 'Wrapping Up'
-        )
-        .map((h) => ({
-          link: `${basePath}${slug}/#${h.slug}`,
-          text: `${processedTitle}: ${h.text}`,
-          date: date,
-        }))
-
-      cards.push(...itemCards)
-    }
+    cards.push(...itemCards)
   }
 
   return cards

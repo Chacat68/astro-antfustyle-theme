@@ -1,4 +1,4 @@
-@import 'viewerjs/dist/viewer.css';
+/* viewerjs 样式改为在 ImageViewer.astro 内按需引入，避免全站加载 */
 @import 'rehype-callouts/theme/vitepress';
 @import url('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css');
 

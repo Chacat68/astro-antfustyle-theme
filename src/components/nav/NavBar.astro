@@ -1,12 +1,10 @@
 ---
 import LogoButton from '~/components/widgets/LogoButton.astro'
-import Divider from '~/components/base/Divider.astro'
-import SearchSwitch from '~/components/widgets/SearchSwitch.astro'
 import LanguageSwitch from '~/components/widgets/LanguageSwitch.astro'
-import ThemeSwitch from '~/components/widgets/ThemeSwitch.astro'
 import RssLink from '~/components/widgets/RssLink.astro'
 import NavItem from '~/components/nav/NavItem.astro'
 import NavSwitch from '~/components/nav/NavSwitch.astro'
+import NavBarSlot from '~/components/nav/NavBarSlot.astro'
 
 import { UI } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
@@ -56,27 +54,12 @@ for (const item of new Set(left)) {
         <div
           class={`grid grid-flow-col items-center gap-4.8 print:op-0 ${mergeOnMobile ? '' : 'lt-md:(gap-3)'}`}
         >
-          {left.map((key) =>
-            key === 'hr' ? (
-              <Divider class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
-            ) : key === 'searchButton' ? (
-              <SearchSwitch />
-            ) : key === 'langButton' ? (
-              <LanguageSwitch />
-            ) : key === 'themeButton' ? (
-              <ThemeSwitch />
-            ) : key === 'rssLink' ? (
-              <RssLink class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
-            ) : key === 'internalNavs' ? (
-              localizedInternalNavs.map((item) => (
-                <NavItem type="internal" {item} {mergeOnMobile} />
-              ))
-            ) : (
-              socialLinks.map((item) => (
-                <NavItem type="social" {item} {mergeOnMobile} />
-              ))
-            )
-          )}
+          <NavBarSlot
+            keys={left}
+            {mergeOnMobile}
+            internalNavs={localizedInternalNavs}
+            {socialLinks}
+          />
         </div>
       )
     }
@@ -87,27 +70,12 @@ for (const item of new Set(left)) {
               ${!right.includes('themeButton') && !right.includes('searchButton') && 'lt-md:hidden'}
               ${mergeOnMobile ? '' : 'lt-md:(gap-3)'}`}
         >
-          {right.map((key) =>
-            key === 'hr' ? (
-              <Divider class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
-            ) : key === 'searchButton' ? (
-              <SearchSwitch />
-            ) : key === 'langButton' ? (
-              <LanguageSwitch />
-            ) : key === 'themeButton' ? (
-              <ThemeSwitch />
-            ) : key === 'rssLink' ? (
-              <RssLink class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
-            ) : key === 'internalNavs' ? (
-              localizedInternalNavs.map((item) => (
-                <NavItem type="internal" {item} {mergeOnMobile} />
-              ))
-            ) : (
-              socialLinks.map((item) => (
-                <NavItem type="social" {item} {mergeOnMobile} />
-              ))
-            )
-          )}
+          <NavBarSlot
+            keys={right}
+            {mergeOnMobile}
+            internalNavs={localizedInternalNavs}
+            {socialLinks}
+          />
         </div>
       )
     }

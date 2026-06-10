@@ -335,7 +335,7 @@ export interface ResponsiveSocialItem extends BaseSocialItem {
 
 export type SocialLink = TextSocialItem | IconSocialItem | ResponsiveSocialItem
 
-type NavBarComponentType =
+export type NavBarComponentType =
   | 'internalNavs'
   | 'socialLinks'
   | 'searchButton'
@@ -818,3 +818,6 @@ export interface Features {
    */
   search: FeatureConfig<SearchConfig>
 }
+
+/* Re-exports（统一从 `~/types` 引入跨模块类型） */
+export type { PhotoGalleryItem } from './types/photo-gallery'

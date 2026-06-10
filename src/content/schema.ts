@@ -234,6 +234,12 @@ export const projectSchema = z.object({
   desc: z
     .string()
     .describe('**Required**. A brief description summarizing the project.'),
+  descEn: z
+    .string()
+    .optional()
+    .describe(
+      'Optional. English description shown on `/en/*` routes; falls back to `desc`.'
+    ),
   icon: z
     .string()
     .regex(
@@ -244,6 +250,12 @@ export const projectSchema = z.object({
       '**Required**. Icon representing the project. It must be in the format `i-<collection>-<icon>` or `i-<collection>:<icon>` as per [UnoCSS](https://unocss.dev/presets/icons) specs. [Check all available icons here](https://icones.js.org/).'
     ),
   category: z.string().describe('**Required**. Category of the project.'),
+  categoryEn: z
+    .string()
+    .optional()
+    .describe(
+      'Optional. English category shown on `/en/*` routes; falls back to `category`.'
+    ),
 })
 
 export type ProjectSchema = z.infer<typeof projectSchema>
@@ -261,6 +273,12 @@ export const friendSchema = z.object({
     .string()
     .describe(
       '**Required**. A brief description about the friend or their blog.'
+    ),
+  descEn: z
+    .string()
+    .optional()
+    .describe(
+      'Optional. English description shown on `/en/*` routes; falls back to `desc`.'
     ),
   avatar: z
     .string()
@@ -280,6 +298,12 @@ export const friendSchema = z.object({
       'Icon representing the friend. Used as fallback when avatar is not provided. It must be in the format `i-<collection>-<icon>` or `i-<collection>:<icon>` as per [UnoCSS](https://unocss.dev/presets/icons) specs. [Check all available icons here](https://icones.js.org/).'
     ),
   category: z.string().describe('**Required**. Category of the friend link.'),
+  categoryEn: z
+    .string()
+    .optional()
+    .describe(
+      'Optional. English category shown on `/en/*` routes; falls back to `category`.'
+    ),
 })
 
 export type FriendSchema = z.infer<typeof friendSchema>
