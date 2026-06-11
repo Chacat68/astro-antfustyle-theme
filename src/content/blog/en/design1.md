@@ -2,7 +2,7 @@
 title: "Design Thinking: Dieter Rams' Ten Principles of Good Design"
 pubDate: '2021-06-18'
 lastModDate: '2021-06-18'
-description: 'Introduces the ten principles of good design proposed by Dieter Rams, covering aspects such as innovation, aesthetics, and practicality, helping readers understand the core elements of excellent design.'
+description: 'Introduces the ten principles of good design proposed by Dieter Rams, covering aspects such as innovation, aesthetics, and practicality, helping readers…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175649339.png?imageSlim'
 tags: [Business, Design, Remote Work, Entrepreneurship, Management]
 category: 'Design Thinking'

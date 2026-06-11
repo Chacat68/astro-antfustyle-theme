@@ -11,7 +11,7 @@ export const SITE = {
 }
 ```
 
-该值会影响 sitemap、RSS、Open Graph、JSON-LD 结构化数据与 canonical URL。请勿继续使用上游主题的 demo 域名。
+该值会影响 sitemap、RSS、Open Graph、JSON-LD 结构化数据与 canonical URL。请勿继续使用上游主题的 demo 域名。完整 SEO 策略与维护流程见 [seo.md](./seo.md)。
 
 ## 站内链接规范
 
@@ -26,6 +26,12 @@ export const SITE = {
 项目页中指向本站项目列表的条目，使用完整 URL `https://foo-z.com/projects/`（schema 要求 `link` 为合法 URL，不可用相对路径）。
 
 独立子站（如 `https://arch.chawfoo.com/`）可继续保留完整 URL。
+
+## AI 绘图画廊（`/gallery`）
+
+AI 生成图、概念稿等集中在 **`/gallery`**，数据文件为 **`src/content/ai-gallery/data.json`**，本地素材放在 **`src/content/ai-gallery/images/`**（或该目录下任意子路径）。每条目为 `{ "id": "…", "desc": "…" }`：`id` 为相对路径（如 `images/foo.webp`）或可访问的 `https://` 图片地址；`desc` 为可选说明（提示词、模型、日期等）。
+
+详细步骤、示例 JSON 与体积建议见同目录说明：**[src/content/ai-gallery/README.md](../src/content/ai-gallery/README.md)**。相册 `/photos` 的配置方式类似，数据在 `src/content/photos/data.json`。
 
 ## CI（GitHub Actions）
 

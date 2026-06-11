@@ -2,7 +2,7 @@
 title: "The Pause Button of Life: Finding a New Focus"
 pubDate: '2022-09-21'
 lastModDate: '2022-09-21'
-description: 'During a work hiatus, reflections and practices on how to reshape the rhythm of life, including time management, controlling information intake, and family life. Through specific daily arrangements, seeking new life priorities and meaning.'
+description: 'During a work hiatus, reflections and practices on how to reshape the rhythm of life, including time management, controlling information intake, and family…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042817782.png?imageSlim'
 tags: [Life Rhythm, Time Management, Information Control, Family Life, Creativity, Health]
 category: 'Life Essays'

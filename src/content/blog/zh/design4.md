@@ -2,7 +2,7 @@
 title: 从策展到创作：AI助手的三种应用场景
 pubDate: '2023-02-25'
 lastModDate: '2023-02-25'
-description: '探讨了AI在创作过程中的应用及其未来发展趋势。'
+description: 从少楠《产品沉思录》到知识策展：中文互联网信息分散、应用成孤岛，如何降低获取成本，并控制个人信息消费量，让笔记系统真正服务于思考。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175933513.png?imageSlim'
 tags: [AI, 设计, 创作, 工具, 效率]
 category: '人工智能'

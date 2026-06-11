@@ -2,7 +2,7 @@
 title: 2023年必装Chrome插件推荐
 pubDate: '2023-03-11'
 lastModDate: '2023-03-11'
-description: '2023年chrome浏览器插件介绍和推荐。'
+description: 在网络时代，浏览器已成为人们日常生活不可或缺的一部分。浏览器插件是一种能够为浏览器增加功能的软件，可以为用户提供更好的上网体验。在本文中，我将会介绍一些常用的浏览器插件。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173821439.png?imageSlim'
 tags: [浏览器插件, 效率工具, 翻译工具, 网页优化, 设计工具]
 category: '生活随笔'

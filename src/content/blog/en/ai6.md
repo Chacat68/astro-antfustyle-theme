@@ -2,7 +2,7 @@
 title: "ComfyUI Prompt Assistant: The All-in-One Plugin for Simpler and More Efficient AI Painting"
 pubDate: '2025-08-10'
 lastModDate: '2025-08-10'
-description: 'Introducing a powerful ComfyUI prompt plugin that supports translation, expansion, image reverse inference, and more, making AI painting workflows more convenient and efficient.'
+description: 'Introducing a powerful ComfyUI prompt plugin that supports translation, expansion, image reverse inference, and more, making AI painting workflows more…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175820648.png?imageSlim'
 tags: [AI, ComfyUI, Prompts, Plugin, Painting, Tools]
 category: 'Artificial Intelligence'

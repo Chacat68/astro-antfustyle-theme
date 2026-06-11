@@ -2,7 +2,7 @@
 title: "To My 32-Year-Old Self: Reflections on Creation and Decision-Making"
 pubDate: '2020-02-17'
 lastModDate: '2020-02-17'
-description: 'At the age of 32, the author reflects on time management, the anxiety in the creative process, the sources of happiness, and explores the boundaries of creation and the importance of decision-making.'
+description: 'At the age of 32, the author reflects on time management, the anxiety in the creative process, the sources of happiness, and explores the boundaries of…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042750536.png?imageSlim'
 tags: [Life Rhythm, Time Management, Family Life, Creativity, Happiness, Decision-Making, Boundaries, Pressure, Technology, Team]
 category: 'Life Essays'

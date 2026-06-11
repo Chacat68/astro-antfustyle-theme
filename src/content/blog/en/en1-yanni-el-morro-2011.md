@@ -2,7 +2,7 @@
 title: Between Ancient Fortress and Ocean, Listening to the Heartbeat of the World
 pubDate: '2025-10-26'
 lastModDate: '2025-10-26'
-description: 'Yanni’s 2011 live concert at El Morro in Puerto Rico, using the ancient fortress as a stage, connects history and the present through pure music, composing emotional resonance that transcends cultures.'
+description: 'Yanni’s 2011 live concert at El Morro in Puerto Rico, using the ancient fortress as a stage, connects history and the present through pure music, composing…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251026164649359.webp?imageSlim'
 tags: [Music, Yanni, Concert, Pure Music, World Music]
 category: 'Music Appreciation'

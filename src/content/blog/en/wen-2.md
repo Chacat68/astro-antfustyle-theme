@@ -1,5 +1,5 @@
 ---
-title: The Invitation《生活的邀请函》
+title: 'The Invitation: Coexisting with Joy, Pain, and Solitude'
 pubDate: '2023-03-04'
 lastModDate: '2023-03-04'
 description: 'The Invitation: To coexist with pain and joy, to face failure, and to enjoy your own company in solitude.'

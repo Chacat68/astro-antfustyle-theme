@@ -2,7 +2,7 @@
 title: 信息管理的进化：AI时代的笔记整理术
 pubDate: '2021-07-25'
 lastModDate: '2021-07-25'
-description: '反思过去太过于粗放随意的信息处理方式，信息的流动、关联、整合都存在问题。'
+description: 近期在整理notion，发现自己继承了印象笔记时期的收藏习惯，把在互联网上收集到的信息按照用途种类做了很多细致的划分，本质上是一条条等待整理的信息，他们之间并没有发生关联， 而信息的关联和整合，恰恰是AI时代获取信息的效率技巧。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042536930.png?imageSlim'
 tags: [Notion, 知识管理, AI工具, 思维成长, 数学, 信息理论]
 category: '生活随笔'

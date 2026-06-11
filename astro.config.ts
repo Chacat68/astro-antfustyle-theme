@@ -12,17 +12,11 @@ import mdx from '@astrojs/mdx'
 
 import { remarkPlugins, rehypePlugins } from './plugins'
 import { SITE } from './src/config'
-
-const noindexRoutePaths = new Set([
-  '/404/',
-  '/feeds/',
-  '/highlights/',
-  '/prs/',
-  '/releases/',
-  '/streams/',
-])
+import {
+  getAbsoluteSiteUrl,
+  shouldIncludeInSitemap,
+} from './src/utils/seo'
 const markdownExtensions = new Set(['.md', '.mdx'])
-const configuredBasePath = getConfiguredBasePath()
 const englishBlogIds = collectMarkdownContentIds(
   fileURLToPath(new URL('./src/content/blog/en', import.meta.url))
 )
@@ -45,11 +39,6 @@ const customSitemapPages = Array.from(
       .map((id) => getAbsoluteSiteUrl(`/en/blog/${id}/`)),
   ])
 )
-
-function getConfiguredBasePath() {
-  const trimmedBase = SITE.base.replace(/^\/+|\/+$/g, '')
-  return trimmedBase ? `/${trimmedBase}/` : '/'
-}
 
 function collectMarkdownContentIds(
   directory: string,
@@ -86,51 +75,6 @@ function collectMarkdownContentIds(
   return contentIds
 }
 
-function getAbsoluteSiteUrl(routePath: string) {
-  const basePath = configuredBasePath === '/' ? '/' : configuredBasePath
-  const pathname = `${basePath}${routePath.replace(/^\/+/, '')}`.replace(
-    /\/+/g,
-    '/'
-  )
-  const url = new URL(pathname, SITE.website)
-  url.protocol = 'https:'
-  return url.href
-}
-
-function normalizeRoutePath(pathname: string) {
-  let routePath = pathname
-  if (configuredBasePath !== '/' && routePath.startsWith(configuredBasePath)) {
-    routePath = `/${routePath.slice(configuredBasePath.length)}`
-  }
-
-  routePath = routePath.replace(/\/+/g, '/')
-  if (!routePath.startsWith('/')) routePath = `/${routePath}`
-  return routePath.endsWith('/') ? routePath : `${routePath}/`
-}
-
-function isNoindexRoute(routePath: string) {
-  if (noindexRoutePaths.has(routePath)) return true
-  if (!routePath.startsWith('/en/')) return false
-
-  const unprefixedRoutePath = routePath.replace(/^\/en/, '') || '/'
-  return noindexRoutePaths.has(unprefixedRoutePath)
-}
-
-function isMissingEnglishBlogTranslation(routePath: string) {
-  const match = routePath.match(/^\/en\/blog\/(.+)\/$/)
-  if (!match) return false
-
-  return !englishBlogIds.has(decodeURIComponent(match[1]))
-}
-
-function shouldIncludeInSitemap(page: string) {
-  const routePath = normalizeRoutePath(new URL(page).pathname)
-
-  if (isNoindexRoute(routePath)) return false
-  if (isMissingEnglishBlogTranslation(routePath)) return false
-  return true
-}
-
 const sitemapURL = new URL('sitemap-index.xml', SITE.website).href
 const siteHost = new URL(SITE.website).host
 
@@ -153,7 +97,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: shouldIncludeInSitemap,
+      filter: (page) => shouldIncludeInSitemap(page, englishBlogIds),
       customPages: customSitemapPages,
       i18n: {
         defaultLocale: 'zh',

@@ -2,7 +2,7 @@
 title: "Calm Amidst Upheaval: 2024 Life Notes"
 pubDate: '2024-12-31'
 lastModDate: '2024-12-31'
-description: 'A record of this year, living happily.'
+description: 'The overall feeling of this year: freedom, calm, and upheaval. Myself, family, and the surrounding society are all undergoing intense changes.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104172842744.png?imageSlim'
 tags: [scarcity, life, living, daily]
 category: 'Life Essays'

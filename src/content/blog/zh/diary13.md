@@ -2,7 +2,7 @@
 title: 华语集《伍佰：泪桥》
 pubDate: '2023-12-12'
 lastModDate: '2023-12-12'
-description: '那一刻，感受到亏欠。'
+description: 华语集《伍佰：泪桥》：记录陪伴成长的华语音乐。伍佰这首歌里「感受到亏欠」的情绪，勾起了某段难忘的回忆与心绪。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174006740.png?imageSlim'
 tags: [音乐, 伍佰, 摇滚, 情感, 回忆, 人生]
 category: '生活随笔'

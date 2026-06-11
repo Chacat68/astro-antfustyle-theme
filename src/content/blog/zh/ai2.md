@@ -2,7 +2,7 @@
 title: AI助手的进化：从通用到个性化定制
 pubDate: '2023-11-21'
 lastModDate: '2023-11-21'
-description: '23年10月阶段性对AI观感的思考，一种更可控的方式出现，AI变成了一种能力.'
+description: OpenAI已经将模型的能力推向了一个极度易用的程度，多模态的结合使我原本需要在脑海或物理上进行的整合工作减少了。下一步，我将基于自己的工作流，抽象出需要完成的任务的能力，制作成定制的GPTs，这将极大地扩展我们的能力边界。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501175756636.png?imageSlim'
 tags: [AI, 设计, 创作, 工具, 效率]
 category: '人工智能'

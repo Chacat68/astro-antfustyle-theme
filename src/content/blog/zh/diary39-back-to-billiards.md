@@ -2,7 +2,7 @@
 title: 生活小记：重新打球的乐趣
 pubDate: '2025-12-08'
 lastModDate: '2025-12-08'
-description: '在家附近的桌球室里，找回了久违的专注与乐趣，在一杆一球中排解生活的无聊时光。'
+description: 最近的工作节奏异常紧张，生活中难免感到些许乏味和压力。某次在家附近和家人聊电话时候，看到了一家桌球室，最近便开始重新打起了桌球。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251208012733802.webp?imageSlim'
 tags: [桌球, 台球, 休闲, 日常]
 category: '生活随笔'

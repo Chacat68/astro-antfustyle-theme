@@ -126,24 +126,37 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.projects.title': '项目',
     'page.projects.subtitle': '正在参与制作的项目，内容创作等',
     'page.projects.description':
-      '这里展示了我正在参与制作的项目、内容创作等。欢迎查看并参与其中！',
+      '付之一笑项目集：正在参与的游戏开发、内容创作与技术探索，含开源工具、独立作品与长期实验项目，欢迎查看与参与。',
     'page.friends.title': '友链',
     'page.friends.subtitle': '我的朋友们，感谢你们的支持与陪伴',
     'page.friends.description':
-      '这里展示了我的博客朋友们，感谢他们的支持与陪伴！',
+      '付之一笑友链页：收录博客伙伴与创作者链接，感谢一路以来的支持、交流与陪伴，也欢迎志同道合的朋友互换友链。',
     'page.photos.title': '相册',
     'page.photos.subtitle': '我的个人相册，记录生活中的美好瞬间',
     'page.photos.description':
-      '个人相册页面：记录生活中的美好瞬间，通过镜头捕捉日常的精彩与感动，分享手机摄影作品。',
+      '个人手机摄影相册：记录旅途、日常与值得留住的瞬间，以镜头捕捉光影、情绪与生活里那些细碎而真实的感动。',
     'page.gallery.title': 'AI 作品集',
     'page.gallery.subtitle': '用生成式 AI 创作的图像与视觉实验',
     'page.gallery.description':
-      '集中展示 AI 辅助生成的插画、概念图与视觉习作；数据来自本地 JSON 与可选配图目录。',
+      'AI 视觉作品集：集中展示生成式 AI 辅助创作的插画、概念图与视觉习作，数据来自本地 JSON 与可选配图目录。',
     'page.gallery.empty': '这里还没有 AI 作品',
     'page.changelog.title': '更新日志',
     'page.changelog.subtitle': '',
     'page.changelog.description':
-      '记录博客的每一次迭代和改进，追踪功能更新、设计优化和技术升级，展示网站持续进化的历程。',
+      '记录付之一笑博客的每一次版本迭代：功能更新、设计优化、SEO 改进与技术重构，追踪站点持续演进的全过程。',
+    'page.feeds.title': 'Astro Blog',
+    'page.feeds.subtitle':
+      '示例：使用 @ascorbic/feed-loader 获取 Astro 官方博客文章',
+    'page.feeds.description':
+      '主题示例页，展示如何集成外部 RSS 源。该页面不对搜索引擎开放索引。',
+    'page.streams.title': 'Astro Streams',
+    'page.streams.subtitle': '示例：使用本地 JSON 数据展示 Astro 动态流',
+    'page.streams.description':
+      '主题示例页，演示社交媒体式信息流布局。该页面不对搜索引擎开放索引。',
+    'page.highlights.title': '精选集',
+    'page.highlights.subtitle': '展示创意作品或精选内容',
+    'page.highlights.description':
+      '主题示例页，瀑布流展示精选内容。该页面不对搜索引擎开放索引。',
     'page.releases.title': 'AstroEco 正在发布…',
     'page.releases.description':
       '使用 astro-loader-github-releases 展示 GitHub Releases',
@@ -321,7 +334,21 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.changelog.title': 'Changelog',
     'page.changelog.subtitle': '',
     'page.changelog.description':
-      'Site release notes covering feature updates, design improvements, and technical changes.',
+      'Release notes for foo-z.com: feature updates, design improvements, SEO work, and technical refactors across each site version.',
+    'page.feeds.title': 'Astro Blog',
+    'page.feeds.subtitle':
+      'Example: fetching Astro blog posts with @ascorbic/feed-loader',
+    'page.feeds.description':
+      'Theme demo page for external RSS integration. Excluded from search engine indexing.',
+    'page.streams.title': 'Astro Streams',
+    'page.streams.subtitle':
+      'Example: displaying Astro streams with local JSON data',
+    'page.streams.description':
+      'Theme demo page for a social-style activity stream. Excluded from search engine indexing.',
+    'page.highlights.title': 'Highlights',
+    'page.highlights.subtitle': 'Showcase creative work or curated posts',
+    'page.highlights.description':
+      'Theme demo page with a masonry highlights layout. Excluded from search engine indexing.',
     'page.releases.title': 'AstroEco is Releasing...',
     'page.releases.description':
       'Display your GitHub releases using astro-loader-github-releases',

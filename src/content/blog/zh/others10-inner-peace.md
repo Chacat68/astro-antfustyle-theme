@@ -2,7 +2,7 @@
 title: 真正的平静不在远方，就在当下的每一刻
 pubDate: '2025-09-10'
 lastModDate: '2025-09-10'
-description: '通过一个深刻的寓言故事，探讨如何在快节奏的现代生活中找到内心的平静与专注。'
+description: 信息爆炸的时代，我们常像马可一样抱着不安四处奔跑，被过去拖拽、被未来撩拨。平静不必远求深山，也可以在当下练习：把注意力带回此刻，安顿自己的心。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250911021639881.webp?imageSlim'
 tags: [内心平静, 专注力, 当下意识, 心理健康, 生活哲学]
 category: '它山之石'

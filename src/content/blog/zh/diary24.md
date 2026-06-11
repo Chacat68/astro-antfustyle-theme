@@ -2,7 +2,7 @@
 title: 随笔：稀缺的晴天与幸福
 pubDate: '2024-11-04'
 lastModDate: '2024-11-04'
-description: '稀缺是日常生活中容易被忽视的片段。'
+description: 最近连绵不断的雨天，加上中途来几场台风，把我困在家里，待得有点难受了。恰逢周末的时候是晴天，走到楼下，坐在凳子上，享受下午温暖的阳光。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042104415.png?imageSlim'
 tags: [稀缺, 生活, 日常]
 category: '生活随笔'
