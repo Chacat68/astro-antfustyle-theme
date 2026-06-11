@@ -2,7 +2,7 @@
 title: AI美术创作：从概念图到3D建模的革新
 pubDate: '2022-12-04'
 lastModDate: '2022-12-04'
-description: '介绍了AI在2D和3D设计中的应用，探讨了未来的发展趋势。'
+description: 在2022年这个时间点，有多款AI模型取得显著的进步。让我们可以借助AI来创作绘画、文章等内容，并衍生出AIGC行业。我尝试了市面上比较流行的Midjourney，记录体验和思考。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501043448303.png?imageSlim'
 tags: [AI, 设计, 素材库, 工具, 效率]
 category: '人工智能'

@@ -2,7 +2,7 @@
 title: "The Dream Collaboration: Wu Bai and LaLa Hsu's Live Performance of \"Passive\""
 pubDate: '2025-08-26'
 lastModDate: '2025-08-26'
-description: "The longer I love you, the more passive I become. When Wu Bai's rock meets LaLa Hsu's tenderness, the song \"Passive\" shines with a unique brilliance on stage—it's the most honest confession about love and the purest power of music."
+description: 'The longer I love you, the more passive I become. When Wu Bai''s rock meets LaLa Hsu''s tenderness, the song \"Passive\" shines with a unique brilliance on…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250826002854060.webp?imageSlim'
 tags: [Music, Wu Bai, LaLa Hsu, Passive, Live, Collaboration]
 category: 'Music Appreciation'

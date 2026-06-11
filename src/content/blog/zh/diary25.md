@@ -2,7 +2,7 @@
 title: 告别主流叙事：寻找人生新坐标
 pubDate: '2024-11-04'
 lastModDate: '2024-11-04'
-description: '中年人生的自我救赎，探索不同的可能性。'
+description: 告别主流叙事，寻找人生新坐标：追求简单生活，与亲友相聚、品味美食，专注于真正重要的事情，探索中年人生的另一种可能。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104172011526.png?imageSlim'
 tags: [稀缺, 生活, 日常]
 category: '生活随笔'

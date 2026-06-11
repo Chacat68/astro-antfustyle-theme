@@ -2,7 +2,7 @@
 title: 新居、旧习与归途：一段回家的故事
 pubDate: '2023-07-04'
 lastModDate: '2023-07-04'
-description: '本文介绍了Notion的核心功能及其在知识管理中的应用，包括功能块、自由排版、页面和信息组织系统等。'
+description: 家里新房装修完毕，父亲盼我回乡参加入伙仪式。一段关于新居、旧习与归途的生活札记，记录回家路上的所见、记忆与感触。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174132923.png?imageSlim'
 tags: [生活, 新屋入伙, 装修, 家具, 家电]
 category: '生活随笔'

@@ -2,7 +2,7 @@
 title: 《IF 如果》
 pubDate: '2020-01-17'
 lastModDate: '2020-01-17'
-description: '分享了Rudyard Kipling的诗歌《If》的翻译。'
+description: 这首英诗是我在看《我董你》采访周玉琴小姐所知道的，上网搜索了一下，《三感》Blog上翻译的版本不错，借此与诸位分享。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173209859.png?imageSlim'
 tags: [生活,诗句,英文,Rudyard Kipling]
 category: '它山之石'

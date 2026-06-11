@@ -2,7 +2,7 @@
 title: A Brief Note on the Blog's Labor Day Redesign
 pubDate: '2025-05-03'
 lastModDate: '2025-05-03'
-description: 'Documenting the process of redesigning the blog using the fuwari theme, including Vercel deployment, migrating features from the old theme (projects, friends links, article list styling), and the experience of using an AI IDE for assisted development.'
+description: 'Documenting the process of redesigning the blog using the fuwari theme, including Vercel deployment, migrating features from the old theme (projects, friends…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250503031704734.png?imageSlim'
 tags: [Astro, fuwari, Vercel, Blog, Theme Customization, Frontend Development, AI Programming]
 category: 'Life Notes'

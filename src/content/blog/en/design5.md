@@ -2,7 +2,7 @@
 title: "Design Thinking: Notion AI Makes Writing Easier"
 pubDate: '2023-03-16'
 lastModDate: '2023-03-16'
-description: 'Notion AI is a writing assistant based on the GPT-3 artificial intelligence model. It leverages natural language processing and machine learning technologies to provide intelligent writing support. It is suitable for various user groups and can enhance writing efficiency and quality in academic research, business writing, and daily life.'
+description: Notion AI is a writing assistant based on the GPT-3 artificial intelligence model. It leverages natural language processing and machine learning technologies…
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501043522165.png?imageSlim'
 tags: [AI Tools, Writing, Tools, Efficiency, Notion]
 category: 'Artificial Intelligence'

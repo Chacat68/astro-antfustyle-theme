@@ -2,7 +2,7 @@
 title: 'Stoicism: A Structured Introduction - History, Framework, and Practical Reason'
 pubDate: '2026-01-03'
 lastModDate: '2026-01-03'
-description: 'A more academic overview of Stoicism: its historical lineage, the tripartite system (logic–physics–ethics), virtue ethics and emotion theory, plus its contemporary relevance and limits.'
+description: 'A more academic overview of Stoicism: its historical lineage, the tripartite system (logic–physics–ethics), virtue ethics and emotion theory, plus its…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260103024012581.webp?imageSlim'
 tags: [Stoicism, Classical Philosophy, Virtue Ethics, Ethics, Practical Philosophy, Emotion Theory]
 category: 'Learning from Others'

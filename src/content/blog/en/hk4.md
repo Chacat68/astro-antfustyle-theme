@@ -2,7 +2,7 @@
 title: "Cantopop Collection: \"The Laughing Girl\" Miriam Yeung"
 pubDate: '2023-03-03'
 lastModDate: '2023-03-03'
-description: 'Miriam Yeung is one of my favorite female singers from Hong Kong and Taiwan. Her songs have accompanied my entire youth, especially the album "Wild Child," which also witnessed the ups and downs of her friendship with Wyman Wong.'
+description: 'Miriam Yeung is one of my favorite female singers from Hong Kong and Taiwan. Her songs have accompanied my entire youth, especially the album "Wild Child,"…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501172043852.png?imageSlim'
 tags: [Cantopop, Hong Kong Singers, Miriam Yeung, Music Review, Cantonese Pop Songs]
 category: 'Music Appreciation'

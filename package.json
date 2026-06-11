@@ -19,7 +19,9 @@
     "toolbar:on": "astro preferences enable devToolbar",
     "toolbar:off": "astro preferences disable devToolbar",
     "prepare": "simple-git-hooks",
-    "postbuild": "pagefind --site dist --exclude-selectors \"pre\" --include-characters \"<>\" && del-cli \"dist/pagefind/*ui*\""
+    "postbuild": "pagefind --site dist --exclude-selectors \"pre\" --include-characters \"<>\" && del-cli \"dist/pagefind/*ui*\"",
+    "seo:audit": "node scripts/seo-audit.mjs",
+    "seo:fix-descriptions": "node scripts/fix-blog-descriptions.mjs"
   },
   "devDependencies": {
     "@ascorbic/feed-loader": "^1.0.4",

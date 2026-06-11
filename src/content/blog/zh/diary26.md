@@ -2,7 +2,7 @@
 title: 平静中的剧变：2024生活札记
 pubDate: '2024-12-31'
 lastModDate: '2024-12-31'
-description: '算是这一年的记录，快乐生活.'
+description: 2024 生活札记：自由、平静与剧变交织的一年。主动与网络拉开距离，散步、听播客、写人生白皮书，在冲撞中更懂自己要什么。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104172842744.png?imageSlim'
 tags: [稀缺, 生活, 日常]
 category: '生活随笔'

@@ -2,7 +2,7 @@
 title: Hiding Timidity in Courage, Letting Light Illuminate Growth
 pubDate: '2024-10-08'
 lastModDate: '2025-10-18'
-description: "With its fresh, flowing melody and documentary-style visuals, \"Pushing Open the World's Door\" accompanies every act of courage to step outside, making it especially fitting for you and me during graduation season."
+description: 'With its fresh, flowing melody and documentary-style visuals, \"Pushing Open the World''s Door\" accompanies every act of courage to step outside, making it…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251018044235001.webp?imageSlim'
 tags: [Music, Faith Yang, Pushing Open the World's Door, MV, Chinese Pop, Graduation Season]
 category: 'Music Appreciation'

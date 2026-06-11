@@ -2,7 +2,7 @@
 title: 踉跄的2023
 pubDate: '2023-12-30'
 lastModDate: '2023-12-30'
-description: '踉跄的2023年，变故频生，生活调整与重新设定目标。'
+description: 踉跄的 2023：不管以什么姿态度过这一年，都过去了。变故频生，在调整生活与目标的过程中，写下这段年度回望。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042453713.png?imageSlim'
 tags: [生活, 情感, 阅读, 人生]
 category: '生活随笔'

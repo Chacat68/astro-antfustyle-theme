@@ -5,6 +5,7 @@ import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n'
 
 import { checkFileExistsInDir } from '../../../plugins/remark-generate-og-image'
 import { withBasePath } from '~/utils/path'
+import { formatPageTitle, truncateMetaDescription } from '~/utils/seo'
 import { SITE, UI } from '~/config'
 import { getLocale } from '~/i18n/translate'
 import { localeToHtmlLang, localeToOgLocale } from '~/i18n/locale-meta'
@@ -40,10 +41,11 @@ const {
 const locale = getLocale(Astro.currentLocale)
 const canonicalLocale = getLocale(canonicalLocaleProp ?? locale)
 
-const pageTitle =
-  title && title !== SITE.title ? `${title} - ${SITE.title}` : SITE.title
+const pageTitle = formatPageTitle(title, SITE.title)
 
-const pageDescription = description || SITE.description
+const pageDescription = truncateMetaDescription(
+  description || SITE.description
+)
 const schemaName = title || SITE.title
 const normalizedTags = tags.filter((tag) => tag.trim().length > 0)
 const robotsContent = noindex

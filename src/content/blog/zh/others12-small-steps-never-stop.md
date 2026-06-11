@@ -2,7 +2,7 @@
 title: 改善之道：每天只做一点点，但永不停止
 pubDate: '2025-12-17'
 lastModDate: '2025-12-17'
-description: '一个 6 分多钟的视频提醒我：别把能量花在“谈梦想”上，把它用在每天一点点的行动里。'
+description: 我们常以为：只要想得足够清楚、说得足够激动人心，行动就会自然而然发生。但这期视频给了我一个更扎心、也更有效的答案：别急着燃，先动起来。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251221142443160.webp?imageSlim'
 tags: [自我提升, 行动, 习惯养成, 复利, 拖延, 心理学]
 category: '它山之石'

@@ -2,7 +2,7 @@
 title: 港乐集《陈奕迅：失恋三部曲》
 pubDate: '2025-02-01'
 lastModDate: '2025-02-01'
-description: '擁不擁有也會記住誰 快不快樂留在身體裡。'
+description: 港乐集陈奕迅失恋三部曲：从《人来人往》到《明天今日》再到《富士山下》，林夕与 Eason 串起失恋光谱的三重痛觉与顿悟。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/2025-02-01-12-29-08.png?imageSlim'
 tags: [粤语音乐, 陈奕迅, 情歌, 失恋三部曲]
 category: '音乐欣赏'

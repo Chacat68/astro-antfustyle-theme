@@ -2,7 +2,7 @@
 title: If You Must Leave, Remember to Take Yourself Along
 pubDate: '2024-07-23'
 lastModDate: '2024-07-23'
-description: 'I seem to harbor a lingering melancholy for things that depart. It feels like a weight lifts from my heart when an ending arrives, yet I always hold onto a sliver of hope for a turnaround.'
+description: 'I seem to harbor a lingering melancholy for things that depart. It feels like a weight lifts from my heart when an ending arrives, yet I always hold onto a…'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104160029110.png?imageSlim'
 tags: [Minimum Cost, Life, Simplicity, Daily Life]
 category: 'Life Musings'

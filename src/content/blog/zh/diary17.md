@@ -2,7 +2,7 @@
 title: 记录最近跑步的快乐
 pubDate: '2024-06-04'
 lastModDate: '2024-06-04'
-description: '不管怎样，先跑起来！酸痛会有，快乐亦然！'
+description: 家门口有一条刚规划出来的路，因为不是主干道，车少，反而成为附近跑步的热门地点，在道路的两边总是能看到很多正在跑步的跑友，年纪从高中生到退休老者都有，每次看到都心痒痒。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104010152140.png?imageSlim'
 tags: [跑步, 快乐, 酸痛, 生活]
 category: '生活随笔'
