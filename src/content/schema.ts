@@ -320,7 +320,7 @@ export const photoSchema = z.object({
 
 export type PhotoSchema = z.infer<typeof photoSchema>
 
-/** AI 作品集 / 画廊：与相册相同字段，图片目录为 `src/content/ai-gallery/` */
+/** AI 作品集 / 画廊：与相册相同基础字段，另可选 `kind` 供页面筛选 */
 export const aiGallerySchema = z.object({
   id: z
     .string()
@@ -331,6 +331,12 @@ export const aiGallerySchema = z.object({
     .string()
     .default('')
     .describe('Optional caption (e.g. prompt, model, or creation date).'),
+  kind: z
+    .enum(['character', 'scene'])
+    .optional()
+    .describe(
+      'Optional work type for `/gallery` filters: `character` (角色) or `scene` (场景). Omit to show only under “All”.'
+    ),
 })
 
 export type AiGallerySchema = z.infer<typeof aiGallerySchema>

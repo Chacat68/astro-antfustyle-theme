@@ -80,11 +80,14 @@ This fork keeps two masonry-style image pages:
 
 Entries use the same shape in both data files:
 
+The AI gallery (`/gallery`) also supports an optional **`kind`** field per entry — `character` or `scene` — for on-page filter tabs (All / Character / Scene), **corner chips on each image** (click to filter the same type), and optional URL state **`?kind=character`** / **`?kind=scene`**. Entries without `kind` only appear under All.
+
 ```json
 [
   {
     "id": "images/work-01.webp",
-    "desc": "Prompt, model, date, or a short caption"
+    "desc": "Prompt, model, date, or a short caption",
+    "kind": "scene"
   }
 ]
 ```

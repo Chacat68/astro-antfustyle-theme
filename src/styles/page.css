@@ -170,6 +170,33 @@ summary::-webkit-details-marker {
   background-image: var(--photo-placeholder);
 }
 
+/* 画廊作品类型角标：点击筛选同类，不冒泡到 viewer */
+.photo-figure .photo-kind-chip {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 3;
+
+  cursor: pointer;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.2rem 0.55rem;
+
+  font-size: 0.75rem;
+  line-height: 1.25;
+  color: #fff;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.photo-figure .photo-kind-chip:hover,
+.photo-figure .photo-kind-chip:focus-visible {
+  background: rgba(0, 0, 0, 0.75);
+  outline: 2px solid rgba(255, 255, 255, 0.35);
+  outline-offset: 1px;
+}
+
 .photo-view[data-layout='masonry'] .photo-figure {
   position: absolute;
   top: 0;

@@ -140,6 +140,11 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.gallery.description':
       'AI 视觉作品集：集中展示生成式 AI 辅助创作的插画、概念图与视觉习作，数据来自本地 JSON 与可选配图目录。',
     'page.gallery.empty': '这里还没有 AI 作品',
+    'page.gallery.filterAll': '全部',
+    'page.gallery.filterCharacter': '角色',
+    'page.gallery.filterScene': '场景',
+    'page.gallery.filterAria': '按作品类型筛选',
+    'page.gallery.emptyFilter': '该类型下暂无作品，试试其他标签',
     'page.changelog.title': '更新日志',
     'page.changelog.subtitle': '',
     'page.changelog.description':
@@ -331,6 +336,12 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.gallery.description':
       'A dedicated gallery for AI-assisted illustrations, concept art, and visual studies. Entries are driven by local JSON and optional assets under `src/content/ai-gallery/`.',
     'page.gallery.empty': 'No AI artwork yet',
+    'page.gallery.filterAll': 'All',
+    'page.gallery.filterCharacter': 'Character',
+    'page.gallery.filterScene': 'Scene',
+    'page.gallery.filterAria': 'Filter by artwork type',
+    'page.gallery.emptyFilter':
+      'No pieces in this category — try another tab.',
     'page.changelog.title': 'Changelog',
     'page.changelog.subtitle': '',
     'page.changelog.description':

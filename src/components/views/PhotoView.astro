@@ -22,6 +22,18 @@ interface Props {
   emptyText?: string
   /** Text displayed when the gallery JSON cannot be loaded. */
   errorText?: string
+  /** 是否展示作品类型筛选（全部 / 角色 / 场景），依赖 JSON 条目的可选 `kind` 字段 */
+  kindFilter?: boolean
+  /** 筛选为「全部」时的标签文案 */
+  filterAllLabel?: string
+  /** 筛选为「角色」时的标签文案 */
+  filterCharacterLabel?: string
+  /** 筛选为「场景」时的标签文案 */
+  filterSceneLabel?: string
+  /** 筛选控件 `role="tablist"` 的无障碍名称 */
+  filterAriaLabel?: string
+  /** 当前筛选下无作品时的提示（例如仅「角色」下暂无条目） */
+  emptyFilterText?: string
 }
 
 const {
@@ -36,12 +48,25 @@ const {
   layoutStorageKey = 'photo-layout',
   emptyText,
   errorText,
+  kindFilter = false,
+  filterAllLabel,
+  filterCharacterLabel,
+  filterSceneLabel,
+  filterAriaLabel,
+  emptyFilterText,
 } = Astro.props as Props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 const resolvedEmptyText = emptyText ?? t('photo.empty')
 const resolvedErrorText = errorText ?? t('photo.error')
+const resolvedFilterAll = filterAllLabel ?? t('page.gallery.filterAll')
+const resolvedFilterCharacter =
+  filterCharacterLabel ?? t('page.gallery.filterCharacter')
+const resolvedFilterScene = filterSceneLabel ?? t('page.gallery.filterScene')
+const resolvedFilterAria = filterAriaLabel ?? t('page.gallery.filterAria')
+const resolvedEmptyFilter =
+  emptyFilterText ?? t('page.gallery.emptyFilter')
 ---
 
 <div class="mx-20 lt-lgp:mx-10 lt-md:mx-1">
@@ -57,8 +82,49 @@ const resolvedErrorText = errorText ?? t('photo.error')
     data-masonry-strategy={layout === 'masonry' ? masonryStrategy : undefined}
     data-empty-text={resolvedEmptyText}
     data-error-text={resolvedErrorText}
+    data-kind-filter={kindFilter ? 'true' : undefined}
+    data-empty-filter-text={kindFilter ? resolvedEmptyFilter : undefined}
+    data-tag-character-label={kindFilter ? resolvedFilterCharacter : undefined}
+    data-tag-scene-label={kindFilter ? resolvedFilterScene : undefined}
     class="photo-view block relative w-full"
   >
+    {
+      kindFilter && (
+        <div
+          class="kind-filter-wrap mb-6 flex flex-wrap justify-center gap-2 lt-md:mb-4"
+          role="tablist"
+          aria-label={resolvedFilterAria}
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected="true"
+            data-kind="all"
+            class="kind-filter-btn rounded-full border border-#8884 bg-transparent px-4 py-1.5 text-sm op-80 transition-colors hover:(op-100 border-primary) aria-selected:(border-primary bg-primary/12 op-100 font-medium)"
+          >
+            {resolvedFilterAll}
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected="false"
+            data-kind="character"
+            class="kind-filter-btn rounded-full border border-#8884 bg-transparent px-4 py-1.5 text-sm op-80 transition-colors hover:(op-100 border-primary) aria-selected:(border-primary bg-primary/12 op-100 font-medium)"
+          >
+            {resolvedFilterCharacter}
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected="false"
+            data-kind="scene"
+            class="kind-filter-btn rounded-full border border-#8884 bg-transparent px-4 py-1.5 text-sm op-80 transition-colors hover:(op-100 border-primary) aria-selected:(border-primary bg-primary/12 op-100 font-medium)"
+          >
+            {resolvedFilterScene}
+          </button>
+        </div>
+      )
+    }
     <div class="photo-container"></div>
     <p class="photo-empty-state hidden" role="status">
       {resolvedEmptyText}
@@ -84,7 +150,12 @@ const resolvedErrorText = errorText ?? t('photo.error')
 </div>
 
 <script>
-  import type { PhotoGalleryItem } from '~/types/photo-gallery'
+  import type {
+    PhotoGalleryItem,
+    PhotoGalleryKind,
+  } from '~/types/photo-gallery'
+
+  type GalleryKindFilter = 'all' | PhotoGalleryKind
 
   class PhotoView extends HTMLElement {
     #initialized = false
@@ -104,7 +175,9 @@ const resolvedErrorText = errorText ?? t('photo.error')
     #currentIndex = 0
     #isLoading = false
     #allLoaded = false
-    #allItems: PhotoGalleryItem[] = []
+    #rawItems: PhotoGalleryItem[] = []
+    #visibleItems: PhotoGalleryItem[] = []
+    #activeKind: GalleryKindFilter = 'all'
 
     #ticking = false
     #distanceToBottom = window.innerHeight * 0.6
@@ -115,6 +188,167 @@ const resolvedErrorText = errorText ?? t('photo.error')
     #button: HTMLButtonElement | null = null
     #resizeObserver: ResizeObserver | null = null
     #debounceTimeout: ReturnType<typeof setTimeout> | null = null
+
+    #kindFilterEnabled = () => this.dataset.kindFilter === 'true'
+
+    #kindChipLabel(kind: PhotoGalleryKind): string {
+      if (kind === 'character') {
+        return this.dataset.tagCharacterLabel || 'Character'
+      }
+      return this.dataset.tagSceneLabel || 'Scene'
+    }
+
+    /** 从地址栏 ?kind= 读取初始筛选（与浏览器前进/后退同步） */
+    #readKindFromUrl = () => {
+      if (!this.#kindFilterEnabled()) return
+      const u = new URL(window.location.href)
+      const p = u.searchParams.get('kind')
+      if (p === 'character' || p === 'scene') {
+        this.#activeKind = p
+        return
+      }
+      if (p === 'all') {
+        this.#activeKind = 'all'
+        return
+      }
+      this.#activeKind = 'all'
+      if (p !== null && p !== '') this.#syncKindToUrl()
+    }
+
+    #syncKindToUrl = () => {
+      if (!this.#kindFilterEnabled()) return
+      const u = new URL(window.location.href)
+      if (this.#activeKind === 'all') u.searchParams.delete('kind')
+      else u.searchParams.set('kind', this.#activeKind)
+      const search = u.searchParams.toString()
+      const next = `${u.pathname}${search ? `?${search}` : ''}${u.hash}`
+      const cur = `${window.location.pathname}${window.location.search}${window.location.hash}`
+      if (next !== cur) history.replaceState(null, '', next)
+    }
+
+    #onPopState = () => {
+      if (!this.#kindFilterEnabled()) return
+      this.#readKindFromUrl()
+      this.#syncFilterTabAria()
+      if (this.#container) {
+        this.#container.innerHTML = ''
+        this.#container.style.cssText = ''
+      }
+      if (this.#loader) this.#loader.style.display = ''
+      this.style.height = this.#isMasonry ? '0' : 'auto'
+      this.#currentIndex = 0
+      this.#isLoading = false
+      this.#allLoaded = false
+      this.#colHeights = []
+      this.#recomputeVisible()
+      if (this.#rawItems.length === 0) {
+        this.#showEmptyState('empty')
+        return
+      }
+      if (this.#visibleItems.length === 0) {
+        this.#showEmptyState('filter')
+        return
+      }
+      this.#hideEmptyState()
+      this.#buildLayout()
+      this.#handleWindowScroll()
+    }
+
+    /** 在图片上追加可点击的类型角标（点击后筛选同类型作品） */
+    #appendKindChip(fig: HTMLElement, item: PhotoGalleryItem) {
+      if (!this.#kindFilterEnabled() || !item.kind) return
+      const kind = item.kind
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'photo-kind-chip'
+      btn.dataset.kind = kind
+      btn.textContent = this.#kindChipLabel(kind)
+      btn.title = this.#kindChipLabel(kind)
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault()
+        ev.stopPropagation()
+        this.#applyKindFilter(kind)
+      })
+      btn.addEventListener('mousedown', (ev) => {
+        ev.stopPropagation()
+      })
+      fig.appendChild(btn)
+    }
+
+    #recomputeVisible = () => {
+      if (!this.#kindFilterEnabled()) {
+        this.#visibleItems = this.#rawItems
+        return
+      }
+      if (this.#activeKind === 'all') {
+        this.#visibleItems = this.#rawItems
+      } else {
+        this.#visibleItems = this.#rawItems.filter(
+          (i) => i.kind === this.#activeKind
+        )
+      }
+    }
+
+    #hideEmptyState = () => {
+      if (this.#emptyState) this.#emptyState.classList.add('hidden')
+      if (this.#button) this.#button.style.display = ''
+    }
+
+    #syncFilterTabAria = () => {
+      const ak =
+        this.#activeKind === 'all' ? 'all' : this.#activeKind
+      this.querySelectorAll('.kind-filter-btn').forEach((el) => {
+        const b = el as HTMLButtonElement
+        const k = b.dataset.kind || ''
+        b.setAttribute('aria-selected', k === ak ? 'true' : 'false')
+      })
+    }
+
+    #parseKindTabValue = (k: string | undefined): GalleryKindFilter | null => {
+      if (!k) return null
+      if (k === 'all') return 'all'
+      if (k === 'character' || k === 'scene') return k
+      return null
+    }
+
+    #handleKindFilterClick = (ev: Event) => {
+      const btn = ev.currentTarget as HTMLButtonElement
+      const next = this.#parseKindTabValue(btn.dataset.kind)
+      if (next !== null) this.#applyKindFilter(next)
+    }
+
+    /** 切换筛选：更新地址栏、顶部标签状态并重绘列表 */
+    #applyKindFilter = (next: GalleryKindFilter) => {
+      if (!this.#kindFilterEnabled()) return
+      if (next === this.#activeKind) return
+
+      this.#activeKind = next
+      this.#syncKindToUrl()
+      this.#syncFilterTabAria()
+
+      if (this.#container) {
+        this.#container.innerHTML = ''
+        this.#container.style.cssText = ''
+      }
+      if (this.#loader) this.#loader.style.display = ''
+      this.style.height = this.#isMasonry ? '0' : 'auto'
+
+      this.#currentIndex = 0
+      this.#isLoading = false
+      this.#allLoaded = false
+      this.#colHeights = []
+
+      this.#recomputeVisible()
+
+      if (this.#visibleItems.length === 0) {
+        this.#showEmptyState('filter')
+        return
+      }
+
+      this.#hideEmptyState()
+      this.#buildLayout()
+      this.#handleWindowScroll()
+    }
 
     async connectedCallback() {
       if (this.#initialized) return
@@ -130,8 +364,25 @@ const resolvedErrorText = errorText ?? t('photo.error')
         this.#showEmptyState('error')
         return
       }
-      if (this.#allItems.length === 0) {
+      if (this.#rawItems.length === 0) {
         this.#showEmptyState('empty')
+        return
+      }
+
+      if (this.#kindFilterEnabled()) {
+        this.#readKindFromUrl()
+        this.#recomputeVisible()
+        this.#syncFilterTabAria()
+        this.querySelectorAll('.kind-filter-btn').forEach((el) => {
+          el.addEventListener('click', this.#handleKindFilterClick)
+        })
+        window.addEventListener('popstate', this.#onPopState)
+      } else {
+        this.#recomputeVisible()
+      }
+
+      if (this.#visibleItems.length === 0) {
+        this.#showEmptyState('filter')
         return
       }
 
@@ -152,6 +403,13 @@ const resolvedErrorText = errorText ?? t('photo.error')
 
     disconnectedCallback() {
       window.removeEventListener('scroll', this.#handleWindowScroll)
+
+      if (this.#kindFilterEnabled()) {
+        this.querySelectorAll('.kind-filter-btn').forEach((el) => {
+          el.removeEventListener('click', this.#handleKindFilterClick)
+        })
+        window.removeEventListener('popstate', this.#onPopState)
+      }
 
       if (this.#resizeObserver) {
         this.#resizeObserver.disconnect()
@@ -185,24 +443,32 @@ const resolvedErrorText = errorText ?? t('photo.error')
           throw new Error(`HTTP ${res.status} while loading ${res.url}`)
         }
         const [_v, data] = (await res.json()) as [string, PhotoGalleryItem[]]
-        this.#allItems = Array.isArray(data) ? data : []
-        // if (import.meta.env.DEV) console.log(this.#allItems)
+        this.#rawItems = Array.isArray(data) ? data : []
         return true
       } catch (err) {
         console.error('[PhotoView] fetch error:', err)
-        this.#allItems = []
+        this.#rawItems = []
+        this.#visibleItems = []
         return false
       }
     }
 
-    #showEmptyState = (type: 'empty' | 'error') => {
+    #showEmptyState = (type: 'empty' | 'error' | 'filter') => {
       if (this.#loader) this.#loader.style.display = 'none'
       if (this.#button) this.#button.style.display = 'none'
       if (this.#emptyState) {
-        this.#emptyState.textContent =
-          type === 'error'
-            ? this.dataset.errorText || 'Failed to load images.'
-            : this.dataset.emptyText || 'No images yet.'
+        if (type === 'error') {
+          this.#emptyState.textContent =
+            this.dataset.errorText || 'Failed to load images.'
+        } else if (type === 'filter') {
+          this.#emptyState.textContent =
+            this.dataset.emptyFilterText ||
+            this.dataset.emptyText ||
+            'No images in this category.'
+        } else {
+          this.#emptyState.textContent =
+            this.dataset.emptyText || 'No images yet.'
+        }
         this.#emptyState.classList.remove('hidden')
       }
       this.style.height = 'auto'
@@ -242,7 +508,7 @@ const resolvedErrorText = errorText ?? t('photo.error')
       this.#columns = Math.floor(this.#containerWidth / this.#minPhotoWidth)
       this.#columns = Math.max(
         1,
-        Math.min(this.#columns, this.#allItems.length)
+        Math.min(this.#columns, this.#visibleItems.length)
       )
 
       const totalGap = this.#gap * (this.#columns - 1)
@@ -268,7 +534,7 @@ const resolvedErrorText = errorText ?? t('photo.error')
     #renderMasonry = () => {
       const startIndex = this.#currentIndex * this.#batchSize
       const endIndex = startIndex + this.#batchSize
-      const items = this.#allItems.slice(startIndex, endIndex)
+      const items = this.#visibleItems.slice(startIndex, endIndex)
 
       if (items.length === 0) {
         this.#isLoading = false
@@ -307,6 +573,8 @@ const resolvedErrorText = errorText ?? t('photo.error')
         )
         fig.appendChild(img)
 
+        this.#appendKindChip(fig, item)
+
         if (item.desc) {
           const figcaption = document.createElement('figcaption')
           figcaption.textContent = item.desc
@@ -335,7 +603,7 @@ const resolvedErrorText = errorText ?? t('photo.error')
     #renderGrid = () => {
       const startIndex = this.#currentIndex * this.#batchSize
       const endIndex = startIndex + this.#batchSize
-      const items = this.#allItems.slice(startIndex, endIndex)
+      const items = this.#visibleItems.slice(startIndex, endIndex)
 
       if (items.length === 0) {
         this.#isLoading = false
@@ -364,6 +632,8 @@ const resolvedErrorText = errorText ?? t('photo.error')
           { once: true }
         )
         fig.appendChild(img)
+
+        this.#appendKindChip(fig, item)
 
         if (item.desc) {
           const figcaption = document.createElement('figcaption')
@@ -437,7 +707,7 @@ const resolvedErrorText = errorText ?? t('photo.error')
     #handleClickToggle = () => {
       if (this.#container) {
         this.#container.innerHTML = ''
-        this.#container.style = ''
+        this.#container.style.cssText = ''
       }
       if (this.#loader) this.#loader.style.display = ''
 

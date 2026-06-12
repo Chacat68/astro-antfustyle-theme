@@ -1,14 +1,27 @@
 [
   {
     "id": "https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260612070654807.webp?imageSlim",
-    "desc": "2026-06-12 · 作品 1"
+    "desc": "【角色】2026-06-12 · 作品 1",
+    "kind": "character"
   },
   {
     "id": "https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260612070528417.webp?imageSlim",
-    "desc": "2026-06-12 · 作品 2"
+    "desc": "【场景】2026-06-12 · 作品 2",
+    "kind": "scene"
   },
   {
     "id": "https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260612070622006.webp?imageSlim",
-    "desc": "2026-06-12 · 作品 3"
+    "desc": "【角色】2026-06-12 · 作品 3",
+    "kind": "character"
+  },
+  {
+    "id": "https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260612090032104.webp?imageSlim",
+    "desc": "【角色】2026-06-12 · 作品 4",
+    "kind": "character"
+  },
+  {
+    "id": "https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260612085801097.webp?imageSlim",
+    "desc": "【角色】2026-06-12 · 作品 5",
+    "kind": "character"
   }
 ]

@@ -29,9 +29,9 @@ export const SITE = {
 
 ## AI 绘图画廊（`/gallery`）
 
-AI 生成图、概念稿等集中在 **`/gallery`**，数据文件为 **`src/content/ai-gallery/data.json`**，本地素材放在 **`src/content/ai-gallery/images/`**（或该目录下任意子路径）。每条目为 `{ "id": "…", "desc": "…" }`：`id` 为相对路径（如 `images/foo.webp`）或可访问的 `https://` 图片地址；`desc` 为可选说明（提示词、模型、日期等）。
+AI 生成图、概念稿等集中在 **`/gallery`**，数据文件为 **`src/content/ai-gallery/data.json`**，本地素材放在 **`src/content/ai-gallery/images/`**（或该目录下任意子路径）。每条目为 `{ "id": "…", "desc": "…", "kind": "…" }`：`id` 为相对路径（如 `images/foo.webp`）或可访问的 `https://` 图片地址；`desc` 为可选说明；`kind` 为可选类型 **`character`**（角色）或 **`scene`**（场景），用于页面上的类型筛选标签，省略则仅在「全部」中显示。
 
-详细步骤、示例 JSON 与体积建议见同目录说明：**[src/content/ai-gallery/README.md](../src/content/ai-gallery/README.md)**。相册 `/photos` 的配置方式类似，数据在 `src/content/photos/data.json`。
+画廊页在配置 `kind` 时支持 **顶部标签** 与 **图片角标** 点击筛选，并通过 **`?kind=character`** / **`?kind=scene`** 与地址栏同步（详见 [src/content/ai-gallery/README.md](../src/content/ai-gallery/README.md)）。
 
 ## CI（GitHub Actions）
 

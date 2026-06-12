@@ -13,6 +13,7 @@ const CACHE_PATH = './node_modules/.astro/ai-gallery/'
 const entries = (await getCollection('aiGallery')).map((p) => ({
   id: p.data.id,
   desc: p.data.desc,
+  ...(p.data.kind ? { kind: p.data.kind } : {}),
 }))
 
 export const hash = computeGalleryHash(entries)
