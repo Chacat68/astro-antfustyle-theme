@@ -15,7 +15,10 @@ import {
   getThumbnail,
 } from '~/utils/image'
 
-import type { PhotoGalleryItem } from '~/types/photo-gallery'
+import type {
+  PhotoGalleryItem,
+  PhotoGalleryKind,
+} from '~/types/photo-gallery'
 
 const PLACEHOLDER_PIXEL_TARGET = 100
 // balance high pixel density and file size
@@ -25,6 +28,8 @@ const VERSION = 1
 export interface GalleryEntry {
   id: string
   desc: string
+  /** 仅 AI 画廊；相册条目勿填 */
+  kind?: PhotoGalleryKind
 }
 
 export interface BuildGalleryOptions {
@@ -71,7 +76,7 @@ export async function buildGalleryData({
   const data: PhotoGalleryItem[] = []
   const localImageKeys = Object.keys(localImages)
 
-  for (const { id, desc } of entries) {
+  for (const { id, desc, kind } of entries) {
     // remote image
     if (id.startsWith('http://') || id.startsWith('https://')) {
       const uuid = shorthash(id + PLACEHOLDER_PIXEL_TARGET)
@@ -91,6 +96,7 @@ export async function buildGalleryData({
           thumbnail,
           placeholder: cache.placeholder,
           aspectRatio: cache.aspectRatio,
+          ...(kind ? { kind } : {}),
         })
         continue
       } catch (_) {
@@ -114,7 +120,15 @@ export async function buildGalleryData({
       const aspectRatio = remoteImage.width / remoteImage.height
       const thumbnail = await getThumbnail(id, THUMBNAIL_WIDTH, aspectRatio)
 
-      data.push({ uuid, src: id, desc, thumbnail, placeholder, aspectRatio })
+      data.push({
+        uuid,
+        src: id,
+        desc,
+        thumbnail,
+        placeholder,
+        aspectRatio,
+        ...(kind ? { kind } : {}),
+      })
       writeCache(cachePath, uuid, { placeholder, aspectRatio })
       continue
     }
@@ -146,6 +160,7 @@ export async function buildGalleryData({
         thumbnail,
         placeholder: cache.placeholder,
         aspectRatio: cache.aspectRatio,
+        ...(kind ? { kind } : {}),
       })
       continue
     } catch (_) {
@@ -178,6 +193,7 @@ export async function buildGalleryData({
       thumbnail,
       placeholder,
       aspectRatio,
+      ...(kind ? { kind } : {}),
     })
     writeCache(cachePath, uuid, { placeholder, aspectRatio })
   }
