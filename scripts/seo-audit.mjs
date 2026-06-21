@@ -6,6 +6,15 @@ import chalk from 'chalk'
 
 const DIST_DIR = 'dist'
 const SITE_HOST = 'foo-z.com'
+const AI_CRAWLER_USER_AGENTS = [
+  'OAI-SearchBot',
+  'GPTBot',
+  'ChatGPT-User',
+  'ClaudeBot',
+  'Claude-SearchBot',
+  'Claude-User',
+  'Google-Extended',
+]
 function decodeHtmlEntities(value) {
   return value
     .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
@@ -43,6 +52,18 @@ function walkHtmlFiles(directory, files = []) {
       continue
     }
     if (entry.name === 'index.html') files.push(entryPath)
+  }
+  return files
+}
+
+function walkFilesNamed(directory, fileName, files = []) {
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const entryPath = join(directory, entry.name)
+    if (entry.isDirectory()) {
+      walkFilesNamed(entryPath, fileName, files)
+      continue
+    }
+    if (entry.name === fileName) files.push(entryPath)
   }
   return files
 }
@@ -143,6 +164,58 @@ function auditDist() {
     if (!robots.includes(`Sitemap: https://${SITE_HOST}/sitemap-index.xml`)) {
       errors.push('robots.txt 未指向正确的 sitemap-index.xml')
     }
+    for (const userAgent of AI_CRAWLER_USER_AGENTS) {
+      if (!robots.includes(`User-agent: ${userAgent}\nAllow: /`)) {
+        errors.push(`robots.txt 未明确允许 ${userAgent}`)
+      }
+    }
+  }
+
+  const llmsPath = join(DIST_DIR, 'llms.txt')
+  if (!existsSync(llmsPath)) {
+    errors.push('缺少 dist/llms.txt')
+  } else {
+    const llms = readFileSync(llmsPath, 'utf8')
+    if (!llms.startsWith('# ') || !llms.includes('## Chinese articles')) {
+      errors.push('llms.txt 缺少站点标题或中文文章索引')
+    }
+
+    const markdownLinks = Array.from(
+      llms.matchAll(
+        new RegExp(
+          `https://${SITE_HOST}(/(?:en/)?blog/[^)]+/index\\.html\\.md)`,
+          'g'
+        )
+      ),
+      (match) => match[1]
+    )
+    if (markdownLinks.length === 0) {
+      errors.push('llms.txt 未包含文章 Markdown 链接')
+    }
+    for (const pathname of markdownLinks) {
+      if (!existsSync(join(DIST_DIR, pathname))) {
+        errors.push(`llms.txt 指向不存在的 Markdown：${pathname}`)
+      }
+    }
+  }
+
+  const markdownFiles = walkFilesNamed(DIST_DIR, 'index.html.md')
+  if (markdownFiles.length === 0) {
+    errors.push('未生成文章 Markdown 端点')
+  }
+  for (const markdownFile of markdownFiles) {
+    const htmlFile = markdownFile.replace(/index\.html\.md$/, 'index.html')
+    if (!existsSync(htmlFile)) {
+      errors.push(`${markdownFile}: 缺少对应 canonical HTML`)
+      continue
+    }
+
+    const markdownPath = markdownFile.slice(DIST_DIR.length)
+    const html = readFileSync(htmlFile, 'utf8')
+    const alternateLink = `<link rel="alternate" type="text/markdown" href="https://${SITE_HOST}${markdownPath}"`
+    if (!html.includes(alternateLink)) {
+      errors.push(`${htmlFile}: 缺少 Markdown alternate link`)
+    }
   }
 
   const sitemapIndexPath = join(DIST_DIR, 'sitemap-index.xml')
@@ -155,6 +228,9 @@ function auditDist() {
   if (existsSync(sitemapPath)) {
     const sitemap = readFileSync(sitemapPath, 'utf8')
     sitemapUrlCount = (sitemap.match(/<loc>/g) || []).length
+    if (sitemap.includes('llms.txt') || sitemap.includes('index.html.md')) {
+      errors.push('sitemap 不应包含非 canonical 的 AI 抓取端点')
+    }
   } else {
     errors.push('缺少 dist/sitemap-0.xml')
   }
@@ -172,6 +248,7 @@ function auditDist() {
     indexableCount,
     noindexCount,
     sitemapUrlCount,
+    markdownCount: markdownFiles.length,
     errors,
     warnings,
   }
@@ -194,6 +271,7 @@ function main() {
   console.log(`可索引页面：${result.indexableCount}`)
   console.log(`noindex 页面：${result.noindexCount}`)
   console.log(`Sitemap URL：${result.sitemapUrlCount}`)
+  console.log(`文章 Markdown：${result.markdownCount}`)
 
   if (result.errors.length > 0) {
     console.log(chalk.red(`\n错误（${result.errors.length}）`))

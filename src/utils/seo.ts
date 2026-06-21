@@ -104,6 +104,11 @@ export function shouldIncludeInSitemap(
 ) {
   const routePath = normalizeRoutePath(new URL(page).pathname)
 
+  // Alternate machine-readable representations are discovered from HTML and
+  // llms.txt; the XML sitemap remains a canonical HTML URL inventory.
+  if (routePath === '/llms.txt/' || routePath.endsWith('/index.html.md/')) {
+    return false
+  }
   if (isNoindexRoute(routePath)) return false
   if (isMissingEnglishBlogTranslation(routePath, englishBlogIds)) return false
   return true

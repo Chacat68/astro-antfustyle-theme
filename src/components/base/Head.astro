@@ -109,6 +109,9 @@ const personId = new URL(withBasePath('/#person'), SITE.website).href
 const pageId = `${canonicalURL.href}#webpage`
 const imageId = `${canonicalURL.href}#primaryimage`
 const breadcrumbId = `${canonicalURL.href}#breadcrumb`
+const markdownURL = /^blog\/.+\/$/.test(pathWithinLocale)
+  ? new URL('index.html.md', canonicalURL).href
+  : undefined
 
 const analyticsEnabled =
   import.meta.env.PROD && import.meta.env.PUBLIC_ENABLE_ANALYTICS !== 'false'
@@ -356,6 +359,13 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
   title={`${SITE.title} RSS`}
   href={rssURL}
 />
+
+<!-- LLM-friendly article source -->
+{
+  markdownURL && (
+    <link rel="alternate" type="text/markdown" href={markdownURL} />
+  )
+}
 
 <!-- Google JSON-LD Structured Data -->
 <script is:inline type="application/ld+json" set:html={structuredDataJson} />

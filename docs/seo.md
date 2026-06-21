@@ -10,6 +10,8 @@
 | 路由策略 | `src/utils/seo.ts` | noindex 路由表、sitemap 过滤、description 截断 |
 | 站点地图 | `astro.config.ts` → `@astrojs/sitemap` | 生成 `sitemap-index.xml`，排除 noindex 与无英文翻译的文章 |
 | 爬虫规则 | `astro.config.ts` → `astro-robots-txt` | 生成 `robots.txt`，指向 sitemap |
+| AI 内容索引 | `src/pages/llms.txt.ts` | 生成精简的双语文章目录与 Markdown 入口 |
+| 文章纯文本 | `src/pages/*/blog/[...slug]/index.html.md.ts` | 为每篇中英文文章生成无脚本、无导航的 Markdown 版本 |
 | RSS | `src/pages/rss.xml.js` | 博客文章订阅源 |
 | 审计 | `scripts/seo-audit.mjs` | 构建后检查 HTML 元数据完整性 |
 
@@ -46,6 +48,16 @@
 - `WebPage` 或 `BlogPosting`（按是否有 `pubDate` 区分）
 - `BreadcrumbList`（非首页）
 
+### AI 抓取入口
+
+- `/llms.txt` 按 llms.txt 提案格式提供站点简介、主要页面和全部已发布中英文文章的 Markdown 链接。它是辅助发现入口，不替代 `robots.txt` 或 sitemap。
+- 每篇文章在 canonical HTML 路径下提供 `index.html.md`，例如 `/blog/ai1/index.html.md`；英文文章对应 `/en/blog/ai1/index.html.md`。
+- 文章 HTML 通过 `<link rel="alternate" type="text/markdown">` 声明对应的纯文本版本。
+- `robots.txt` 明确允许 OpenAI、Anthropic 与 Google 的已知 AI crawler token，同时保留 `User-agent: *` 的开放策略。
+- `llms.txt` 与 Markdown alternate 不进入 XML sitemap，避免把非 canonical 表示当作独立页面提交。
+
+`llms.txt` 仍是社区提案，并非所有 AI 服务都承诺读取；抓取控制仍以各厂商声明支持的 `robots.txt` user-agent 为准。
+
 ### Meta 长度控制
 
 - **Title**：`formatPageTitle()` 将浏览器标题控制在 60 字符内（保留 ` - 站点名` 后缀，截断过长的文章标题）。页面内 `<h1>` 仍显示完整标题。
@@ -79,6 +91,9 @@ pnpm seo:audit
 - 每个 HTML 页是否包含 title、description、canonical、og:*、JSON-LD
 - canonical 是否使用 `https://foo-z.com` 域名
 - `robots.txt` 与 sitemap 是否存在
+- `llms.txt`、中英文文章 Markdown 与 HTML alternate link 是否完整对应
+- 主要 AI crawler token 是否在 `robots.txt` 中明确允许
+- sitemap 是否错误包含 `llms.txt` 或 Markdown alternate
 - 可索引页面的重复 title / description
 - title / description 长度是否超出建议范围
 
