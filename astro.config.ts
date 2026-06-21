@@ -77,6 +77,15 @@ function collectMarkdownContentIds(
 
 const sitemapURL = new URL('sitemap-index.xml', SITE.website).href
 const siteHost = new URL(SITE.website).host
+const aiCrawlerUserAgents = [
+  'OAI-SearchBot',
+  'GPTBot',
+  'ChatGPT-User',
+  'ClaudeBot',
+  'Claude-SearchBot',
+  'Claude-User',
+  'Google-Extended',
+]
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
@@ -110,7 +119,13 @@ export default defineConfig({
     robotsTxt({
       host: siteHost,
       sitemap: sitemapURL,
-      policy: [{ userAgent: '*', allow: '/' }],
+      policy: [
+        ...aiCrawlerUserAgents.map((userAgent) => ({
+          userAgent,
+          allow: '/',
+        })),
+        { userAgent: '*', allow: '/' },
+      ],
     }),
     unocss({ injectReset: true }),
     astroExpressiveCode(),
