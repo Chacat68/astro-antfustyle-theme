@@ -78,16 +78,14 @@ This fork keeps two masonry-style image pages:
 | `/photos` | `src/content/photos/data.json` | `src/content/photos/` or remote URLs |
 | `/gallery` | `src/content/ai-gallery/data.json` | `src/content/ai-gallery/` (e.g. `images/foo.webp`) or remote URLs |
 
-Entries use the same shape in both data files:
-
-The AI gallery (`/gallery`) also supports an optional **`kind`** field per entry — `character` or `scene` — for on-page filter tabs (All / Character / Scene), **corner chips on each image** (click to filter the same type), and optional URL state **`?kind=character`** / **`?kind=scene`**. Entries without `kind` only appear under All.
+Entries use the same basic shape in both data files. The AI gallery also supports an optional **`tags`** array. Its filter bar always displays All plus every configured tag; All is selected by default, and selecting a tag only shows matching images. An image can belong to multiple tags, while entries without tags only appear under All. The current filter is reflected in **`?tag=`**.
 
 ```json
 [
   {
     "id": "images/work-01.webp",
     "desc": "Prompt, model, date, or a short caption",
-    "kind": "scene"
+    "tags": ["Scene", "Concept art"]
   }
 ]
 ```

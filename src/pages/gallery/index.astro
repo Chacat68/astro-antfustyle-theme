@@ -2,7 +2,7 @@
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import PhotoView from '~/components/views/PhotoView.astro'
-import { hash } from '~/pages/gallery/gallery.[hash].json'
+import { hash, tags } from '~/pages/gallery/gallery.[hash].json'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 const locale = getLocale(Astro.currentLocale)
@@ -30,7 +30,8 @@ const page = {
       contentHash={hash}
       layoutStorageKey="ai-gallery-layout"
       emptyText={t('page.gallery.empty')}
-      kindFilter={true}
+      tagFilter={true}
+      filterTags={tags}
     />
   </StandardLayout>
 </BaseLayout>
