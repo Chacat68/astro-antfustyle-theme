@@ -61,6 +61,8 @@ curl -s https://foo-z.com/ | grep -o 'rel="canonical" href="[^"]*"'
 | `src/config.ts` | `SITE.website` 必须为 `https://foo-z.com/` |
 | `.env.example` | 统计脚本、GitHub Token 等环境变量说明 |
 
+生产构建（如 Cloudflare Builds）需在构建环境中配置 `PUBLIC_UMAMI_SRC` 与 `PUBLIC_UMAMI_WEBSITE_ID`，且 **`PUBLIC_UMAMI_SRC` 必须与 Umami 后台「Tracking code」里的 `src` 完全一致**（可能是 `/script.js`，也可能是自定义路径如 `/cwf`），否则页面不会加载统计脚本或请求失败。
+
 ## 常见问题
 
 ### 构建失败：YAML frontmatter
