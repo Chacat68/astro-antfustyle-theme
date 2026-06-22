@@ -6,7 +6,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'nav.blog': '博客',
     'nav.projects': '项目',
     'nav.photos': '相册',
-    'nav.gallery': 'AI 创作',
+    'nav.gallery': 'AI作品集',
     'nav.changelog': '更新日志',
 
     // Global / a11y
@@ -135,7 +135,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.photos.subtitle': '我的个人相册，记录生活中的美好瞬间',
     'page.photos.description':
       '个人手机摄影相册：记录旅途、日常与值得留住的瞬间，以镜头捕捉光影、情绪与生活里那些细碎而真实的感动。',
-    'page.gallery.title': 'AI 作品集',
+    'page.gallery.title': 'AI作品集',
     'page.gallery.subtitle': '用生成式 AI 创作的图像与视觉实验',
     'page.gallery.description':
       'AI 视觉作品集：集中展示生成式 AI 辅助创作的插画、概念图与视觉习作，数据来自本地 JSON 与可选配图目录。',
