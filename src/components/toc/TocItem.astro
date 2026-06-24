@@ -1,6 +1,7 @@
 ---
 import Link from '~/components/base/Link.astro'
 import { slug } from '~/utils/toc'
+import { getLocale, useTranslations } from '~/i18n/translate'
 
 import type { TocHeading } from '~/utils/toc'
 
@@ -9,6 +10,8 @@ type Props =
   | { anchors: string[]; heading?: never }
 
 const { heading, anchors } = Astro.props
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 ---
 
 {
@@ -17,7 +20,7 @@ const { heading, anchors } = Astro.props
       {heading.slug && (
         <Link
           href={`#${heading.slug}`}
-          aria-label={`Scroll to ${heading.text}`}
+          aria-label={t('toc.scrollTo', { text: heading.text })}
         >
           {heading.text}
         </Link>
@@ -35,7 +38,7 @@ const { heading, anchors } = Astro.props
       {!!anchors.length &&
         anchors.map((item) => (
           <li>
-            <Link href={`#${slug(item)}`} aria-label={`Scroll to ${item}`}>
+            <Link href={`#${slug(item)}`} aria-label={t('toc.scrollTo', { text: item })}>
               {item}
             </Link>
           </li>

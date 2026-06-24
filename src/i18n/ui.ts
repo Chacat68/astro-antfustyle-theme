@@ -70,6 +70,10 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // ToC
     'toc.title': '目录',
+    'toc.scrollTo': '滚动到 {text}',
+
+    // Footer
+    'footer.back': '返回上级',
 
     // Empty states
     'list.empty': '这里还没有内容',
@@ -263,6 +267,10 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // ToC
     'toc.title': 'Table of Contents',
+    'toc.scrollTo': 'Scroll to {text}',
+
+    // Footer
+    'footer.back': 'cd ..',
 
     // Empty states
     'list.empty': 'nothing here yet',
