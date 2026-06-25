@@ -48,6 +48,8 @@
 - **`src/components/nav/NavBarSlot.astro`**：导航栏单侧组件序列渲染，`NavBar.astro` 左右两侧复用，新增导航组件类型时只改这一处。
 - **`src/components/widgets/search-panel.ts`**：`<search-panel>` 自定义元素完整逻辑，`SearchSwitch.astro` 仅保留模板与 Pagefind 装载脚本。
 - **`src/components/backgrounds/p5-background.ts`**：p5 背景的公共自定义元素工厂 `defineP5Background(tagName, sketch)`，统一处理 p5 动态加载、`requestIdleCallback` 延迟初始化与生命周期销毁。新增 p5 背景只需写 sketch 函数。Plum / Rose 为原生 canvas 实现，不走此工厂。
+- **`src/components/backgrounds/Wave.astro`**：首页默认背景，使用纯 SVG + CSS 动画（无 p5 依赖），避免首屏加载约 1MB 的 `p5.min.js` 及全屏 canvas 成为 LCP 元素。Dot / Particle / Constellation 仍走 p5 工厂。
+- **首屏 LCP**：首页 intro 段落使用 `slide-enter-instant` 跳过 `slide-enter-content` 的 opacity 阶梯动画，确保标题与首段文字尽早计入 LCP。
 - **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。
 
 ## 样式加载
