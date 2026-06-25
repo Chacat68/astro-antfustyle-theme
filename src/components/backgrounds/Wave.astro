@@ -1,72 +1,89 @@
 ---
-// Wave background animation - 多条正弦波叠加效果
+// Wave background — 纯 SVG + CSS 正弦波，替代 p5 实现以避免首屏加载 ~1MB JS
 ---
 
-<bg-wave
-  class="z--1 fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden"
+<div
+  class="wave-bg z--1 fixed inset-0 pointer-events-none print:hidden"
+  aria-hidden="true"
 >
-</bg-wave>
+  {
+    Array.from({ length: 7 }, (_, index) => {
+      const depth = index / 6
+      const opacity = 0.05 + depth * 0.12
+      const strokeWidth = 0.6 + depth * 1.4
+      const yOffset = (index - 3) * 48
+      const duration = 18 + index * 3
+      const delay = index * -2.5
 
-<script>
-  import { defineP5Background } from '~/components/backgrounds/p5-background'
-  import type { P5Sketch } from '~/components/backgrounds/p5-background'
+      return (
+        <svg
+          class="wave-bg__layer"
+          style={{
+            '--wave-opacity': opacity,
+            '--wave-stroke': strokeWidth,
+            '--wave-y': `${yOffset}px`,
+            '--wave-duration': `${duration}s`,
+            '--wave-delay': `${delay}s`,
+          }}
+          preserveAspectRatio="none"
+          viewBox="0 0 2880 900"
+        >
+          <path
+            class="wave-bg__path"
+            d="M0,450 C120,410 240,490 360,450 S600,410 720,450 S960,490 1080,450 S1320,410 1440,450 S1680,490 1800,450 S2040,410 2160,450 S2400,490 2520,450 S2760,410 2880,450"
+          />
+        </svg>
+      )
+    })
+  }
+</div>
 
-  const sketch: P5Sketch = (p) => {
-    const WAVE_COUNT = 7
-    const AMPLITUDE_BASE = 35
-    const SPEED = 0.018
-    // Vertical spread per wave layer (larger = more spread)
-    const V_SPREAD = 48
+<style>
+  .wave-bg {
+    overflow: hidden;
 
-    const width = window.innerWidth
-    const height = window.innerHeight
+    --wave-color: rgb(37 99 235);
+  }
 
-    let time = 0
+  :global(:root.dark) .wave-bg {
+    --wave-color: rgb(96 165 250);
+  }
 
-    p.setup = () => {
-      p.createCanvas(width, height)
-      p.noFill()
+  .wave-bg__layer {
+    position: absolute;
+    inset: 0;
+
+    width: 200%;
+    height: 100%;
+
+    transform: translateY(var(--wave-y, 0));
+
+    animation: wave-drift var(--wave-duration, 20s) linear infinite;
+    animation-delay: var(--wave-delay, 0s);
+  }
+
+  .wave-bg__path {
+    fill: none;
+    stroke: var(--wave-color);
+    stroke-opacity: var(--wave-opacity, 0.1);
+    stroke-width: var(--wave-stroke, 1);
+    vector-effect: non-scaling-stroke;
+  }
+
+  @keyframes wave-drift {
+    from {
+      transform: translateX(0) translateY(var(--wave-y, 0));
     }
 
-    p.draw = () => {
-      p.clear()
-      time += SPEED
-
-      const isDark = document.documentElement.classList.contains('dark')
-
-      for (let w = 0; w < WAVE_COUNT; w++) {
-        // Front waves are more opaque and thicker → depth effect
-        const t = w / (WAVE_COUNT - 1) // 0 (back) → 1 (front)
-        const alpha = 12 + t * 32
-        const strokeW = 0.6 + t * 1.4
-
-        const color = isDark
-          ? p.color(96, 165, 250, alpha)
-          : p.color(37, 99, 235, alpha)
-
-        p.stroke(color)
-        p.strokeWeight(strokeW)
-
-        p.beginShape()
-        for (let x = 0; x <= width; x += 4) {
-          const amplitude = AMPLITUDE_BASE + w * 12
-          const frequency = 0.004 + w * 0.0018
-          const phase = w * 0.7
-
-          const y =
-            height / 2 +
-            Math.sin(x * frequency + time + phase) * amplitude +
-            Math.sin(x * frequency * 0.5 + time * 0.65 + phase) *
-              amplitude *
-              0.45 +
-            Math.cos(x * frequency * 1.3 + time * 0.4 + phase) * amplitude * 0.2
-
-          p.vertex(x, y + (w - WAVE_COUNT / 2) * V_SPREAD)
-        }
-        p.endShape()
-      }
+    to {
+      transform: translateX(-50%) translateY(var(--wave-y, 0));
     }
   }
 
-  defineP5Background('bg-wave', sketch)
-</script>
+  @media (prefers-reduced-motion: reduce) {
+    .wave-bg__layer {
+      animation: none;
+      width: 100%;
+    }
+  }
+</style>

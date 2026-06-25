@@ -161,6 +161,13 @@ summary {
     );
   }
 
+  /* 首屏关键内容跳过 opacity 动画，避免延迟 LCP */
+  body:not([data-no-sliding]) .slide-enter-instant {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .slide-enter-content > *:nth-child(1) {
     --enter-stage: 1 !important;
   }
