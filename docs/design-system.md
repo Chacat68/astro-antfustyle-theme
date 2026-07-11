@@ -39,6 +39,12 @@
 
 `LogoButton.astro`：左侧 HUD 角标；右侧字标用 `opacity` + 光斑 `transform/opacity` 做呼吸（避免动画 `text-shadow`）；链接强制 `op-100!` 以免与 `Link` 默认 `op-60` 叠乘过暗。尊重 `prefers-reduced-motion`。
 
+## 浮层定位
+
+`SearchSwitch.astro` 的搜索面板挂在 sticky 导航内，而 `.site-nav` 的 `backdrop-filter` 会形成 fixed 包含块，因此不能用 `top/left: 50%`（会相对 header 而非视口）。
+
+正确写法：`fixed top-50vh left-50vw translate-x--50% translate-y--50%`（`vh`/`vw` 相对视口，translate 相对面板自身）。
+
 ## 背景与页面分配
 
 背景调度：`src/components/backgrounds/Background.astro`。装饰色统一贴近 accent：

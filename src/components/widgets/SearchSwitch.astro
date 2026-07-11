@@ -49,7 +49,7 @@ const searchPanelI18n = JSON.stringify({
 <search-panel
   role="dialog"
   id="search-panel"
-  class={`hidden z-200 fixed top-15% lt-lgp:(top-10%) left-50% translate-x--50%
+  class={`hidden z-200 fixed top-50vh left-50vw translate-x--50% translate-y--50%
     grid-rows-[auto_1fr_auto]
     w-42rem lt-lgp:(w-90%) max-h-70vh lt-lgp:(max-h-80vh) p-3 lt-lgp:(pb-1) rounded-lg
     text-(--c-text) bg-(--c-bg) shadow-custom_0_0_10_0`}
@@ -189,12 +189,14 @@ const searchPanelI18n = JSON.stringify({
 
 
 <!-- https://github.com/pagefind/pagefind/blob/production-docs/pagefind_web_js/types/index.d.ts -->
-{import.meta.env.PROD &&
-  <script is:inline define:vars={{scriptUrl: withBasePath('/pagefind/pagefind.js'), navHighlight}}>
-    async function loadPagefind() {
-      const pagefind = await import(scriptUrl)
+<!-- PROD 由构建产物提供；DEV 依赖 postbuild 同步到 public/pagefind -->
+<script is:inline define:vars={{scriptUrl: withBasePath('/pagefind/pagefind.js'), navHighlight}}>
+  async function loadPagefind() {
+    try {
+      const pagefind = await import(/* @vite-ignore */ scriptUrl)
 
       // https://pagefind.app/docs/search-config/
+      // 索引以 --force-language zh-cn 构建；init 显式指定语言，避免英文页 html[lang=en] 加载失败
       await pagefind.options({
         'excerptLength': 20,
         ...(navHighlight && {
@@ -210,12 +212,16 @@ const searchPanelI18n = JSON.stringify({
         }
       })
 
-      pagefind.init()
+      await pagefind.init('zh-cn')
       window.pagefind = pagefind
+    } catch (err) {
+      // DEV 尚未 build / 未同步索引时静默降级为 mock
+      console.warn('[pagefind] unavailable, using mock search results', err)
     }
+  }
 
-    if (!window.pagefind) loadPagefind()
-  </script>}
+  if (!window.pagefind) loadPagefind()
+</script>
 
 {import.meta.env.PROD && navHighlight &&
   <script is:inline define:vars={{scriptUrl: withBasePath('/pagefind/pagefind-highlight.js')}}>

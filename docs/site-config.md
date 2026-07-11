@@ -13,6 +13,14 @@ export const SITE = {
 
 该值会影响 sitemap、RSS、Open Graph、JSON-LD 结构化数据与 canonical URL。请勿继续使用上游主题的 demo 域名。完整 SEO 策略与维护流程见 [seo.md](./seo.md)。
 
+## 站内搜索（Pagefind）
+
+- 依赖：`pagefind` ≥ 1.5（中文查询分词）。
+- 构建：`postbuild` 执行 `pagefind --site dist --force-language zh-cn ...`，全站统一为 `zh-cn` 索引。
+- 运行时：`SearchSwitch.astro` 中 `pagefind.init('zh-cn')`。
+- 本地验证：先 `pnpm build`（同步索引到 `public/pagefind/`），再 `pnpm dev`；或 `pnpm preview`。
+- 召回：正文注入标题/标签与 CJK 分词增强；`noindex` 页不入库；查询仅在主结果不足时做中文变体补漏。
+
 ## 导航栏
 
 `UI.navBarLayout` 控制顶栏左右组件序列。当前未放入 `socialLinks`：社交媒体图标不在导航栏（含移动端面板）显示，仍可通过首页「找到我」区块与 `UI.socialLinks` 配置使用。若要恢复，在 `right`（或 `left`）数组中加入 `'socialLinks'` 即可。

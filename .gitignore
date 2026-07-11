@@ -38,3 +38,6 @@ pnpm-debug.log*
 
 # local archive
 .local
+
+# Pagefind index synced for local `pnpm dev` (see scripts/sync-pagefind-public.mjs)
+public/pagefind/

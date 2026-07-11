@@ -216,7 +216,7 @@ export const FEATURES: Features = {
       includes: ['blog', 'blog_en', 'changelog'],
       filter: true,
       navHighlight: true,
-      batchLoadSize: [true, 5],
+      batchLoadSize: [true, 8],
       maxItemsPerPage: [true, 3],
     },
   ],

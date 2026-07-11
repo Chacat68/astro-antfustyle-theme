@@ -5,6 +5,7 @@
  * 键值在 `src/i18n/ui.ts` 中维护（search.* 系列）。
  */
 import { toggleFadeEffect } from '~/utils/misc'
+import { buildCjkQueryVariants } from '~/utils/pagefind-cjk'
 
 interface Anchor {
   element: string
@@ -97,16 +98,16 @@ function appendSearchResultItem(
 const fakeResults = [
   {
     meta: {
-      title: 'Simulated Search Result in Dev Env',
+      title: '开发环境：尚未加载搜索索引',
     },
     excerpt:
-      'Mock data is used to simulate pagefind search <mark>in development</mark>, where files required for indexing exist only in memory.',
+      '请先执行 <mark>pnpm build</mark>（会把 Pagefind 同步到 public/pagefind），再刷新本页即可用中文搜索。',
   },
   {
     meta: {
-      title: 'Testing Search Functionality in Prod Env',
+      title: '或使用生产预览',
     },
-    excerpt: 'Try running <mark>pnpm build && pnpm preview</mark> instead.',
+    excerpt: '也可运行 <mark>pnpm build && pnpm preview</mark> 在预览服务中验证搜索。',
   },
 ]
 
@@ -227,7 +228,25 @@ class SearchPanel extends HTMLElement {
     if (!this.#content) return
     const value = (event.target as HTMLInputElement).value.trim()
 
-    if (import.meta.env.PROD) {
+    // 有 Pagefind 时走真实搜索（PROD，或 DEV 已同步 public/pagefind）
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const pagefindApi = (window as any).pagefind as
+      | {
+          search: (
+            query: string,
+            options?: { filters?: Record<string, string | string[]> }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ) => Promise<{ results: any[] }>
+          debouncedSearch: (
+            query: string,
+            options?: { filters?: Record<string, string | string[]> },
+            debounceMs?: number
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ) => Promise<{ results: any[] } | null>
+        }
+      | undefined
+
+    if (pagefindApi) {
       const requestId = ++this.#activeRequestId
       this.#resetView()
       if (value.length === 0) return
@@ -242,20 +261,38 @@ class SearchPanel extends HTMLElement {
 
         this.#showLoading(requestId)
 
-        // @ts-expect-error (for Cannot find name 'pagefind'.ts(2304))
-        const res = await pagefind.debouncedSearch(value, options, 300)
+        const res = await pagefindApi.debouncedSearch(value, options, 300)
         // a more recent search call has been made, nothing to do
         if (res === null) return
         if (requestId !== this.#activeRequestId) return
 
-        // when no results
-        if (res.results.length === 0) {
+        // 中文：主搜索召回不足时，用二元/三元组变体补漏（避免「生活」类宽词刷屏）
+        let results = res.results
+        if (results.length < 3) {
+          const variants = buildCjkQueryVariants(value).filter((q) => q !== value)
+          if (variants.length > 0) {
+            const extras = await Promise.all(
+              variants.slice(0, 12).map((q) => pagefindApi.search(q, options))
+            )
+            if (requestId !== this.#activeRequestId) return
+            const byId = new Map<string, (typeof results)[number]>()
+            for (const r of results) byId.set(r.id, r)
+            for (const extra of extras) {
+              for (const r of extra.results) {
+                const prev = byId.get(r.id)
+                if (!prev || r.score > prev.score) byId.set(r.id, r)
+              }
+            }
+            results = [...byId.values()].toSorted((a, b) => b.score - a.score)
+          }
+        }
+
+        if (results.length === 0) {
           this.#showOnlyNoResult(requestId)
           return
         }
 
-        // batch render or single render
-        this.#allResults = res.results
+        this.#allResults = results
         this.#render({ requestId })
       } catch (_err) {
         this.#showOnlyError(requestId)

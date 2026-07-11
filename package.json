@@ -19,7 +19,7 @@
     "toolbar:on": "astro preferences enable devToolbar",
     "toolbar:off": "astro preferences disable devToolbar",
     "prepare": "simple-git-hooks",
-    "postbuild": "pagefind --site dist --exclude-selectors \"pre\" --include-characters \"<>\" && del-cli \"dist/pagefind/*ui*\"",
+    "postbuild": "pagefind --site dist --force-language zh-cn --exclude-selectors \"pre\" --include-characters \"<>\" && del-cli \"dist/pagefind/*ui*\" && node scripts/sync-pagefind-public.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:fix-descriptions": "node scripts/fix-blog-descriptions.mjs",
     "test": "node --experimental-strip-types --test src/utils/*.test.ts"
@@ -61,7 +61,7 @@
     "mdast-util-to-string": "^4.0.0",
     "nprogress": "^0.2.0",
     "p5": "^1.11.3",
-    "pagefind": "^1.4.0",
+    "pagefind": "^1.5.2",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "reading-time": "^1.5.0",
