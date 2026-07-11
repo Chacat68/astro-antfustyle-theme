@@ -7,6 +7,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import { createRequire } from 'node:module'
 
 import { UI } from './src/config'
 import projecstData from './src/content/projects/data.json'
@@ -17,6 +18,36 @@ import type {
   IconSocialItem,
   ResponsiveSocialItem,
 } from './src/types'
+
+const require = createRequire(import.meta.url)
+
+/**
+ * 从 @iconify/json 显式加载图标集。
+ * Cursor / VS Code 会设置 VSCODE_CWD，导致 preset-icons 跳过 node-loader，
+ * 导航等动态 class 图标会整层消失；显式 collections 可绕过该限制。
+ */
+function iconifyCollection(name: string) {
+  return () => require(`@iconify/json/json/${name}.json`)
+}
+
+const iconCollections = Object.fromEntries(
+  [
+    'ri',
+    'uil',
+    'ph',
+    'logos',
+    'unjs',
+    'simple-icons',
+    'meteor-icons',
+    'grommet-icons',
+    'carbon',
+    'lucide',
+    'material-symbols',
+    'hugeicons',
+    'famicons',
+    'bx',
+  ].map((name) => [name, iconifyCollection(name)])
+)
 
 const { internalNavs, socialLinks, githubView } = UI
 const navIcons = internalNavs
@@ -100,6 +131,7 @@ export default defineConfig({
       prefixedOnly: false,
     }),
     presetIcons({
+      collections: iconCollections,
       extraProperties: {
         'display': 'inline-block',
         'height': '1.2em',
@@ -108,10 +140,27 @@ export default defineConfig({
       },
     }),
     presetWebFonts({
+      // bunny 在国内更稳；失败时不影响 icons 等其他 preset
+      provider: 'bunny',
       fonts: {
-        sans: 'Inter:400,600,800',
-        mono: 'DM Mono:400,600',
-        condensed: 'Roboto Condensed',
+        // IBM Plex Sans：技术向、克制，比 Inter 更有辨识度，仍贴合 antfu 极简气质
+        sans: {
+          name: 'IBM Plex Sans',
+          weights: ['400', '500', '600', '700'],
+        },
+        mono: {
+          name: 'DM Mono',
+          weights: ['400', '600'],
+        },
+        condensed: {
+          name: 'IBM Plex Sans Condensed',
+          weights: ['400', '600'],
+        },
+        serif: {
+          name: 'Newsreader',
+          weights: ['400', '600'],
+          italic: true,
+        },
       },
     }),
   ],

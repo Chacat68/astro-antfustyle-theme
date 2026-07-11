@@ -82,19 +82,19 @@ const latestPosts = sortedPosts.slice(0, limit)
 
     padding: 0.9rem 1rem;
     border: 1px solid var(--c-border) !important;
-    border-radius: 0.5rem;
+    border-radius: var(--c-radius, 0.5rem);
 
     color: inherit;
     background: var(--c-surface);
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.035);
+    box-shadow: var(--c-shadow);
     opacity: 1 !important;
     text-decoration: none;
 
     transition:
-      background 180ms ease,
-      border-color 180ms ease,
-      box-shadow 180ms ease,
-      transform 180ms ease;
+      background var(--duration, 200ms) var(--ease-out, ease),
+      border-color var(--duration, 200ms) var(--ease-out, ease),
+      box-shadow var(--duration, 200ms) var(--ease-out, ease),
+      transform var(--duration, 200ms) var(--ease-out, ease);
   }
 
   .latest-post-link:hover,
@@ -105,7 +105,7 @@ const latestPosts = sortedPosts.slice(0, limit)
       var(--c-border)
     ) !important;
     background: color-mix(in srgb, var(--c-surface) 78%, var(--c-accent-soft));
-    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--c-shadow-hover);
     transform: translateY(-2px);
   }
 

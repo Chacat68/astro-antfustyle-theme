@@ -1,0 +1,72 @@
+# 设计系统约定
+
+本站视觉方向：**极简 antfu + 天空蓝 accent**。升级与新增样式时保持正文优先、低装饰，避免落地页式 Hero / 卡片墙 / 高饱和渐变。
+
+## Token 来源
+
+全局设计 token 定义在 `src/styles/main.css` 的 `:root` / `:root.dark`：
+
+| Token | 用途 |
+|-------|------|
+| `--c-bg` / `--c-text` / `--c-muted` | 页面底色、正文、次要文字 |
+| `--c-surface` / `--c-surface-hover` / `--c-border` | 卡片/面板表面与描边 |
+| `--c-accent` / `--c-accent-soft` / `--c-accent-muted` | 品牌天空蓝（浅 `#0284c7` / 深 `#38bdf8`；交互高亮、链接 hover、选中态） |
+| `--c-page-tint` | 顶部微渐变色调 |
+| `--c-radius` / `--c-radius-sm` / `--c-radius-lg` | 圆角阶梯 |
+| `--c-shadow` / `--c-shadow-hover` | 轻阴影 |
+| `--ease-out` / `--duration` / `--duration-fast` | 动效曲线与时长 |
+
+正文灰阶（`--fg` / `--fg-deep` / `--fg-deeper`）定义在 `src/styles/markdown.css` 的 `.prose` 上。
+
+**规则：** 新增组件优先引用上述 CSS 变量，避免再写硬编码灰阶或蓝系装饰色。
+
+## 字体
+
+配置于 `unocss.config.ts` 的 `presetWebFonts`（provider: `bunny`）：
+
+| 角色 | 字体 | 用法 |
+|------|------|------|
+| `font-sans` | IBM Plex Sans | 全站 UI / 正文拉丁部分 |
+| `font-mono` | DM Mono | 代码 |
+| `font-condensed` | IBM Plex Sans Condensed | 需要压缩显示的标签等 |
+| `font-serif` | Newsreader | `em` 斜体强调（见 `markdown.css`） |
+
+中文回退系统字体栈；不要为中文单独引入大体积 Web 字体。
+
+图标集通过 `presetIcons.collections` 从 `@iconify/json` 显式加载（见 [architecture-conventions.md](./architecture-conventions.md)），避免在 Cursor/VS Code 环境下导航图标丢失。
+
+## 背景与页面分配
+
+背景调度：`src/components/backgrounds/Background.astro`。装饰色统一贴近 accent：
+
+| `bgType` | 组件 | 典型页面 |
+|----------|------|----------|
+| `wave` | SVG 正弦波（天空蓝） | 首页 |
+| `dot` | p5 噪点场（天空蓝微染） | 博客列表、项目、友链 |
+| `plum` | canvas 梅枝（天空蓝微染） | releases / prs |
+| `rose` | SVG 花瓣 | **文章 / changelog 正文**（`RenderPost`） |
+| `particle` | p5 粒子（天空蓝微染） | shorts |
+| `constellation` | p5 星座（天空蓝） | 按需 |
+| `false` | 无背景 | 相册、画廊、changelog 列表等内容密集页 |
+
+## 样式文件分层
+
+| 文件 | 职责 |
+|------|------|
+| `main.css` | Token、导航、入场动画、搜索、滚动条 |
+| `prose.css` | 正文排版骨架（字号、间距、列表） |
+| `markdown.css` | Markdown 增强（链接、callouts、代码、TOC） |
+| `page.css` | 页面级节奏（首页 roles、列表 hover、相册、标签筛选） |
+
+页面级样式写在 `page.css` 或组件 `<style>` 内，并复用 token；不要在 UnoCSS shortcuts 里扩散新的硬编码色板。
+
+## 动效原则
+
+1. 页面入场：`slide-enter` / `slide-enter-content`（`FEATURES.slideEnterAnim`）；首屏 LCP 文案用 `slide-enter-instant`。
+2. 交互反馈：列表/卡片 hover 使用 `--c-accent-soft` + 轻微位移，幅度保持克制。
+3. 尊重 `prefers-reduced-motion`（背景动画应停用或降级）。
+
+## 相关配置
+
+- PWA `theme_color` / `background_color`：`src/pages/app.webmanifest.js`（与 `--c-bg` 浅色一致）
+- `<meta name="theme-color">`：`src/components/base/Head.astro`；切换主题时由 `ThemeSwitch` 同步为当前 `--c-bg`

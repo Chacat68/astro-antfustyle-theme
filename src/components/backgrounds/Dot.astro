@@ -10,6 +10,7 @@
 <script>
   import { defineP5Background } from '~/components/backgrounds/p5-background'
   import type { P5Sketch } from '~/components/backgrounds/p5-background'
+  import { isDarkTheme } from '~/utils/theme'
 
   const sketch: P5Sketch = (p) => {
     const SCALE = 200
@@ -58,12 +59,15 @@
         const nx = x + p.cos(rad) * length
         const ny = y + p.sin(rad) * length
 
-        const isDark = document.documentElement.classList.contains('dark')
-        const color = isDark ? 55 : 200
+        const isDark = isDarkTheme()
+        // 天空蓝微染噪点场 — 每帧读取，切换主题即时生效
+        const r = isDark ? 70 : 150
+        const g = isDark ? 140 : 200
+        const b = isDark ? 180 : 230
         p.stroke(
-          color,
-          color,
-          color,
+          r,
+          g,
+          b,
           (Math.abs(p.cos(rad)) * 0.8 + 0.2) * point.opacity * 255
         )
         p.strokeWeight(2)

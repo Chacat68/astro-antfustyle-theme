@@ -13,6 +13,10 @@ export const SITE = {
 
 该值会影响 sitemap、RSS、Open Graph、JSON-LD 结构化数据与 canonical URL。请勿继续使用上游主题的 demo 域名。完整 SEO 策略与维护流程见 [seo.md](./seo.md)。
 
+## 导航栏
+
+`UI.navBarLayout` 控制顶栏左右组件序列。当前未放入 `socialLinks`：社交媒体图标不在导航栏（含移动端面板）显示，仍可通过首页「找到我」区块与 `UI.socialLinks` 配置使用。若要恢复，在 `right`（或 `left`）数组中加入 `'socialLinks'` 即可。
+
 ## 站内链接规范
 
 从旧 Notion / NotionNext 站点（`/article/<slug>`）迁移后，文章互链应使用 Astro 路由：

@@ -13,12 +13,15 @@
 }
 
 .prose a {
-  border-bottom: 1px solid rgba(125, 125, 125, 0.3);
-  transition: border 0.3s ease-in-out;
+  border-bottom: 1px solid rgba(125, 125, 125, 0.28);
+  transition:
+    border-color 0.25s var(--ease-out, ease),
+    color 0.25s var(--ease-out, ease);
 }
 
 .prose a:hover {
-  border-bottom: 1px solid var(--fg);
+  border-bottom-color: var(--c-accent-muted);
+  color: var(--c-accent);
 }
 
 .prose a code {
@@ -28,6 +31,7 @@
 .prose hr {
   width: 50px;
   margin: 2em auto;
+  border-color: color-mix(in srgb, var(--c-accent) 22%, rgba(125, 125, 125, 0.28));
 }
 
 html.dark .prose {

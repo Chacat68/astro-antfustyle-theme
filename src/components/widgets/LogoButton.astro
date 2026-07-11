@@ -45,7 +45,13 @@ const homeHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, ''))
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 1;
+    letter-spacing: 0.06em;
     color: currentColor;
     white-space: nowrap;
+    transition: color var(--duration-fast, 160ms) var(--ease-out, ease);
+  }
+
+  .logo-container:hover .logo-text {
+    color: var(--c-accent);
   }
 </style>

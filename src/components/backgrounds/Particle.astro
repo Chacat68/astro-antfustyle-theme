@@ -10,6 +10,7 @@
 <script>
   import { defineP5Background } from '~/components/backgrounds/p5-background'
   import type { P5Sketch } from '~/components/backgrounds/p5-background'
+  import { accentStrokeColor } from '~/utils/theme'
 
   interface Particle {
     x: number
@@ -21,7 +22,6 @@
   }
 
   const sketch: P5Sketch = (p) => {
-    const COLOR = '#88888825'
     const VELOCITY = 0.8
     const DENSITY = 6000
     const DISTANCE = 120
@@ -57,7 +57,7 @@
 
     function drawParticle(particle: Particle) {
       p.noStroke()
-      p.fill(COLOR)
+      p.fill(accentStrokeColor())
       p.circle(particle.x, particle.y, 3)
     }
 
@@ -99,6 +99,7 @@
       // Grid cell size equals DISTANCE so adjacent cells cover all possible connections
       const cellsX = Math.ceil((width + 40) / DISTANCE)
       const grid = new Map<number, Particle[]>()
+      const color = accentStrokeColor()
 
       particles.forEach((particle) => {
         updateParticle(particle)
@@ -126,7 +127,7 @@
               if (other === particle) continue
               const d = Math.hypot(particle.x - other.x, particle.y - other.y)
               if (d < DISTANCE) {
-                p.stroke(COLOR)
+                p.stroke(color)
                 p.strokeWeight(0.5)
                 p.line(particle.x, particle.y, other.x, other.y)
               }

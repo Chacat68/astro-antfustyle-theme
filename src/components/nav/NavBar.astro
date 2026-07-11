@@ -11,6 +11,8 @@ import { getLocale, useTranslations } from '~/i18n/translate'
 
 const { navBarLayout, internalNavs, socialLinks } = UI
 const { left, right, mergeOnMobile } = navBarLayout
+const showSocialInNav =
+  left.includes('socialLinks') || right.includes('socialLinks')
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -92,7 +94,8 @@ for (const item of new Set(left)) {
                   mobileItemType="text"
                 />
               ))}
-            {socialLinks.length !== 0 &&
+            {showSocialInNav &&
+              socialLinks.length !== 0 &&
               socialLinks.map((item) => (
                 <NavItem
                   type="social"
@@ -112,7 +115,8 @@ for (const item of new Set(left)) {
                   mobileItemType="icon"
                 />
               ))}
-            {socialLinks.length !== 0 &&
+            {showSocialInNav &&
+              socialLinks.length !== 0 &&
               socialLinks.map((item) => (
                 <NavItem
                   type="social"

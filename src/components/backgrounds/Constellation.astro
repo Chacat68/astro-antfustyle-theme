@@ -10,6 +10,7 @@
 <script>
   import { defineP5Background } from '~/components/backgrounds/p5-background'
   import type { P5Sketch } from '~/components/backgrounds/p5-background'
+  import { isDarkTheme } from '~/utils/theme'
 
   interface Star {
     x: number
@@ -54,7 +55,7 @@
     p.draw = () => {
       p.clear()
 
-      const isDark = document.documentElement.classList.contains('dark')
+      const isDark = isDarkTheme()
       const time = p.millis() * 0.001
 
       // Update star positions (slow drift, wrap around screen)
@@ -100,8 +101,8 @@
               if (d < CONNECTION_DISTANCE) {
                 const alpha = p.map(d, 0, CONNECTION_DISTANCE, 40, 0)
                 const lineColor = isDark
-                  ? p.color(148, 163, 184, alpha)
-                  : p.color(100, 116, 139, alpha)
+                  ? p.color(56, 189, 248, alpha)
+                  : p.color(2, 132, 199, alpha)
                 p.stroke(lineColor)
                 p.strokeWeight(0.5)
                 p.line(star.x, star.y, other.x, other.y)
@@ -120,8 +121,8 @@
         const alpha = 80 + twinkle * 175
 
         const starColor = isDark
-          ? p.color(226, 232, 240, alpha)
-          : p.color(30, 58, 95, alpha)
+          ? p.color(186, 230, 253, alpha)
+          : p.color(3, 105, 161, alpha)
 
         p.fill(starColor)
         p.circle(star.x, star.y, star.size * (0.8 + twinkle * 0.4))

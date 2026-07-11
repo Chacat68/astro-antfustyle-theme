@@ -106,8 +106,6 @@ export const UI: Ui = {
     right: [
       'internalNavs',
       'hr',
-      'socialLinks',
-      'hr',
       'searchButton',
       'langButton',
       'themeButton',

@@ -10,6 +10,8 @@
 </bg-plum>
 
 <script>
+  import { accentStrokeColor } from '~/utils/theme'
+
   type Fn = () => void
 
   function initCanvas(
@@ -44,6 +46,7 @@
 
   class BgPlumElement extends HTMLElement {
     rafId: number | null = null
+    themeObserver: MutationObserver | null = null
 
     connectedCallback() {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -58,6 +61,7 @@
         // drawing a branch
         const length = random() * LEN
         const [nx, ny] = polar2cart(x, y, length, rad)
+        ctx.strokeStyle = accentStrokeColor()
         ctx.beginPath()
         ctx.moveTo(x, y)
         ctx.lineTo(nx, ny)
@@ -116,7 +120,12 @@
 
       /* Start drawing */
       const start = () => {
+        if (this.rafId) {
+          cancelAnimationFrame(this.rafId)
+          this.rafId = null
+        }
         ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.strokeStyle = accentStrokeColor()
 
         pendingSteps = [
           () => step(randomMiddle() * width, -5, R90),
@@ -132,7 +141,6 @@
       const R180 = Math.PI
       const R90 = Math.PI / 2
       const R15 = Math.PI / 12
-      const COLOR = '#88888825'
       const THRESHOLD = 30
       const LEN = 6
       const INTERVAL = 1000 / 40
@@ -142,19 +150,33 @@
 
       let pendingSteps: Fn[]
       let lastTime = performance.now()
+      let lastDark = document.documentElement.classList.contains('dark')
 
       const width = window.innerWidth
       const height = window.innerHeight
       const canvas = this.querySelector('canvas') as HTMLCanvasElement
       const { ctx } = initCanvas(canvas, width, height)
       ctx.lineWidth = 1
-      ctx.strokeStyle = COLOR
 
       start()
+
+      // 主题切换后重绘，避免成品画面停留在旧 accent 色
+      this.themeObserver = new MutationObserver(() => {
+        const nextDark = document.documentElement.classList.contains('dark')
+        if (nextDark === lastDark) return
+        lastDark = nextDark
+        start()
+      })
+      this.themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      })
     }
 
     // after switching pages, stop the last drawing that was started but has not yet finished.
     disconnectedCallback() {
+      this.themeObserver?.disconnect()
+      this.themeObserver = null
       if (this.rafId) {
         cancelAnimationFrame(this.rafId)
         this.rafId = null
