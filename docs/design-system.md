@@ -35,6 +35,10 @@
 
 图标集通过 `presetIcons.collections` 从 `@iconify/json` 显式加载（见 [architecture-conventions.md](./architecture-conventions.md)），避免在 Cursor/VS Code 环境下导航图标丢失。
 
+## Logo
+
+`LogoButton.astro`：左侧 HUD 角标；右侧字标用 `opacity` + 光斑 `transform/opacity` 做呼吸（避免动画 `text-shadow`）；链接强制 `op-100!` 以免与 `Link` 默认 `op-60` 叠乘过暗。尊重 `prefers-reduced-motion`。
+
 ## 背景与页面分配
 
 背景调度：`src/components/backgrounds/Background.astro`。装饰色统一贴近 accent：

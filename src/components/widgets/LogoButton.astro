@@ -10,48 +10,269 @@ const homeHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, ''))
 ---
 
 <Link
-  class="select-none op-transition"
+  class="logo-link select-none op-100! hover:op-100"
   href={homeHref}
   aria-label={SITE.author}
   aria-current={ensureTrailingSlash(Astro.url.pathname) === homeHref
     ? 'page'
     : false}
 >
-  <div class="logo-container">
-    <span class="logo-text">付之一笑</span>
-  </div>
+  <span class="logo">
+    <span class="logo-hud" aria-hidden="true">
+      <span class="logo-hud__frame">
+        <span class="logo-hud__scan"></span>
+        <span class="logo-hud__dot"></span>
+      </span>
+    </span>
+    <span class="logo-word">
+      <span class="logo-word__text">付之一笑</span>
+    </span>
+  </span>
 </Link>
 
 <style>
-  .logo-container {
-    display: flex;
-    justify-content: center;
+  .logo {
+    display: inline-flex;
     align-items: center;
-    gap: 0.8rem;
-
-    transform: scale(1.05);
+    gap: 0.65rem;
+    transform: scale(1.04);
   }
 
   @media (max-width: 767.9px) {
-    .logo-container {
-      margin-top: 0.125rem;
-
-      transform-origin: 0%;
-      transform: scale(0.95);
+    .logo {
+      margin-top: 0.1rem;
+      transform-origin: left center;
+      transform: scale(0.94);
     }
   }
 
-  .logo-container .logo-text {
-    font-size: 1.25rem;
+  /* —— HUD 角标 —— */
+  .logo-hud {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .logo-hud__frame {
+    position: relative;
+    width: 1.35rem;
+    height: 1.35rem;
+
+    border: 1px solid color-mix(in srgb, var(--c-accent) 70%, transparent);
+    border-radius: 0.2rem;
+    background: color-mix(in srgb, var(--c-accent) 8%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--c-accent) 12%, transparent) inset,
+      0 0 10px color-mix(in srgb, var(--c-accent) 22%, transparent);
+
+    overflow: hidden;
+  }
+
+  .logo-hud__frame::before,
+  .logo-hud__frame::after {
+    content: '';
+    position: absolute;
+    width: 0.34rem;
+    height: 0.34rem;
+    border-color: var(--c-accent);
+    border-style: solid;
+  }
+
+  .logo-hud__frame::before {
+    top: -1px;
+    left: -1px;
+    border-width: 1.5px 0 0 1.5px;
+  }
+
+  .logo-hud__frame::after {
+    right: -1px;
+    bottom: -1px;
+    border-width: 0 1.5px 1.5px 0;
+  }
+
+  .logo-hud__scan {
+    position: absolute;
+    top: 0;
+    left: -30%;
+    width: 35%;
+    height: 100%;
+
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--c-accent) 55%, transparent),
+      transparent
+    );
+    /* transform 动画可走合成层 */
+    will-change: transform;
+    animation: logo-hud-scan 2.4s linear infinite;
+  }
+
+  .logo-hud__dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.28rem;
+    height: 0.28rem;
+    border-radius: 50%;
+
+    background: var(--c-accent);
+    box-shadow: 0 0 6px var(--c-accent);
+    transform: translate(-50%, -50%);
+    animation: logo-hud-blink 1.6s steps(1, end) infinite;
+  }
+
+  /* —— 字标：opacity 呼吸 + 独立光斑（不动画 text-shadow） —— */
+  .logo-word {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .logo-word__text {
+    position: relative;
+    z-index: 1;
+
+    font-size: 1.2rem;
     font-weight: 600;
     line-height: 1;
-    letter-spacing: 0.06em;
-    color: currentColor;
+    letter-spacing: 0.18em;
     white-space: nowrap;
+    color: var(--c-text);
+    animation: logo-text-breathe 3.2s ease-in-out infinite;
     transition: color var(--duration-fast, 160ms) var(--ease-out, ease);
   }
 
-  .logo-container:hover .logo-text {
+  .logo-word__text::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 15%;
+    right: -8%;
+    bottom: 15%;
+    left: -8%;
+
+    border-radius: 999px;
+    background: var(--c-accent);
+    filter: blur(10px);
+    opacity: 0.22;
+    pointer-events: none;
+    animation: logo-glow-breathe 3.2s ease-in-out infinite;
+  }
+
+  .logo-word::after {
+    content: '';
+    flex-shrink: 0;
+    width: 0.12rem;
+    height: 0.95em;
+    margin-left: 0.18em;
+    border-radius: 1px;
+    background: var(--c-accent);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--c-accent) 60%, transparent);
+    animation: logo-caret 1.05s steps(1, end) infinite;
+  }
+
+  .logo-link:hover .logo-hud__frame,
+  .logo-link[aria-current='page'] .logo-hud__frame {
+    background: color-mix(in srgb, var(--c-accent) 14%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--c-accent) 18%, transparent) inset,
+      0 0 14px color-mix(in srgb, var(--c-accent) 35%, transparent);
+  }
+
+  .logo-link:hover .logo-word__text,
+  .logo-link[aria-current='page'] .logo-word__text {
     color: var(--c-accent);
+  }
+
+  .logo-link:hover .logo-word__text::before,
+  .logo-link[aria-current='page'] .logo-word__text::before {
+    animation-name: logo-glow-breathe-strong;
+  }
+
+  @keyframes logo-hud-scan {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(320%);
+    }
+  }
+
+  @keyframes logo-hud-blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.15;
+    }
+  }
+
+  @keyframes logo-text-breathe {
+    0%,
+    100% {
+      opacity: 0.88;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes logo-glow-breathe {
+    0%,
+    100% {
+      opacity: 0.14;
+      transform: scale(0.92);
+    }
+    50% {
+      opacity: 0.32;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes logo-glow-breathe-strong {
+    0%,
+    100% {
+      opacity: 0.22;
+      transform: scale(0.94);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(1.04);
+    }
+  }
+
+  @keyframes logo-caret {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-hud__scan,
+    .logo-hud__dot,
+    .logo-word__text,
+    .logo-word__text::before,
+    .logo-word::after {
+      animation: none;
+    }
+
+    .logo-hud__scan {
+      will-change: auto;
+    }
+
+    .logo-hud__dot,
+    .logo-word::after,
+    .logo-word__text {
+      opacity: 1;
+    }
+
+    .logo-word__text::before {
+      opacity: 0.2;
+      transform: none;
+    }
   }
 </style>
