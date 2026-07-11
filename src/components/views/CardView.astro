@@ -46,7 +46,7 @@ if (collectionType === 'highlights') {
 
 if (collectionType === 'shorts') {
   const posts = await getCollection('blog')
-  dataForGrid = await getShortsFromBlog(posts)
+  dataForGrid = getShortsFromBlog(posts)
 }
 
 if (dataForMasonry.length === 0 && dataForGrid.length === 0) isEmpty = true

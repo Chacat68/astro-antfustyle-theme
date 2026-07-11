@@ -46,7 +46,6 @@ const tabKeyByPath: Record<string, string> = {
   <div
     u-flex="~ gap-3 lt-sm:(col wrap gap-1)"
     class="mb-0 text-3xl select-none"
-    role="tablist"
   >
     {
       tabs.map((tab) => (
@@ -57,8 +56,7 @@ const tabKeyByPath: Record<string, string> = {
             'inactive': !isActive(tab.path),
           }}
           href={toHref(tab.path)}
-          role="tab"
-          aria-current={currentPath === toHref(tab.path) ? 'page' : false}
+          aria-current={isActive(tab.path) ? 'page' : undefined}
         >
           {t(tabKeyByPath[tab.path.replace(/\/+$/, '')] ?? tab.title)}
         </Link>

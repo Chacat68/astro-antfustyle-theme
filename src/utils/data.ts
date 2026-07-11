@@ -1,4 +1,4 @@
-import { getCollection, render } from 'astro:content'
+import { getCollection } from 'astro:content'
 import {
   AppBskyEmbedImages,
   AppBskyEmbedVideo,
@@ -9,6 +9,7 @@ import {
 import { atUriToPostUri } from 'astro-loader-bluesky-posts'
 
 import { resolvePath } from './path'
+import { extractMarkdownHeadings } from './markdown-headings'
 import { getLocale } from '~/i18n/translate'
 import { isDefaultLocale } from '~/i18n/locales'
 
@@ -275,8 +276,9 @@ export function processBlueskyPosts(data: CollectionEntryList<'highlights'>) {
 
 /**
  * Processes blog posts and converts them into `CardItemData` interface.
+ * 从 Markdown body 提取 h2，避免对每篇 `await render()`。
  */
-export async function getShortsFromBlog(data: CollectionEntryList<'blog'>) {
+export function getShortsFromBlog(data: CollectionEntryList<'blog'>) {
   const cards: CardItemData[] = []
   const basePath = resolvePath('/blog')
   const sortedData = data.sort((a, b) => {
@@ -290,14 +292,11 @@ export async function getShortsFromBlog(data: CollectionEntryList<'blog'>) {
     const title = item.data.title
     const date = item.data.pubDate
 
-    const { headings } = await render(item)
-    const itemCards = headings
-      .filter((h) => h.depth === 2)
-      .map((h) => ({
-        link: `${basePath}${slug}/#${h.slug}`,
-        text: `${title}: ${h.text}`,
-        date: date,
-      }))
+    const itemCards = extractMarkdownHeadings(item.body, 2).map((h) => ({
+      link: `${basePath}${slug}/#${h.slug}`,
+      text: `${title}: ${h.text}`,
+      date: date,
+    }))
 
     cards.push(...itemCards)
   }

@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content'
+import { getCollection } from 'astro:content'
 
 import Categorizer from '~/components/base/Categorizer.astro'
 import ListItem from '~/components/views/ListItem.astro'
@@ -13,6 +13,7 @@ import {
   getLocalizedBlogPosts,
   getSortedPosts,
 } from '~/utils/data'
+import { resolveMinutesRead } from '~/utils/reading-time'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 import type { CollectionEntry, CollectionKey } from 'astro:content'
@@ -117,11 +118,9 @@ if (collectionType === 'feeds') {
       {sortedBlogItems.length === 0 ? (
         <div class="py-2 op-50">{t('list.empty')}</div>
       ) : (
-        sortedBlogItems.map(async (item, idx) => {
-          const { data, id } = item
-          const { remarkPluginFrontmatter } = await render(item)
-          const minutesRead =
-            data.minutesRead || remarkPluginFrontmatter.minutesRead
+        sortedBlogItems.map((item, idx) => {
+          const { data, id, body } = item
+          const minutesRead = resolveMinutesRead(data.minutesRead, body)
 
           return (
             <>

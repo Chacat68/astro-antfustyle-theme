@@ -30,6 +30,7 @@ const t = useTranslations(locale)
     }
 
     const toggleThemeButton = document.getElementById('theme-switch')
+    if (!toggleThemeButton) return
     toggleThemeButton.setAttribute('role', 'switch')
 
     if (theme === 'light') {

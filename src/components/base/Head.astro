@@ -8,6 +8,7 @@ import { withBasePath } from '~/utils/path'
 import { formatPageTitle, truncateMetaDescription } from '~/utils/seo'
 import { SITE, UI } from '~/config'
 import { getLocale } from '~/i18n/translate'
+import { isDefaultLocale } from '~/i18n/locales'
 import { localeToHtmlLang, localeToOgLocale } from '~/i18n/locale-meta'
 
 import type { AppLocale } from '~/i18n/locales'
@@ -102,7 +103,13 @@ const ogImageURL = new URL(
 const ogImageAlt = `${schemaName} - ${SITE.title}`
 const sitemapURL = new URL(withBasePath('/sitemap-index.xml'), SITE.website)
   .href
-const rssURL = new URL(withBasePath('/rss.xml'), SITE.website).href
+const rssURL = new URL(
+  withBasePath(isDefaultLocale(locale) ? '/rss.xml' : '/en/rss.xml'),
+  SITE.website
+).href
+const rssTitle = isDefaultLocale(locale)
+  ? `${SITE.title} RSS`
+  : `${SITE.title} English RSS`
 const siteRootURL = new URL(withBasePath('/'), SITE.website)
 const websiteId = new URL(withBasePath('/#website'), SITE.website).href
 const personId = new URL(withBasePath('/#person'), SITE.website).href
@@ -356,7 +363,7 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 <link
   rel="alternate"
   type="application/rss+xml"
-  title={`${SITE.title} RSS`}
+  title={rssTitle}
   href={rssURL}
 />
 

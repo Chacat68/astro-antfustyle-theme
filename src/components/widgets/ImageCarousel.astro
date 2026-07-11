@@ -95,6 +95,7 @@ const t = useTranslations(locale)
     }
 
     #startAutoplay = () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
       this.#autoplayTimer = window.setInterval(this.#next, this.#autoplayDelay)
     }
 

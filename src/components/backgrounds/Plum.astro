@@ -46,6 +46,8 @@
     rafId: number | null = null
 
     connectedCallback() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
       /* Canvas drawing logic (recursively draw each branch) */
       const step = (
         x: number,

@@ -20,6 +20,9 @@ export function defineP5Background(tagName: string, sketch: P5Sketch) {
       if (this.p5Instance) return
       this.#cancelled = false
 
+      // 尊重系统「减少动态效果」偏好，不加载 ~1MB p5
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
       const start = async () => {
         this.#idleHandle = null
         const { default: p5 } = await import('p5')

@@ -73,6 +73,7 @@ export async function GET() {
     '## Feeds and discovery',
     '',
     `- [RSS feed](${getAbsoluteSiteUrl('/rss.xml')}): Latest Chinese posts in publication order.`,
+    `- [English RSS feed](${getAbsoluteSiteUrl('/en/rss.xml')}): Latest English posts in publication order.`,
     `- [XML sitemap](${getAbsoluteSiteUrl('/sitemap-index.xml')}): Canonical indexable HTML URLs.`,
     '',
   ].join('\n')

@@ -90,6 +90,8 @@ const roses = [
     }
 
     connectedCallback() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
       // ensure CSS transitions trigger properly on client-side navigation
       requestAnimationFrame(() => {
         this.#animate()

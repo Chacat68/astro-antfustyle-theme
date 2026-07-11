@@ -1,5 +1,9 @@
 import { z } from 'astro:content'
 
+import { httpUrlSchema } from '~/utils/url-schema'
+
+export { httpUrlSchema }
+
 /* Pages*/
 export const pageSchema = z.object({
   title: z
@@ -179,9 +183,7 @@ function createPostSchema(options?: { titleMax?: number }) {
         .describe(
           'Controls whether the post is included in Pagefind search indexing.'
         ),
-      redirect: z
-        .string()
-        .url('Invalid url.')
+      redirect: httpUrlSchema
         .optional()
         .describe('Defines a URL to redirect the post.'),
       draft: z
@@ -227,10 +229,9 @@ export type PostSchemaEn = z.infer<typeof postSchemaEn>
 /* Projects */
 export const projectSchema = z.object({
   id: z.string().describe('**Required**. Name of the project to be displayed.'),
-  link: z
-    .string()
-    .url('Invalid url.')
-    .describe('**Required**. URL linking to the project page or repository.'),
+  link: httpUrlSchema.describe(
+    '**Required**. URL linking to the project page or repository.'
+  ),
   desc: z
     .string()
     .describe('**Required**. A brief description summarizing the project.'),
@@ -265,10 +266,9 @@ export const friendSchema = z.object({
   id: z
     .string()
     .describe('**Required**. Name of the friend/blog to be displayed.'),
-  link: z
-    .string()
-    .url('Invalid url.')
-    .describe('**Required**. URL linking to the friend blog or website.'),
+  link: httpUrlSchema.describe(
+    '**Required**. URL linking to the friend blog or website.'
+  ),
   desc: z
     .string()
     .describe(
@@ -280,9 +280,7 @@ export const friendSchema = z.object({
     .describe(
       'Optional. English description shown on `/en/*` routes; falls back to `desc`.'
     ),
-  avatar: z
-    .string()
-    .url('Invalid url.')
+  avatar: httpUrlSchema
     .optional()
     .describe(
       'URL of the friend avatar image. If provided, it will be displayed instead of the icon.'
@@ -350,10 +348,9 @@ export const streamSchema = z.object({
     .describe(
       '**Required**. Specifies the publication date. See supported formats [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse#examples).'
     ),
-  link: z
-    .string()
-    .url('Invalid url.')
-    .describe('**Required**. Specifies the URL link to the stream.'),
+  link: httpUrlSchema.describe(
+    '**Required**. Specifies the URL link to the stream.'
+  ),
   radio: z
     .boolean()
     .default(false)

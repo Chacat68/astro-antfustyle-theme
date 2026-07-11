@@ -28,7 +28,7 @@ interface Props {
   filterTags?: string[]
   /** 筛选为「全部」时的标签文案 */
   filterAllLabel?: string
-  /** 筛选控件 `role="tablist"` 的无障碍名称 */
+  /** 筛选控件导航的无障碍名称 */
   filterAriaLabel?: string
   /** 当前标签下无作品时的提示 */
   emptyFilterText?: string
@@ -87,18 +87,17 @@ const getFilterHref = (tag: string) =>
     data-error-text={resolvedErrorText}
     data-tag-filter={tagFilter ? 'true' : undefined}
     data-empty-filter-text={tagFilter ? resolvedEmptyFilter : undefined}
+    data-open-viewer-label={t('a11y.openViewer')}
     class="photo-view block relative w-full"
   >
     {
       tagFilter && (
-        <div
+        <nav
           class="tag-filter-wrap mb-6 flex flex-wrap justify-center gap-2 lt-md:mb-4"
-          role="tablist"
           aria-label={resolvedFilterAria}
         >
           <a
-            role="tab"
-            aria-selected={initialTag === ''}
+            aria-current={initialTag === '' ? 'page' : undefined}
             data-tag=""
             href={getFilterHref('')}
             class="tag-filter-btn"
@@ -107,8 +106,7 @@ const getFilterHref = (tag: string) =>
           </a>
           {normalizedFilterTags.map((tag) => (
             <a
-              role="tab"
-              aria-selected={initialTag === tag}
+              aria-current={initialTag === tag ? 'page' : undefined}
               data-tag={tag}
               href={getFilterHref(tag)}
               class="tag-filter-btn"
@@ -116,7 +114,7 @@ const getFilterHref = (tag: string) =>
               {tag}
             </a>
           ))}
-        </div>
+        </nav>
       )
     }
     <div class="photo-container"></div>
@@ -256,10 +254,8 @@ const getFilterHref = (tag: string) =>
       this.querySelectorAll('.tag-filter-btn').forEach((el) => {
         const b = el as HTMLElement
         const tag = b.dataset.tag || ''
-        b.setAttribute(
-          'aria-selected',
-          tag === this.#activeTag ? 'true' : 'false'
-        )
+        if (tag === this.#activeTag) b.setAttribute('aria-current', 'page')
+        else b.removeAttribute('aria-current')
       })
     }
 
@@ -461,7 +457,10 @@ const getFilterHref = (tag: string) =>
         fig.dataset.aspectRatio = aspect.toString()
         fig.setAttribute('role', 'button')
         fig.setAttribute('tabindex', '0')
-        fig.setAttribute('aria-label', 'Open viewer')
+        fig.setAttribute(
+          'aria-label',
+          this.dataset.openViewerLabel || 'Open viewer'
+        )
         fig.style.setProperty('--photo-top', top.toString() + 'px')
         fig.style.setProperty('--photo-left', left.toString() + 'px')
         fig.style.setProperty('--photo-height', `${height}px`)
@@ -470,6 +469,8 @@ const getFilterHref = (tag: string) =>
         const img = document.createElement('img')
         img.src = item.thumbnail
         img.alt = item.desc
+        img.loading = 'lazy'
+        img.decoding = 'async'
         img.dataset.origin = item.src
         img.addEventListener(
           'load',
@@ -525,12 +526,17 @@ const getFilterHref = (tag: string) =>
         fig.className = 'photo-figure'
         fig.setAttribute('role', 'button')
         fig.setAttribute('tabindex', '0')
-        fig.setAttribute('aria-label', 'Open viewer')
+        fig.setAttribute(
+          'aria-label',
+          this.dataset.openViewerLabel || 'Open viewer'
+        )
         fig.style.setProperty('--photo-placeholder', `url(${item.placeholder})`)
 
         const img = document.createElement('img')
         img.src = item.thumbnail
         img.alt = item.desc
+        img.loading = 'lazy'
+        img.decoding = 'async'
         img.dataset.origin = item.src
         img.addEventListener(
           'load',

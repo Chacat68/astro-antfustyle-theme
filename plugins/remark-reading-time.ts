@@ -3,6 +3,7 @@ import { toString } from 'mdast-util-to-string'
 
 /**
  * Used to add a reading time property to the frontmatter of your Markdown or MDX files.
+ * 公式与 `src/utils/reading-time.ts` 的 `estimateMinutesReadFromText` 保持一致。
  *
  * @see https://docs.astro.build/en/recipes/reading-time/
  */

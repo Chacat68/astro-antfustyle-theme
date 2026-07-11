@@ -1,6 +1,7 @@
 ---
 import Link from '~/components/base/Link.astro'
 import { formatDate } from '~/utils/datetime'
+import { sanitizeHtml } from '~/utils/sanitize-html'
 import { getLocale } from '~/i18n/translate'
 import { localeToHtmlLang } from '~/i18n/locale-meta'
 
@@ -48,8 +49,9 @@ const secondLinkText =
     : item.repository.nameWithOwner
 
 const time = collectionType === 'releases' ? item.publishedAt : item.createdAt
-const content =
+const content = sanitizeHtml(
   collectionType === 'releases' ? item.descriptionHTML : item.bodyHTML
+)
 ---
 
 <details

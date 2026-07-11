@@ -12,7 +12,7 @@
 | 爬虫规则 | `astro.config.ts` → `astro-robots-txt` | 生成 `robots.txt`，指向 sitemap |
 | AI 内容索引 | `src/pages/llms.txt.ts` | 生成精简的双语文章目录与 Markdown 入口 |
 | 文章纯文本 | `src/pages/*/blog/[...slug]/index.html.md.ts` | 为每篇中英文文章生成无脚本、无导航的 Markdown 版本 |
-| RSS | `src/pages/rss.xml.js` | 博客文章订阅源 |
+| RSS | `src/pages/rss.xml.js`、`src/pages/en/rss.xml.js` | 中文 / 英文博客订阅源 |
 | 审计 | `scripts/seo-audit.mjs` | 构建后检查 HTML 元数据完整性 |
 
 ## 关键配置
