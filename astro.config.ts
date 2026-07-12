@@ -9,6 +9,7 @@ import robotsTxt from 'astro-robots-txt'
 import unocss from 'unocss/astro'
 import astroExpressiveCode from 'astro-expressive-code'
 import mdx from '@astrojs/mdx'
+import { unified } from '@astrojs/markdown-remark'
 
 import { remarkPlugins, rehypePlugins } from './plugins'
 import { SITE } from './src/config'
@@ -131,10 +132,15 @@ export default defineConfig({
     astroExpressiveCode(),
     mdx(),
   ],
+  // 对齐升级前 experimental.failOnPrerenderConflict：路由冲突时直接失败
+  prerenderConflictBehavior: 'error',
   markdown: {
     syntaxHighlight: false,
-    remarkPlugins,
-    rehypePlugins,
+    // Astro 6：remark/rehype 插件经 unified processor 传入（旧顶层字段已弃用）
+    processor: unified({
+      remarkPlugins,
+      rehypePlugins,
+    }),
   },
   image: {
     domains: SITE.imageDomains,
@@ -154,11 +160,9 @@ export default defineConfig({
     build: { chunkSizeWarningLimit: 700 },
   },
   // https://docs.astro.build/en/reference/experimental-flags/
+  // preserveScriptOrder / headingIdCompat / failOnPrerenderConflict 已在 Astro 6 稳定或迁出 experimental
   experimental: {
     contentIntellisense: true,
-    preserveScriptOrder: true,
-    headingIdCompat: true,
     chromeDevtoolsWorkspace: true,
-    failOnPrerenderConflict: true,
   },
 })

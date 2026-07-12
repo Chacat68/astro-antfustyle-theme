@@ -1,9 +1,8 @@
-import { z } from 'zod'
+import { z } from 'astro/zod'
 
-/** 仅允许 http(s) URL，拒绝 javascript: 等危险 scheme */
+/** 仅允许 http(s) URL，拒绝 javascript: 等危险 scheme（Zod 4：用 z.url()） */
 export const httpUrlSchema = z
-  .string()
-  .url('Invalid url.')
+  .url({ error: 'Invalid url.' })
   .refine(
     (value) => {
       try {
@@ -13,5 +12,5 @@ export const httpUrlSchema = z
         return false
       }
     },
-    { message: 'URL must use http or https.' }
+    { error: 'URL must use http or https.' }
   )

@@ -77,6 +77,12 @@ node -e "require('sharp')('in.webp').resize({width:2000,height:2000,fit:'inside'
 ## 工程配置
 
 - `lint-staged` 只对 `*.{js,mjs,cjs,ts,mts,astro}` 执行 ESLint。
-- Node 要求 `>=20.9.0`（已移除 EOL 的 Node 18）。
+- Node 要求 `>=22.12.0`（Astro 6 最低版本；已移除 Node 18 / 20）。
+- 内容 schema 的 Zod 从 `astro/zod` 引入（Zod 4）；URL 校验见 `src/utils/url-schema.ts`。
+- Markdown 插件经 `markdown.processor: unified({ remarkPlugins, rehypePlugins })` 配置（Astro 6 弃用顶层 `remarkPlugins` / `rehypePlugins`）。
+- `headingIdCompat` 仍通过 `plugins/index.ts` 中 `[rehypeHeadingIds, { headingIdCompat: true }]` 保留。
+- `@ascorbic/feed-loader` v2 默认非 legacy：feeds 条目字段为 `published` / `url`（不再是 `pubdate` / `link`），见 `ListView.astro`。从 v1 升级后若 `/feeds` 空白，删除 `.astro/data-store.json`（或整目录 `.astro/`）再 `pnpm sync` / `pnpm build`，避免 HTTP 304 保留旧字段缓存。
+- 预渲染冲突策略：`prerenderConflictBehavior: 'error'`（Astro 6 稳定项，替代已移除的 `experimental.failOnPrerenderConflict`）。
+- 本地 Pagefind 索引目录 `public/pagefind/` 已从 `tsconfig` exclude，避免 `astro check` 扫描生成物。
 - `wrangler.toml` 为 Cloudflare Workers 生产部署配置（Worker `blog-4`），**不可删除**，详见 [deployment.md](./deployment.md)。
 - 单元测试：`pnpm test`（Node 内置 test runner + `--experimental-strip-types`），覆盖 `sanitize-html` / `reading-time` / `markdown-headings` / `httpUrlSchema`。

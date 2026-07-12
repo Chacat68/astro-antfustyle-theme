@@ -181,7 +181,7 @@ export function processBlueskyPosts(data: CollectionEntryList<'highlights'>) {
 
     if (embed) {
       if (AppBskyEmbedImages.isView(embed))
-        card.images = embed.images.map((img) => ({
+        card.images = embed.images.map((img: { thumb: string; alt?: string }) => ({
           src: img.thumb,
           alt: img.alt ?? '',
         }))
@@ -221,18 +221,17 @@ export function processBlueskyPosts(data: CollectionEntryList<'highlights'>) {
 
         if (media) {
           if (AppBskyEmbedImages.isView(media))
-            card.images = media.images.map((img) => ({
-              src: img.thumb ?? '',
-              alt: img.alt ?? '',
-            }))
+            card.images = media.images.map(
+              (img: { thumb?: string; alt?: string }) => ({
+                src: img.thumb ?? '',
+                alt: img.alt ?? '',
+              })
+            )
 
           if (AppBskyEmbedVideo.isView(media))
             card.video = {
-              // @ts-expect-error (ignore)
               src: `https://bsky.social/xrpc/com.atproto.sync.getBlob?did=${author.did}&cid=${media.cid}`,
-              // @ts-expect-error (ignore)
-              alt: media.alt,
-              // @ts-expect-error (ignore)
+              alt: media.alt ?? '',
               poster: media.thumbnail ?? '',
             }
 
@@ -245,9 +244,7 @@ export function processBlueskyPosts(data: CollectionEntryList<'highlights'>) {
             }
         }
 
-        // @ts-expect-error (ignore)
         if (AppBskyEmbedRecord.isViewRecord(record.record)) {
-          // @ts-expect-error (ignore)
           const { uri, value, author } = record.record
 
           card.quote = {
@@ -265,7 +262,7 @@ export function processBlueskyPosts(data: CollectionEntryList<'highlights'>) {
     }
 
     if (replies && replies.length > 0) {
-      card.details = replies.map((reply) => reply.html)
+      card.details = replies.map((reply: { html: string }) => reply.html)
     }
 
     cards.push(card)

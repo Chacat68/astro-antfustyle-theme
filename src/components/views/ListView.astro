@@ -84,22 +84,31 @@ if (collectionType === 'streams') {
   }
 }
 
-/* Feeds */
+/* Feeds（@ascorbic/feed-loader v2：published / url） */
 let sortedFeedItems: CollectionEntry<'feeds'>[] = []
 if (collectionType === 'feeds') {
   const feedItems = await getCollection(collectionType)
 
-  sortedFeedItems = feedItems.sort((a, b) => {
-    if (!a.data.pubdate || !b.data.pubdate)
-      throw new Error("Feed item is missing 'pubdate' field.")
-
-    return b.data.pubdate.valueOf() - a.data.pubdate.valueOf()
-  })
+  sortedFeedItems = feedItems
+    .filter(
+      (
+        item
+      ): item is typeof item & {
+        data: typeof item.data & {
+          url: string
+          title: string
+          published: Date
+        }
+      } => !!item.data.url && !!item.data.title && !!item.data.published
+    )
+    .sort((a, b) => {
+      return b.data.published.valueOf() - a.data.published.valueOf()
+    })
 
   if (tocEnabled) {
     const yearsSet = new Set<number>()
     sortedFeedItems.forEach((item) => {
-      const year = getYear(item.data.pubdate as Date)
+      const year = getYear(item.data.published)
       yearsSet.add(year)
     })
 
@@ -199,33 +208,25 @@ if (collectionType === 'feeds') {
       ) : (
         sortedFeedItems.map((item, idx) => {
           const { data } = item
-          if (!data.link)
-            throw new Error(
-              `Feed item with id '${item.id}' is missing 'link' field.`
-            )
-          if (!data.title)
-            throw new Error(
-              `Feed item with id '${item.id}' is missing 'title' field.`
-            )
 
           return (
             <>
               {!isSameYear(
-                item.data.pubdate as Date,
-                sortedFeedItems[idx - 1]?.data.pubdate as Date
+                data.published,
+                sortedFeedItems[idx - 1]?.data.published
               ) && (
                 <Categorizer
                   {idx}
                   needId={tocEnabled}
-                  text={getYear(item.data.pubdate as Date).toString()}
+                  text={getYear(data.published).toString()}
                 />
               )}
               <ListItem
                 {idx}
                 {collectionType}
-                redirect={item.data.link as string}
-                title={item.data.title as string}
-                date={item.data.pubdate as Date | string}
+                redirect={data.url}
+                title={data.title}
+                date={data.published}
               />
             </>
           )

@@ -1,4 +1,4 @@
-import { z } from 'astro:content'
+import { z } from 'astro/zod'
 
 import { httpUrlSchema } from '~/utils/url-schema'
 
@@ -56,9 +56,8 @@ export const pageSchema = z.object({
 export type PageSchema = z.infer<typeof pageSchema>
 
 function createDateOnlySchema(fieldName: string) {
-  return z
-    .string()
-    .date(`${fieldName} must be YYYY-MM-DD.`)
+  return z.iso
+    .date({ error: `${fieldName} must be YYYY-MM-DD.` })
     .transform((value) => new Date(value))
 }
 
@@ -200,7 +199,7 @@ function createPostSchema(options?: { titleMax?: number }) {
       }
       if (!data.pubDate) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: 'custom',
           path: ['pubDate'],
           message: 'Either pubDate or published field is required',
         })
