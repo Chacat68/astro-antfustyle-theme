@@ -58,7 +58,7 @@ curl -s https://foo-z.com/ | grep -o 'rel="canonical" href="[^"]*"'
 | 文件 | 说明 |
 |------|------|
 | `wrangler.toml` | Worker 名 `blog-4`，静态资源目录 `./dist` |
-| `public/_headers` | 生产安全响应头（CSP、HSTS、X-Frame-Options 等），随静态资源一并部署；CSP 须含 Pagefind 的 `wasm-unsafe-eval` 与 Bunny Fonts 的 `fonts.bunny.net` |
+| `public/_headers` | 生产安全响应头（CSP、HSTS、X-Frame-Options 等），随静态资源一并部署；CSP 须含 Pagefind 的 `wasm-unsafe-eval`、Bunny Fonts 的 `fonts.bunny.net`，以及 KaTeX 字体的 `cdn.jsdelivr.net` |
 | `src/config.ts` | `SITE.website` 必须为 `https://foo-z.com/` |
 | `.env.example` | 统计脚本、GitHub Token 等环境变量说明 |
 

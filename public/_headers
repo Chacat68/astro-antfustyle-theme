@@ -4,6 +4,7 @@
 # - script-src 'wasm-unsafe-eval'：Pagefind WASM（勿用宽泛 unsafe-eval）
 # - worker-src 'self' blob:：Pagefind Web Worker
 # - font-src 含 fonts.bunny.net：UnoCSS presetWebFonts(bunny)
+# - font-src 含 cdn.jsdelivr.net：markdown.css 引入的 KaTeX 字体
 
 /*
   X-Content-Type-Options: nosniff
@@ -11,4 +12,4 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https:; media-src 'self' https: blob:; font-src 'self' data: https://fonts.bunny.net; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https:; connect-src 'self' https:; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.bilibili.com https://giscus.app; worker-src 'self' blob:
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https:; media-src 'self' https: blob:; font-src 'self' data: https://fonts.bunny.net https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https:; connect-src 'self' https:; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.bilibili.com https://giscus.app; worker-src 'self' blob:

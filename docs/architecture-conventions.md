@@ -56,7 +56,7 @@
 - **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro`（Bluesky `html` / `details`）与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
 - **`src/utils/reading-time.ts`**：阅读时间估算（`resolveMinutesRead` / `estimateMinutesReadFromText`）。列表页（`ListView.astro`）用 entry `body` 估算，**禁止**为取 `minutesRead` 对每篇 `await render()`；remark 插件 `plugins/remark-reading-time.ts` 与正文页共用同一公式。
 - **`src/utils/markdown-headings.ts`**：从 Markdown `body` 提取标题（`extractMarkdownHeadings`）。Shorts（`getShortsFromBlog`）用此工具取 h2 锚点，**禁止**为取 headings 对每篇 `await render()`。
-- **`public/_headers`**：Cloudflare Workers 静态资源安全响应头；改 CSP 时需兼顾 Umami/Ahrefs/Giscus、文章内 YouTube/Bilibili iframe、**Pagefind**（`script-src 'wasm-unsafe-eval'` + `worker-src 'self' blob:`）与 **Bunny Fonts**（`font-src https://fonts.bunny.net`）。
+- **`public/_headers`**：Cloudflare Workers 静态资源安全响应头；改 CSP 时需兼顾 Umami/Ahrefs/Giscus、文章内 YouTube/Bilibili iframe、**Pagefind**（`script-src 'wasm-unsafe-eval'` + `worker-src 'self' blob:`）、**Bunny Fonts**（`font-src https://fonts.bunny.net`）与 **KaTeX**（`font-src https://cdn.jsdelivr.net`，随 `markdown.css` 的 jsDelivr 样式加载）。
 
 ## 样式加载
 
