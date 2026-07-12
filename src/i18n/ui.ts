@@ -180,7 +180,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': '使用',
     'page.prs.subtitleSuffix': '展示你的 GitHub Pull Requests',
 
-    'page.home.title': '关于',
+    'page.home.title': '首页',
     'page.home.description':
       '付之一笑 — Charliefoo 的个人博客，专注于阅读、跑步、思考与创作，记录生活中的点滴感悟与技术探索。',
 
@@ -190,7 +190,16 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.intro2':
       '最近专注于读书、创作和跑步，享受安静而有趣的生活节奏。喜欢喝茶聊天，持续创作新内容，为自己源源不断地创造心流体验。',
     'home.roles':
-      '🎮 游戏开发者 | ✍️ 内容创作者 | 📱 手机摄影师 | 💻 vibe coding 苦手',
+      '游戏开发者 | 内容创作者 | 手机摄影师 | vibe coding 苦手',
+    'home.role.game': '游戏开发者',
+    'home.role.creator': '内容创作者',
+    'home.role.photo': '手机摄影师',
+    'home.role.code': 'vibe coding 苦手',
+    'home.screen.tag': 'SYS://PROFILE',
+    'home.screen.status': 'ONLINE',
+    'home.screen.modules': 'ACTIVE MODULES',
+    'home.screen.coords': 'LOC 23.1°N / 113.3°E',
+    'home.screen.signal': 'SIGNAL STABLE',
     'home.findMeOn': '找到我：',
     'home.thanks':
       '感谢你阅读我的博客！如果这些内容对你有所启发或帮助，那就是对我最大的鼓励。你的支持和陪伴，意义非凡。谢谢！❤️',
@@ -380,7 +389,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': 'Display your GitHub pull requests using',
     'page.prs.subtitleSuffix': '',
 
-    'page.home.title': 'About',
+    'page.home.title': 'Home',
     'page.home.description':
       "Charliefoo's personal blog focused on reading, running, thinking, and creating. Recording insights and technical explorations from life.",
 
@@ -390,7 +399,16 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.intro2':
       "Lately I'm focusing on reading, creating, and running—enjoying a quiet but interesting rhythm. I love tea and long chats, and I keep making new things to stay in flow.",
     'home.roles':
-      '🎮 Game developer | ✍️ Creator | 📱 Mobile photographer | 💻 Vibe-coding newbie',
+      'Game developer | Creator | Mobile photographer | Vibe-coding newbie',
+    'home.role.game': 'Game developer',
+    'home.role.creator': 'Creator',
+    'home.role.photo': 'Mobile photographer',
+    'home.role.code': 'Vibe-coding newbie',
+    'home.screen.tag': 'SYS://PROFILE',
+    'home.screen.status': 'ONLINE',
+    'home.screen.modules': 'ACTIVE MODULES',
+    'home.screen.coords': 'LOC 23.1°N / 113.3°E',
+    'home.screen.signal': 'SIGNAL STABLE',
     'home.findMeOn': 'Find me on',
     'home.thanks':
       'Thanks for reading! If anything here helps or inspires you, that means a lot to me. Your support and company matter more than you know. Thank you! ❤️',

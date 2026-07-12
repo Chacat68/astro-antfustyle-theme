@@ -51,7 +51,7 @@
 - **`src/components/backgrounds/p5-background.ts`**：p5 背景的公共自定义元素工厂 `defineP5Background(tagName, sketch)`，统一处理 p5 动态加载、`requestIdleCallback` 延迟初始化与生命周期销毁。新增 p5 背景只需写 sketch 函数。Plum / Rose 为原生 canvas 实现，不走此工厂。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。背景动画读取主题时必须走此工具（与 ThemeSwitch 同源：localStorage → 系统偏好），禁止只读 `html.dark`，否则会在 ThemeSwitch 脚本执行前误判浅色；主题切换后需能即时重算配色（Plum 另用 MutationObserver 重绘）。
 - **`src/components/backgrounds/Wave.astro`**：首页默认背景，使用纯 SVG + CSS 动画（无 p5 依赖），避免首屏加载约 1MB 的 `p5.min.js` 及全屏 canvas 成为 LCP 元素。Dot / Particle / Constellation 仍走 p5 工厂。
-- **首屏 LCP**：首页 intro 段落使用 `slide-enter-instant` 跳过 `slide-enter-content` 的 opacity 阶梯动画，确保标题与首段文字尽早计入 LCP。
+- **首屏 LCP**：首页 intro 段落使用 `slide-enter-instant` 跳过 `slide-enter-content` 的 opacity 阶梯动画，确保标题与首段文字尽早计入 LCP。首页文案由 `AboutScreen.astro` 承载（科幻 HUD 面板），页面标题为「首页」，屏内 h1 视觉隐藏。
 - **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。
 - **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro`（Bluesky `html` / `details`）与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
 - **`src/utils/reading-time.ts`**：阅读时间估算（`resolveMinutesRead` / `estimateMinutesReadFromText`）。列表页（`ListView.astro`）用 entry `body` 估算，**禁止**为取 `minutesRead` 对每篇 `await render()`；remark 插件 `plugins/remark-reading-time.ts` 与正文页共用同一公式。

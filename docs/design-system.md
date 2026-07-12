@@ -39,6 +39,10 @@
 
 `LogoButton.astro`：左侧 HUD 角标；右侧字标用 `opacity` + 光斑 `transform/opacity` 做呼吸（避免动画 `text-shadow`）；链接强制 `op-100!` 以免与 `Link` 默认 `op-60` 叠乘过暗。尊重 `prefers-reduced-motion`。
 
+## 首页 About 电子屏
+
+`AboutScreen.astro`：首页科幻 HUD 面板。四角括号、扫描线、状态栏 LED、角色模块芯片均复用 `--c-accent`；文案走 `home.intro*` / `home.role.*` / `home.screen.*`。页面标题为「首页」，屏内 h1 使用 `sr-only` 隐藏。首屏继续用 `slide-enter-instant` 保 LCP；动效尊重 `prefers-reduced-motion`。
+
 ## 浮层定位
 
 `SearchSwitch.astro` 的搜索面板挂在 sticky 导航内，而 `.site-nav` 的 `backdrop-filter` 会形成 fixed 包含块，因此不能用 `top/left: 50%`（会相对 header 而非视口）。
@@ -66,7 +70,7 @@
 | `main.css` | Token、导航、入场动画、搜索、滚动条 |
 | `prose.css` | 正文排版骨架（字号、间距、列表） |
 | `markdown.css` | Markdown 增强（链接、callouts、代码、TOC） |
-| `page.css` | 页面级节奏（首页 roles、列表 hover、相册、标签筛选） |
+| `page.css` | 页面级节奏（列表 hover、相册、标签筛选） |
 
 页面级样式写在 `page.css` 或组件 `<style>` 内，并复用 token；不要在 UnoCSS shortcuts 里扩散新的硬编码色板。
 

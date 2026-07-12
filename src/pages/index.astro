@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
+import AboutScreen from '~/components/widgets/AboutScreen.astro'
 import LatestPosts from '~/components/widgets/LatestPosts.astro'
 import { UI } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
@@ -27,14 +28,10 @@ const t = useTranslations(locale)
   bgType={page.bgType}
   ogImage={page.ogImage}
 >
-  <StandardLayout title={t('page.home.title')}>
+  {/* 标题移入 AboutScreen HUD，避免与电子屏内 h1 重复 */}
+  <StandardLayout>
     <Fragment slot="article">
-      <p class="slide-enter-instant">{t('home.intro1')}</p>
-      <p class="slide-enter-instant">{t('home.intro2')}</p>
-
-      <p class="home-roles">
-        <strong>{t('home.roles')}</strong>
-      </p>
+      <AboutScreen title={t('page.home.title')} />
 
       <hr />
 
