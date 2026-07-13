@@ -43,6 +43,10 @@
 
 `AboutScreen.astro`：首页科幻 HUD 面板。四角括号、扫描线、状态栏 LED、角色模块芯片均复用 `--c-accent`；文案走 `home.intro*` / `home.role.*` / `home.screen.*`。页面标题为「首页」，屏内 h1 使用 `sr-only` 隐藏。首屏继续用 `slide-enter-instant` 保 LCP；动效尊重 `prefers-reduced-motion`。
 
+## 博客「网站数据统计」
+
+`SiteStats.astro`（博客列表页）：经营时间 / 总字数以大号数字强调，年份分布用比例条呈现。面板、描边、填充与 hover 统一走 `--c-accent*` / `--c-surface` / `--c-border` / `--c-shadow`；条形入场动画尊重 `prefers-reduced-motion`。文案键：`sitestats.*`。
+
 ## 浮层定位
 
 `SearchSwitch.astro` 的搜索面板挂在 sticky 导航内，而 `.site-nav` 的 `backdrop-filter` 会形成 fixed 包含块，因此不能用 `top/left: 50%`（会相对 header 而非视口）。
