@@ -74,6 +74,8 @@ const yearCounts = Array.from(yearCountMap.entries())
   .sort((a, b) => b[0] - a[0])
   .map(([year, count]) => ({ year, count }))
 
+const maxYearCount = Math.max(1, ...yearCounts.map((item) => item.count))
+
 function formatWordCount(count: number, locale: string) {
   const formatted = count.toLocaleString()
   if (locale === 'zh' && count >= 10000) {
@@ -86,155 +88,346 @@ function formatWordCount(count: number, locale: string) {
   }
   return formatted
 }
+
+function formatWordCountPrimary(count: number, locale: string) {
+  if (locale === 'zh' && count >= 10000) {
+    return (count / 10000).toFixed(1)
+  }
+  if (locale === 'en' && count >= 1000) {
+    return (count / 1000).toFixed(1)
+  }
+  return count.toLocaleString()
+}
+
+function formatWordCountUnit(count: number, locale: string) {
+  if (locale === 'zh' && count >= 10000) return '万字'
+  if (locale === 'en' && count >= 1000) return 'k'
+  return ''
+}
+
+const wordPrimary = formatWordCountPrimary(totalWordCount, locale)
+const wordUnit = formatWordCountUnit(totalWordCount, locale)
+const wordExact = totalWordCount.toLocaleString()
 ---
 
-<div class="site-stats">
-  <div class="stats-header">
-    <h3>{t('sitestats.title')}</h3>
+<section class="site-stats" aria-labelledby="site-stats-title">
+  <header class="stats-header">
+    <span class="stats-mark" aria-hidden="true"></span>
+    <h3 id="site-stats-title">{t('sitestats.title')}</h3>
+  </header>
+
+  <div class="stats-metrics">
+    <article class="stat-card">
+      <p class="stat-label">{t('sitestats.operatingTime')}</p>
+      <p class="stat-value">
+        <span class="stat-num font-mono">{daysOperating.toLocaleString()}</span>
+        <span class="stat-unit">{t('sitestats.daysUnit')}</span>
+      </p>
+      <p class="stat-detail">
+        {t('sitestats.sinceStart', { start: formatYMD(startDate) })}
+      </p>
+      <p class="stat-sub">
+        {
+          t('sitestats.operatingTimeSub', {
+            years: durationParts.years,
+            months: durationParts.months,
+            days: durationParts.days,
+          })
+        }
+      </p>
+    </article>
+
+    <article class="stat-card">
+      <p class="stat-label">{t('sitestats.totalWords')}</p>
+      <p class="stat-value">
+        <span class="stat-num font-mono">{wordPrimary}</span>
+        {
+          wordUnit ? (
+            <span class="stat-unit">{wordUnit}</span>
+          ) : null
+        }
+      </p>
+      {
+        wordUnit ? (
+          <p class="stat-detail" title={formatWordCount(totalWordCount, locale)}>
+            {wordExact}
+          </p>
+        ) : null
+      }
+    </article>
   </div>
 
-  <dl class="stats-list">
-    <div class="stat">
-      <dt>{t('sitestats.operatingTime')}</dt>
-      <dd>
-        <span class="stat-main">
-          {
-            t('sitestats.operatingTimeMain', {
-              start: formatYMD(startDate),
-              days: daysOperating.toLocaleString(),
-            })
-          }
-        </span>
-        <span class="stat-sub">
-          {
-            t('sitestats.operatingTimeSub', {
-              years: durationParts.years,
-              months: durationParts.months,
-              days: durationParts.days,
-            })
-          }
-        </span>
-      </dd>
-    </div>
-
-    <div class="stat">
-      <dt>{t('sitestats.totalWords')}</dt>
-      <dd>
-        <span class="stat-main">{formatWordCount(totalWordCount, locale)}</span>
-      </dd>
-    </div>
-
-    <div class="stat">
-      <dt>{t('sitestats.postsPerYear')}</dt>
-      <dd>
-        <div class="year-counts">
-          {
-            yearCounts.length
-              ? yearCounts.map((item) => (
-                  <span class="year-item">
-                    <span class="year">{item.year}</span>
-                    <span class="count">
-                      {t('sitestats.yearItemCount', { count: item.count })}
-                    </span>
-                  </span>
-                ))
-              : t('sitestats.noData')
-          }
-        </div>
-      </dd>
-    </div>
-  </dl>
-</div>
+  <div class="stats-years">
+    <p class="stat-label">{t('sitestats.postsPerYear')}</p>
+    {
+      yearCounts.length ? (
+        <ul class="year-bars">
+          {yearCounts.map((item, index) => {
+            const ratio = Math.round((item.count / maxYearCount) * 100)
+            return (
+              <li
+                class="year-bar"
+                style={`--bar-ratio: ${ratio}%; --bar-delay: ${index * 60}ms`}
+              >
+                <span class="year-bar__year font-mono">{item.year}</span>
+                <span class="year-bar__track" aria-hidden="true">
+                  <span class="year-bar__fill" />
+                </span>
+                <span class="year-bar__count">
+                  {t('sitestats.yearItemCount', { count: item.count })}
+                </span>
+              </li>
+            )
+          })}
+        </ul>
+      ) : (
+        <p class="stats-empty">{t('sitestats.noData')}</p>
+      )
+    }
+  </div>
+</section>
 
 <style>
   .site-stats {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    background: var(--color-bg-secondary, rgba(0, 0, 0, 0.05));
+    --stats-panel: color-mix(in srgb, var(--c-surface) 92%, var(--c-accent-soft));
+    --stats-line: color-mix(in srgb, var(--c-accent) 42%, var(--c-border));
+    --stats-fill: color-mix(in srgb, var(--c-accent) 72%, transparent);
+
+    position: relative;
+    overflow: hidden;
+    margin: 1.75rem 0 2.25rem;
+    padding: 1.15rem 1.2rem 1.25rem;
+
+    border: 1px solid color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
+    border-radius: var(--c-radius-lg);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--c-accent) 7%, transparent),
+        transparent 46%
+      ),
+      var(--stats-panel);
+    box-shadow: var(--c-shadow);
   }
 
   :global(:root.dark) .site-stats {
-    background: rgba(255, 255, 255, 0.05);
+    --stats-panel: color-mix(in srgb, var(--c-surface) 86%, var(--c-accent-soft));
+    --stats-fill: color-mix(in srgb, var(--c-accent) 58%, transparent);
+  }
+
+  .site-stats::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: linear-gradient(
+      180deg,
+      var(--c-accent),
+      color-mix(in srgb, var(--c-accent) 20%, transparent)
+    );
   }
 
   .stats-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 0.55rem;
     margin-bottom: 1rem;
   }
 
+  .stats-mark {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--c-accent);
+    box-shadow: 0 0 0 4px var(--c-accent-soft);
+  }
+
   .stats-header h3 {
-    margin: 0;
-    font-size: 1.25rem;
+    margin: 0 !important;
+    color: var(--fg-deeper, var(--c-text));
+    font-size: 1.05rem !important;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .stats-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .stat-card {
+    padding: 0.85rem 0.95rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius);
+    background: color-mix(in srgb, var(--c-bg) 55%, transparent);
+    transition:
+      border-color var(--duration) var(--ease-out),
+      background var(--duration) var(--ease-out),
+      transform var(--duration) var(--ease-out);
+  }
+
+  .stat-card:hover {
+    border-color: color-mix(in srgb, var(--c-accent) 34%, var(--c-border));
+    background: color-mix(in srgb, var(--c-accent-soft) 55%, transparent);
+    transform: translateY(-1px);
+  }
+
+  .stat-label {
+    margin: 0 0 0.45rem !important;
+    color: var(--c-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+  }
+
+  .stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin: 0 !important;
+    line-height: 1.1;
+  }
+
+  .stat-num {
+    color: var(--fg-deeper, var(--c-text));
+    font-size: clamp(1.55rem, 3.2vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-unit {
+    color: var(--c-accent);
+    font-size: 0.92rem;
     font-weight: 600;
   }
 
-  .stats-list {
-    display: grid;
-    gap: 1rem;
-    margin: 0;
-  }
-
-  .stat {
-    display: grid;
-    grid-template-columns: 9.5rem 1fr;
-    gap: 1rem;
-    align-items: baseline;
-  }
-
-  @media (max-width: 640px) {
-    .stat {
-      grid-template-columns: 1fr;
-      gap: 0.25rem;
-    }
-  }
-
-  dt {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary, #666);
-  }
-
-  dd {
-    margin: 0;
-  }
-
-  .stat-main {
-    font-size: 1rem;
+  .stat-detail,
+  .stat-sub {
+    margin: 0.35rem 0 0 !important;
+    color: var(--c-muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
   }
 
   .stat-sub {
-    margin-left: 0.5rem;
-    font-size: 0.875rem;
-    color: var(--color-text-secondary, #666);
+    opacity: 0.88;
   }
 
-  .year-counts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 0.75rem;
+  .stats-years {
+    padding-top: 0.15rem;
   }
 
-  .year-item {
-    display: inline-flex;
-    gap: 0.35rem;
-    align-items: baseline;
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.375rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+  .year-bars {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0.65rem 0 0 !important;
+    padding: 0 !important;
+    list-style: none;
   }
 
-  :global(:root.dark) .year-item {
-    border-color: rgba(255, 255, 255, 0.2);
+  .year-bar {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr auto;
+    gap: 0.65rem;
+    align-items: center;
+    position: relative;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  .year {
+  .year-bar::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  .year-bar__year {
+    color: var(--fg-deeper, var(--c-text));
+    font-size: 0.86rem;
     font-weight: 600;
+    font-variant-numeric: tabular-nums;
   }
 
-  .count {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary, #666);
+  .year-bar__track {
+    position: relative;
+    overflow: hidden;
+    height: 0.42rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c-border) 80%, transparent);
+  }
+
+  .year-bar__fill {
+    display: block;
+    width: var(--bar-ratio);
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--c-accent) 55%, transparent),
+      var(--stats-fill)
+    );
+    transform-origin: left center;
+    animation: stats-bar-in 520ms var(--ease-out) both;
+    animation-delay: var(--bar-delay, 0ms);
+  }
+
+  .year-bar__count {
+    min-width: 3.5rem;
+    color: var(--c-muted);
+    font-size: 0.82rem;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .stats-empty {
+    margin: 0.55rem 0 0 !important;
+    color: var(--c-muted);
+    font-size: 0.88rem;
+  }
+
+  @keyframes stats-bar-in {
+    from {
+      transform: scaleX(0);
+      opacity: 0.35;
+    }
+    to {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .site-stats {
+      padding: 1rem 0.95rem 1.1rem;
+    }
+
+    .stats-metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .year-bar {
+      grid-template-columns: 2.75rem 1fr auto;
+      gap: 0.5rem;
+    }
+
+    .year-bar__count {
+      min-width: 3rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-card {
+      transition: none;
+    }
+
+    .stat-card:hover {
+      transform: none;
+    }
+
+    .year-bar__fill {
+      animation: none;
+    }
   }
 </style>
