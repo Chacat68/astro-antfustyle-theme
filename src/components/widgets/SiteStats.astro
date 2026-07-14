@@ -111,396 +111,432 @@ const wordExact = totalWordCount.toLocaleString()
 ---
 
 <section class="site-stats" aria-labelledby="site-stats-title">
-  <div class="neon-sign" data-neon>
-    <span class="neon-bolt neon-bolt--tl" aria-hidden="true"></span>
-    <span class="neon-bolt neon-bolt--tr" aria-hidden="true"></span>
-    <span class="neon-bolt neon-bolt--bl" aria-hidden="true"></span>
-    <span class="neon-bolt neon-bolt--br" aria-hidden="true"></span>
+  <div class="stats-hud__frame">
+    <span class="stats-hud__corner stats-hud__corner--tl" aria-hidden="true"
+    ></span>
+    <span class="stats-hud__corner stats-hud__corner--tr" aria-hidden="true"
+    ></span>
+    <span class="stats-hud__corner stats-hud__corner--bl" aria-hidden="true"
+    ></span>
+    <span class="stats-hud__corner stats-hud__corner--br" aria-hidden="true"
+    ></span>
 
-    <div class="neon-tube neon-tube--outer" aria-hidden="true"></div>
-    <div class="neon-tube neon-tube--inner" aria-hidden="true"></div>
+    <div class="stats-hud__scanlines" aria-hidden="true"></div>
+    <div class="stats-hud__sweep" aria-hidden="true"></div>
 
-    <header class="stats-header">
-      <h3 id="site-stats-title" class="neon-title font-condensed">
-        {t('sitestats.title')}
-      </h3>
-      <span class="neon-live font-mono" aria-hidden="true">
-        <span class="neon-live__dot"></span>
-        ON AIR
+    <header class="stats-hud__chrome">
+      <div class="stats-hud__chrome-left">
+        <span class="stats-hud__led" aria-hidden="true"></span>
+        <span class="stats-hud__tag font-mono">{t('sitestats.tag')}</span>
+      </div>
+      <span class="stats-hud__status font-mono">
+        <span class="stats-hud__status-dot" aria-hidden="true"></span>
+        {t('sitestats.status')}
       </span>
     </header>
 
-    <div class="stats-metrics">
-      <article class="stat-card stat-card--cyan">
-        <p class="stat-label">{t('sitestats.operatingTime')}</p>
-        <p class="stat-value">
-          <span class="stat-num font-mono neon-glow-cyan">
-            {daysOperating.toLocaleString()}
-          </span>
-          <span class="stat-unit neon-glow-cyan">{t('sitestats.daysUnit')}</span>
-        </p>
-        <p class="stat-detail">
-          {t('sitestats.sinceStart', { start: formatYMD(startDate) })}
-        </p>
-        <p class="stat-sub">
-          {
-            t('sitestats.operatingTimeSub', {
-              years: durationParts.years,
-              months: durationParts.months,
-              days: durationParts.days,
-            })
-          }
-        </p>
-      </article>
+    <div class="stats-hud__body">
+      <h3 id="site-stats-title" class="stats-hud__title">
+        {t('sitestats.title')}
+      </h3>
 
-      <article class="stat-card stat-card--pink">
-        <p class="stat-label">{t('sitestats.totalWords')}</p>
-        <p class="stat-value">
-          <span class="stat-num font-mono neon-glow-pink">{wordPrimary}</span>
-          {
-            wordUnit ? (
-              <span class="stat-unit neon-glow-pink">{wordUnit}</span>
-            ) : null
-          }
-        </p>
-        {
-          wordUnit ? (
-            <p
-              class="stat-detail"
-              title={formatWordCount(totalWordCount, locale)}
-            >
-              {wordExact}
+      <div class="stats-hud__section">
+        <div class="stats-hud__section-label font-mono">
+          {t('sitestats.metrics')}
+        </div>
+        <div class="stats-metrics">
+          <article class="stat-card">
+            <p class="stat-label">{t('sitestats.operatingTime')}</p>
+            <p class="stat-value">
+              <span class="stat-num font-mono">
+                {daysOperating.toLocaleString()}
+              </span>
+              <span class="stat-unit">{t('sitestats.daysUnit')}</span>
             </p>
-          ) : null
+            <p class="stat-detail">
+              {t('sitestats.sinceStart', { start: formatYMD(startDate) })}
+            </p>
+            <p class="stat-sub">
+              {
+                t('sitestats.operatingTimeSub', {
+                  years: durationParts.years,
+                  months: durationParts.months,
+                  days: durationParts.days,
+                })
+              }
+            </p>
+          </article>
+
+          <article class="stat-card">
+            <p class="stat-label">{t('sitestats.totalWords')}</p>
+            <p class="stat-value">
+              <span class="stat-num font-mono">{wordPrimary}</span>
+              {
+                wordUnit ? <span class="stat-unit">{wordUnit}</span> : null
+              }
+            </p>
+            {
+              wordUnit ? (
+                <p
+                  class="stat-detail"
+                  title={formatWordCount(totalWordCount, locale)}
+                >
+                  {wordExact}
+                </p>
+              ) : null
+            }
+          </article>
+        </div>
+      </div>
+
+      <div class="stats-hud__section">
+        <div class="stats-hud__section-label font-mono">
+          {t('sitestats.timeline')}
+        </div>
+        <p class="stat-label stat-label--inline">{t('sitestats.postsPerYear')}</p>
+        {
+          yearCounts.length ? (
+            <ul class="year-bars">
+              {yearCounts.map((item, index) => {
+                const ratio = Math.round((item.count / maxYearCount) * 100)
+                return (
+                  <li
+                    class="year-bar"
+                    style={`--bar-ratio: ${ratio}%; --bar-delay: ${index * 70}ms`}
+                  >
+                    <span class="year-bar__mark" aria-hidden="true"></span>
+                    <span class="year-bar__year font-mono">{item.year}</span>
+                    <span class="year-bar__track" aria-hidden="true">
+                      <span class="year-bar__fill" />
+                    </span>
+                    <span class="year-bar__count">
+                      {t('sitestats.yearItemCount', { count: item.count })}
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : (
+            <p class="stats-empty">{t('sitestats.noData')}</p>
+          )
         }
-      </article>
+      </div>
     </div>
 
-    <div class="stats-years">
-      <p class="stat-label stat-label--section">{t('sitestats.postsPerYear')}</p>
-      {
-        yearCounts.length ? (
-          <ul class="year-bars">
-            {yearCounts.map((item, index) => {
-              const ratio = Math.round((item.count / maxYearCount) * 100)
-              return (
-                <li
-                  class="year-bar"
-                  style={`--bar-ratio: ${ratio}%; --bar-delay: ${index * 80}ms`}
-                >
-                  <span class="year-bar__year font-mono">{item.year}</span>
-                  <span class="year-bar__track" aria-hidden="true">
-                    <span class="year-bar__fill" />
-                  </span>
-                  <span class="year-bar__count">
-                    {t('sitestats.yearItemCount', { count: item.count })}
-                  </span>
-                </li>
-              )
-            })}
-          </ul>
-        ) : (
-          <p class="stats-empty">{t('sitestats.noData')}</p>
-        )
-      }
-    </div>
+    <footer class="stats-hud__footer font-mono" aria-hidden="true">
+      <span>{t('sitestats.footerLeft')}</span>
+      <span class="stats-hud__footer-sep">//</span>
+      <span>{t('sitestats.footerRight')}</span>
+    </footer>
   </div>
 </section>
 
 <style>
   .site-stats {
-    --neon-cyan: #5eead4;
-    --neon-cyan-core: #ecfeff;
-    --neon-pink: #fb7185;
-    --neon-pink-core: #fff1f2;
-    --neon-amber: #fbbf24;
-    --sign-bg: #0a0c10;
-    --sign-face: #11151c;
-    --sign-metal: #2a303a;
-    --sign-muted: rgba(226, 232, 240, 0.55);
+    --stats-glow: color-mix(in srgb, var(--c-accent) 35%, transparent);
+    --stats-line: color-mix(in srgb, var(--c-accent) 55%, transparent);
+    --stats-panel: color-mix(in srgb, var(--c-surface) 88%, var(--c-accent-soft));
+    --stats-scan: 4.5%;
+    --stats-grid: 3%;
 
-    margin: 1.85rem 0 2.35rem;
+    margin: 1.75rem 0 2.25rem;
   }
 
-  .neon-sign {
+  :global(:root.dark) .site-stats {
+    --stats-glow: color-mix(in srgb, var(--c-accent) 55%, transparent);
+    --stats-panel: color-mix(in srgb, #0b1016 82%, var(--c-accent-soft));
+    --stats-scan: 8%;
+    --stats-grid: 6%;
+  }
+
+  .stats-hud__frame {
     position: relative;
     overflow: hidden;
-    padding: 1.35rem 1.3rem 1.35rem;
+    padding: 1rem 1.15rem 0.85rem;
 
-    border: 3px solid var(--sign-metal);
-    border-radius: 1rem;
+    border: 1px solid color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
+    border-radius: var(--c-radius-lg);
     background:
-      radial-gradient(
-        ellipse 70% 55% at 50% 0%,
-        rgba(94, 234, 212, 0.12),
-        transparent 55%
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--c-accent) 6%, transparent),
+        transparent 42%
       ),
-      radial-gradient(
-        ellipse 55% 45% at 85% 90%,
-        rgba(251, 113, 133, 0.1),
-        transparent 50%
+      linear-gradient(
+        color-mix(in srgb, var(--c-accent) var(--stats-grid), transparent) 1px,
+        transparent 1px
       ),
-      linear-gradient(160deg, #151a22 0%, var(--sign-face) 45%, #0c0f14 100%);
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--c-accent) var(--stats-grid), transparent) 1px,
+        transparent 1px
+      ),
+      var(--stats-panel);
+    background-size:
+      auto,
+      22px 22px,
+      22px 22px,
+      auto;
     box-shadow:
-      0 0 0 1px #07090c,
-      inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-      inset 0 0 40px rgba(0, 0, 0, 0.45),
-      0 18px 40px rgba(0, 0, 0, 0.28),
-      0 0 28px rgba(94, 234, 212, 0.12),
-      0 0 48px rgba(251, 113, 133, 0.08);
-    color: #e2e8f0;
-    isolation: isolate;
+      0 0 0 1px color-mix(in srgb, var(--c-accent) 10%, transparent) inset,
+      0 0 24px color-mix(in srgb, var(--c-accent) 12%, transparent),
+      var(--c-shadow);
   }
 
-  .neon-sign::before {
-    content: '';
+  :global(:root.dark) .stats-hud__frame {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--c-accent) 16%, transparent) inset,
+      0 0 28px color-mix(in srgb, var(--c-accent) 22%, transparent),
+      0 12px 40px rgba(0, 0, 0, 0.45);
+  }
+
+  .stats-hud__corner {
+    position: absolute;
+    z-index: 3;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-color: var(--c-accent);
+    border-style: solid;
+    pointer-events: none;
+  }
+
+  .stats-hud__corner--tl {
+    top: 0.35rem;
+    left: 0.35rem;
+    border-width: 1.5px 0 0 1.5px;
+  }
+
+  .stats-hud__corner--tr {
+    top: 0.35rem;
+    right: 0.35rem;
+    border-width: 1.5px 1.5px 0 0;
+  }
+
+  .stats-hud__corner--bl {
+    bottom: 0.35rem;
+    left: 0.35rem;
+    border-width: 0 0 1.5px 1.5px;
+  }
+
+  .stats-hud__corner--br {
+    right: 0.35rem;
+    bottom: 0.35rem;
+    border-width: 0 1.5px 1.5px 0;
+  }
+
+  .stats-hud__scanlines {
     position: absolute;
     inset: 0;
-    z-index: 0;
+    z-index: 2;
     pointer-events: none;
-    opacity: 0.18;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 18px 18px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 2px,
+      color-mix(in srgb, var(--c-accent) var(--stats-scan), transparent) 2px,
+      color-mix(in srgb, var(--c-accent) var(--stats-scan), transparent) 3px
+    );
+    opacity: 0.55;
     mix-blend-mode: soft-light;
   }
 
-  .neon-sign::after {
-    content: '';
-    position: absolute;
-    inset: 10px;
-    z-index: 0;
-    pointer-events: none;
-    border: 1px solid rgba(148, 163, 184, 0.12);
-    border-radius: 0.7rem;
-  }
-
-  .neon-bolt {
-    position: absolute;
-    z-index: 2;
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 999px;
-    background:
-      radial-gradient(circle at 30% 30%, #d4d4d8, #71717a 55%, #3f3f46);
-    box-shadow:
-      inset 0 1px 1px rgba(255, 255, 255, 0.45),
-      0 1px 2px rgba(0, 0, 0, 0.55);
-  }
-
-  .neon-bolt--tl {
-    top: 0.55rem;
-    left: 0.55rem;
-  }
-  .neon-bolt--tr {
-    top: 0.55rem;
-    right: 0.55rem;
-  }
-  .neon-bolt--bl {
-    bottom: 0.55rem;
-    left: 0.55rem;
-  }
-  .neon-bolt--br {
-    bottom: 0.55rem;
-    right: 0.55rem;
-  }
-
-  .neon-tube {
-    position: absolute;
-    z-index: 1;
-    pointer-events: none;
-    border-radius: 0.85rem;
-  }
-
-  .neon-tube--outer {
-    inset: 0.72rem;
-    border: 2px solid color-mix(in srgb, var(--neon-cyan) 70%, white);
-    box-shadow:
-      0 0 4px var(--neon-cyan),
-      0 0 14px rgba(94, 234, 212, 0.55),
-      0 0 28px rgba(94, 234, 212, 0.28),
-      inset 0 0 10px rgba(94, 234, 212, 0.18);
-    animation: neon-breathe 4.8s ease-in-out infinite;
-  }
-
-  .neon-tube--inner {
-    inset: 1.05rem;
-    border: 1.5px solid color-mix(in srgb, var(--neon-pink) 75%, white);
+  :global(:root.dark) .stats-hud__scanlines {
     opacity: 0.72;
-    box-shadow:
-      0 0 4px var(--neon-pink),
-      0 0 16px rgba(251, 113, 133, 0.4),
-      inset 0 0 8px rgba(251, 113, 133, 0.15);
-    animation: neon-breathe 5.6s ease-in-out infinite reverse;
+    mix-blend-mode: screen;
   }
 
-  .stats-header,
-  .stats-metrics,
-  .stats-years {
-    position: relative;
+  .stats-hud__sweep {
+    position: absolute;
     z-index: 2;
+    top: -30%;
+    left: 0;
+    width: 100%;
+    height: 28%;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      color-mix(in srgb, var(--c-accent) 14%, transparent),
+      transparent
+    );
+    will-change: transform;
+    animation: stats-hud-sweep 4.8s linear infinite;
   }
 
-  .stats-header {
+  .stats-hud__chrome,
+  .stats-hud__body,
+  .stats-hud__footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  .stats-hud__chrome {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    margin-bottom: 1.15rem;
-    padding-inline: 0.35rem;
+    margin-bottom: 0.95rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
   }
 
-  .neon-title {
-    margin: 0 !important;
-    color: var(--neon-amber);
-    font-size: clamp(1.15rem, 3.4vw, 1.45rem) !important;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-shadow:
-      0 0 2px #fff7d6,
-      0 0 8px rgba(251, 191, 36, 0.95),
-      0 0 18px rgba(251, 191, 36, 0.7),
-      0 0 36px rgba(251, 191, 36, 0.35);
-    animation: neon-flicker 7s linear infinite;
-  }
-
-  .neon-live {
+  .stats-hud__chrome-left {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    flex-shrink: 0;
-    color: color-mix(in srgb, var(--neon-pink) 80%, white);
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-shadow:
-      0 0 6px rgba(251, 113, 133, 0.8),
-      0 0 14px rgba(251, 113, 133, 0.45);
+    gap: 0.45rem;
+    min-width: 0;
   }
 
-  .neon-live__dot {
+  .stats-hud__led {
+    flex-shrink: 0;
     width: 0.42rem;
     height: 0.42rem;
-    border-radius: 999px;
-    background: var(--neon-pink);
-    box-shadow:
-      0 0 6px var(--neon-pink),
-      0 0 14px rgba(251, 113, 133, 0.7);
-    animation: neon-pulse 1.6s ease-in-out infinite;
+    border-radius: 50%;
+    background: var(--c-accent);
+    box-shadow: 0 0 8px var(--stats-glow);
+    animation: stats-hud-blink 1.8s steps(1, end) infinite;
+  }
+
+  .stats-hud__tag,
+  .stats-hud__status,
+  .stats-hud__section-label,
+  .stats-hud__footer {
+    color: color-mix(in srgb, var(--c-accent) 78%, var(--c-muted));
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .stats-hud__tag {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .stats-hud__status {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .stats-hud__status-dot {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: var(--c-accent);
+    box-shadow: 0 0 6px var(--stats-glow);
+    animation: stats-hud-blink 1.2s steps(1, end) infinite;
+  }
+
+  .stats-hud__title {
+    margin: 0 0 1rem !important;
+    color: var(--fg-deeper, var(--c-text));
+    font-size: 1.2rem !important;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+    text-shadow: 0 0 18px color-mix(in srgb, var(--c-accent) 18%, transparent);
+  }
+
+  .stats-hud__section + .stats-hud__section {
+    margin-top: 1rem;
+  }
+
+  .stats-hud__section-label {
+    margin-bottom: 0.7rem;
+    opacity: 0.85;
   }
 
   .stats-metrics {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.85rem;
-    margin-bottom: 1.2rem;
+    gap: 0.7rem;
   }
 
   .stat-card {
-    padding: 0.9rem 0.95rem;
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    border-radius: 0.65rem;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.03),
-      rgba(0, 0, 0, 0.22)
-    );
-    box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.28);
+    padding: 0.85rem 0.95rem;
+    border: 1px solid color-mix(in srgb, var(--c-accent) 24%, var(--c-border));
+    border-radius: var(--c-radius);
+    background: color-mix(in srgb, var(--c-bg) 55%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--c-accent) 6%, transparent)
+      inset;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
   }
 
-  .stat-card--cyan {
-    border-color: rgba(94, 234, 212, 0.28);
-    box-shadow:
-      inset 0 0 18px rgba(0, 0, 0, 0.28),
-      0 0 18px rgba(94, 234, 212, 0.08);
-  }
-
-  .stat-card--pink {
-    border-color: rgba(251, 113, 133, 0.28);
-    box-shadow:
-      inset 0 0 18px rgba(0, 0, 0, 0.28),
-      0 0 18px rgba(251, 113, 133, 0.08);
+  .stat-card:hover {
+    border-color: color-mix(in srgb, var(--c-accent) 55%, var(--c-border));
+    background: color-mix(in srgb, var(--c-accent) 8%, var(--c-surface));
+    box-shadow: 0 0 12px color-mix(in srgb, var(--c-accent) 16%, transparent);
   }
 
   .stat-label {
-    margin: 0 0 0.45rem !important;
-    color: var(--sign-muted);
+    margin: 0 0 0.4rem !important;
+    color: var(--c-muted);
     font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
-  .stat-label--section {
+  .stat-label--inline {
     margin-bottom: 0.65rem !important;
-    color: color-mix(in srgb, var(--neon-cyan) 55%, white);
-    text-shadow: 0 0 10px rgba(94, 234, 212, 0.35);
   }
 
   .stat-value {
     display: flex;
     align-items: baseline;
-    gap: 0.4rem;
+    gap: 0.35rem;
     margin: 0 !important;
-    line-height: 1.05;
+    line-height: 1.1;
   }
 
   .stat-num {
-    font-size: clamp(1.65rem, 3.6vw, 2.05rem);
+    color: var(--fg-deeper, var(--c-text));
+    font-size: clamp(1.45rem, 3vw, 1.85rem);
     font-weight: 700;
     letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 14px color-mix(in srgb, var(--c-accent) 22%, transparent);
   }
 
   .stat-unit {
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-  }
-
-  .neon-glow-cyan {
-    color: var(--neon-cyan-core);
-    text-shadow:
-      0 0 2px #fff,
-      0 0 8px var(--neon-cyan),
-      0 0 18px rgba(94, 234, 212, 0.85),
-      0 0 34px rgba(45, 212, 191, 0.45);
-  }
-
-  .neon-glow-pink {
-    color: var(--neon-pink-core);
-    text-shadow:
-      0 0 2px #fff,
-      0 0 8px var(--neon-pink),
-      0 0 18px rgba(251, 113, 133, 0.85),
-      0 0 34px rgba(244, 63, 94, 0.4);
+    color: var(--c-accent);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
 
   .stat-detail,
   .stat-sub {
-    margin: 0.4rem 0 0 !important;
-    color: var(--sign-muted);
+    margin: 0.35rem 0 0 !important;
+    color: var(--c-muted);
     font-size: 0.8rem;
     line-height: 1.45;
   }
 
   .stat-sub {
-    opacity: 0.85;
+    opacity: 0.88;
   }
 
   .year-bars {
     display: grid;
-    gap: 0.6rem;
+    gap: 0.55rem;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 0.85rem 0.95rem !important;
     list-style: none;
+    border: 1px solid color-mix(in srgb, var(--c-accent) 24%, var(--c-border));
+    border-radius: var(--c-radius);
+    background: color-mix(in srgb, var(--c-bg) 55%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--c-accent) 6%, transparent)
+      inset;
   }
 
   .year-bar {
     display: grid;
-    grid-template-columns: 3.25rem 1fr auto;
-    gap: 0.65rem;
+    grid-template-columns: 0.28rem 3.1rem 1fr auto;
+    gap: 0.55rem;
     align-items: center;
     position: relative;
     margin: 0 !important;
@@ -512,21 +548,27 @@ const wordExact = totalWordCount.toLocaleString()
     display: none !important;
   }
 
+  .year-bar__mark {
+    width: 0.28rem;
+    height: 0.28rem;
+    border-radius: 1px;
+    background: var(--c-accent);
+    box-shadow: 0 0 6px var(--stats-glow);
+  }
+
   .year-bar__year {
-    color: color-mix(in srgb, var(--neon-cyan) 70%, white);
-    font-size: 0.86rem;
+    color: var(--fg-deeper, var(--c-text));
+    font-size: 0.84rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    text-shadow: 0 0 8px rgba(94, 234, 212, 0.45);
   }
 
   .year-bar__track {
     position: relative;
     overflow: hidden;
-    height: 0.48rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.06);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.45);
+    height: 0.38rem;
+    border-radius: 1px;
+    background: color-mix(in srgb, var(--c-border) 80%, transparent);
   }
 
   .year-bar__fill {
@@ -536,81 +578,71 @@ const wordExact = totalWordCount.toLocaleString()
     border-radius: inherit;
     background: linear-gradient(
       90deg,
-      rgba(94, 234, 212, 0.35),
-      var(--neon-cyan) 45%,
-      var(--neon-pink)
+      color-mix(in srgb, var(--c-accent) 45%, transparent),
+      var(--c-accent)
     );
-    box-shadow:
-      0 0 6px rgba(94, 234, 212, 0.75),
-      0 0 14px rgba(251, 113, 133, 0.45);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--c-accent) 35%, transparent);
     transform-origin: left center;
-    animation: neon-bar-in 620ms var(--ease-out, ease) both;
+    animation: stats-hud-bar-in 560ms var(--ease-out, ease) both;
     animation-delay: var(--bar-delay, 0ms);
   }
 
   .year-bar__count {
-    min-width: 3.5rem;
-    color: var(--sign-muted);
+    min-width: 3.4rem;
+    color: var(--c-muted);
     font-size: 0.8rem;
     text-align: right;
     white-space: nowrap;
   }
 
   .stats-empty {
-    margin: 0.55rem 0 0 !important;
-    color: var(--sign-muted);
+    margin: 0 !important;
+    padding: 0.85rem 0.95rem;
+    color: var(--c-muted);
     font-size: 0.88rem;
+    border: 1px dashed color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
+    border-radius: var(--c-radius);
   }
 
-  @keyframes neon-breathe {
+  .stats-hud__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed
+      color-mix(in srgb, var(--c-accent) 20%, var(--c-border));
+    opacity: 0.72;
+  }
+
+  .stats-hud__footer-sep {
+    opacity: 0.45;
+  }
+
+  @keyframes stats-hud-sweep {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(460%);
+    }
+  }
+
+  @keyframes stats-hud-blink {
     0%,
     100% {
-      opacity: 0.78;
-      filter: saturate(1);
+      opacity: 1;
     }
     50% {
-      opacity: 1;
-      filter: saturate(1.15);
+      opacity: 0.2;
     }
   }
 
-  @keyframes neon-pulse {
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.55;
-      transform: scale(0.85);
-    }
-  }
-
-  @keyframes neon-flicker {
-    0%,
-    19%,
-    21%,
-    23%,
-    25%,
-    54%,
-    56%,
-    100% {
-      opacity: 1;
-    }
-    20%,
-    24%,
-    55% {
-      opacity: 0.72;
-    }
-    22% {
-      opacity: 0.88;
-    }
-  }
-
-  @keyframes neon-bar-in {
+  @keyframes stats-hud-bar-in {
     from {
       transform: scaleX(0);
-      opacity: 0.2;
+      opacity: 0.25;
     }
     to {
       transform: scaleX(1);
@@ -619,20 +651,8 @@ const wordExact = totalWordCount.toLocaleString()
   }
 
   @media (max-width: 640px) {
-    .neon-sign {
-      padding: 1.2rem 1rem 1.15rem;
-    }
-
-    .neon-tube--outer {
-      inset: 0.55rem;
-    }
-
-    .neon-tube--inner {
-      inset: 0.85rem;
-    }
-
-    .stats-header {
-      flex-wrap: wrap;
+    .stats-hud__frame {
+      padding: 0.9rem 0.85rem 0.75rem;
     }
 
     .stats-metrics {
@@ -640,22 +660,45 @@ const wordExact = totalWordCount.toLocaleString()
     }
 
     .year-bar {
-      grid-template-columns: 2.75rem 1fr auto;
-      gap: 0.5rem;
+      grid-template-columns: 0.28rem 2.75rem 1fr auto;
+      gap: 0.45rem;
     }
 
     .year-bar__count {
       min-width: 3rem;
     }
+
+    .stats-hud__footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+    }
+
+    .stats-hud__footer-sep {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .neon-tube--outer,
-    .neon-tube--inner,
-    .neon-title,
-    .neon-live__dot,
+    .stats-hud__sweep,
+    .stats-hud__led,
+    .stats-hud__status-dot,
     .year-bar__fill {
       animation: none;
+    }
+
+    .stats-hud__sweep {
+      will-change: auto;
+      opacity: 0;
+    }
+
+    .stats-hud__led,
+    .stats-hud__status-dot {
+      opacity: 1;
+    }
+
+    .stat-card {
+      transition: none;
     }
   }
 </style>

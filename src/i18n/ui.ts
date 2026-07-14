@@ -70,6 +70,12 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'sitestats.postsPerYear': '每一年的文章数量',
     'sitestats.yearItemCount': '{count} 篇',
     'sitestats.noData': '暂无数据',
+    'sitestats.tag': 'SYS://TELEMETRY',
+    'sitestats.status': 'LIVE',
+    'sitestats.metrics': 'CORE METRICS',
+    'sitestats.timeline': 'YEARLY OUTPUT',
+    'sitestats.footerLeft': 'NODE // BLOG',
+    'sitestats.footerRight': 'UPLINK STABLE',
 
     // ToC
     'toc.title': '目录',
@@ -279,6 +285,12 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'sitestats.postsPerYear': 'Posts per year',
     'sitestats.yearItemCount': '{count} posts',
     'sitestats.noData': 'No data yet',
+    'sitestats.tag': 'SYS://TELEMETRY',
+    'sitestats.status': 'LIVE',
+    'sitestats.metrics': 'CORE METRICS',
+    'sitestats.timeline': 'YEARLY OUTPUT',
+    'sitestats.footerLeft': 'NODE // BLOG',
+    'sitestats.footerRight': 'UPLINK STABLE',
 
     // ToC
     'toc.title': 'Table of Contents',

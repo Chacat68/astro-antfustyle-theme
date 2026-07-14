@@ -45,7 +45,7 @@
 
 ## 博客「网站数据统计」
 
-`SiteStats.astro`（博客列表页）：复古霓虹灯牌视觉——深色金属灯箱底板、四角铆钉、内外双层霓虹灯管描边；标题为琥珀色灯管字（轻微闪烁），经营时间 / 总字数分别为青绿 / 玫粉霓虹大字，年份分布为青绿→玫粉发光比例条。灯牌自带深色底板，不随站点浅色主题变浅。动效（呼吸、闪烁、条形入场、ON AIR 脉冲）均尊重 `prefers-reduced-motion`。文案键：`sitestats.*`。
+`SiteStats.astro`（博客列表页）：与首页 `AboutScreen` 同系的科幻 HUD 面板——四角括号、扫描线、扫描扫掠、状态栏 LED、`--c-accent` 网格底板。经营时间 / 总字数以大号数字指标呈现，年份分布为 HUD 风格比例条。文案键：`sitestats.*`（含 `tag` / `status` / `metrics` / `timeline` / footer）。动效尊重 `prefers-reduced-motion`。
 
 ## 浮层定位
 
