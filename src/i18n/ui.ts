@@ -180,9 +180,9 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': '使用',
     'page.prs.subtitleSuffix': '展示你的 GitHub Pull Requests',
 
-    'page.home.title': '小镇',
+    'page.home.title': '都市',
     'page.home.description':
-      '付之一笑 — 走进 Charliefoo 的像素模拟小镇：逛博客、看项目、翻相册，在小镇里慢慢闲逛。',
+      '付之一笑 — 走进 Charliefoo 的像素现代都市：逛博客、看项目、翻相册、读更新，再连到社交街区。',
 
     // Home content
     'home.intro1':
@@ -195,19 +195,26 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.thanks':
       '感谢你阅读我的博客！如果这些内容对你有所启发或帮助，那就是对我最大的鼓励。你的支持和陪伴，意义非凡。谢谢！❤️',
 
-    // Home pixel town
-    'home.town.headline': '欢迎来到模拟小镇',
-    'home.town.lead': '点进屋子，去翻书、看作品、逛相册——小镇一直在慢慢运转。',
-    'home.town.ctaBlog': '走进书店',
-    'home.town.ctaProjects': '参观工坊',
-    'home.town.hint': '点击建筑前往栏目',
-    'home.town.aria': '像素模拟小镇场景',
-    'home.town.navAria': '小镇建筑导航',
-    'home.town.blog': '书店 · 博客',
-    'home.town.projects': '工坊 · 项目',
-    'home.town.photos': '照相馆',
-    'home.town.gallery': '画廊',
-    'home.town.friends': '咖啡馆 · 友链',
+    // Home pixel city
+    'home.town.headline': '欢迎来到模拟都市',
+    'home.town.lead':
+      '点进楼宇去翻书、看作品、读更新；社交街区连到 GitHub、X、Bluesky 与 NeoDB——城市一直在运转。',
+    'home.town.ctaBlog': '进入媒体楼',
+    'home.town.ctaProjects': '登上科技塔',
+    'home.town.hint': '点击建筑前往栏目或社交',
+    'home.town.aria': '像素模拟现代都市场景',
+    'home.town.navAria': '都市建筑导航',
+    'home.town.blog': '媒体楼 · 博客',
+    'home.town.projects': '科技塔 · 项目',
+    'home.town.photos': '影像馆',
+    'home.town.gallery': '美术馆',
+    'home.town.friends': '街角咖啡 · 友链',
+    'home.town.changelog': '新闻中心 · 更新',
+    'home.town.github': 'GitHub 塔',
+    'home.town.x': 'X 塔',
+    'home.town.bluesky': 'Bluesky 楼',
+    'home.town.neodb': 'NeoDB 馆',
+    'home.town.rss': 'RSS 亭',
 
     // Language names
     'lang.zh': '中文',
@@ -394,9 +401,9 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': 'Display your GitHub pull requests using',
     'page.prs.subtitleSuffix': '',
 
-    'page.home.title': 'Town',
+    'page.home.title': 'City',
     'page.home.description':
-      "付之一笑 — step into Charliefoo's pixel sim town: browse the blog, projects, and photos while the town keeps humming.",
+      "付之一笑 — step into Charliefoo's pixel modern city: blog, projects, photos, changelog, and a social skyline.",
 
     // Home content
     'home.intro1':
@@ -409,20 +416,26 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.thanks':
       'Thanks for reading! If anything here helps or inspires you, that means a lot to me. Your support and company matter more than you know. Thank you! ❤️',
 
-    // Home pixel town
-    'home.town.headline': 'Welcome to the sim town',
+    // Home pixel city
+    'home.town.headline': 'Welcome to the sim city',
     'home.town.lead':
-      'Tap a building to read, browse projects, or flip through photos—the town keeps gently running.',
-    'home.town.ctaBlog': 'Enter the bookshop',
-    'home.town.ctaProjects': 'Visit the workshop',
+      'Tap a tower for posts, projects, or changelog; the social block links out to GitHub, X, Bluesky, and NeoDB—the city keeps running.',
+    'home.town.ctaBlog': 'Enter Media Hall',
+    'home.town.ctaProjects': 'Climb Tech Tower',
     'home.town.hint': 'Click a building to explore',
-    'home.town.aria': 'Pixel simulated town scene',
-    'home.town.navAria': 'Town building navigation',
-    'home.town.blog': 'Bookshop · Blog',
-    'home.town.projects': 'Workshop · Projects',
-    'home.town.photos': 'Photo studio',
-    'home.town.gallery': 'Gallery',
-    'home.town.friends': 'Café · Friends',
+    'home.town.aria': 'Pixel simulated modern city scene',
+    'home.town.navAria': 'City building navigation',
+    'home.town.blog': 'Media · Blog',
+    'home.town.projects': 'Tech Tower · Projects',
+    'home.town.photos': 'Photo Studio',
+    'home.town.gallery': 'Museum',
+    'home.town.friends': 'Corner Café · Friends',
+    'home.town.changelog': 'News Center · Changelog',
+    'home.town.github': 'GitHub Tower',
+    'home.town.x': 'X Tower',
+    'home.town.bluesky': 'Bluesky Block',
+    'home.town.neodb': 'NeoDB Hall',
+    'home.town.rss': 'RSS Kiosk',
 
     // Language names
     'lang.zh': '中文',

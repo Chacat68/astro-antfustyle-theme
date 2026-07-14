@@ -1,65 +1,196 @@
 ---
 /**
- * 首页像素模拟小镇：纯 Canvas 2D + HTML 热点，无 p5。
- * 逻辑分辨率 320×180，最近邻放大；建筑可点击跳转站内栏目。
+ * 首页像素现代都市：纯 Canvas 2D + HTML 热点，无 p5。
+ * 逻辑分辨率 384×216；建筑跳转站内栏目与外链社交。
  */
-import { ensureTrailingSlash } from '~/utils/path'
+import { UI } from '~/config'
+import { ensureTrailingSlash, withBasePath } from '~/utils/path'
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import { isDefaultLocale } from '~/i18n/locales'
 
-interface Building {
+interface SpotDef {
   id: string
   labelKey: string
-  path: string
+  /** 站内路径（无前导 /）或外链 URL */
+  href: string
+  external?: boolean
   x: number
   y: number
   w: number
   h: number
+  /** 传给 canvas 的造型 id */
+  form: string
 }
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 
-const buildings: Building[] = [
-  { id: 'blog', labelKey: 'home.town.blog', path: '/blog', x: 28, y: 78, w: 44, h: 52 },
-  { id: 'projects', labelKey: 'home.town.projects', path: '/projects', x: 88, y: 70, w: 48, h: 60 },
-  { id: 'photos', labelKey: 'home.town.photos', path: '/photos', x: 154, y: 82, w: 40, h: 48 },
-  { id: 'gallery', labelKey: 'home.town.gallery', path: '/gallery', x: 208, y: 74, w: 44, h: 56 },
-  { id: 'friends', labelKey: 'home.town.friends', path: '/friends', x: 264, y: 86, w: 40, h: 44 },
+const socialByTitle = Object.fromEntries(
+  UI.socialLinks.map((s) => [s.title, s.link])
+)
+
+const LOGICAL_W = 384
+const LOGICAL_H = 216
+
+const spotDefs: SpotDef[] = [
+  {
+    id: 'blog',
+    labelKey: 'home.town.blog',
+    href: ensureTrailingSlash(getRelativeLocaleUrl(locale, 'blog')),
+    x: 10,
+    y: 98,
+    w: 34,
+    h: 72,
+    form: 'media',
+  },
+  {
+    id: 'projects',
+    labelKey: 'home.town.projects',
+    href: ensureTrailingSlash(getRelativeLocaleUrl(locale, 'projects')),
+    x: 48,
+    y: 48,
+    w: 30,
+    h: 122,
+    form: 'tower',
+  },
+  {
+    id: 'photos',
+    labelKey: 'home.town.photos',
+    href: ensureTrailingSlash(getRelativeLocaleUrl(locale, 'photos')),
+    x: 84,
+    y: 108,
+    w: 32,
+    h: 62,
+    form: 'studio',
+  },
+  {
+    id: 'gallery',
+    labelKey: 'home.town.gallery',
+    href: ensureTrailingSlash(getRelativeLocaleUrl(locale, 'gallery')),
+    x: 122,
+    y: 100,
+    w: 38,
+    h: 70,
+    form: 'museum',
+  },
+  {
+    id: 'friends',
+    labelKey: 'home.town.friends',
+    href: ensureTrailingSlash(getRelativeLocaleUrl(locale, 'friends')),
+    x: 166,
+    y: 128,
+    w: 30,
+    h: 42,
+    form: 'cafe',
+  },
+  {
+    id: 'changelog',
+    labelKey: 'home.town.changelog',
+    href: ensureTrailingSlash(getRelativeLocaleUrl(locale, 'changelog')),
+    x: 202,
+    y: 88,
+    w: 34,
+    h: 82,
+    form: 'news',
+  },
+  {
+    id: 'github',
+    labelKey: 'home.town.github',
+    href: socialByTitle['Github'] ?? 'https://github.com/Chacat68',
+    external: true,
+    x: 244,
+    y: 68,
+    w: 28,
+    h: 102,
+    form: 'github',
+  },
+  {
+    id: 'x',
+    labelKey: 'home.town.x',
+    href: socialByTitle['Charliefoo on X'] ?? 'https://x.com/Chacat68',
+    external: true,
+    x: 278,
+    y: 100,
+    w: 26,
+    h: 70,
+    form: 'x',
+  },
+  {
+    id: 'bluesky',
+    labelKey: 'home.town.bluesky',
+    href:
+      socialByTitle['Charliefoo on Bluesky'] ??
+      'https://bsky.app/profile/chacat68.bsky.social',
+    external: true,
+    x: 310,
+    y: 106,
+    w: 28,
+    h: 64,
+    form: 'bluesky',
+  },
+  {
+    id: 'neodb',
+    labelKey: 'home.town.neodb',
+    href:
+      socialByTitle['Charliefoo on NeoDB'] ??
+      'https://neodb.social/users/Charliefoo/',
+    external: true,
+    x: 344,
+    y: 118,
+    w: 30,
+    h: 52,
+    form: 'neodb',
+  },
+  {
+    id: 'rss',
+    labelKey: 'home.town.rss',
+    href: withBasePath(isDefaultLocale(locale) ? '/rss.xml' : '/en/rss.xml'),
+    external: true,
+    x: 178,
+    y: 158,
+    w: 16,
+    h: 20,
+    form: 'kiosk',
+  },
 ]
 
-const hotspots = buildings.map((b) => ({
-  ...b,
-  label: t(b.labelKey),
-  href: ensureTrailingSlash(getRelativeLocaleUrl(locale, b.path.replace(/^\//, ''))),
-}))
+const formsPayload = JSON.stringify(
+  spotDefs.map(({ id, x, y, w, h, form }) => ({ id, x, y, w, h, form }))
+)
 ---
 
 <section
   class="pixel-town"
   aria-label={t('home.town.aria')}
   data-reduced-motion="false"
+  data-logical-w={LOGICAL_W}
+  data-logical-h={LOGICAL_H}
+  style={`--lw:${LOGICAL_W};--lh:${LOGICAL_H}`}
 >
   <div class="pixel-town__stage">
     <canvas
       class="pixel-town__canvas"
-      width="320"
-      height="180"
+      width={LOGICAL_W}
+      height={LOGICAL_H}
       data-pixel-town
+      data-forms={formsPayload}
       aria-hidden="true"
     ></canvas>
 
     <nav class="pixel-town__hotspots" aria-label={t('home.town.navAria')}>
       {
-        hotspots.map((spot) => (
+        spotDefs.map((spot) => (
           <a
             class="pixel-town__spot"
             href={spot.href}
             data-building={spot.id}
             style={`--x:${spot.x};--y:${spot.y};--w:${spot.w};--h:${spot.h}`}
-            title={spot.label}
+            title={t(spot.labelKey)}
+            target={spot.external ? '_blank' : undefined}
+            rel={spot.external ? 'noopener noreferrer' : undefined}
           >
-            <span class="pixel-town__spot-label">{spot.label}</span>
+            <span class="pixel-town__spot-label">{t(spot.labelKey)}</span>
           </a>
         ))
       }
@@ -70,7 +201,7 @@ const hotspots = buildings.map((b) => ({
 </section>
 
 <script>
-  interface Villager {
+  interface Pedestrian {
     x: number
     y: number
     dir: 1 | -1
@@ -80,6 +211,14 @@ const hotspots = buildings.map((b) => ({
     pathY: number
   }
 
+  interface Car {
+    x: number
+    y: number
+    dir: 1 | -1
+    speed: number
+    color: string
+  }
+
   interface Cloud {
     x: number
     y: number
@@ -87,72 +226,94 @@ const hotspots = buildings.map((b) => ({
     speed: number
   }
 
-  interface Smoke {
+  interface BuildingForm {
+    id: string
     x: number
     y: number
-    life: number
-    vx: number
+    w: number
+    h: number
+    form: string
   }
 
-  const LOGICAL_W = 320
-  const LOGICAL_H = 180
+  interface CityPalette {
+    skyTop: string
+    skyBot: string
+    skyline: string
+    skylineHi: string
+    asphalt: string
+    asphaltHi: string
+    curb: string
+    plaza: string
+    plazaHi: string
+    glass: string
+    glassLit: string
+    concrete: string
+    concrete2: string
+    steel: string
+    accent: string
+    accentWarm: string
+    darkFacade: string
+    green: string
+    lamp: string
+    star: string
+    car: string[]
+    ped: string[]
+  }
 
   function isDarkTheme() {
     return document.documentElement.classList.contains('dark')
   }
 
-  function palette(dark: boolean) {
+  function palette(dark: boolean): CityPalette {
     if (dark) {
       return {
-        skyTop: '#0B1220',
-        skyBot: '#1A2740',
-        hillFar: '#1E3A2F',
-        hillNear: '#244A38',
-        ground: '#2A3D2E',
-        groundHi: '#35503A',
-        road: '#3D4550',
-        roadLine: '#5A6575',
-        wood: '#5C4030',
-        plaster: '#3A4558',
-        plaster2: '#2E3848',
-        roof: '#3D5A80',
-        roofAccent: '#0284C7',
-        windowLit: '#E8A838',
-        windowDark: '#1A2230',
-        door: '#2A3344',
-        tree: '#2F6B45',
-        treeTrunk: '#4A3528',
-        path: '#4A5564',
-        fence: '#6B7A8A',
+        skyTop: '#070B14',
+        skyBot: '#152238',
+        skyline: '#0F1828',
+        skylineHi: '#1A2A40',
+        asphalt: '#2A3038',
+        asphaltHi: '#3A424C',
+        curb: '#4A5564',
+        plaza: '#243040',
+        plazaHi: '#2E3D50',
+        glass: '#1E3A55',
+        glassLit: '#E8A838',
+        concrete: '#3A4558',
+        concrete2: '#2E3848',
+        steel: '#6B7A8A',
+        accent: '#38BDF8',
+        accentWarm: '#E8A838',
+        darkFacade: '#1A1F2A',
+        green: '#2F6B45',
+        lamp: '#FFE8A3',
         star: '#E8EEF6',
-        smoke: 'rgba(180,200,220,0.35)',
-        villager: ['#7EB6D9', '#E8A838', '#4CAF7A', '#D64545'] as string[],
+        car: ['#7EB6D9', '#E8A838', '#D64545', '#4CAF7A'],
+        ped: ['#7EB6D9', '#E8A838', '#4CAF7A', '#C9B08A'],
       }
     }
     return {
-      skyTop: '#B7E0F5',
-      skyBot: '#E8F4FA',
-      hillFar: '#8FBF7A',
-      hillNear: '#6FA85A',
-      ground: '#7CBC5C',
-      groundHi: '#8FCB6C',
-      road: '#C9B896',
-      roadLine: '#A89472',
-      wood: '#8B5E3C',
-      plaster: '#F2E6D4',
-      plaster2: '#E5D5BE',
-      roof: '#4A7A9B',
-      roofAccent: '#0284C7',
-      windowLit: '#FFE8A3',
-      windowDark: '#6B8CA8',
-      door: '#5C4030',
-      tree: '#3D8B4F',
-      treeTrunk: '#6B4A32',
-      path: '#D4C4A8',
-      fence: '#9A8B72',
+      skyTop: '#7EB8D9',
+      skyBot: '#D6EAF5',
+      skyline: '#9BB4C8',
+      skylineHi: '#B0C5D6',
+      asphalt: '#4A5560',
+      asphaltHi: '#5C6772',
+      curb: '#8A94A0',
+      plaza: '#C5CED6',
+      plazaHi: '#D5DCE3',
+      glass: '#A8D4EC',
+      glassLit: '#FFF4C2',
+      concrete: '#E8EEF2',
+      concrete2: '#D2DCE4',
+      steel: '#6B7C8C',
+      accent: '#0284C7',
+      accentWarm: '#E8A838',
+      darkFacade: '#2C3440',
+      green: '#3D8B4F',
+      lamp: '#FFF3A0',
       star: '#FFFFFF',
-      smoke: 'rgba(120,130,140,0.4)',
-      villager: ['#0284C7', '#E8A838', '#2E8B57', '#C45C4A'] as string[],
+      car: ['#0284C7', '#E8A838', '#C45C4A', '#2E8B57'],
+      ped: ['#0284C7', '#E8A838', '#2E8B57', '#5C4030'],
     }
   }
 
@@ -168,185 +329,342 @@ const hotspots = buildings.map((b) => ({
     ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h))
   }
 
-  function drawHouse(
+  function drawWindowGrid(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
     w: number,
     h: number,
-    colors: ReturnType<typeof palette>,
-    variant: number,
+    colors: CityPalette,
+    dark: boolean,
     time: number,
-    dark: boolean
+    seed: number
   ) {
-    const bodyH = Math.floor(h * 0.62)
-    const roofH = h - bodyH
-    const bodyY = y + roofH
-    const bodyColor = variant % 2 === 0 ? colors.plaster : colors.plaster2
-
-    // roof (triangle via stepped pixels)
-    fillRect(ctx, x - 2, bodyY - 2, w + 4, 2, colors.wood)
-    for (let row = 0; row < roofH; row++) {
-      const inset = Math.floor((row / roofH) * (w / 2))
-      const roofColor = row < 2 ? colors.roofAccent : colors.roof
-      fillRect(ctx, x + inset, y + row, w - inset * 2, 1, roofColor)
-    }
-
-    fillRect(ctx, x, bodyY, w, bodyH, bodyColor)
-
-    // door
-    const doorW = 8
-    const doorH = Math.min(16, bodyH - 4)
-    const doorX = x + Math.floor(w / 2) - 4
-    const doorY = bodyY + bodyH - doorH
-    fillRect(ctx, doorX, doorY, doorW, doorH, colors.door)
-    fillRect(ctx, doorX + 5, doorY + Math.floor(doorH / 2), 1, 1, colors.windowLit)
-
-    // windows
-    const winOn = dark || Math.floor(time / 800 + variant) % 5 !== 0
-    const winColor = winOn ? colors.windowLit : colors.windowDark
-    fillRect(ctx, x + 4, bodyY + 6, 6, 6, winColor)
-    fillRect(ctx, x + w - 10, bodyY + 6, 6, 6, winColor)
-    if (w > 42) {
-      fillRect(ctx, x + Math.floor(w / 2) - 3, bodyY + 6, 6, 6, winColor)
-    }
-
-    // chimney
-    if (variant !== 2) {
-      const cx = x + w - 10
-      fillRect(ctx, cx, y + 4, 5, roofH + 4, colors.wood)
-      fillRect(ctx, cx - 1, y + 2, 7, 3, colors.roof)
+    const cell = 4
+    const pad = 3
+    for (let wy = y + pad; wy < y + h - pad - 2; wy += cell + 1) {
+      for (let wx = x + pad; wx < x + w - pad - 2; wx += cell + 1) {
+        const lit =
+          dark ||
+          ((Math.floor(wx * 3 + wy * 7 + seed + time / 900) % 9) > 5)
+        fillRect(
+          ctx,
+          wx,
+          wy,
+          Math.min(cell, x + w - pad - wx),
+          Math.min(3, y + h - pad - wy),
+          lit ? colors.glassLit : colors.glass
+        )
+      }
     }
   }
 
-  function drawTree(
+  function drawBuilding(
     ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    colors: ReturnType<typeof palette>
+    b: BuildingForm,
+    colors: CityPalette,
+    dark: boolean,
+    time: number
   ) {
-    fillRect(ctx, x + 3, y + 10, 4, 12, colors.treeTrunk)
-    fillRect(ctx, x, y + 2, 10, 8, colors.tree)
-    fillRect(ctx, x + 1, y, 8, 4, colors.tree)
-    fillRect(ctx, x + 2, y + 8, 6, 4, colors.tree)
+    const { x, y, w, h, form } = b
+    const seed = form.length * 11 + x
+
+    if (form === 'tower' || form === 'github') {
+      const facade = form === 'github' ? colors.darkFacade : colors.concrete
+      fillRect(ctx, x, y, w, h, facade)
+      fillRect(ctx, x, y, w, 3, colors.steel)
+      // antenna
+      fillRect(ctx, x + Math.floor(w / 2), y - 10, 2, 10, colors.steel)
+      fillRect(ctx, x + Math.floor(w / 2) - 2, y - 10, 6, 2, colors.accent)
+      drawWindowGrid(ctx, x, y + 4, w, h - 10, colors, dark, time, seed)
+      fillRect(ctx, x + Math.floor(w / 2) - 4, y + h - 14, 8, 14, colors.darkFacade)
+      return
+    }
+
+    if (form === 'news') {
+      fillRect(ctx, x, y, w, h, colors.concrete2)
+      fillRect(ctx, x - 1, y, w + 2, 4, colors.accent)
+      // billboard
+      fillRect(ctx, x + 2, y + 8, w - 4, 12, colors.darkFacade)
+      fillRect(ctx, x + 4, y + 10, w - 8, 8, colors.accentWarm)
+      // mast
+      fillRect(ctx, x + w - 6, y - 14, 2, 14, colors.steel)
+      fillRect(ctx, x + w - 10, y - 14, 10, 2, colors.accent)
+      drawWindowGrid(ctx, x, y + 24, w, h - 36, colors, dark, time, seed)
+      fillRect(ctx, x + 4, y + h - 12, 10, 12, colors.darkFacade)
+      return
+    }
+
+    if (form === 'museum') {
+      fillRect(ctx, x, y + 8, w, h - 8, colors.concrete)
+      fillRect(ctx, x - 2, y + 6, w + 4, 4, colors.steel)
+      // columns
+      for (let i = 0; i < 4; i++) {
+        fillRect(ctx, x + 4 + i * 8, y + 14, 3, h - 22, colors.concrete2)
+      }
+      fillRect(ctx, x + 6, y + 20, w - 12, h - 36, colors.glass)
+      fillRect(ctx, x + Math.floor(w / 2) - 5, y + h - 14, 10, 14, colors.darkFacade)
+      return
+    }
+
+    if (form === 'cafe') {
+      fillRect(ctx, x, y, w, h, colors.concrete2)
+      fillRect(ctx, x, y, w, 4, colors.accentWarm)
+      fillRect(ctx, x + 3, y + 10, w - 6, 14, colors.glassLit)
+      fillRect(ctx, x + 4, y + h - 12, 8, 12, colors.darkFacade)
+      // awning
+      fillRect(ctx, x - 1, y + 8, w + 2, 3, colors.accent)
+      // planter
+      fillRect(ctx, x + w - 8, y + h - 6, 6, 6, colors.green)
+      return
+    }
+
+    if (form === 'studio') {
+      fillRect(ctx, x, y, w, h, colors.concrete)
+      fillRect(ctx, x, y, w, 3, colors.accent)
+      // big lens window
+      fillRect(ctx, x + 4, y + 10, w - 8, 22, colors.darkFacade)
+      fillRect(ctx, x + 6, y + 12, w - 12, 18, colors.glass)
+      fillRect(ctx, x + Math.floor(w / 2) - 3, y + 16, 6, 6, colors.accent)
+      drawWindowGrid(ctx, x, y + 36, w, h - 48, colors, dark, time, seed)
+      fillRect(ctx, x + 3, y + h - 12, 8, 12, colors.darkFacade)
+      return
+    }
+
+    if (form === 'media') {
+      fillRect(ctx, x, y, w, h, colors.concrete2)
+      fillRect(ctx, x, y, w, 5, colors.accent)
+      drawWindowGrid(ctx, x, y + 8, w, h - 22, colors, dark, time, seed)
+      // bookshelf hint stripe
+      fillRect(ctx, x + 2, y + h - 28, w - 4, 3, colors.accentWarm)
+      fillRect(ctx, x + Math.floor(w / 2) - 4, y + h - 14, 8, 14, colors.darkFacade)
+      return
+    }
+
+    if (form === 'x' || form === 'bluesky') {
+      const facade = form === 'bluesky' ? '#3A6F9A' : colors.concrete
+      fillRect(ctx, x, y, w, h, dark && form === 'bluesky' ? '#1E4A6A' : facade)
+      fillRect(ctx, x, y, w, 3, form === 'bluesky' ? colors.accent : colors.steel)
+      drawWindowGrid(ctx, x, y + 5, w, h - 18, colors, dark, time, seed)
+      fillRect(ctx, x + Math.floor(w / 2) - 3, y + h - 12, 7, 12, colors.darkFacade)
+      return
+    }
+
+    if (form === 'neodb') {
+      fillRect(ctx, x, y, w, h, colors.concrete)
+      fillRect(ctx, x, y, w, 4, colors.accentWarm)
+      for (let i = 0; i < 3; i++) {
+        fillRect(ctx, x + 3, y + 10 + i * 10, w - 6, 7, colors.glass)
+      }
+      fillRect(ctx, x + 4, y + h - 12, 8, 12, colors.darkFacade)
+      return
+    }
+
+    if (form === 'kiosk') {
+      fillRect(ctx, x, y, w, h, colors.steel)
+      fillRect(ctx, x + 2, y + 2, w - 4, 8, colors.accentWarm)
+      fillRect(ctx, x + Math.floor(w / 2) - 1, y - 6, 2, 6, colors.steel)
+      return
+    }
+
+    // fallback mid-rise
+    fillRect(ctx, x, y, w, h, colors.concrete)
+    drawWindowGrid(ctx, x, y + 4, w, h - 16, colors, dark, time, seed)
+    fillRect(ctx, x + Math.floor(w / 2) - 4, y + h - 12, 8, 12, colors.darkFacade)
   }
 
-  function drawVillager(
+  function drawSkyline(
     ctx: CanvasRenderingContext2D,
-    v: Villager,
-    colors: ReturnType<typeof palette>
+    colors: CityPalette,
+    W: number,
+    groundY: number
   ) {
-    const bob = Math.sin(v.bob) > 0 ? 0 : 1
-    const px = Math.round(v.x)
-    const py = Math.round(v.y + bob)
-    const color = colors.villager[v.hue % colors.villager.length]
+    const blocks = [
+      [0, 40, 18],
+      [16, 55, 14],
+      [28, 35, 20],
+      [46, 70, 12],
+      [56, 48, 16],
+      [72, 62, 14],
+      [88, 38, 22],
+      [110, 58, 18],
+      [130, 44, 20],
+      [152, 66, 12],
+      [168, 42, 18],
+      [188, 72, 14],
+      [204, 50, 16],
+      [224, 60, 12],
+      [240, 36, 24],
+      [268, 68, 14],
+      [286, 46, 18],
+      [308, 54, 16],
+      [328, 40, 20],
+      [352, 58, 14],
+      [368, 48, 16],
+    ]
+    for (const [bx, bh, bw] of blocks) {
+      fillRect(ctx, bx, groundY - bh, bw, bh, colors.skyline)
+      if (bh > 50) fillRect(ctx, bx + 2, groundY - bh, bw - 4, 3, colors.skylineHi)
+    }
+    // haze line
+    fillRect(ctx, 0, groundY - 2, W, 2, colors.skylineHi)
+  }
 
-    fillRect(ctx, px + 1, py, 4, 4, '#F0D5B8') // head
-    fillRect(ctx, px, py + 4, 6, 5, color) // body
-    fillRect(ctx, px, py + 9, 2, 4, colors.wood) // leg L
-    fillRect(ctx, px + 4, py + 9, 2, 4, colors.wood) // leg R
-    // facing hint
-    if (v.dir > 0) fillRect(ctx, px + 4, py + 1, 1, 1, '#333')
-    else fillRect(ctx, px + 1, py + 1, 1, 1, '#333')
+  function drawPed(
+    ctx: CanvasRenderingContext2D,
+    p: Pedestrian,
+    colors: CityPalette
+  ) {
+    const bob = Math.sin(p.bob) > 0 ? 0 : 1
+    const px = Math.round(p.x)
+    const py = Math.round(p.y + bob)
+    const color = colors.ped[p.hue % colors.ped.length]
+    fillRect(ctx, px + 1, py, 3, 3, '#F0D5B8')
+    fillRect(ctx, px, py + 3, 5, 4, color)
+    fillRect(ctx, px, py + 7, 2, 3, colors.darkFacade)
+    fillRect(ctx, px + 3, py + 7, 2, 3, colors.darkFacade)
+  }
+
+  function drawCar(ctx: CanvasRenderingContext2D, c: Car, colors: CityPalette) {
+    const x = Math.round(c.x)
+    const y = Math.round(c.y)
+    fillRect(ctx, x, y, 14, 6, c.color)
+    fillRect(ctx, x + 3, y - 3, 8, 3, colors.glass)
+    fillRect(ctx, x + 1, y + 5, 3, 2, colors.darkFacade)
+    fillRect(ctx, x + 10, y + 5, 3, 2, colors.darkFacade)
+    if (c.dir > 0) fillRect(ctx, x + 12, y + 1, 2, 2, colors.lamp)
+    else fillRect(ctx, x, y + 1, 2, 2, colors.lamp)
   }
 
   function drawScene(
     ctx: CanvasRenderingContext2D,
-    colors: ReturnType<typeof palette>,
+    W: number,
+    H: number,
+    colors: CityPalette,
     dark: boolean,
     time: number,
     clouds: Cloud[],
-    smokes: Smoke[],
-    villagers: Villager[],
+    forms: BuildingForm[],
+    peds: Pedestrian[],
+    cars: Car[],
     reduced: boolean
   ) {
-    // sky
-    const grad = ctx.createLinearGradient(0, 0, 0, 90)
+    const plazaY = 170
+    const roadY = 188
+
+    const grad = ctx.createLinearGradient(0, 0, 0, 110)
     grad.addColorStop(0, colors.skyTop)
     grad.addColorStop(1, colors.skyBot)
     ctx.fillStyle = grad
-    ctx.fillRect(0, 0, LOGICAL_W, 100)
+    ctx.fillRect(0, 0, W, 120)
 
-    // stars / sun
     if (dark) {
-      for (let i = 0; i < 18; i++) {
-        const sx = (i * 53 + 17) % LOGICAL_W
-        const sy = (i * 29 + 11) % 60
-        if ((Math.floor(time / 400) + i) % 7 !== 0) {
+      for (let i = 0; i < 22; i++) {
+        const sx = (i * 59 + 13) % W
+        const sy = (i * 31 + 9) % 70
+        if ((Math.floor(time / 450) + i) % 6 !== 0) {
           fillRect(ctx, sx, sy, 1, 1, colors.star)
         }
       }
     } else {
-      fillRect(ctx, 278, 18, 14, 14, '#FFE566')
-      fillRect(ctx, 280, 20, 10, 10, '#FFF3A0')
+      fillRect(ctx, W - 48, 16, 16, 16, '#FFE566')
+      fillRect(ctx, W - 46, 18, 12, 12, '#FFF3A0')
     }
 
-    // clouds
     for (const c of clouds) {
-      fillRect(ctx, c.x, c.y, c.w, 6, dark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.75)')
-      fillRect(ctx, c.x + 4, c.y - 3, c.w - 8, 5, dark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.9)')
+      fillRect(
+        ctx,
+        c.x,
+        c.y,
+        c.w,
+        5,
+        dark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.7)'
+      )
+      fillRect(
+        ctx,
+        c.x + 5,
+        c.y - 3,
+        c.w - 10,
+        4,
+        dark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)'
+      )
     }
 
-    // hills
-    fillRect(ctx, 0, 88, LOGICAL_W, 20, colors.hillFar)
-    for (let i = 0; i < 8; i++) {
-      fillRect(ctx, i * 44 - 10, 78 + (i % 3) * 3, 50, 16, colors.hillFar)
-    }
-    fillRect(ctx, 0, 100, LOGICAL_W, 16, colors.hillNear)
+    drawSkyline(ctx, colors, W, plazaY - 8)
 
-    // ground
-    fillRect(ctx, 0, 110, LOGICAL_W, 70, colors.ground)
-    for (let i = 0; i < 40; i++) {
-      const gx = (i * 37) % LOGICAL_W
-      const gy = 112 + ((i * 17) % 50)
-      fillRect(ctx, gx, gy, 2, 1, colors.groundHi)
+    // plaza / sidewalk
+    fillRect(ctx, 0, plazaY, W, roadY - plazaY, colors.plaza)
+    for (let i = 0; i < 50; i++) {
+      fillRect(ctx, (i * 41) % W, plazaY + ((i * 13) % 14), 2, 1, colors.plazaHi)
     }
 
-    // path
-    fillRect(ctx, 0, 138, LOGICAL_W, 14, colors.path)
-    fillRect(ctx, 0, 142, LOGICAL_W, 2, colors.roadLine)
-
-    // trees
-    const treeXs = [12, 72, 140, 198, 250, 300]
-    for (const tx of treeXs) drawTree(ctx, tx, 118, colors)
-
-    // buildings (match hotspot rects)
-    const houses = [
-      { x: 28, y: 78, w: 44, h: 52, v: 0 },
-      { x: 88, y: 70, w: 48, h: 60, v: 1 },
-      { x: 154, y: 82, w: 40, h: 48, v: 2 },
-      { x: 208, y: 74, w: 44, h: 56, v: 3 },
-      { x: 264, y: 86, w: 40, h: 44, v: 4 },
-    ]
-    for (const h of houses) {
-      drawHouse(ctx, h.x, h.y, h.w, h.h, colors, h.v, time, dark)
+    // street trees / planters between buildings
+    const planters = [42, 116, 160, 236, 274, 340]
+    for (const px of planters) {
+      fillRect(ctx, px, plazaY - 2, 6, 4, colors.steel)
+      fillRect(ctx, px + 1, plazaY - 10, 4, 8, colors.green)
     }
 
-    // fence bits
-    for (let fx = 20; fx < 300; fx += 10) {
-      fillRect(ctx, fx, 132, 2, 6, colors.fence)
-    }
-    fillRect(ctx, 20, 132, 280, 1, colors.fence)
-
-    // signpost near center
-    fillRect(ctx, 156, 126, 3, 12, colors.wood)
-    fillRect(ctx, 148, 122, 18, 6, colors.roofAccent)
-    fillRect(ctx, 150, 123, 14, 4, colors.plaster)
-
-    // smoke
-    for (const s of smokes) {
-      ctx.fillStyle = colors.smoke
-      ctx.fillRect(Math.round(s.x), Math.round(s.y), 2, 2)
+    // street lamps
+    for (let lx = 24; lx < W; lx += 48) {
+      fillRect(ctx, lx, plazaY - 22, 2, 22, colors.steel)
+      fillRect(ctx, lx - 3, plazaY - 24, 8, 3, colors.steel)
+      if (dark) fillRect(ctx, lx - 2, plazaY - 23, 6, 2, colors.lamp)
     }
 
-    // villagers
-    for (const v of villagers) drawVillager(ctx, v, colors)
+    // buildings
+    for (const b of forms) {
+      if (b.form === 'kiosk') continue
+      drawBuilding(ctx, b, colors, dark, time)
+    }
 
-    // day tint pulse (subtle)
+    // road
+    fillRect(ctx, 0, roadY, W, H - roadY, colors.asphalt)
+    fillRect(ctx, 0, roadY, W, 2, colors.curb)
+    for (let dx = 0; dx < W; dx += 16) {
+      fillRect(ctx, dx, roadY + 10, 8, 2, colors.asphaltHi)
+    }
+
+    // traffic light
+    fillRect(ctx, 190, plazaY - 28, 4, 28, colors.steel)
+    fillRect(ctx, 188, plazaY - 36, 8, 12, colors.darkFacade)
+    const lightPhase = Math.floor(time / 1200) % 3
+    fillRect(
+      ctx,
+      190,
+      plazaY - 34,
+      4,
+      3,
+      lightPhase === 0 ? '#D64545' : '#4A2020'
+    )
+    fillRect(
+      ctx,
+      190,
+      plazaY - 30,
+      4,
+      3,
+      lightPhase === 1 ? colors.accentWarm : '#4A4020'
+    )
+    fillRect(
+      ctx,
+      190,
+      plazaY - 26,
+      4,
+      3,
+      lightPhase === 2 ? '#4CAF7A' : '#204020'
+    )
+
+    for (const c of cars) drawCar(ctx, c, colors)
+    for (const p of peds) drawPed(ctx, p, colors)
+
+    // kiosk on top of sidewalk life
+    const kiosk = forms.find((f) => f.form === 'kiosk')
+    if (kiosk) drawBuilding(ctx, kiosk, colors, dark, time)
+
     if (!reduced && !dark) {
-      const pulse = (Math.sin(time / 3000) + 1) * 0.015
-      ctx.fillStyle = `rgba(255, 250, 230, ${pulse})`
-      ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H)
+      const pulse = (Math.sin(time / 3500) + 1) * 0.012
+      ctx.fillStyle = `rgba(255, 248, 230, ${pulse})`
+      ctx.fillRect(0, 0, W, H)
     }
   }
 
@@ -357,6 +675,10 @@ const hotspots = buildings.map((b) => ({
     if (canvas.dataset.townBooted === '1') return
     canvas.dataset.townBooted = '1'
 
+    const W = Number(root.getAttribute('data-logical-w') || 384)
+    const H = Number(root.getAttribute('data-logical-h') || 216)
+    const forms: BuildingForm[] = JSON.parse(canvas.dataset.forms || '[]')
+
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     ctx.imageSmoothingEnabled = false
@@ -365,70 +687,54 @@ const hotspots = buildings.map((b) => ({
     root.setAttribute('data-reduced-motion', reduced ? 'true' : 'false')
 
     const clouds: Cloud[] = [
-      { x: 20, y: 22, w: 36, speed: 0.08 },
-      { x: 120, y: 14, w: 48, speed: 0.05 },
-      { x: 220, y: 28, w: 32, speed: 0.07 },
-    ]
-    const smokes: Smoke[] = []
-    const villagers: Villager[] = [
-      { x: 40, y: 134, dir: 1, speed: 0.25, hue: 0, bob: 0, pathY: 134 },
-      { x: 180, y: 136, dir: -1, speed: 0.18, hue: 1, bob: 1.2, pathY: 136 },
-      { x: 260, y: 134, dir: 1, speed: 0.22, hue: 2, bob: 0.6, pathY: 134 },
+      { x: 30, y: 24, w: 42, speed: 0.06 },
+      { x: 140, y: 16, w: 56, speed: 0.04 },
+      { x: 260, y: 30, w: 38, speed: 0.055 },
     ]
 
-    const chimneys = [
-      { x: 62, y: 82 },
-      { x: 126, y: 74 },
-      { x: 242, y: 78 },
+    const peds: Pedestrian[] = [
+      { x: 30, y: 172, dir: 1, speed: 0.28, hue: 0, bob: 0, pathY: 172 },
+      { x: 120, y: 174, dir: -1, speed: 0.2, hue: 1, bob: 1.1, pathY: 174 },
+      { x: 220, y: 172, dir: 1, speed: 0.24, hue: 2, bob: 0.5, pathY: 172 },
+      { x: 320, y: 173, dir: -1, speed: 0.22, hue: 3, bob: 0.8, pathY: 173 },
     ]
 
-    let frame = 0
+    const cars: Car[] = [
+      { x: 20, y: 196, dir: 1, speed: 0.55, color: '#0284C7' },
+      { x: 200, y: 200, dir: -1, speed: 0.45, color: '#E8A838' },
+      { x: 320, y: 196, dir: 1, speed: 0.5, color: '#C45C4A' },
+    ]
+
     let raf = 0
     let last = performance.now()
 
     const tick = (now: number) => {
       const dt = Math.min(32, now - last)
       last = now
-      frame++
-
       const dark = isDarkTheme()
       const colors = palette(dark)
 
       if (!reduced) {
         for (const c of clouds) {
           c.x += c.speed * (dt / 16)
-          if (c.x > LOGICAL_W + 10) c.x = -c.w - 10
+          if (c.x > W + 10) c.x = -c.w - 10
         }
-
-        if (frame % 8 === 0) {
-          for (const ch of chimneys) {
-            smokes.push({
-              x: ch.x + Math.random() * 3,
-              y: ch.y,
-              life: 40 + Math.random() * 20,
-              vx: (Math.random() - 0.3) * 0.15,
-            })
-          }
+        for (const p of peds) {
+          p.x += p.dir * p.speed * (dt / 16)
+          p.bob += 0.22 * (dt / 16)
+          if (p.x > W - 12) p.dir = -1
+          if (p.x < 8) p.dir = 1
+          p.y = p.pathY
         }
-        for (let i = smokes.length - 1; i >= 0; i--) {
-          const s = smokes[i]
-          s.y -= 0.2 * (dt / 16)
-          s.x += s.vx * (dt / 16)
-          s.life -= dt / 16
-          if (s.life <= 0) smokes.splice(i, 1)
-        }
-
-        for (const v of villagers) {
-          v.x += v.dir * v.speed * (dt / 16)
-          v.bob += 0.2 * (dt / 16)
-          if (v.x > 300) v.dir = -1
-          if (v.x < 16) v.dir = 1
-          v.y = v.pathY
+        for (const c of cars) {
+          c.x += c.dir * c.speed * (dt / 16)
+          if (c.dir > 0 && c.x > W + 20) c.x = -20
+          if (c.dir < 0 && c.x < -20) c.x = W + 20
         }
       }
 
-      ctx.clearRect(0, 0, LOGICAL_W, LOGICAL_H)
-      drawScene(ctx, colors, dark, now, clouds, smokes, villagers, reduced)
+      ctx.clearRect(0, 0, W, H)
+      drawScene(ctx, W, H, colors, dark, now, clouds, forms, peds, cars, reduced)
 
       if (!reduced) raf = requestAnimationFrame(tick)
     }
@@ -445,11 +751,14 @@ const hotspots = buildings.map((b) => ({
       attributeFilter: ['class'],
     })
 
-    // hotspot hover → brief window flash via data attr (CSS handled)
     root.querySelectorAll('.pixel-town__spot').forEach((el) => {
-      el.addEventListener('mouseenter', () => root.setAttribute('data-focus', el.getAttribute('data-building') || ''))
+      el.addEventListener('mouseenter', () =>
+        root.setAttribute('data-focus', el.getAttribute('data-building') || '')
+      )
       el.addEventListener('mouseleave', () => root.removeAttribute('data-focus'))
-      el.addEventListener('focus', () => root.setAttribute('data-focus', el.getAttribute('data-building') || ''))
+      el.addEventListener('focus', () =>
+        root.setAttribute('data-focus', el.getAttribute('data-building') || '')
+      )
       el.addEventListener('blur', () => root.removeAttribute('data-focus'))
     })
 
@@ -469,14 +778,14 @@ const hotspots = buildings.map((b) => ({
 
 <style>
   .pixel-town {
-    --town-sky: #b7e0f5;
+    --town-sky: #7eb8d9;
     position: relative;
     width: 100%;
     isolation: isolate;
   }
 
   :global(:root.dark) .pixel-town {
-    --town-sky: #0b1220;
+    --town-sky: #070b14;
   }
 
   .pixel-town__stage {
@@ -484,7 +793,7 @@ const hotspots = buildings.map((b) => ({
     overflow: hidden;
     width: 100%;
     aspect-ratio: 16 / 9;
-    max-height: min(72vh, 560px);
+    max-height: min(74vh, 620px);
     margin-inline: auto;
     border: 1px solid var(--c-border);
     border-radius: var(--c-radius-lg);
@@ -507,10 +816,10 @@ const hotspots = buildings.map((b) => ({
 
   .pixel-town__spot {
     position: absolute;
-    left: calc(var(--x) / 320 * 100%);
-    top: calc(var(--y) / 180 * 100%);
-    width: calc(var(--w) / 320 * 100%);
-    height: calc(var(--h) / 180 * 100%);
+    left: calc(var(--x) / var(--lw) * 100%);
+    top: calc(var(--y) / var(--lh) * 100%);
+    width: calc(var(--w) / var(--lw) * 100%);
+    height: calc(var(--h) / var(--lh) * 100%);
     border-radius: 2px;
     outline: none;
     transition: box-shadow var(--duration-fast) var(--ease-out);
@@ -526,13 +835,14 @@ const hotspots = buildings.map((b) => ({
     position: absolute;
     left: 50%;
     bottom: calc(100% + 4px);
+    z-index: 2;
     transform: translateX(-50%);
     padding: 0.15rem 0.4rem;
     border: 1px solid var(--c-border);
     border-radius: var(--c-radius-sm);
     background: var(--c-surface);
     color: var(--c-text);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-family: var(--uno-font-mono, ui-monospace, monospace);
     letter-spacing: 0.02em;
     white-space: nowrap;
@@ -551,6 +861,7 @@ const hotspots = buildings.map((b) => ({
     position: absolute;
     right: 0.75rem;
     bottom: 0.55rem;
+    z-index: 2;
     margin: 0;
     padding: 0.15rem 0.45rem;
     border-radius: var(--c-radius-sm);
@@ -563,7 +874,7 @@ const hotspots = buildings.map((b) => ({
 
   @media (max-width: 639.9px) {
     .pixel-town__stage {
-      max-height: min(52vh, 360px);
+      max-height: min(56vh, 400px);
       border-radius: var(--c-radius);
     }
 
@@ -572,9 +883,15 @@ const hotspots = buildings.map((b) => ({
     }
 
     .pixel-town__spot-label {
+      font-size: 0.62rem;
+      padding: 0.08rem 0.28rem;
+    }
+
+    /* 移动端只常显主栏目标签，避免社交楼叠字 */
+    .pixel-town__spot[data-building='blog'] .pixel-town__spot-label,
+    .pixel-town__spot[data-building='projects'] .pixel-town__spot-label,
+    .pixel-town__spot[data-building='changelog'] .pixel-town__spot-label {
       opacity: 1;
-      font-size: 0.65rem;
-      padding: 0.1rem 0.3rem;
     }
   }
 

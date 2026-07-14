@@ -1,53 +1,59 @@
-# 首页像素模拟小镇
+# 首页像素模拟都市
 
-主页主视觉由「像素模拟小镇」承担，替代原 `wave` 背景装饰。实现以文档为准，改动后请同步回写。
+主页主视觉为「像素现代都市」，替代乡村小镇与原 `wave` 背景。实现以本文为准。
 
 ## 目标
 
-- 一屏构成：品牌「付之一笑」→ 一句标题 → 一句说明 → CTA → 小镇场景
-- 场景可逛：建筑是栏目入口，而不是纯装饰图
+- 一屏构成：品牌「付之一笑」→ 都市标题 → 一句说明 → CTA → 城市画布
+- 楼宇可逛：站内栏目 + Changelog + 社交外链 + RSS
 - 轻量：纯 Canvas 2D，不引入 p5
-- 与全站 token 一致：天空蓝 accent、浅/深色模式、克制动效
+- 气质：现代都市天际线、玻璃幕墙、马路车流；浅/深色日夜切换
 
-## 信息架构
+## 建筑与跳转
 
 | 建筑 | 跳转 |
 |------|------|
-| 书店 | `/blog` |
-| 工坊 | `/projects` |
-| 照相馆 | `/photos` |
-| 画廊 | `/gallery` |
-| 咖啡馆 | `/friends` |
+| 媒体楼 | `/blog` |
+| 科技塔 | `/projects` |
+| 影像馆 | `/photos` |
+| 美术馆 | `/gallery` |
+| 街角咖啡 | `/friends` |
+| 新闻中心 | `/changelog` |
+| GitHub 塔 | 外链 GitHub |
+| X 塔 | 外链 X |
+| Bluesky 楼 | 外链 Bluesky |
+| NeoDB 馆 | 外链 NeoDB |
+| RSS 亭 | `/rss.xml`（英文 `/en/rss.xml`） |
 
-CTA：「走进书店」「参观工坊」与建筑导航重复强化主路径。
+社交与 RSS URL 取自 `src/config.ts` 的 `UI.socialLinks` 与 `withBasePath`。
 
 ## 技术结构
 
 | 文件 | 职责 |
 |------|------|
-| `src/pages/index.astro` | 首页编排：`bgType: false` + hero 文案 + `PixelTown` + 简介/最新文章 |
-| `src/components/home/PixelTown.astro` | 320×180 画布绘制、动画循环、HTML 热点 |
-| `src/styles/page.css`（`.home-sim*`） | 品牌层级、CTA、正文区节奏 |
-| `src/i18n/ui.ts`（`home.town.*`） | 中英文文案 |
+| `src/pages/index.astro` | 首页编排：`bgType: false` + hero + `PixelTown` |
+| `src/components/home/PixelTown.astro` | 384×216 画布、都市绘制、热点 |
+| `src/styles/page.css`（`.home-sim*`） | 品牌层级与 CTA |
+| `src/i18n/ui.ts`（`home.town.*`） | 中英文案 |
 
 ## 视觉规范
 
-- 逻辑分辨率 **320×180**，CSS 铺满舞台，`image-rendering: pixelated`
-- 浅色：晴空蓝绿草地；深色：夜空 + 窗灯琥珀
-- 模拟元素：云漂移、烟囱烟、3 个村民沿小路往返
-- `prefers-reduced-motion: reduce` 时只绘静止帧
-- 热点 hover/focus：accent 内描边 + 像素标签；移动端标签常显
+- 逻辑分辨率 **384×216**，`image-rendering: pixelated`
+- 远景剪影天际线 + 近景可点楼宇 + 人行道/车行道分层
+- 模拟：云、行人、车流、信号灯、夜景窗灯/路灯
+- `prefers-reduced-motion: reduce` 时静止首帧
+- 外链建筑 `target=_blank` + `rel=noopener noreferrer`
 
 ## 不要做
 
-- 首屏再叠 wave/particle 等第二套背景
-- 建筑做成卡片墙或大圆角媒体块
-- 为小镇单独引入重型游戏引擎或 p5
+- 再叠 wave/particle 第二套背景
+- 把楼宇做成卡片墙
+- 为都市引入重型引擎或 p5
 
 ## 验收
 
-- [ ] 首页首屏可见品牌字标与小镇
-- [ ] 五个建筑均可键盘 focus 并进入对应栏目
-- [ ] 切换浅/深色主题后小镇配色即时更新
-- [ ] 开启系统「减少动态效果」后无持续 rAF 动画
-- [ ] 移动端可点建筑，标签可读
+- [ ] 首屏可见品牌与都市天际线
+- [ ] Changelog、四座社交楼、RSS 亭均可到达
+- [ ] 站内建筑与 CTA 路由正确（含英文 locale）
+- [ ] 深色模式夜景/窗灯/路灯生效
+- [ ] 减少动态效果时无持续 rAF

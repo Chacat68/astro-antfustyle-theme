@@ -59,15 +59,16 @@
 | `constellation` | p5 星座（天空蓝） | 按需 |
 | `false` | 无背景 | **首页**（改用像素小镇）、相册、画廊、changelog 列表等内容密集页 |
 
-## 首页：像素模拟小镇
+## 首页：像素模拟都市
 
 首页不再使用 `wave` 装饰底，而由 `src/components/home/PixelTown.astro` 承担主视觉：
 
-- 逻辑画布 **320×180**，`image-rendering: pixelated` 最近邻放大
-- 建筑热点跳转：书店→博客、工坊→项目、照相馆→相册、画廊、咖啡馆→友链
-- 轻量模拟：云、烟囱烟、村民沿小路行走；深色模式切夜景窗灯
-- 无 p5（避免首屏多加载 ~1MB）；尊重 `prefers-reduced-motion`（静止首帧）
-- 文案：品牌「付之一笑」优先，一句 headline + lead + 两个 CTA；样式在 `page.css` 的 `.home-sim*`
+- 逻辑画布 **384×216**，`image-rendering: pixelated` 最近邻放大
+- **现代都市**气质：远景天际线、玻璃幕墙楼宇、马路车流、信号灯与路灯
+- 建筑热点：博客 / 项目 / 相册 / 画廊 / 友链 / **Changelog** / **GitHub·X·Bluesky·NeoDB** / **RSS**
+- 轻量模拟：云、行人、车辆；深色模式夜景窗灯
+- 无 p5；尊重 `prefers-reduced-motion`
+- 文案：品牌「付之一笑」优先；样式在 `page.css` 的 `.home-sim*`
 
 详细说明见 [pixel-town-home.md](./pixel-town-home.md)。
 
