@@ -1,0 +1,586 @@
+---
+/**
+ * 首页像素模拟小镇：纯 Canvas 2D + HTML 热点，无 p5。
+ * 逻辑分辨率 320×180，最近邻放大；建筑可点击跳转站内栏目。
+ */
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+interface Building {
+  id: string
+  labelKey: string
+  path: string
+  x: number
+  y: number
+  w: number
+  h: number
+}
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const buildings: Building[] = [
+  { id: 'blog', labelKey: 'home.town.blog', path: '/blog', x: 28, y: 78, w: 44, h: 52 },
+  { id: 'projects', labelKey: 'home.town.projects', path: '/projects', x: 88, y: 70, w: 48, h: 60 },
+  { id: 'photos', labelKey: 'home.town.photos', path: '/photos', x: 154, y: 82, w: 40, h: 48 },
+  { id: 'gallery', labelKey: 'home.town.gallery', path: '/gallery', x: 208, y: 74, w: 44, h: 56 },
+  { id: 'friends', labelKey: 'home.town.friends', path: '/friends', x: 264, y: 86, w: 40, h: 44 },
+]
+
+const hotspots = buildings.map((b) => ({
+  ...b,
+  label: t(b.labelKey),
+  href: ensureTrailingSlash(getRelativeLocaleUrl(locale, b.path.replace(/^\//, ''))),
+}))
+---
+
+<section
+  class="pixel-town"
+  aria-label={t('home.town.aria')}
+  data-reduced-motion="false"
+>
+  <div class="pixel-town__stage">
+    <canvas
+      class="pixel-town__canvas"
+      width="320"
+      height="180"
+      data-pixel-town
+      aria-hidden="true"
+    ></canvas>
+
+    <nav class="pixel-town__hotspots" aria-label={t('home.town.navAria')}>
+      {
+        hotspots.map((spot) => (
+          <a
+            class="pixel-town__spot"
+            href={spot.href}
+            data-building={spot.id}
+            style={`--x:${spot.x};--y:${spot.y};--w:${spot.w};--h:${spot.h}`}
+            title={spot.label}
+          >
+            <span class="pixel-town__spot-label">{spot.label}</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <p class="pixel-town__hint" aria-hidden="true">{t('home.town.hint')}</p>
+  </div>
+</section>
+
+<script>
+  interface Villager {
+    x: number
+    y: number
+    dir: 1 | -1
+    speed: number
+    hue: number
+    bob: number
+    pathY: number
+  }
+
+  interface Cloud {
+    x: number
+    y: number
+    w: number
+    speed: number
+  }
+
+  interface Smoke {
+    x: number
+    y: number
+    life: number
+    vx: number
+  }
+
+  const LOGICAL_W = 320
+  const LOGICAL_H = 180
+
+  function isDarkTheme() {
+    return document.documentElement.classList.contains('dark')
+  }
+
+  function palette(dark: boolean) {
+    if (dark) {
+      return {
+        skyTop: '#0B1220',
+        skyBot: '#1A2740',
+        hillFar: '#1E3A2F',
+        hillNear: '#244A38',
+        ground: '#2A3D2E',
+        groundHi: '#35503A',
+        road: '#3D4550',
+        roadLine: '#5A6575',
+        wood: '#5C4030',
+        plaster: '#3A4558',
+        plaster2: '#2E3848',
+        roof: '#3D5A80',
+        roofAccent: '#0284C7',
+        windowLit: '#E8A838',
+        windowDark: '#1A2230',
+        door: '#2A3344',
+        tree: '#2F6B45',
+        treeTrunk: '#4A3528',
+        path: '#4A5564',
+        fence: '#6B7A8A',
+        star: '#E8EEF6',
+        smoke: 'rgba(180,200,220,0.35)',
+        villager: ['#7EB6D9', '#E8A838', '#4CAF7A', '#D64545'] as string[],
+      }
+    }
+    return {
+      skyTop: '#B7E0F5',
+      skyBot: '#E8F4FA',
+      hillFar: '#8FBF7A',
+      hillNear: '#6FA85A',
+      ground: '#7CBC5C',
+      groundHi: '#8FCB6C',
+      road: '#C9B896',
+      roadLine: '#A89472',
+      wood: '#8B5E3C',
+      plaster: '#F2E6D4',
+      plaster2: '#E5D5BE',
+      roof: '#4A7A9B',
+      roofAccent: '#0284C7',
+      windowLit: '#FFE8A3',
+      windowDark: '#6B8CA8',
+      door: '#5C4030',
+      tree: '#3D8B4F',
+      treeTrunk: '#6B4A32',
+      path: '#D4C4A8',
+      fence: '#9A8B72',
+      star: '#FFFFFF',
+      smoke: 'rgba(120,130,140,0.4)',
+      villager: ['#0284C7', '#E8A838', '#2E8B57', '#C45C4A'] as string[],
+    }
+  }
+
+  function fillRect(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    color: string
+  ) {
+    ctx.fillStyle = color
+    ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h))
+  }
+
+  function drawHouse(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    colors: ReturnType<typeof palette>,
+    variant: number,
+    time: number,
+    dark: boolean
+  ) {
+    const bodyH = Math.floor(h * 0.62)
+    const roofH = h - bodyH
+    const bodyY = y + roofH
+    const bodyColor = variant % 2 === 0 ? colors.plaster : colors.plaster2
+
+    // roof (triangle via stepped pixels)
+    fillRect(ctx, x - 2, bodyY - 2, w + 4, 2, colors.wood)
+    for (let row = 0; row < roofH; row++) {
+      const inset = Math.floor((row / roofH) * (w / 2))
+      const roofColor = row < 2 ? colors.roofAccent : colors.roof
+      fillRect(ctx, x + inset, y + row, w - inset * 2, 1, roofColor)
+    }
+
+    fillRect(ctx, x, bodyY, w, bodyH, bodyColor)
+
+    // door
+    const doorW = 8
+    const doorH = Math.min(16, bodyH - 4)
+    const doorX = x + Math.floor(w / 2) - 4
+    const doorY = bodyY + bodyH - doorH
+    fillRect(ctx, doorX, doorY, doorW, doorH, colors.door)
+    fillRect(ctx, doorX + 5, doorY + Math.floor(doorH / 2), 1, 1, colors.windowLit)
+
+    // windows
+    const winOn = dark || Math.floor(time / 800 + variant) % 5 !== 0
+    const winColor = winOn ? colors.windowLit : colors.windowDark
+    fillRect(ctx, x + 4, bodyY + 6, 6, 6, winColor)
+    fillRect(ctx, x + w - 10, bodyY + 6, 6, 6, winColor)
+    if (w > 42) {
+      fillRect(ctx, x + Math.floor(w / 2) - 3, bodyY + 6, 6, 6, winColor)
+    }
+
+    // chimney
+    if (variant !== 2) {
+      const cx = x + w - 10
+      fillRect(ctx, cx, y + 4, 5, roofH + 4, colors.wood)
+      fillRect(ctx, cx - 1, y + 2, 7, 3, colors.roof)
+    }
+  }
+
+  function drawTree(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    colors: ReturnType<typeof palette>
+  ) {
+    fillRect(ctx, x + 3, y + 10, 4, 12, colors.treeTrunk)
+    fillRect(ctx, x, y + 2, 10, 8, colors.tree)
+    fillRect(ctx, x + 1, y, 8, 4, colors.tree)
+    fillRect(ctx, x + 2, y + 8, 6, 4, colors.tree)
+  }
+
+  function drawVillager(
+    ctx: CanvasRenderingContext2D,
+    v: Villager,
+    colors: ReturnType<typeof palette>
+  ) {
+    const bob = Math.sin(v.bob) > 0 ? 0 : 1
+    const px = Math.round(v.x)
+    const py = Math.round(v.y + bob)
+    const color = colors.villager[v.hue % colors.villager.length]
+
+    fillRect(ctx, px + 1, py, 4, 4, '#F0D5B8') // head
+    fillRect(ctx, px, py + 4, 6, 5, color) // body
+    fillRect(ctx, px, py + 9, 2, 4, colors.wood) // leg L
+    fillRect(ctx, px + 4, py + 9, 2, 4, colors.wood) // leg R
+    // facing hint
+    if (v.dir > 0) fillRect(ctx, px + 4, py + 1, 1, 1, '#333')
+    else fillRect(ctx, px + 1, py + 1, 1, 1, '#333')
+  }
+
+  function drawScene(
+    ctx: CanvasRenderingContext2D,
+    colors: ReturnType<typeof palette>,
+    dark: boolean,
+    time: number,
+    clouds: Cloud[],
+    smokes: Smoke[],
+    villagers: Villager[],
+    reduced: boolean
+  ) {
+    // sky
+    const grad = ctx.createLinearGradient(0, 0, 0, 90)
+    grad.addColorStop(0, colors.skyTop)
+    grad.addColorStop(1, colors.skyBot)
+    ctx.fillStyle = grad
+    ctx.fillRect(0, 0, LOGICAL_W, 100)
+
+    // stars / sun
+    if (dark) {
+      for (let i = 0; i < 18; i++) {
+        const sx = (i * 53 + 17) % LOGICAL_W
+        const sy = (i * 29 + 11) % 60
+        if ((Math.floor(time / 400) + i) % 7 !== 0) {
+          fillRect(ctx, sx, sy, 1, 1, colors.star)
+        }
+      }
+    } else {
+      fillRect(ctx, 278, 18, 14, 14, '#FFE566')
+      fillRect(ctx, 280, 20, 10, 10, '#FFF3A0')
+    }
+
+    // clouds
+    for (const c of clouds) {
+      fillRect(ctx, c.x, c.y, c.w, 6, dark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.75)')
+      fillRect(ctx, c.x + 4, c.y - 3, c.w - 8, 5, dark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.9)')
+    }
+
+    // hills
+    fillRect(ctx, 0, 88, LOGICAL_W, 20, colors.hillFar)
+    for (let i = 0; i < 8; i++) {
+      fillRect(ctx, i * 44 - 10, 78 + (i % 3) * 3, 50, 16, colors.hillFar)
+    }
+    fillRect(ctx, 0, 100, LOGICAL_W, 16, colors.hillNear)
+
+    // ground
+    fillRect(ctx, 0, 110, LOGICAL_W, 70, colors.ground)
+    for (let i = 0; i < 40; i++) {
+      const gx = (i * 37) % LOGICAL_W
+      const gy = 112 + ((i * 17) % 50)
+      fillRect(ctx, gx, gy, 2, 1, colors.groundHi)
+    }
+
+    // path
+    fillRect(ctx, 0, 138, LOGICAL_W, 14, colors.path)
+    fillRect(ctx, 0, 142, LOGICAL_W, 2, colors.roadLine)
+
+    // trees
+    const treeXs = [12, 72, 140, 198, 250, 300]
+    for (const tx of treeXs) drawTree(ctx, tx, 118, colors)
+
+    // buildings (match hotspot rects)
+    const houses = [
+      { x: 28, y: 78, w: 44, h: 52, v: 0 },
+      { x: 88, y: 70, w: 48, h: 60, v: 1 },
+      { x: 154, y: 82, w: 40, h: 48, v: 2 },
+      { x: 208, y: 74, w: 44, h: 56, v: 3 },
+      { x: 264, y: 86, w: 40, h: 44, v: 4 },
+    ]
+    for (const h of houses) {
+      drawHouse(ctx, h.x, h.y, h.w, h.h, colors, h.v, time, dark)
+    }
+
+    // fence bits
+    for (let fx = 20; fx < 300; fx += 10) {
+      fillRect(ctx, fx, 132, 2, 6, colors.fence)
+    }
+    fillRect(ctx, 20, 132, 280, 1, colors.fence)
+
+    // signpost near center
+    fillRect(ctx, 156, 126, 3, 12, colors.wood)
+    fillRect(ctx, 148, 122, 18, 6, colors.roofAccent)
+    fillRect(ctx, 150, 123, 14, 4, colors.plaster)
+
+    // smoke
+    for (const s of smokes) {
+      ctx.fillStyle = colors.smoke
+      ctx.fillRect(Math.round(s.x), Math.round(s.y), 2, 2)
+    }
+
+    // villagers
+    for (const v of villagers) drawVillager(ctx, v, colors)
+
+    // day tint pulse (subtle)
+    if (!reduced && !dark) {
+      const pulse = (Math.sin(time / 3000) + 1) * 0.015
+      ctx.fillStyle = `rgba(255, 250, 230, ${pulse})`
+      ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H)
+    }
+  }
+
+  function boot() {
+    const canvas = document.querySelector<HTMLCanvasElement>('[data-pixel-town]')
+    const root = canvas?.closest('.pixel-town')
+    if (!canvas || !root) return
+    if (canvas.dataset.townBooted === '1') return
+    canvas.dataset.townBooted = '1'
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    ctx.imageSmoothingEnabled = false
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    root.setAttribute('data-reduced-motion', reduced ? 'true' : 'false')
+
+    const clouds: Cloud[] = [
+      { x: 20, y: 22, w: 36, speed: 0.08 },
+      { x: 120, y: 14, w: 48, speed: 0.05 },
+      { x: 220, y: 28, w: 32, speed: 0.07 },
+    ]
+    const smokes: Smoke[] = []
+    const villagers: Villager[] = [
+      { x: 40, y: 134, dir: 1, speed: 0.25, hue: 0, bob: 0, pathY: 134 },
+      { x: 180, y: 136, dir: -1, speed: 0.18, hue: 1, bob: 1.2, pathY: 136 },
+      { x: 260, y: 134, dir: 1, speed: 0.22, hue: 2, bob: 0.6, pathY: 134 },
+    ]
+
+    const chimneys = [
+      { x: 62, y: 82 },
+      { x: 126, y: 74 },
+      { x: 242, y: 78 },
+    ]
+
+    let frame = 0
+    let raf = 0
+    let last = performance.now()
+
+    const tick = (now: number) => {
+      const dt = Math.min(32, now - last)
+      last = now
+      frame++
+
+      const dark = isDarkTheme()
+      const colors = palette(dark)
+
+      if (!reduced) {
+        for (const c of clouds) {
+          c.x += c.speed * (dt / 16)
+          if (c.x > LOGICAL_W + 10) c.x = -c.w - 10
+        }
+
+        if (frame % 8 === 0) {
+          for (const ch of chimneys) {
+            smokes.push({
+              x: ch.x + Math.random() * 3,
+              y: ch.y,
+              life: 40 + Math.random() * 20,
+              vx: (Math.random() - 0.3) * 0.15,
+            })
+          }
+        }
+        for (let i = smokes.length - 1; i >= 0; i--) {
+          const s = smokes[i]
+          s.y -= 0.2 * (dt / 16)
+          s.x += s.vx * (dt / 16)
+          s.life -= dt / 16
+          if (s.life <= 0) smokes.splice(i, 1)
+        }
+
+        for (const v of villagers) {
+          v.x += v.dir * v.speed * (dt / 16)
+          v.bob += 0.2 * (dt / 16)
+          if (v.x > 300) v.dir = -1
+          if (v.x < 16) v.dir = 1
+          v.y = v.pathY
+        }
+      }
+
+      ctx.clearRect(0, 0, LOGICAL_W, LOGICAL_H)
+      drawScene(ctx, colors, dark, now, clouds, smokes, villagers, reduced)
+
+      if (!reduced) raf = requestAnimationFrame(tick)
+    }
+
+    if (reduced) tick(performance.now())
+    else raf = requestAnimationFrame(tick)
+
+    const onTheme = () => {
+      if (reduced) tick(performance.now())
+    }
+    const observer = new MutationObserver(onTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
+    // hotspot hover → brief window flash via data attr (CSS handled)
+    root.querySelectorAll('.pixel-town__spot').forEach((el) => {
+      el.addEventListener('mouseenter', () => root.setAttribute('data-focus', el.getAttribute('data-building') || ''))
+      el.addEventListener('mouseleave', () => root.removeAttribute('data-focus'))
+      el.addEventListener('focus', () => root.setAttribute('data-focus', el.getAttribute('data-building') || ''))
+      el.addEventListener('blur', () => root.removeAttribute('data-focus'))
+    })
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        cancelAnimationFrame(raf)
+        observer.disconnect()
+      },
+      { once: true }
+    )
+  }
+
+  boot()
+  document.addEventListener('astro:page-load', boot)
+</script>
+
+<style>
+  .pixel-town {
+    --town-sky: #b7e0f5;
+    position: relative;
+    width: 100%;
+    isolation: isolate;
+  }
+
+  :global(:root.dark) .pixel-town {
+    --town-sky: #0b1220;
+  }
+
+  .pixel-town__stage {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: min(72vh, 560px);
+    margin-inline: auto;
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-lg);
+    background: var(--town-sky);
+    box-shadow: var(--c-shadow);
+  }
+
+  .pixel-town__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .pixel-town__hotspots {
+    position: absolute;
+    inset: 0;
+  }
+
+  .pixel-town__spot {
+    position: absolute;
+    left: calc(var(--x) / 320 * 100%);
+    top: calc(var(--y) / 180 * 100%);
+    width: calc(var(--w) / 320 * 100%);
+    height: calc(var(--h) / 180 * 100%);
+    border-radius: 2px;
+    outline: none;
+    transition: box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .pixel-town__spot:hover,
+  .pixel-town__spot:focus-visible {
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--c-accent) 80%, white);
+    background: color-mix(in srgb, var(--c-accent) 12%, transparent);
+  }
+
+  .pixel-town__spot-label {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 4px);
+    transform: translateX(-50%);
+    padding: 0.15rem 0.4rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-sm);
+    background: var(--c-surface);
+    color: var(--c-text);
+    font-size: 0.72rem;
+    font-family: var(--uno-font-mono, ui-monospace, monospace);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: var(--c-shadow);
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+
+  .pixel-town__spot:hover .pixel-town__spot-label,
+  .pixel-town__spot:focus-visible .pixel-town__spot-label {
+    opacity: 1;
+  }
+
+  .pixel-town__hint {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.55rem;
+    margin: 0;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--c-radius-sm);
+    background: color-mix(in srgb, var(--c-bg) 72%, transparent);
+    color: var(--c-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    pointer-events: none;
+  }
+
+  @media (max-width: 639.9px) {
+    .pixel-town__stage {
+      max-height: min(52vh, 360px);
+      border-radius: var(--c-radius);
+    }
+
+    .pixel-town__hint {
+      display: none;
+    }
+
+    .pixel-town__spot-label {
+      opacity: 1;
+      font-size: 0.65rem;
+      padding: 0.1rem 0.3rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pixel-town__spot-label {
+      transition: none;
+    }
+  }
+</style>

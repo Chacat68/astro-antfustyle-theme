@@ -180,9 +180,9 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': '使用',
     'page.prs.subtitleSuffix': '展示你的 GitHub Pull Requests',
 
-    'page.home.title': '关于',
+    'page.home.title': '小镇',
     'page.home.description':
-      '付之一笑 — Charliefoo 的个人博客，专注于阅读、跑步、思考与创作，记录生活中的点滴感悟与技术探索。',
+      '付之一笑 — 走进 Charliefoo 的像素模拟小镇：逛博客、看项目、翻相册，在小镇里慢慢闲逛。',
 
     // Home content
     'home.intro1':
@@ -194,6 +194,20 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.findMeOn': '找到我：',
     'home.thanks':
       '感谢你阅读我的博客！如果这些内容对你有所启发或帮助，那就是对我最大的鼓励。你的支持和陪伴，意义非凡。谢谢！❤️',
+
+    // Home pixel town
+    'home.town.headline': '欢迎来到模拟小镇',
+    'home.town.lead': '点进屋子，去翻书、看作品、逛相册——小镇一直在慢慢运转。',
+    'home.town.ctaBlog': '走进书店',
+    'home.town.ctaProjects': '参观工坊',
+    'home.town.hint': '点击建筑前往栏目',
+    'home.town.aria': '像素模拟小镇场景',
+    'home.town.navAria': '小镇建筑导航',
+    'home.town.blog': '书店 · 博客',
+    'home.town.projects': '工坊 · 项目',
+    'home.town.photos': '照相馆',
+    'home.town.gallery': '画廊',
+    'home.town.friends': '咖啡馆 · 友链',
 
     // Language names
     'lang.zh': '中文',
@@ -380,9 +394,9 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': 'Display your GitHub pull requests using',
     'page.prs.subtitleSuffix': '',
 
-    'page.home.title': 'About',
+    'page.home.title': 'Town',
     'page.home.description':
-      "Charliefoo's personal blog focused on reading, running, thinking, and creating. Recording insights and technical explorations from life.",
+      "付之一笑 — step into Charliefoo's pixel sim town: browse the blog, projects, and photos while the town keeps humming.",
 
     // Home content
     'home.intro1':
@@ -394,6 +408,21 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.findMeOn': 'Find me on',
     'home.thanks':
       'Thanks for reading! If anything here helps or inspires you, that means a lot to me. Your support and company matter more than you know. Thank you! ❤️',
+
+    // Home pixel town
+    'home.town.headline': 'Welcome to the sim town',
+    'home.town.lead':
+      'Tap a building to read, browse projects, or flip through photos—the town keeps gently running.',
+    'home.town.ctaBlog': 'Enter the bookshop',
+    'home.town.ctaProjects': 'Visit the workshop',
+    'home.town.hint': 'Click a building to explore',
+    'home.town.aria': 'Pixel simulated town scene',
+    'home.town.navAria': 'Town building navigation',
+    'home.town.blog': 'Bookshop · Blog',
+    'home.town.projects': 'Workshop · Projects',
+    'home.town.photos': 'Photo studio',
+    'home.town.gallery': 'Gallery',
+    'home.town.friends': 'Café · Friends',
 
     // Language names
     'lang.zh': '中文',

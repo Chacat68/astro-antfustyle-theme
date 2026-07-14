@@ -51,13 +51,25 @@
 
 | `bgType` | 组件 | 典型页面 |
 |----------|------|----------|
-| `wave` | SVG 正弦波（天空蓝） | 首页 |
+| `wave` | SVG 正弦波（天空蓝） | 备用（原首页） |
 | `dot` | p5 噪点场（天空蓝微染） | 博客列表、项目、友链 |
 | `plum` | canvas 梅枝（天空蓝微染） | releases / prs |
 | `rose` | SVG 花瓣 | **文章 / changelog 正文**（`RenderPost`） |
 | `particle` | p5 粒子（天空蓝微染） | shorts |
 | `constellation` | p5 星座（天空蓝） | 按需 |
-| `false` | 无背景 | 相册、画廊、changelog 列表等内容密集页 |
+| `false` | 无背景 | **首页**（改用像素小镇）、相册、画廊、changelog 列表等内容密集页 |
+
+## 首页：像素模拟小镇
+
+首页不再使用 `wave` 装饰底，而由 `src/components/home/PixelTown.astro` 承担主视觉：
+
+- 逻辑画布 **320×180**，`image-rendering: pixelated` 最近邻放大
+- 建筑热点跳转：书店→博客、工坊→项目、照相馆→相册、画廊、咖啡馆→友链
+- 轻量模拟：云、烟囱烟、村民沿小路行走；深色模式切夜景窗灯
+- 无 p5（避免首屏多加载 ~1MB）；尊重 `prefers-reduced-motion`（静止首帧）
+- 文案：品牌「付之一笑」优先，一句 headline + lead + 两个 CTA；样式在 `page.css` 的 `.home-sim*`
+
+详细说明见 [pixel-town-home.md](./pixel-town-home.md)。
 
 ## 样式文件分层
 

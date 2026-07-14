@@ -16,6 +16,101 @@
   font-size: 1.04em;
 }
 
+/* Home: pixel sim town */
+.home-sim {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.home-sim__hero {
+  margin-bottom: 1.25rem;
+}
+
+.home-sim__brand {
+  margin: 0 0 0.35rem;
+  color: var(--c-accent);
+  font-family: var(--uno-font-mono, ui-monospace, monospace);
+  font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+
+.home-sim__title {
+  margin: 0 0 0.55rem;
+  color: var(--c-text);
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.home-sim__lead {
+  max-width: 36rem;
+  margin: 0 0 1rem;
+  color: var(--c-muted);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.home-sim__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 0.25rem;
+}
+
+.home-sim__btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.9rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius);
+  font-size: 0.9rem;
+  text-decoration: none !important;
+  transition:
+    background var(--duration) var(--ease-out),
+    border-color var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease-out);
+}
+
+.home-sim__btn--primary {
+  border-color: color-mix(in srgb, var(--c-accent) 45%, var(--c-border));
+  background: color-mix(in srgb, var(--c-accent-soft) 80%, var(--c-surface));
+  color: var(--fg-deeper);
+  opacity: 1 !important;
+}
+
+.home-sim__btn--primary:hover,
+.home-sim__btn--primary:focus-visible {
+  border-color: var(--c-accent);
+  background: var(--c-accent-soft);
+  transform: translateY(-1px);
+}
+
+.home-sim__btn--ghost {
+  background: transparent;
+  color: var(--c-text);
+  opacity: 0.85 !important;
+}
+
+.home-sim__btn--ghost:hover,
+.home-sim__btn--ghost:focus-visible {
+  border-color: var(--c-border);
+  background: var(--c-surface-hover);
+  opacity: 1 !important;
+  transform: translateY(-1px);
+}
+
+.home-sim__body {
+  margin-top: 2rem;
+}
+
+.home-sim .pixel-town {
+  margin-block: 0.5rem 0.25rem;
+}
+
 .prose .home-roles {
   position: relative;
   padding: 0.85rem 1rem 0.85rem 1.15rem;

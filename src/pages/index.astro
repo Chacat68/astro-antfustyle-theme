@@ -1,13 +1,14 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import StandardLayout from '~/layouts/StandardLayout.astro'
+import PixelTown from '~/components/home/PixelTown.astro'
 import LatestPosts from '~/components/widgets/LatestPosts.astro'
-import { UI } from '~/config'
+import { UI, SITE } from '~/config'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-// 页面文案统一由 i18n（page.home.*）提供
 const page = {
-  bgType: 'wave',
+  bgType: false,
   ogImage: false,
 } as const
 
@@ -19,6 +20,10 @@ const socialLabel = (title: string) => {
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+const blogHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, 'blog'))
+const projectsHref = ensureTrailingSlash(
+  getRelativeLocaleUrl(locale, 'projects')
+)
 ---
 
 <BaseLayout
@@ -27,10 +32,26 @@ const t = useTranslations(locale)
   bgType={page.bgType}
   ogImage={page.ogImage}
 >
-  <StandardLayout title={t('page.home.title')}>
-    <Fragment slot="article">
-      <p class="slide-enter-instant">{t('home.intro1')}</p>
-      <p class="slide-enter-instant">{t('home.intro2')}</p>
+  <div class="home-sim">
+    <header class="home-sim__hero slide-enter-instant">
+      <p class="home-sim__brand">{SITE.title}</p>
+      <h1 class="home-sim__title">{t('home.town.headline')}</h1>
+      <p class="home-sim__lead">{t('home.town.lead')}</p>
+      <div class="home-sim__cta">
+        <a href={blogHref} class="home-sim__btn home-sim__btn--primary">
+          {t('home.town.ctaBlog')}
+        </a>
+        <a href={projectsHref} class="home-sim__btn home-sim__btn--ghost">
+          {t('home.town.ctaProjects')}
+        </a>
+      </div>
+    </header>
+
+    <PixelTown />
+
+    <article class="home-sim__body prose slide-enter-content">
+      <p>{t('home.intro1')}</p>
+      <p>{t('home.intro2')}</p>
 
       <p class="home-roles">
         <strong>{t('home.roles')}</strong>
@@ -38,7 +59,7 @@ const t = useTranslations(locale)
 
       <hr />
 
-      <LatestPosts limit={10} />
+      <LatestPosts limit={8} />
 
       <hr />
 
@@ -65,6 +86,6 @@ const t = useTranslations(locale)
       <hr />
 
       <p>{t('home.thanks')}</p>
-    </Fragment>
-  </StandardLayout>
+    </article>
+  </div>
 </BaseLayout>
