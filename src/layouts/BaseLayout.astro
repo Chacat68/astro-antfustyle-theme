@@ -1,6 +1,7 @@
 ---
 import '@unocss/reset/tailwind.css'
 import '~/styles/main.css'
+import '~/styles/hud.css'
 import '~/styles/prose.css'
 import '~/styles/markdown.css'
 import '~/styles/page.css'
@@ -89,7 +90,7 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
 
   <body
     class="relative flex flex-col min-h-screen
-      font-sans text-gray-700 dark:text-gray-200"
+      font-sans text-[var(--c-text)]"
     style={Object.keys(style).length !== 0 ? style : undefined}
     data-no-sliding={enableSlideEnterAnim ? undefined : ''}
   >

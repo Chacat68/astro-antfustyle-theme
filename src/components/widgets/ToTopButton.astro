@@ -8,13 +8,13 @@ const t = useTranslations(locale)
 <button
   id="to-top-button"
   class="z-50 fixed right-5 bottom-6
-    w-10 h-10 rounded-full
+    w-10 h-10 rounded-[var(--c-radius)]
     op-0 pointer-events-none op-transition
-    lt-lgp:(op-50! bg-#8883 dark:bg-#8886 pointer-events-auto!)
-    hover:(op-100! bg-#8883) print:hidden"
+    lt-lgp:(op-50! bg-[var(--c-accent-soft)] border border-[var(--c-border)] pointer-events-auto!)
+    hover:(op-100! bg-[var(--c-accent-soft)]) print:hidden"
   title={t('a11y.scrollToTop')}
 >
-  <div u-i-ri-arrow-up-line></div>
+  <div u-i-ri-arrow-up-line class="text-[var(--c-accent)]"></div>
 </button>
 
 <script>

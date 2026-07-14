@@ -21,7 +21,7 @@ export function isDarkTheme(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches
 }
 
-/** 背景装饰用的天空蓝描边色（含透明度） */
+/** 背景装饰用的青蓝霓虹描边色（含透明度） */
 export function accentStrokeColor(): string {
-  return isDarkTheme() ? '#38bdf822' : '#0284c720'
+  return isDarkTheme() ? '#22d3ee22' : '#0891b220'
 }

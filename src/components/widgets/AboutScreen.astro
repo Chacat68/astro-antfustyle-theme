@@ -18,22 +18,22 @@ const roles = [
 ---
 
 <section class="about-screen slide-enter-instant" aria-labelledby="about-screen-title">
-  <div class="about-screen__frame">
-    <span class="about-screen__corner about-screen__corner--tl" aria-hidden="true"></span>
-    <span class="about-screen__corner about-screen__corner--tr" aria-hidden="true"></span>
-    <span class="about-screen__corner about-screen__corner--bl" aria-hidden="true"></span>
-    <span class="about-screen__corner about-screen__corner--br" aria-hidden="true"></span>
+  <div class="about-screen__frame hud-frame">
+    <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+    <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+    <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+    <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
 
-    <div class="about-screen__scanlines" aria-hidden="true"></div>
+    <div class="hud-scanlines about-screen__scanlines" aria-hidden="true"></div>
     <div class="about-screen__sweep" aria-hidden="true"></div>
 
     <header class="about-screen__chrome">
       <div class="about-screen__chrome-left">
-        <span class="about-screen__led" aria-hidden="true"></span>
-        <span class="about-screen__tag font-mono">{t('home.screen.tag')}</span>
+        <span class="hud-led" aria-hidden="true"></span>
+        <span class="hud-label about-screen__tag">{t('home.screen.tag')}</span>
       </div>
-      <span class="about-screen__status font-mono">
-        <span class="about-screen__status-dot" aria-hidden="true"></span>
+      <span class="hud-status about-screen__status">
+        <span class="hud-led hud-led--sm" aria-hidden="true"></span>
         {t('home.screen.status')}
       </span>
     </header>
@@ -48,7 +48,7 @@ const roles = [
       <p class="about-screen__intro">{t('home.intro2')}</p>
 
       <div class="about-screen__modules">
-        <div class="about-screen__modules-label font-mono">
+        <div class="hud-label about-screen__modules-label">
           {t('home.screen.modules')}
         </div>
         <ul class="about-screen__module-list">
@@ -66,7 +66,7 @@ const roles = [
       </div>
     </div>
 
-    <footer class="about-screen__footer font-mono" aria-hidden="true">
+    <footer class="hud-label about-screen__footer" aria-hidden="true">
       <span>{t('home.screen.coords')}</span>
       <span class="about-screen__footer-sep">//</span>
       <span>{t('home.screen.signal')}</span>
@@ -76,29 +76,21 @@ const roles = [
 
 <style>
   .about-screen {
-    --about-glow: color-mix(in srgb, var(--c-accent) 35%, transparent);
-    --about-line: color-mix(in srgb, var(--c-accent) 55%, transparent);
+    --about-glow: var(--c-glow);
+    --about-line: var(--c-hud-line);
     --about-panel: color-mix(in srgb, var(--c-surface) 88%, var(--c-accent-soft));
-    --about-scan: 4.5%;
     --about-grid: 3%;
 
     margin-block: 0 1.75rem;
   }
 
   :global(:root.dark) .about-screen {
-    --about-glow: color-mix(in srgb, var(--c-accent) 55%, transparent);
     --about-panel: color-mix(in srgb, #0b1016 82%, var(--c-accent-soft));
-    --about-scan: 8%;
     --about-grid: 6%;
   }
 
   .about-screen__frame {
-    position: relative;
-    overflow: hidden;
     padding: 1rem 1.15rem 0.85rem;
-
-    border: 1px solid color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
-    border-radius: var(--c-radius-lg);
     background:
       linear-gradient(
         180deg,
@@ -120,10 +112,6 @@ const roles = [
       22px 22px,
       22px 22px,
       auto;
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--c-accent) 10%, transparent) inset,
-      0 0 24px color-mix(in srgb, var(--c-accent) 12%, transparent),
-      var(--c-shadow);
   }
 
   :global(:root.dark) .about-screen__frame {
@@ -133,59 +121,13 @@ const roles = [
       0 12px 40px rgba(0, 0, 0, 0.45);
   }
 
-  .about-screen__corner {
-    position: absolute;
-    z-index: 3;
-    width: 0.7rem;
-    height: 0.7rem;
-    border-color: var(--c-accent);
-    border-style: solid;
-    pointer-events: none;
-  }
-
-  .about-screen__corner--tl {
-    top: 0.35rem;
-    left: 0.35rem;
-    border-width: 1.5px 0 0 1.5px;
-  }
-
-  .about-screen__corner--tr {
-    top: 0.35rem;
-    right: 0.35rem;
-    border-width: 1.5px 1.5px 0 0;
-  }
-
-  .about-screen__corner--bl {
-    bottom: 0.35rem;
-    left: 0.35rem;
-    border-width: 0 0 1.5px 1.5px;
-  }
-
-  .about-screen__corner--br {
-    right: 0.35rem;
-    bottom: 0.35rem;
-    border-width: 0 1.5px 1.5px 0;
-  }
-
   .about-screen__scanlines {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 2px,
-      color-mix(in srgb, var(--c-accent) var(--about-scan), transparent) 2px,
-      color-mix(in srgb, var(--c-accent) var(--about-scan), transparent) 3px
-    );
+    /* 覆盖共享 scanlines 的强度，适配 About 面板 */
     opacity: 0.55;
-    mix-blend-mode: soft-light;
   }
 
   :global(:root.dark) .about-screen__scanlines {
     opacity: 0.72;
-    mix-blend-mode: screen;
   }
 
   .about-screen__sweep {
@@ -230,26 +172,6 @@ const roles = [
     min-width: 0;
   }
 
-  .about-screen__led {
-    flex-shrink: 0;
-    width: 0.42rem;
-    height: 0.42rem;
-    border-radius: 50%;
-    background: var(--c-accent);
-    box-shadow: 0 0 8px var(--about-glow);
-    animation: about-screen-blink 1.8s steps(1, end) infinite;
-  }
-
-  .about-screen__tag,
-  .about-screen__status,
-  .about-screen__modules-label,
-  .about-screen__footer {
-    color: color-mix(in srgb, var(--c-accent) 78%, var(--c-muted));
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
   .about-screen__tag {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -257,19 +179,7 @@ const roles = [
   }
 
   .about-screen__status {
-    display: inline-flex;
     flex-shrink: 0;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
-  .about-screen__status-dot {
-    width: 0.35rem;
-    height: 0.35rem;
-    border-radius: 50%;
-    background: var(--c-accent);
-    box-shadow: 0 0 6px var(--about-glow);
-    animation: about-screen-blink 1.2s steps(1, end) infinite;
   }
 
   .about-screen__title {
@@ -385,16 +295,6 @@ const roles = [
     }
   }
 
-  @keyframes about-screen-blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.2;
-    }
-  }
-
   @media (max-width: 639.9px) {
     .about-screen__frame {
       padding: 0.9rem 0.85rem 0.75rem;
@@ -421,20 +321,10 @@ const roles = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .about-screen__sweep,
-    .about-screen__led,
-    .about-screen__status-dot {
-      animation: none;
-    }
-
     .about-screen__sweep {
+      animation: none;
       will-change: auto;
       opacity: 0;
-    }
-
-    .about-screen__led,
-    .about-screen__status-dot {
-      opacity: 1;
     }
   }
 </style>

@@ -25,13 +25,18 @@ const latestPosts = sortedPosts.slice(0, limit)
 ---
 
 <section class="latest-posts" aria-labelledby="latest-posts-heading">
-  <h2 id="latest-posts-heading">{t('widget.latestPosts')}</h2>
+  <div class="latest-posts__header">
+    <span class="hud-label" aria-hidden="true">// BLOG_FEED</span>
+    <h2 id="latest-posts-heading">{t('widget.latestPosts')}</h2>
+  </div>
   <ol class="latest-post-list">
     {
       latestPosts.map((post) => (
         <li class="latest-post-item">
-          <a class="latest-post-link" href={toPostHref(post.id)}>
-            <span class="latest-post-meta">
+          <a class="latest-post-link hud-frame" href={toPostHref(post.id)}>
+            <span class="hud-corner hud-corner--tl" aria-hidden="true" />
+            <span class="hud-corner hud-corner--br" aria-hidden="true" />
+            <span class="latest-post-meta font-mono">
               <time datetime={post.data.pubDate?.toISOString()}>
                 {post.data.pubDate &&
                   formatDate(post.data.pubDate, false, false, dateLocale)}
@@ -58,6 +63,21 @@ const latestPosts = sortedPosts.slice(0, limit)
     margin-block: 2.25rem 2rem;
   }
 
+  .latest-posts__header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .latest-posts__header .hud-label {
+    opacity: 0.7;
+  }
+
+  .latest-posts__header h2 {
+    margin: 0 !important;
+  }
+
   .latest-post-list {
     display: grid;
     gap: 0.75rem;
@@ -81,12 +101,9 @@ const latestPosts = sortedPosts.slice(0, limit)
     gap: 0.35rem;
 
     padding: 0.9rem 1rem;
-    border: 1px solid var(--c-border) !important;
-    border-radius: var(--c-radius, 0.5rem);
+    border-radius: var(--c-radius) !important;
 
     color: inherit;
-    background: var(--c-surface);
-    box-shadow: var(--c-shadow);
     opacity: 1 !important;
     text-decoration: none;
 
@@ -101,7 +118,7 @@ const latestPosts = sortedPosts.slice(0, limit)
   .latest-post-link:focus-visible {
     border-color: color-mix(
       in srgb,
-      var(--c-accent) 34%,
+      var(--c-accent) 40%,
       var(--c-border)
     ) !important;
     background: color-mix(in srgb, var(--c-surface) 78%, var(--c-accent-soft));
@@ -116,7 +133,8 @@ const latestPosts = sortedPosts.slice(0, limit)
     gap: 0.45rem;
 
     color: var(--c-muted);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
     line-height: 1.4;
   }
 
@@ -149,6 +167,22 @@ const latestPosts = sortedPosts.slice(0, limit)
 
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+  }
+
+  .latest-post-link .hud-corner {
+    width: 0.45rem;
+    height: 0.45rem;
+    opacity: 0.7;
+  }
+
+  .latest-post-link .hud-corner--tl {
+    top: 0.25rem;
+    left: 0.25rem;
+  }
+
+  .latest-post-link .hud-corner--br {
+    right: 0.25rem;
+    bottom: 0.25rem;
   }
 
   @media (max-width: 767.9px) {

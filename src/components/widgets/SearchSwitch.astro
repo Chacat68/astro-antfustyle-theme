@@ -51,8 +51,8 @@ const searchPanelI18n = JSON.stringify({
   id="search-panel"
   class={`hidden z-200 fixed top-50vh left-50vw translate-x--50% translate-y--50%
     grid-rows-[auto_1fr_auto]
-    w-42rem lt-lgp:(w-90%) max-h-70vh lt-lgp:(max-h-80vh) p-3 lt-lgp:(pb-1) rounded-lg
-    text-(--c-text) bg-(--c-bg) shadow-custom_0_0_10_0`}
+    w-42rem lt-lgp:(w-90%) max-h-70vh lt-lgp:(max-h-80vh) p-3 lt-lgp:(pb-1)
+    text-(--c-text) search-panel-hud`}
   aria-modal="true"
   aria-labelledby="search-label"
   aria-keyshortcuts="ArrowUp,ArrowDown,Enter,Esc"
@@ -61,13 +61,17 @@ const searchPanelI18n = JSON.stringify({
   data-max-items={maxItems}
   data-i18n={searchPanelI18n}
 >
+  <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+  <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+  <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+  <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
   <div class="flex flex-col gap-2">
     <!-- Tab list -->
     {
       filterEnabled && (
         <div
           role="tablist"
-          class="search-tabs flex gap-2 justify-start items-center text-xs"
+          class="search-tabs flex gap-2 justify-start items-center text-xs font-mono"
           aria-label={t('a11y.searchCategories')}
         >
           {includes.map((item) => (
@@ -75,7 +79,7 @@ const searchPanelI18n = JSON.stringify({
               type="button"
               role="tab"
               class="px-1.5 py-0.5 rounded
-                bg-[#88888816]! dark:bg-[#88888823]!
+                bg-[var(--c-accent-soft)]!
                 aria-[selected=false]:op-40 aria-[selected=true]:op-100
                 aria-[selected=false]:hover:op-70 op-transition cursor-pointer"
               data-type={item.toLowerCase()}
@@ -88,11 +92,15 @@ const searchPanelI18n = JSON.stringify({
     }
     <!-- Search Bar -->
     <div
-      class="grid grid-cols-[auto_1fr] items-center
+      class="grid grid-cols-[auto_auto_1fr] items-center
         h-10 px-3 rounded-md
-        bg-[#88888811] dark:bg-[#88888818]"
+        bg-[var(--c-accent-soft)] border border-[var(--c-border)]"
     >
-      <div u-i-grommet-icons-search></div>
+      <span
+        class="font-mono text-(--c-accent) op-70 pr-1 select-none"
+        aria-hidden="true">&gt;</span
+      >
+      <div u-i-grommet-icons-search class="op-60"></div>
       <label for="search-input" id="search-label" class="sr-only">
         {t('a11y.search')}
       </label>
@@ -100,7 +108,7 @@ const searchPanelI18n = JSON.stringify({
         type="search"
         role="combobox"
         id="search-input"
-        class="h-full pl-2 bg-transparent outline-0"
+        class="col-start-3 h-full pl-2 bg-transparent outline-0 font-mono"
         autocomplete="off"
         autocorrect="off"
         spellcheck="false"
@@ -151,7 +159,7 @@ const searchPanelI18n = JSON.stringify({
   <footer role="note" aria-label={t('a11y.keyboardShortcuts')}>
     <ul
       class="flex flex-wrap items-center gap-4.5 lt-md:hidden
-        pt-3 border-t border-[#7d7d7d4d]
+        pt-3 border-t border-[var(--c-border)]
         text-xs op-40 select-none"
     >
       <li class="flex items-center gap-1">
@@ -180,6 +188,24 @@ const searchPanelI18n = JSON.stringify({
 <style>
   search-panel:not(.hidden) {
     display: grid;
+  }
+
+  .search-panel-hud {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
+    border-radius: var(--c-radius-lg);
+    background: var(--c-bg);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--c-accent) 8%, transparent) inset,
+      var(--c-shadow-hover);
+  }
+
+  :global(:root.dark) .search-panel-hud {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--c-accent) 14%, transparent) inset,
+      0 0 28px color-mix(in srgb, var(--c-glow) 35%, transparent),
+      var(--c-shadow-hover);
   }
 </style>
 

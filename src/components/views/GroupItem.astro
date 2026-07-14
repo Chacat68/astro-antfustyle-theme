@@ -26,9 +26,9 @@ const { maxGroupColumns, showGroupItemColorOnHover } = UI.groupView
   {
     items.map((item) => (
       <Link
-        class={`group relative flex items-center
-          px-3.5 pt-2 pb-3.5 rounded-md
-          bg-transparent hover:bg-[var(--c-accent-soft)]
+        class={`group-item-link group relative flex items-center
+          px-3.5 pt-2 pb-3.5 rounded-[var(--c-radius)]
+          bg-transparent
           text-4.4 transition-all duration-300`}
         href={item.link}
         aria-hidden={true}
@@ -50,10 +50,22 @@ const { maxGroupColumns, showGroupItemColorOnHover } = UI.groupView
         </div>
         <div class="flex-auto">
           <div>{item.id}</div>
-          <div class="op-50 text-sm font-normal">{item.desc}</div>
+          <div class="op-50 text-sm font-normal font-mono tracking-wide">{item.desc}</div>
         </div>
       </Link>
     ))
   }
 </div>
+
+<style>
+  .group-item-link {
+    border: 1px solid transparent;
+  }
+
+  .group-item-link:hover,
+  .group-item-link:focus-visible {
+    border-color: color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
+    background: var(--c-accent-soft);
+  }
+</style>
 

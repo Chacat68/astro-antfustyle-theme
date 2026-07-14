@@ -8,13 +8,13 @@ const t = useTranslations(locale)
 <button
   id="toc-open-button"
   class="z-50 fixed right-5 bottom-18
-    w-10 h-10 rounded-full
-    op-0 bg-#8883 dark:bg-#8886 pointer-events-none op-transition
+    w-10 h-10 rounded-[var(--c-radius)]
+    op-0 bg-[var(--c-accent-soft)] border border-[var(--c-border)] pointer-events-none op-transition
     lt-lgp:(op-50 pointer-events-auto)
     hover:op-100 print:hidden"
   title={t('a11y.openToc')}
 >
-  <div u-i-lucide-table-of-contents class="text-gray-700 dark:text-gray-200">
+  <div u-i-lucide-table-of-contents class="text-[var(--c-text)]">
   </div>
 </button>
 
@@ -22,8 +22,8 @@ const t = useTranslations(locale)
   id="toc-panel"
   class="hidden! z-200 fixed top-10% left-50% translate-x--50%
     overflow-y-auto flex-col
-    w-90% max-h-80vh py-4 px-6 rounded-lg
-    bg-(--c-bg) shadow-custom_0_0_10_0 text-(--c-text)"
+    w-90% max-h-80vh py-4 px-6 rounded-[var(--c-radius-lg)]
+    bg-(--c-bg) border border-[var(--c-border)] shadow-custom_0_0_10_0 text-(--c-text)"
 >
   <div class="pb-1 b-b b-(--c-text)">{t('toc.title')}</div>
   <ul class="text-sm">

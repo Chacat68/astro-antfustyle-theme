@@ -64,7 +64,7 @@ export const ogImageMarkup = (
       </div>
 
       <div tw="flex flex-col" style="gap: 10px">
-        <div tw="text-[#858585] text-2.1rem">${authorOrBrand}</div>
+        <div tw="text-[#67e8f9] text-2.1rem">${authorOrBrand}</div>
         <div tw="text-white text-3.1rem leading-relaxed mr-18">${title}</div>
       </div>
     </div>

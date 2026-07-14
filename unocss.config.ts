@@ -67,12 +67,12 @@ const socialIcons = socialLinks
 
 const projectIcons = projecstData.map((item) => item.icon)
 
-// 青铜配色语义色
+// 终端青系语义色（与 HUD accent 同族）
 const githubVersionColor: Record<string, string> = {
-  major: 'bg-[#A67458]/20 text-[#8A5D42] dark:text-[#c08a6a]',
-  minor: 'bg-[#3E848C]/20 text-[#2a6068] dark:text-[#7AB8BF]',
-  patch: 'bg-[#7AB8BF]/20 text-[#3E848C] dark:text-[#C4EEF2]',
-  pre: 'bg-[#C4EEF2]/20 text-[#025159] dark:text-[#a0d5db]',
+  major: 'bg-[#0891b2]/20 text-[#0e7490] dark:text-[#67e8f9]',
+  minor: 'bg-[#0e7490]/20 text-[#155e75] dark:text-[#22d3ee]',
+  patch: 'bg-[#22d3ee]/20 text-[#0e7490] dark:text-[#a5f3fc]',
+  pre: 'bg-[#a5f3fc]/20 text-[#164e63] dark:text-[#67e8f9]',
 }
 const githubVersionClass = Object.keys(githubVersionColor).map(
   (k) => `github-${k}`
@@ -114,7 +114,7 @@ export default defineConfig({
     [
       /^btn-(\w+)$/,
       ([_, color]) =>
-        `px-2.5 py-1 border border-[#8884]! rounded op-50 transition-all duration-200 ease-out no-underline! hover:(op-100 text-${color} bg-${color}/10)`,
+        `px-2.5 py-1 border border-[var(--c-border)]! rounded op-50 transition-all duration-200 ease-out no-underline! hover:(op-100 text-${color} bg-${color}/10)`,
     ],
     [
       /^github-(major|minor|patch|pre)$/,

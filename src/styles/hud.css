@@ -1,0 +1,182 @@
+/**
+ * HUD primitives — 克制科幻壳层共享样式。
+ * 供 AboutScreen / Logo / LatestPosts / Search / Nav 等复用。
+ */
+
+/* —— 面板框 —— */
+.hud-frame {
+  position: relative;
+  overflow: hidden;
+
+  border: 1px solid color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
+  border-radius: var(--c-radius-lg);
+  background: var(--c-surface);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--c-accent) 8%, transparent) inset,
+    var(--c-shadow);
+}
+
+:root.dark .hud-frame {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--c-accent) 14%, transparent) inset,
+    0 0 20px color-mix(in srgb, var(--c-glow) 40%, transparent),
+    var(--c-shadow);
+}
+
+/* —— 四角括号（子元素或伪元素容器） —— */
+.hud-corners {
+  pointer-events: none;
+}
+
+.hud-corner {
+  position: absolute;
+  z-index: 3;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-color: var(--c-accent);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.hud-corner--tl {
+  top: 0.3rem;
+  left: 0.3rem;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.hud-corner--tr {
+  top: 0.3rem;
+  right: 0.3rem;
+  border-width: 1.5px 1.5px 0 0;
+}
+
+.hud-corner--bl {
+  bottom: 0.3rem;
+  left: 0.3rem;
+  border-width: 0 0 1.5px 1.5px;
+}
+
+.hud-corner--br {
+  right: 0.3rem;
+  bottom: 0.3rem;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+/* —— 扫描线 —— */
+.hud-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    color-mix(in srgb, var(--c-accent) 5%, transparent) 2px,
+    color-mix(in srgb, var(--c-accent) 5%, transparent) 3px
+  );
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+}
+
+:root.dark .hud-scanlines {
+  opacity: 0.65;
+  mix-blend-mode: screen;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    color-mix(in srgb, var(--c-accent) 8%, transparent) 2px,
+    color-mix(in srgb, var(--c-accent) 8%, transparent) 3px
+  );
+}
+
+/* —— LED / 状态点 —— */
+.hud-led {
+  flex-shrink: 0;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--c-accent);
+  box-shadow: 0 0 8px var(--c-glow);
+  animation: hud-blink 1.8s steps(1, end) infinite;
+}
+
+.hud-led--sm {
+  width: 0.35rem;
+  height: 0.35rem;
+  box-shadow: 0 0 6px var(--c-glow);
+  animation-duration: 1.2s;
+}
+
+/* —— mono 标签 / 状态栏 —— */
+.hud-label,
+.hud-status {
+  color: color-mix(in srgb, var(--c-accent) 78%, var(--c-muted));
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hud-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* —— 导航底部分割线 —— */
+.site-nav::after {
+  content: '';
+  position: absolute;
+  right: 2rem;
+  bottom: 0.85rem;
+  left: 2rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--c-hud-line) 12%,
+    var(--c-hud-line) 88%,
+    transparent
+  );
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+@media (max-width: 767.9px) {
+  .site-nav::after {
+    right: 1.5rem;
+    left: 1.5rem;
+    bottom: 0.55rem;
+  }
+}
+
+.site-nav nav a[aria-current='page'] {
+  box-shadow: inset 0 -1.5px 0 0 var(--c-accent);
+}
+
+@keyframes hud-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-led {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@media print {
+  .site-nav::after,
+  .hud-scanlines,
+  .hud-corner {
+    display: none;
+  }
+}
