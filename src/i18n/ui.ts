@@ -187,30 +187,58 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
       '付之一笑 — Charliefoo 的个人博客入口。故障艺术视觉下的阅读、跑步、思考与创作。',
     'page.about.title': '关于',
     'page.about.description':
-      '付之一笑 — Charliefoo 的个人介绍：博客历史、数字花园与社交链接。',
+      '付之一笑 — Charliefoo 的个人介绍：博客历程、写作理念与联系方式。',
 
-    // About page — 博客故事
+    // About page — 博客故事与理念
     'about.blog.title': '关于博客',
-    'about.blog.lead': '先回顾一下博客的历史，它是我人生 10 余年的记录。',
-    'about.history.title': '博客历史',
-    'about.history.item1': '2008 年到 2013 年在网易博客上搭建',
-    'about.history.item2': '2013 年转移到 Lofter，持续创作到 2018',
+    'about.history.title': '博客历程',
+    'about.history.item1':
+      '<strong>2008-2013年</strong> 在网易平台写博客，通过博客结识了几位重要的朋友，也养成了记录生活的习惯',
+    'about.history.item2':
+      '<strong>2013-2016年</strong> 转移到Lofter继续创作，期间搬到上海生活，工作日渐繁忙，创作暂时搁置',
     'about.history.item3':
-      '2020 年重新把博客迁移到 Typlog，并最终把博客名称改成《付之一笑》',
-    'about.name.title': '《付之一笑》',
-    'about.name.p1':
-      '从 2020 年开始，遭遇了历史上难见的黑天鹅事件，人生的很多计划都被打乱了，在学习如何在这个混乱无序的时代生活下去。',
-    'about.name.p2':
-      '《付之一笑》取了我名字上的一个字，加上能笑看生活的期许。',
-    'about.name.p3':
-      '2022 年上旬，碰到了让生活停顿的事情，并且在下半年，工作也遭遇了成长危机，借此机会暂停了工作。',
-    'about.name.p4':
-      '当生活没有了主流叙事下的奋斗，让我开始思考，什么是生活中更有意义的事情。',
-    'about.name.p5':
-      '我开始筛检生活中的一切，当然也包括我在经营的博客，在少楠老师的《产品沉思录》里学习到「数字花园」的概念，打算把博客以数字花园的方式重新整理布置。',
-    'about.garden.title': '数字花园',
-    'about.garden.p1':
-      '「数字花园」是从少楠老师的《产品沉思录》里得知的。开始关注这个词之后，在不同的地方不断获取到这个词的新看法。2022 年初，对博客进行改版，借由数字花园的概念，把博客的内容整理并主题化。',
+      '<strong>2019年</strong> 重新启动博客，迁移到Typlog平台，正式将博客命名为《付之一笑》',
+    'about.history.item4':
+      '<strong>2023年</strong> 采用Notion+Vercel+Github技术方案，摆脱托管束缚，专注于内容创作',
+    'about.history.item5':
+      '<strong>2024年</strong> 加入《<a href="https://foreverblog.cn/" target="_blank" rel="noopener noreferrer">十年之约</a>》项目，立志持续更新十年以上',
+    'about.history.item6':
+      '<strong>2025年</strong> 使用Astro进行静态化重构，显著提升访问速度',
+    'about.philosophy.title': '博客理念',
+    'about.philosophy.time.title': '写出穿越时间的文字',
+    'about.philosophy.time.imgAlt': '写出穿越时间的文字配图',
+    'about.philosophy.time.p1':
+      '每一篇文字都带着我的主观色彩，这是无法避免的，也是珍贵的。我不追求绝对的客观，但我努力保持诚实——诚实地面对自己的局限，诚实地记录当下的思考。',
+    'about.philosophy.time.p2':
+      '文字是有生命力的。今天写下的句子，可能在明天看来稚嫩，在明年看来偏颇。但正是这种时间的痕迹，让文字变得真实而动人。我会不断地修剪、编辑，让那些经得起时间考验的思考重新绽放光彩。',
+    'about.philosophy.time.p3':
+      '就像园丁精心呵护花园一样，我希望这个数字空间能够四季常青，花开不败。',
+    'about.philosophy.free.title': '表达自由且克制',
+    'about.philosophy.free.imgAlt': '表达自由且克制配图',
+    'about.philosophy.free.p1':
+      '自由是我写作的起点，克制是我表达的边界。我相信真正的自由来自于对世界的深度理解，而不是肆意的宣泄。',
+    'about.philosophy.free.p2':
+      '在这里，我会从多个维度审视同一个问题，寻找那些跨越时代的智慧。我努力学习不同学科的思维模型，用它们来解构生活中的复杂现象，为自己和读者提供新的视角。',
+    'about.philosophy.free.p3':
+      '质疑是思考的开始，分析是理解的路径，思辨是智慧的体现。我希望每一篇文字都能经得起这样的检验。',
+    'about.philosophy.simple.title': '记录简单的生活',
+    'about.philosophy.simple.imgAlt': '记录简单的生活配图',
+    'about.philosophy.simple.p1':
+      '复杂的世界需要简单的生活来平衡。我选择将精力集中在真正重要的事情上，减少不必要的选择疲劳，为创作留出更多的心理空间。',
+    'about.philosophy.simple.lead': '生活的简单体现在三个维度：',
+    'about.philosophy.simple.item1':
+      '<strong>身体层面</strong> — 保持规律的运动，让身体分泌更多快乐因子',
+    'about.philosophy.simple.item2':
+      '<strong>精神层面</strong> — 维持稳定的阅读与写作节奏，保持大脑的活跃状态',
+    'about.philosophy.simple.item3':
+      '<strong>社会层面</strong> — 主动观察世界的多样性，避免陷入信息茧房的陷阱',
+    'about.philosophy.simple.p2':
+      '简单不是贫乏，而是对复杂性的有意选择。',
+    'about.contact.title': '与我联系',
+    'about.contact.p1':
+      '感谢你耐心读到这里，也感谢你对我和这个数字花园的关注。如果我的文字触动了你，或者你有任何想法想要分享，都非常欢迎与我交流。',
+    'about.contact.p2': '每一次真诚的对话都是珍贵的礼物。',
+    'about.contact.email': '邮件：',
 
     // Home content
     'home.glitch.line1': '付之',
@@ -423,31 +451,58 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
       "Charliefoo's personal blog portal — reading, running, thinking, and creating, framed in glitch art.",
     'page.about.title': 'About',
     'page.about.description':
-      "About Charliefoo — blog history, digital garden, and social links.",
+      "About Charliefoo — blog journey, writing philosophy, and how to get in touch.",
 
-    // About page — blog story
+    // About page — blog story & philosophy
     'about.blog.title': 'About this blog',
-    'about.blog.lead':
-      'A quick look back at the blog’s history—it’s a record of more than ten years of my life.',
-    'about.history.title': 'Blog history',
-    'about.history.item1': '2008–2013: started on NetEase Blog',
-    'about.history.item2': '2013–2018: moved to Lofter and kept writing',
+    'about.history.title': 'Blog journey',
+    'about.history.item1':
+      '<strong>2008–2013</strong> Wrote on NetEase Blog; made a few lasting friends and formed the habit of keeping a journal',
+    'about.history.item2':
+      '<strong>2013–2016</strong> Moved to Lofter; life in Shanghai got busier and writing went on pause',
     'about.history.item3':
-      '2020: migrated to Typlog and eventually renamed the blog 《付之一笑》 (Foo-Z)',
-    'about.name.title': '《付之一笑》',
-    'about.name.p1':
-      'Since 2020, rare black-swan events have scrambled many of my life plans. I’ve been learning how to live through a messy, disordered era.',
-    'about.name.p2':
-      '《付之一笑》 takes a character from my name, plus a hope that I can smile at life as it comes.',
-    'about.name.p3':
-      'In early 2022, something brought life to a halt; later that year, work hit a growth crisis, and I used the chance to pause my job.',
-    'about.name.p4':
-      'Without the mainstream narrative of striving, I started asking what in life actually feels meaningful.',
-    'about.name.p5':
-      'I began sorting through everything—including this blog. From Shaonan’s Product Thinking Letter I learned the idea of a “digital garden,” and decided to rearrange the blog that way.',
-    'about.garden.title': 'Digital garden',
-    'about.garden.p1':
-      'I first met “digital garden” in Shaonan’s Product Thinking Letter. Once I started noticing the phrase, new takes on it kept showing up elsewhere. In early 2022 I redesigned the blog around that idea—sorting the content and organizing it by themes.',
+      '<strong>2019</strong> Restarted on Typlog and named the blog 《付之一笑》 (Foo-Z)',
+    'about.history.item4':
+      '<strong>2023</strong> Switched to Notion + Vercel + GitHub—own the stack, focus on writing',
+    'about.history.item5':
+      '<strong>2024</strong> Joined <a href="https://foreverblog.cn/" target="_blank" rel="noopener noreferrer">Forever Blog</a>, committing to keep updating for ten years and beyond',
+    'about.history.item6':
+      '<strong>2025</strong> Rebuilt as a static site with Astro for a much faster experience',
+    'about.philosophy.title': 'Writing philosophy',
+    'about.philosophy.time.title': 'Words that travel through time',
+    'about.philosophy.time.imgAlt': 'Illustration for words that travel through time',
+    'about.philosophy.time.p1':
+      'Every piece carries my subjectivity—that’s unavoidable, and precious. I don’t chase absolute objectivity, but I try to stay honest: honest about my limits, honest about what I think right now.',
+    'about.philosophy.time.p2':
+      'Words are alive. A sentence written today may look naive tomorrow and one-sided next year. That trace of time is what makes writing feel real. I keep pruning and editing so ideas that hold up can bloom again.',
+    'about.philosophy.time.p3':
+      'Like a gardener tending a plot, I hope this digital space stays green through the seasons—flowers that don’t fade.',
+    'about.philosophy.free.title': 'Free, yet restrained',
+    'about.philosophy.free.imgAlt': 'Illustration for free yet restrained expression',
+    'about.philosophy.free.p1':
+      'Freedom is where writing starts; restraint is its boundary. Real freedom comes from understanding the world deeply—not from dumping everything without care.',
+    'about.philosophy.free.p2':
+      'Here I look at the same question from several angles, hunting for wisdom that lasts across eras. I borrow mental models from different fields to unpack everyday complexity, and offer fresh frames for myself and for readers.',
+    'about.philosophy.free.p3':
+      'Doubt begins thought; analysis charts the path; discernment is wisdom in practice. I hope every piece can stand that test.',
+    'about.philosophy.simple.title': 'Recording a simple life',
+    'about.philosophy.simple.imgAlt': 'Illustration for recording a simple life',
+    'about.philosophy.simple.p1':
+      'A complex world needs a simple life for balance. I put energy into what matters, cut decision fatigue, and leave more mental room for making things.',
+    'about.philosophy.simple.lead': 'Simplicity shows up in three layers:',
+    'about.philosophy.simple.item1':
+      '<strong>Body</strong> — steady movement, more of the chemistry that feels like joy',
+    'about.philosophy.simple.item2':
+      '<strong>Mind</strong> — a stable rhythm of reading and writing to keep the mind awake',
+    'about.philosophy.simple.item3':
+      '<strong>Society</strong> — actively notice diversity, and dodge the information cocoon',
+    'about.philosophy.simple.p2':
+      'Simple isn’t scarce—it’s choosing complexity on purpose.',
+    'about.contact.title': 'Get in touch',
+    'about.contact.p1':
+      'Thanks for reading this far, and for caring about me and this digital garden. If something here moved you, or you have thoughts to share, I’d love to hear from you.',
+    'about.contact.p2': 'Every sincere conversation is a rare gift.',
+    'about.contact.email': 'Email: ',
 
     // Home content
     'home.glitch.line1': 'FOO',

@@ -81,7 +81,7 @@
 | 舞台动效 | 弧线 / 波纹 / 能量带 / 线框常驻运动；切片与闪白保持低频 |
 | 左下 | 社交媒体（`UI.socialLinks`，标签 `SIG`） |
 | 右下 | 搜索 / 语言 / 日夜 / RSS / 更新日志（标签 `SYS`；顶栏 Logo+导航隐藏） |
-| About | 已迁至 [`/about`](../src/pages/about.astro)（个人简介 + 博客历史 / 数字花园 + 社交） |
+| About | 已迁至 [`/about`](../src/pages/about.astro)（个人简介 + 博客历程 / 理念配图 + 联系方式 / 社交） |
 | 布局 | `mainClass="home-main"` + `minimalChrome`（隐藏导航栏与页脚）；首页锁 `overflow` 避免滚动条黑边 |
 | 舞台稳定 | `uTime` 周期化；监听 WebGL context lost/restored 与 `visibilitychange`，避免长时黑屏 |
 
