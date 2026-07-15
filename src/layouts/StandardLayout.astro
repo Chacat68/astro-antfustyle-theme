@@ -16,25 +16,18 @@ const {
   searchFilter,
   class: className,
 } = Astro.props
-
-const hasHeadSlot = Astro.slots.has('head')
-const showHeader = Boolean(title || subtitle || hasHeadSlot)
 ---
 
-{
-  showHeader && (
-    <header
-      class:list={{
-        'page-header prose mx-auto mb-8': true,
-        'text-center': isCentered,
-      }}
-    >
-      {title && <h1>{title}</h1>}
-      {subtitle && <p class="mt--4! op-50 italic">{subtitle}</p>}
-      <slot name="head" />
-    </header>
-  )
-}
+<header
+  class:list={{
+    'page-header prose mx-auto mb-8': true,
+    'text-center': isCentered,
+  }}
+>
+  {title && <h1>{title}</h1>}
+  {subtitle && <p class="page-header__subtitle op-50 italic">{subtitle}</p>}
+  <slot name="head" />
+</header>
 {
   Astro.slots.has('article') && (
     <article

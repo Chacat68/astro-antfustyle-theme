@@ -36,6 +36,10 @@ interface Props {
   availableLocales?: AppLocale[]
   canonicalLocale?: AppLocale
   noindex?: boolean
+  /** 追加到 `<main>` 的 class（如首页全屏 Hero 去 padding） */
+  mainClass?: string
+  /** 首页展示台：隐藏导航栏、页脚与回到顶部 */
+  minimalChrome?: boolean
 }
 
 const {
@@ -50,6 +54,8 @@ const {
   availableLocales,
   canonicalLocale,
   noindex,
+  mainClass,
+  minimalChrome = false,
 } = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
@@ -105,11 +111,14 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
       {t('a11y.skipToContent')}
     </Link>
 
-    <!-- Nav Bar -->
-    <NavBar />
+    <!-- Nav Bar（首页展示台由 GlitchHero 自带工具入口） -->
+    {!minimalChrome && <NavBar />}
 
     <!-- Main -->
-    <main id="main" class="relative px-5 py-8 sm:(px-7 py-10)">
+    <main
+      id="main"
+      class:list={['relative px-5 py-8 sm:(px-7 py-10)', mainClass]}
+    >
       <!-- Content -->
       <slot />
       <!-- Share -->
@@ -127,8 +136,8 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
     </main>
 
     <!-- Footer -->
-    <Footer />
-    <ToTopButton />
+    {!minimalChrome && <Footer />}
+    {!minimalChrome && <ToTopButton />}
 
     <!-- Panel Backdrop (on mobile) -->
     <Backdrop />

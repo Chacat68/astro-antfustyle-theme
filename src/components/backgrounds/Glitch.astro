@@ -1,0 +1,37 @@
+---
+/**
+ * 全站轻量故障艺术背景（Three.js）
+ */
+---
+
+<bg-glitch
+  class="glitch-bg z--1 fixed inset-0 pointer-events-none print:hidden"
+  aria-hidden="true"
+>
+</bg-glitch>
+
+<style>
+  .glitch-bg {
+    overflow: hidden;
+  }
+
+  .glitch-bg :global(canvas) {
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
+
+<script>
+  import { defineThreeBackground } from '~/components/backgrounds/three-background'
+
+  defineThreeBackground(
+    'bg-glitch',
+    async () => {
+      const { createGlitchEngine } = await import(
+        '~/components/backgrounds/glitch-engine'
+      )
+      return createGlitchEngine
+    },
+    { mode: 'lite' }
+  )
+</script>

@@ -1,8 +1,6 @@
 # 设计系统约定
 
-本站视觉方向：**极简 antfu + 青蓝 HUD（克制科幻）**。升级与新增样式时保持正文优先、低装饰，避免落地页式 Hero / 卡片墙 / 高饱和渐变。
-
-> 改造方案全文：[sci-fi-hud-redesign.md](./sci-fi-hud-redesign.md)
+本站视觉方向：**故障艺术（Glitch）+ 天空蓝 accent**，正文优先可读。渲染引擎为 **Three.js**（首页 `hero` 舞台 + 其余页 `lite` 背景）。
 
 ## Token 来源
 
@@ -10,32 +8,18 @@
 
 | Token | 用途 |
 |-------|------|
-| `--c-bg` / `--c-text` / `--c-muted` | 页面底色、正文、次要文字 |
+| `--c-bg` / `--c-text` / `--c-muted` | 页面底色、正文、次要文字（冷灰系，非暖奶油） |
 | `--c-surface` / `--c-surface-hover` / `--c-border` | 卡片/面板表面与描边 |
-| `--c-accent` / `--c-accent-soft` / `--c-accent-muted` | 品牌青蓝（浅 `#0891b2` / 深 `#22d3ee`；交互高亮、链接 hover、选中态） |
+| `--c-accent` / `--c-accent-soft` / `--c-accent-muted` | 品牌天空蓝（浅 `#0284c7` / 深 `#38bdf8`） |
+| `--c-glitch-red` / `--c-glitch-cyan` | 故障 RGB 辅色（悬停错位、描边投影） |
 | `--c-page-tint` | 顶部微渐变色调 |
-| `--c-hud-line` / `--c-hud-grid` / `--c-glow` | HUD 描边、网格底、发光（glow 仅 Logo / LED / 焦点） |
-| `--c-radius` / `--c-radius-sm` / `--c-radius-lg` | 圆角阶梯（略收锐） |
+| `--c-radius` / `--c-radius-sm` / `--c-radius-lg` | 圆角阶梯（偏利落小圆角） |
 | `--c-shadow` / `--c-shadow-hover` | 轻阴影 |
 | `--ease-out` / `--duration` / `--duration-fast` | 动效曲线与时长 |
 
 正文灰阶（`--fg` / `--fg-deep` / `--fg-deeper`）定义在 `src/styles/markdown.css` 的 `.prose` 上。
 
 **规则：** 新增组件优先引用上述 CSS 变量，避免再写硬编码灰阶或蓝系装饰色。
-
-## HUD Primitives
-
-共享样式在 `src/styles/hud.css`（由 `BaseLayout` 引入）：
-
-| 类名 | 用途 |
-|------|------|
-| `.hud-frame` | 面板表面 + accent 描边 |
-| `.hud-corner` + `--tl/tr/bl/br` | 四角括号 |
-| `.hud-scanlines` | 扫描线叠层 |
-| `.hud-led` / `.hud-led--sm` | 状态 LED |
-| `.hud-label` / `.hud-status` | mono 标签与状态栏 |
-
-导航底线与 active underline 也在此文件。尊重 `prefers-reduced-motion`。
 
 ## 字体
 
@@ -44,7 +28,7 @@
 | 角色 | 字体 | 用法 |
 |------|------|------|
 | `font-sans` | IBM Plex Sans | 全站 UI / 正文拉丁部分 |
-| `font-mono` | DM Mono | 代码、HUD 标签、PostMeta、列表日期 |
+| `font-mono` | DM Mono | 代码 |
 | `font-condensed` | IBM Plex Sans Condensed | 需要压缩显示的标签等 |
 | `font-serif` | Newsreader | `em` 斜体强调（见 `markdown.css`） |
 
@@ -54,15 +38,7 @@
 
 ## Logo
 
-`LogoButton.astro`：左侧 HUD 角标；右侧字标用 `opacity` + 光斑 `transform/opacity` 做呼吸（避免动画 `text-shadow`）；链接强制 `op-100!` 以免与 `Link` 默认 `op-60` 叠乘过暗。发光用 `--c-glow`。尊重 `prefers-reduced-motion`。
-
-## 首页 About 电子屏
-
-`AboutScreen.astro`：首页科幻 HUD 面板，消费 `.hud-frame` / `.hud-corner` / `.hud-scanlines` / `.hud-led` / `.hud-label`。文案走 `home.intro*` / `home.role.*` / `home.screen.*`。页面标题为「首页」，屏内 h1 使用 `sr-only` 隐藏。首屏继续用 `slide-enter-instant` 保 LCP。
-
-## 博客「网站数据统计」
-
-`SiteStats.astro`（博客列表页）：经营时间 / 总字数以大号数字强调，年份分布用比例条呈现。面板、描边、填充与 hover 统一走 `--c-accent*` / `--c-surface` / `--c-border` / `--c-shadow`；条形入场动画尊重 `prefers-reduced-motion`。文案键：`sitestats.*`。
+`LogoButton.astro`：故障艺术字标。左侧迷你方框（角标 + X + 底杠 + 低频扫描，呼应首页舞台）；右侧站名字标，悬停 / `:focus-visible` / 当前页显示 RGB 切片错位。无柔光光斑；链接强制 `op-100!`。尊重 `prefers-reduced-motion`。
 
 ## 浮层定位
 
@@ -70,42 +46,63 @@
 
 正确写法：`fixed top-50vh left-50vw translate-x--50% translate-y--50%`（`vh`/`vw` 相对视口，translate 相对面板自身）。
 
-搜索面板使用 `.search-panel-hud` + 角标 + `>` prompt，背景/边框走 token。
-
 ## 背景与页面分配
 
-背景调度：`src/components/backgrounds/Background.astro`。装饰色统一贴近 accent（`accentStrokeColor()` / CSS `var(--c-accent)`）：
+背景调度：`src/components/backgrounds/Background.astro`。引擎：[`glitch-engine.ts`](../src/components/backgrounds/glitch-engine.ts)（Three.js）。
 
-| `bgType` | 组件 | 典型页面 |
+| `bgType` | 表现 | 典型页面 |
 |----------|------|----------|
-| `wave` | SVG 正弦波（青蓝） | 首页 |
-| `dot` | p5 噪点场（青蓝微染） | 博客列表、项目、友链、releases / prs |
-| `plum` | canvas 梅枝 | 按需（默认页已改用 `dot`） |
-| `rose` | SVG 花瓣 | 按需（文章正文默认无背景） |
-| `particle` | p5 粒子（青蓝微染） | shorts |
-| `constellation` | p5 星座（青蓝） | 按需 |
-| `false` | 无背景 | 文章正文、相册、画廊、changelog 列表等内容密集页 |
+| `glitch` | `lite` 透明叠层：动态弧线 / 波纹 / 菱形 + 低频闪烁 | **除首页外几乎全部页面** |
+| 旧值 `dot` / `plum` / `rose` / … | 映射到 `glitch`（兼容 frontmatter） | — |
+| `false` | 无全局背景 | **首页**（由 Hero 自带 Three.js 舞台） |
+
+主题色读取走 `isDarkTheme()`（`src/utils/theme.ts`）。`prefers-reduced-motion` 时只渲染静态一帧。
+
+## 全站 UI（非首页）
+
+| 区域 | 约定 |
+|------|------|
+| `html` | 冷色底 + 极淡扫描线纹理 |
+| `.site-nav` | HUD 角标、当前页 accent 底线、悬停轻微 RGB text-shadow |
+| `.page-header` | 斜切面板 + 四角标 + 字距加宽标题 |
+| 列表 / 社交链接 | 斜切裁切、悬停红青双边投影 |
+| 正文链接 / `hr` | 悬停 RGB 微错位；分隔线带故障色点缀 |
+
+## 首页 Glitch 展示台
+
+路径：[`src/components/home/GlitchHero.astro`](../src/components/home/GlitchHero.astro)，由 [`src/pages/index.astro`](../src/pages/index.astro) 挂载。
+
+| 要点 | 约定 |
+|------|------|
+| 结构 | 全屏 Three.js `hero` 模式舞台 + 品牌字 + **功能入口按钮**（关于 / 博客 / 项目等） |
+| 文案 | i18n：`home.glitch.*`（中：付之 / 一笑；英：FOO / Z） |
+| 交互 | 点击入口跳转对应页面；悬停入口加重故障强度 |
+| 入口形态 | 双列 HUD 信道块：角标 / 序号 / SRC / 悬停 RGB 错位与扫描线 |
+| 舞台动效 | 弧线 / 波纹 / 能量带 / 线框常驻运动；切片与闪白保持低频 |
+| 左下 | 社交媒体（`UI.socialLinks`，标签 `SIG`） |
+| 右下 | 搜索 / 语言 / 日夜 / RSS / 更新日志（标签 `SYS`；顶栏 Logo+导航隐藏） |
+| About | 已迁至 [`/about`](../src/pages/about.astro)（个人简介 + 博客历史 / 数字花园 + 社交） |
+| 布局 | `mainClass="home-main"` + `minimalChrome`（隐藏导航栏与页脚）；首页锁 `overflow` 避免滚动条黑边 |
+| 舞台稳定 | `uTime` 周期化；监听 WebGL context lost/restored 与 `visibilitychange`，避免长时黑屏 |
 
 ## 样式文件分层
 
 | 文件 | 职责 |
 |------|------|
-| `main.css` | Token、导航、入场动画、搜索、滚动条 |
-| `hud.css` | HUD primitives、导航底线 |
+| `main.css` | Token、导航、入场动画、搜索、滚动条、扫描线底纹 |
 | `prose.css` | 正文排版骨架（字号、间距、列表） |
 | `markdown.css` | Markdown 增强（链接、callouts、代码、TOC） |
-| `page.css` | 页面级节奏（列表 hover、相册、标签筛选） |
+| `page.css` | 页面级节奏（header HUD、列表 hover、相册、标签筛选） |
 
 页面级样式写在 `page.css` 或组件 `<style>` 内，并复用 token；不要在 UnoCSS shortcuts 里扩散新的硬编码色板。
 
 ## 动效原则
 
 1. 页面入场：`slide-enter` / `slide-enter-content`（`FEATURES.slideEnterAnim`）；首屏 LCP 文案用 `slide-enter-instant`。
-2. 交互反馈：列表/卡片 hover 使用 `--c-accent-soft` + 轻微位移，幅度保持克制。
+2. 交互反馈：列表/导航 hover 使用 accent + RGB 微错位，**闪屏类故障保持低频**。
 3. 尊重 `prefers-reduced-motion`（背景动画应停用或降级）。
-4. 禁止全屏 glitch / 正文区强 glow；装饰 opacity ≤ 15%。
 
 ## 相关配置
 
-- PWA `theme_color` / `background_color`：`src/pages/app.webmanifest.js`（与 `--c-bg` 浅色一致：`#f4f7f9`）
+- PWA `theme_color` / `background_color`：`src/pages/app.webmanifest.js`（与 `--c-bg` 浅色一致）
 - `<meta name="theme-color">`：`src/components/base/Head.astro`；切换主题时由 `ThemeSwitch` 同步为当前 `--c-bg`

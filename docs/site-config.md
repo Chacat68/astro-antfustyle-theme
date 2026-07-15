@@ -23,7 +23,7 @@ export const SITE = {
 
 ## 导航栏
 
-`UI.navBarLayout` 控制顶栏左右组件序列。当前未放入 `socialLinks`：社交媒体图标不在导航栏（含移动端面板）显示，仍可通过首页「找到我」区块与 `UI.socialLinks` 配置使用。若要恢复，在 `right`（或 `left`）数组中加入 `'socialLinks'` 即可。
+`UI.navBarLayout` 控制顶栏左右组件序列。当前未放入 `socialLinks`：社交媒体图标不在导航栏（含移动端面板）显示，首页展示台左下角与 About「找到我」区块仍使用 `UI.socialLinks`。若要恢复到顶栏，在 `right`（或 `left`）数组中加入 `'socialLinks'` 即可。
 
 ## 站内链接规范
 
