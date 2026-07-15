@@ -47,13 +47,17 @@ AI 生成图、概念稿等集中在 **`/gallery`**，数据文件为 **`src/con
 
 ## CI（GitHub Actions）
 
-`.github/workflows/ci.yml` 已配置为在 `Chacat68/astro-antfustyle-theme` 仓库的 `main` 分支 push / PR 时运行：
+`.github/workflows/ci.yml` 在 `Chacat68/astro-antfustyle-theme` 的 **`main`** 与生产分支 **`run`** 的 push / PR 时运行：
 
 - `pnpm check`
 - `pnpm lint`
 - `pnpm build`
 
 若需拉取 GitHub Releases / PRs 等远程内容，在仓库 Settings → Secrets 中添加 `GH_TOKEN_FOR_LOADER`（GitHub Personal Access Token）。未配置时构建仍会完成，远程 Loader 会保留上次缓存数据。
+
+## 评论（Giscus）
+
+`FEATURES.giscus` 当前为关闭。若要启用，须到 [giscus.app](https://giscus.app) 用本仓库 `Chacat68/astro-antfustyle-theme` 重新生成 `data-repo-id` / `data-category-id` 填入 `src/config.ts`，勿复用上游主题仓库的 ID。
 
 ## 部署与发布
 

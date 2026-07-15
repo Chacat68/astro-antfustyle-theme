@@ -57,9 +57,6 @@ importers:
       '@types/nprogress':
         specifier: ^0.2.3
         version: 0.2.3
-      '@types/p5':
-        specifier: ^1.7.7
-        version: 1.7.7
       '@types/three':
         specifier: ^0.185.1
         version: 0.185.1
@@ -126,9 +123,6 @@ importers:
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
-      p5:
-        specifier: ^1.11.3
-        version: 1.11.11
       pagefind:
         specifier: ^1.5.2
         version: 1.5.2
@@ -1315,9 +1309,6 @@ packages:
 
   '@types/nprogress@0.2.3':
     resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
-
-  '@types/p5@1.7.7':
-    resolution: {integrity: sha512-WFuP7jqc5CkkMtCK/NphgvMnJz1Qi9CMuK7t6xLu/tuXkRdGQA4q4AD0dUYcChC0Oibe8PE8gbKSFPNF0BqVNw==}
 
   '@types/sax@1.2.7':
     resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
@@ -3211,9 +3202,6 @@ packages:
   p-timeout@7.0.1:
     resolution: {integrity: sha512-AxTM2wDGORHGEkPCt8yqxOTMgpfbEHqF51f/5fJCmwFC3C/zNcGT63SymH2ttOAaiIws2zVg4+izQCjrakcwHg==}
     engines: {node: '>=20'}
-
-  p5@1.11.11:
-    resolution: {integrity: sha512-k58mfexvavFb+KNRpi70PbkKE2gCNiWQkzS4kVOyC2F9SKGgYy1jSO+JXZ24ikXV9OvZIAxGusiSVWEijYrmNg==}
 
   package-manager-detector@1.5.0:
     resolution: {integrity: sha512-uBj69dVlYe/+wxj8JOpr97XfsxH/eumMt6HqjNTmJDf/6NO9s+0uxeOneIz3AsPt2m6y9PqzDzd3ATcU17MNfw==}
@@ -5521,8 +5509,6 @@ snapshots:
       undici-types: 7.16.0
 
   '@types/nprogress@0.2.3': {}
-
-  '@types/p5@1.7.7': {}
 
   '@types/sax@1.2.7':
     dependencies:
@@ -8182,8 +8168,6 @@ snapshots:
       p-timeout: 7.0.1
 
   p-timeout@7.0.1: {}
-
-  p5@1.11.11: {}
 
   package-manager-detector@1.5.0: {}
 

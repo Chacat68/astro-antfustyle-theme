@@ -1,4 +1,8 @@
 ---
+/**
+ * 全站背景调度：统一渲染 Glitch。
+ * `type` 仍接受旧枚举（dot/plum/…）以兼容 frontmatter，实际均映射为 glitch。
+ */
 import Glitch from '~/components/backgrounds/Glitch.astro'
 
 import type { BgType } from '~/types'
@@ -7,14 +11,7 @@ interface Props {
   type: BgType
 }
 
-const { type } = Astro.props
+const { type: _type } = Astro.props
 ---
 
-{/* 全站统一故障艺术背景；保留 type 分支以便未来扩展强度档位 */}
-{(type === 'glitch' ||
-  type === 'plum' ||
-  type === 'dot' ||
-  type === 'rose' ||
-  type === 'particle' ||
-  type === 'wave' ||
-  type === 'constellation') && <Glitch />}
+<Glitch />

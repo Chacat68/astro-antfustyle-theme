@@ -10,15 +10,18 @@ function isOgBgType(bgType: BgType): bgType is OgBgType {
   return (ogBgTypes as readonly string[]).includes(bgType)
 }
 
+/** 页面 bgType（含 glitch）映射到 OG 静态底图；无对应资源时回退 dot */
+function resolveOgBgType(bgType: BgType): OgBgType {
+  if (isOgBgType(bgType)) return bgType
+  return 'dot'
+}
+
 export const ogImageMarkup = (
   authorOrBrand: string,
   title: string,
   bgType: BgType
 ) => {
-  if (!isOgBgType(bgType))
-    throw new Error(
-      "The value of 'bgType' must be one of the following: 'plum', 'dot', 'rose', 'particle'."
-    )
+  const ogBg = resolveOgBgType(bgType)
 
   return html`<div
     tw="relative flex justify-center items-center w-full h-full"
@@ -26,7 +29,7 @@ export const ogImageMarkup = (
   >
     <img
       tw="absolute inset-0 w-full h-full"
-      src="${backgroundBase64[bgType]}"
+      src="${backgroundBase64[ogBg]}"
       alt="open graph"
     />
 

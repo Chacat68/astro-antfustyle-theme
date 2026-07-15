@@ -1,6 +1,6 @@
 /**
  * Three.js 背景自定义元素工厂。
- * 对齐 p5-background：idle 延迟、lifecycle dispose、尊重 reduced-motion。
+ * idle 延迟、lifecycle dispose、尊重 reduced-motion。
  */
 import type { CreateGlitchOptions, GlitchHandle } from './glitch-engine'
 import { isDarkTheme } from '~/utils/theme'
