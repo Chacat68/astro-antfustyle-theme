@@ -1,0 +1,288 @@
+---
+import '~/styles/arcana.css'
+---
+
+<section class="arcana" data-arcana aria-label="铁头 · Arcana 视觉 Demo">
+  <div class="arcana__shell">
+    <p class="arcana__brand-note">
+      《铁头 · Arcana》视觉方案 Web Demo（320×180）— 按文档落地的界面流转与像素手感雏形。
+    </p>
+
+    <div class="arcana__stage">
+      <canvas
+        class="arcana__canvas"
+        width="320"
+        height="180"
+        data-arcana-canvas
+        aria-hidden="true"></canvas>
+
+      <div class="arcana__ui" data-arcana-ui>
+        <!-- Splash -->
+        <div class="arcana-screen--splash" data-screen="splash">
+          <div class="arcana-splash__logo">ARCANA</div>
+          <div class="arcana-splash__hint">Press any key</div>
+        </div>
+
+        <!-- Title -->
+        <div class="arcana-screen--title" data-screen="title">
+          <div class="arcana-title__copy">
+            <h2 class="arcana-title__name">铁头 · ARCANA</h2>
+            <p class="arcana-title__sub">盔甲骑士，闯入重组中的王国</p>
+            <ul class="arcana-menu">
+              <li>
+                <button type="button" data-menu-item="start">开始冒险</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="continue">继续游戏</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="settings">设置</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="credits">制作人员</button>
+              </li>
+            </ul>
+          </div>
+          <p class="arcana-title__version">v0.1.0-demo</p>
+        </div>
+
+        <!-- Setup -->
+        <div class="arcana-screen--center" data-screen="setup">
+          <div class="arcana-panel">
+            <h3 class="arcana-panel__title">出发</h3>
+            <div class="arcana-diff" role="group" aria-label="难度">
+              <button type="button" data-diff="0">见习</button>
+              <button type="button" data-diff="1" class="is-active">骑士</button>
+              <button type="button" data-diff="2">铁壁</button>
+            </div>
+            <div class="arcana-setting-row">
+              <span>世界种子</span>
+              <span>
+                <strong data-seed>1000</strong>
+                <button type="button" class="arcana-cta arcana-cta--ghost" data-reroll-seed
+                  >重掷</button
+                >
+              </span>
+            </div>
+            <ul class="arcana-setup__rules">
+              <li>生命随难度变化 · 踩踏攻击</li>
+              <li>关卡由种子重组 · 短平快 60–120 秒</li>
+              <li>抵达青色传送门过关</li>
+            </ul>
+            <button type="button" class="arcana-cta" data-start-run>进入王国</button>
+          </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="arcana-screen--loading" data-screen="loading">
+          <div class="arcana-rune" aria-hidden="true"></div>
+          <p class="arcana-loading__text">Arcana 重组中…</p>
+          <p class="arcana-loading__tip">短按跳得低，按住跳得高</p>
+        </div>
+
+        <!-- Dialog -->
+        <div class="arcana-screen--dialog" data-screen="dialog">
+          <div class="arcana-dialog">
+            <div class="arcana-dialog__avatar" aria-hidden="true"></div>
+            <div>
+              <p class="arcana-dialog__name" data-dialog-name>梅林</p>
+              <p class="arcana-dialog__text" data-dialog-text></p>
+              <div class="arcana-dialog__next">▼</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Play HUD -->
+        <div class="arcana-screen--play" data-screen="play">
+          <div class="arcana-hud">
+            <span class="arcana-hud__lives" data-hud-lives>●●●</span>
+            <span class="arcana-hud__time" data-hud-time>00:00</span>
+            <span class="arcana-hud__coin">◆ <span data-hud-coin>000</span></span>
+          </div>
+          <div class="arcana-toast" data-toast></div>
+        </div>
+
+        <!-- Pause -->
+        <div class="arcana-screen--center" data-screen="pause">
+          <div class="arcana-panel">
+            <h3 class="arcana-panel__title">暂停</h3>
+            <ul class="arcana-menu">
+              <li>
+                <button type="button" data-menu-item="resume">继续冒险</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="settings">设置</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="retry">重新开始本关</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="title">返回标题</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="arcana-screen--center" data-screen="settings">
+          <div class="arcana-panel" style="width:min(260px,94%)">
+            <h3 class="arcana-panel__title">设置</h3>
+            <div class="arcana-tabs">
+              <button type="button" data-settings-tab="0" class="is-active">音频</button>
+              <button type="button" data-settings-tab="1">画面</button>
+              <button type="button" data-settings-tab="2">无障碍</button>
+            </div>
+
+            <div data-settings-panel="0">
+              <label class="arcana-setting-row">
+                <span>主音量</span>
+                <span>
+                  <input
+                    class="arcana-slider"
+                    type="range"
+                    min="0"
+                    max="100"
+                    data-setting="master"
+                  />
+                  <output data-setting-out="master">80%</output>
+                </span>
+              </label>
+              <label class="arcana-setting-row">
+                <span>音效</span>
+                <span>
+                  <input
+                    class="arcana-slider"
+                    type="range"
+                    min="0"
+                    max="100"
+                    data-setting="sfx"
+                  />
+                  <output data-setting-out="sfx">100%</output>
+                </span>
+              </label>
+            </div>
+
+            <div data-settings-panel="1" hidden>
+              <label class="arcana-setting-row">
+                <span>显示计时</span>
+                <input class="arcana-toggle" type="checkbox" data-setting="timer" checked />
+              </label>
+            </div>
+
+            <div data-settings-panel="2" hidden>
+              <label class="arcana-setting-row">
+                <span>屏幕震动</span>
+                <input class="arcana-toggle" type="checkbox" data-setting="shake" checked />
+              </label>
+              <label class="arcana-setting-row">
+                <span>闪白受击</span>
+                <input class="arcana-toggle" type="checkbox" data-setting="flash" checked />
+              </label>
+            </div>
+
+            <p class="arcana-setting-hint">Esc 返回 · 方向键选择菜单</p>
+            <button type="button" class="arcana-cta arcana-cta--ghost" data-settings-back
+              >返回</button
+            >
+          </div>
+        </div>
+
+        <!-- Death -->
+        <div class="arcana-screen--death" data-screen="death">
+          <p class="arcana-death__title">盔甲裂了……</p>
+          <p class="arcana-death__cause" data-death-cause>死因：坠落</p>
+          <div class="arcana-panel">
+            <ul class="arcana-menu">
+              <li>
+                <button type="button" data-menu-item="retry">再试一次</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="title">返回标题</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Clear -->
+        <div class="arcana-screen--center" data-screen="clear">
+          <div class="arcana-panel">
+            <h3 class="arcana-panel__title">关卡重组完成</h3>
+            <dl class="arcana-stat">
+              <dt>用时</dt>
+              <dd data-clear-time>00:00</dd>
+              <dt>死亡</dt>
+              <dd data-clear-deaths>0</dd>
+              <dt>金币</dt>
+              <dd data-clear-coins>+0</dd>
+            </dl>
+            <p class="arcana-stars" data-clear-stars>★★☆</p>
+            <ul class="arcana-menu">
+              <li>
+                <button type="button" data-menu-item="next">下一关</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="retry">再玩本关</button>
+              </li>
+              <li>
+                <button type="button" data-menu-item="title">返回标题</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Credits -->
+        <div class="arcana-screen--credits" data-screen="credits">
+          <div class="arcana-credits">
+            <p><strong>铁头 · Arcana</strong></p>
+            <p>视觉方案 Demo</p>
+            <p>设计 / 品控 · Charliefoo</p>
+            <p>像素 UI · 文档驱动实现</p>
+            <p>Esc / Enter 返回</p>
+          </div>
+        </div>
+
+        <!-- Confirm -->
+        <div class="arcana-screen--center" data-screen="confirm">
+          <div class="arcana-panel">
+            <h3 class="arcana-panel__title">确认</h3>
+            <p style="margin:0 0 8px;font-size:12px;color:var(--text-muted)">
+              确定要结束本次冒险吗？
+            </p>
+            <div class="arcana-confirm-actions">
+              <button type="button" data-confirm-btn="cancel">取消</button>
+              <button type="button" class="is-danger" data-confirm-btn="ok">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="arcana__help">
+      操作：←→ / A D 移动 · Space / Z / J 跳跃 · Enter 确认 · Esc 暂停/返回 · 点击菜单亦可
+    </p>
+  </div>
+</section>
+
+<script>
+  import { mountArcana } from '~/components/arcana/arcana-app'
+
+  let dispose: (() => void) | undefined
+
+  function boot() {
+    dispose?.()
+    const root = document.querySelector<HTMLElement>('[data-arcana]')
+    if (!root) return
+    dispose = mountArcana(root)
+  }
+
+  boot()
+  document.addEventListener('astro:page-load', boot)
+  document.addEventListener(
+    'astro:before-swap',
+    () => {
+      dispose?.()
+      dispose = undefined
+    },
+    { once: false }
+  )
+</script>

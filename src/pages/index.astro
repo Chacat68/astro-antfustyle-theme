@@ -24,6 +24,7 @@ const blogHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, 'blog'))
 const projectsHref = ensureTrailingSlash(
   getRelativeLocaleUrl(locale, 'projects')
 )
+const arcanaHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, 'arcana'))
 ---
 
 <BaseLayout
@@ -38,7 +39,10 @@ const projectsHref = ensureTrailingSlash(
       <h1 class="home-sim__title">{t('home.town.headline')}</h1>
       <p class="home-sim__lead">{t('home.town.lead')}</p>
       <div class="home-sim__cta">
-        <a href={blogHref} class="home-sim__btn home-sim__btn--primary">
+        <a href={arcanaHref} class="home-sim__btn home-sim__btn--primary">
+          {t('home.town.ctaArcana')}
+        </a>
+        <a href={blogHref} class="home-sim__btn home-sim__btn--ghost">
           {t('home.town.ctaBlog')}
         </a>
         <a href={projectsHref} class="home-sim__btn home-sim__btn--ghost">

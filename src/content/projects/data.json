@@ -27,6 +27,15 @@
     "categoryEn": "Content Creation"
   },
   {
+    "id": "「铁头 · Arcana」视觉 Demo",
+    "link": "https://foo-z.com/arcana/",
+    "desc": "按视觉方案文档落地的像素平台跳跃 Web Demo：标题/HUD/暂停/死亡/结算界面流转，含可玩关卡雏形。",
+    "descEn": "A pixel platformer web demo implementing the visual design system: title, HUD, pause, death, and clear screens with a playable stub.",
+    "icon": "i-ph-sword-duotone",
+    "category": "游戏开发",
+    "categoryEn": "Game Development"
+  },
+  {
     "id": "「小王子历险记 (FyGame)」",
     "link": "https://github.com/Chacat68/fygame",
     "desc": "使用Godot游戏引擎制作的小游戏演示，包含2D像素风格的平台跳跃游戏。",
