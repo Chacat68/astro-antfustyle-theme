@@ -184,10 +184,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.home.description':
       '付之一笑 — 走进 Charliefoo 的像素现代都市：逛博客、看项目、翻相册、读更新，再连到社交街区。',
 
-    'page.arcana.title': '铁头 · Arcana',
-    'page.arcana.description':
-      '《铁头 · Arcana》像素游戏视觉方案 Web Demo：标题、HUD、暂停、死亡、结算等界面流转与可玩雏形。',
-
     // Home content
     'home.intro1':
       '你好，我是Charliefoo，85后，从小就是游戏迷和书迷，这两样爱好至今仍是我生活的重要支柱。',
@@ -203,7 +199,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.town.headline': '欢迎来到模拟都市',
     'home.town.lead':
       '点进楼宇去翻书、看作品、读更新；社交街区连到 GitHub、X、Bluesky 与 NeoDB——城市一直在运转。',
-    'home.town.ctaArcana': '试玩铁头 · Arcana',
     'home.town.ctaBlog': '进入媒体楼',
     'home.town.ctaProjects': '登上科技塔',
     'home.town.hint': '点击建筑前往栏目或社交',
@@ -410,10 +405,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.home.description':
       "付之一笑 — step into Charliefoo's pixel modern city: blog, projects, photos, changelog, and a social skyline.",
 
-    'page.arcana.title': 'Iron Helm · Arcana',
-    'page.arcana.description':
-      'Web demo of the Iron Helm · Arcana pixel-game visual system: menus, HUD, pause, death, clear screens, and a playable stub.',
-
     // Home content
     'home.intro1':
       "Hi, I'm Charliefoo. I've been a gamer and a bookworm since childhood—both are still a big part of my life today.",
@@ -429,7 +420,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.town.headline': 'Welcome to the sim city',
     'home.town.lead':
       'Tap a tower for posts, projects, or changelog; the social block links out to GitHub, X, Bluesky, and NeoDB—the city keeps running.',
-    'home.town.ctaArcana': 'Play Iron Helm · Arcana',
     'home.town.ctaBlog': 'Enter Media Hall',
     'home.town.ctaProjects': 'Climb Tech Tower',
     'home.town.hint': 'Click a building to explore',

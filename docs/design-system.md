@@ -72,10 +72,6 @@
 
 详细说明见 [pixel-town-home.md](./pixel-town-home.md)。
 
-## 游戏视觉 Demo：`/arcana/`
-
-《铁头 · Arcana》视觉方案的可交互落地见 [pixel-game-visual-design.md](./pixel-game-visual-design.md) 与页面 `/arcana/`（独立色板，不污染全站 token）。
-
 ## 样式文件分层
 
 | 文件 | 职责 |
