@@ -1,8 +1,13 @@
 ---
+import { Image } from 'astro:assets'
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
+import ImageViewer from '~/components/widgets/ImageViewer.astro'
 import { UI } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import imgTime from '~/assets/about/DSC03299.webp'
+import imgFree from '~/assets/about/DSC04066.webp'
+import imgSimple from '~/assets/about/DSC03225.webp'
 
 const page = {
   bgType: 'glitch' as const,
@@ -22,6 +27,38 @@ const historyItems = [
   t('about.history.item1'),
   t('about.history.item2'),
   t('about.history.item3'),
+  t('about.history.item4'),
+  t('about.history.item5'),
+  t('about.history.item6'),
+] as const
+
+const simpleItems = [
+  t('about.philosophy.simple.item1'),
+  t('about.philosophy.simple.item2'),
+  t('about.philosophy.simple.item3'),
+] as const
+
+const philosophySections = [
+  {
+    title: t('about.philosophy.time.title'),
+    image: imgTime,
+    alt: t('about.philosophy.time.imgAlt'),
+    paragraphs: [
+      t('about.philosophy.time.p1'),
+      t('about.philosophy.time.p2'),
+      t('about.philosophy.time.p3'),
+    ],
+  },
+  {
+    title: t('about.philosophy.free.title'),
+    image: imgFree,
+    alt: t('about.philosophy.free.imgAlt'),
+    paragraphs: [
+      t('about.philosophy.free.p1'),
+      t('about.philosophy.free.p2'),
+      t('about.philosophy.free.p3'),
+    ],
+  },
 ] as const
 ---
 
@@ -43,24 +80,68 @@ const historyItems = [
       <hr />
 
       <h2>{t('about.blog.title')}</h2>
-      <p>{t('about.blog.lead')}</p>
 
       <h3>{t('about.history.title')}</h3>
       <ul>
-        {historyItems.map((item) => <li>{item}</li>)}
+        {
+          historyItems.map((item) => (
+            <li set:html={item} />
+          ))
+        }
       </ul>
 
-      <h3>{t('about.name.title')}</h3>
-      <p>{t('about.name.p1')}</p>
-      <p>{t('about.name.p2')}</p>
-      <p>{t('about.name.p3')}</p>
-      <p>{t('about.name.p4')}</p>
-      <p>{t('about.name.p5')}</p>
+      <h3>{t('about.philosophy.title')}</h3>
 
-      <h3>{t('about.garden.title')}</h3>
-      <p>{t('about.garden.p1')}</p>
+      {
+        philosophySections.map((section) => (
+          <>
+            <h4>{section.title}</h4>
+            <figure>
+              <Image
+                src={section.image}
+                alt={section.alt}
+                widths={[640, 960, 1280]}
+                sizes="(max-width: 768px) 100vw, 720px"
+                loading="lazy"
+              />
+            </figure>
+            {section.paragraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+          </>
+        ))
+      }
+
+      <h4>{t('about.philosophy.simple.title')}</h4>
+      <figure>
+        <Image
+          src={imgSimple}
+          alt={t('about.philosophy.simple.imgAlt')}
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 768px) 100vw, 720px"
+          loading="lazy"
+        />
+      </figure>
+      <p>{t('about.philosophy.simple.p1')}</p>
+      <p>{t('about.philosophy.simple.lead')}</p>
+      <ul>
+        {
+          simpleItems.map((item) => (
+            <li set:html={item} />
+          ))
+        }
+      </ul>
+      <p>{t('about.philosophy.simple.p2')}</p>
 
       <hr />
+
+      <h2>{t('about.contact.title')}</h2>
+      <p>{t('about.contact.p1')}</p>
+      <p>{t('about.contact.p2')}</p>
+      <p>
+        📧 {t('about.contact.email')}
+        <a href="mailto:chawf56@outlook.com">chawf56@outlook.com</a>
+      </p>
 
       <div class="home-socials">
         <div class="mb-2">{t('home.findMeOn')}</div>
@@ -81,10 +162,7 @@ const historyItems = [
           }
         </div>
       </div>
-
-      <hr />
-
-      <p>{t('home.thanks')}</p>
     </Fragment>
   </StandardLayout>
+  <ImageViewer selector="article" options={{ title: 0, navbar: 0 }} />
 </BaseLayout>
