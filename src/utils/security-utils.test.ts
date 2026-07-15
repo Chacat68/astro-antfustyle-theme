@@ -19,6 +19,19 @@ describe('sanitizeHtml', () => {
       '<a href="https://example.com">hi</a>'
     )
   })
+
+  it('forces noopener noreferrer on target links', () => {
+    assert.equal(
+      sanitizeHtml('<a href="https://example.com" target="_blank">hi</a>'),
+      '<a href="https://example.com" target="_blank" rel="noopener noreferrer">hi</a>'
+    )
+    assert.equal(
+      sanitizeHtml(
+        '<a href="https://example.com" target="_blank" rel="nofollow">hi</a>'
+      ),
+      '<a href="https://example.com" target="_blank" rel="nofollow noopener noreferrer">hi</a>'
+    )
+  })
 })
 
 describe('resolveMinutesRead', () => {

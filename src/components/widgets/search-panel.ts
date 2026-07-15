@@ -200,10 +200,18 @@ class SearchPanel extends HTMLElement {
       return
     }
 
-    const storedTab = localStorage.getItem('search-tab')
-    this.#currentTab = storedTab ? parseInt(storedTab, 10) : 0
-
     this.#tabs = Array.from(this.querySelectorAll('[role="tab"]'))
+
+    const storedTab = localStorage.getItem('search-tab')
+    const parsed = storedTab ? Number.parseInt(storedTab, 10) : 0
+    const max = this.#tabs.length
+    this.#currentTab =
+      Number.isFinite(parsed) && parsed >= 0 && parsed < max ? parsed : 0
+    // 配置变更导致旧索引失效时，写回合法值，避免后续搜索丢 collection 过滤
+    if (storedTab !== null && String(this.#currentTab) !== storedTab) {
+      localStorage.setItem('search-tab', String(this.#currentTab))
+    }
+
     for (let i = 0; i < this.#tabs.length; i++) {
       const isSelected = i === this.#currentTab
       this.#tabs[i].setAttribute('aria-selected', isSelected.toString())
@@ -378,6 +386,7 @@ class SearchPanel extends HTMLElement {
   }
 
   #activateTab = async (idx: number) => {
+    if (idx < 0 || idx >= this.#tabs.length) return
     if (idx === this.#currentTab) return
 
     this.#tabs[this.#currentTab]?.setAttribute('aria-selected', 'false')

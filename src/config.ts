@@ -9,7 +9,12 @@ export const SITE: Site = {
   author: 'Charliefoo',
   lang: 'zh-CN',
   ogLocale: 'zh_CN',
-  imageDomains: ['cdn.bsky.app', 'images.unsplash.com'],
+  imageDomains: [
+    'cdn.bsky.app',
+    'images.unsplash.com',
+    // 博客正文 / 封面大量使用腾讯云 COS
+    'blog-1259751088.cos.ap-shanghai.myqcloud.com',
+  ],
 }
 
 export const UI: Ui = {
@@ -192,14 +197,14 @@ export const FEATURES: Features = {
     },
   ],
 
-  // 评论系统配置
+  // 评论系统（关闭）。启用前请到 https://giscus.app 用本仓库重新生成 repo-id / category-id
   giscus: [
     false,
     {
-      'data-repo': 'lin-stephanie/astro-antfustyle-theme',
-      'data-repo-id': 'R_kgDOLylKbA',
+      'data-repo': 'Chacat68/astro-antfustyle-theme',
+      'data-repo-id': '',
       'data-category': 'Giscus',
-      'data-category-id': 'DIC_kwDOLylKbM4Cpugn',
+      'data-category-id': '',
       'data-mapping': 'title',
       'data-strict': '0',
       'data-reactions-enabled': '1',
