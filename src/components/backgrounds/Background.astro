@@ -1,10 +1,5 @@
 ---
-import Plum from '~/components/backgrounds/Plum.astro'
-import Dot from '~/components/backgrounds/Dot.astro'
-import Rose from '~/components/backgrounds/Rose.astro'
-import Particle from '~/components/backgrounds/Particle.astro'
-import Wave from '~/components/backgrounds/Wave.astro'
-import Constellation from '~/components/backgrounds/Constellation.astro'
+import Glitch from '~/components/backgrounds/Glitch.astro'
 
 import type { BgType } from '~/types'
 
@@ -15,9 +10,11 @@ interface Props {
 const { type } = Astro.props
 ---
 
-{type === 'plum' && <Plum />}
-{type === 'dot' && <Dot />}
-{type === 'rose' && <Rose />}
-{type === 'particle' && <Particle />}
-{type === 'wave' && <Wave />}
-{type === 'constellation' && <Constellation />}
+{/* 全站统一故障艺术背景；保留 type 分支以便未来扩展强度档位 */}
+{(type === 'glitch' ||
+  type === 'plum' ||
+  type === 'dot' ||
+  type === 'rose' ||
+  type === 'particle' ||
+  type === 'wave' ||
+  type === 'constellation') && <Glitch />}

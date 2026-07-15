@@ -23,7 +23,7 @@
 | `/archive/?category=...` | `/blog/` | 新站没有等价的分类筛选 URL，降级到文章总览 |
 | `/2/` 至 `/15/` | `/blog/` | 新站不分页，统一到文章总览 |
 | `/page/<number>/` | `/blog/` | 兼容旧分页格式 |
-| `/about/` | `/` | 新首页承担个人介绍与最新文章入口 |
+| `/about/` | `/about/` | 个人介绍与社交链接在独立关于页；首页为故障艺术展示台入口 |
 | `/moments/my-moments/` | `/shorts/` | 两者都是短内容/日常随笔入口 |
 | `/projects/` | `/projects/` | 只迁移域名，路径不变 |
 | `/friends/` | `/friends/` | 只迁移域名，路径不变 |

@@ -5,9 +5,11 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Nav
     'nav.blog': '博客',
     'nav.projects': '项目',
+    'nav.friends': '友链',
     'nav.photos': '相册',
     'nav.gallery': 'AI作品集',
     'nav.changelog': '更新日志',
+    'nav.about': '关于',
 
     // Global / a11y
     'a11y.mainMenu': '主菜单',
@@ -180,11 +182,45 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': '使用',
     'page.prs.subtitleSuffix': '展示你的 GitHub Pull Requests',
 
-    'page.home.title': '关于',
+    'page.home.title': '付之一笑',
     'page.home.description':
-      '付之一笑 — Charliefoo 的个人博客，专注于阅读、跑步、思考与创作，记录生活中的点滴感悟与技术探索。',
+      '付之一笑 — Charliefoo 的个人博客入口。故障艺术视觉下的阅读、跑步、思考与创作。',
+    'page.about.title': '关于',
+    'page.about.description':
+      '付之一笑 — Charliefoo 的个人介绍：博客历史、数字花园与社交链接。',
+
+    // About page — 博客故事
+    'about.blog.title': '关于博客',
+    'about.blog.lead': '先回顾一下博客的历史，它是我人生 10 余年的记录。',
+    'about.history.title': '博客历史',
+    'about.history.item1': '2008 年到 2013 年在网易博客上搭建',
+    'about.history.item2': '2013 年转移到 Lofter，持续创作到 2018',
+    'about.history.item3':
+      '2020 年重新把博客迁移到 Typlog，并最终把博客名称改成《付之一笑》',
+    'about.name.title': '《付之一笑》',
+    'about.name.p1':
+      '从 2020 年开始，遭遇了历史上难见的黑天鹅事件，人生的很多计划都被打乱了，在学习如何在这个混乱无序的时代生活下去。',
+    'about.name.p2':
+      '《付之一笑》取了我名字上的一个字，加上能笑看生活的期许。',
+    'about.name.p3':
+      '2022 年上旬，碰到了让生活停顿的事情，并且在下半年，工作也遭遇了成长危机，借此机会暂停了工作。',
+    'about.name.p4':
+      '当生活没有了主流叙事下的奋斗，让我开始思考，什么是生活中更有意义的事情。',
+    'about.name.p5':
+      '我开始筛检生活中的一切，当然也包括我在经营的博客，在少楠老师的《产品沉思录》里学习到「数字花园」的概念，打算把博客以数字花园的方式重新整理布置。',
+    'about.garden.title': '数字花园',
+    'about.garden.p1':
+      '「数字花园」是从少楠老师的《产品沉思录》里得知的。开始关注这个词之后，在不同的地方不断获取到这个词的新看法。2022 年初，对博客进行改版，借由数字花园的概念，把博客的内容整理并主题化。',
 
     // Home content
+    'home.glitch.line1': '付之',
+    'home.glitch.line2': '一笑',
+    'home.glitch.hold': '选择入口',
+    'home.glitch.skip': '跳过',
+    'home.glitch.aria': '故障艺术首页展示台',
+    'home.glitch.portalsAria': '站点功能入口',
+    'home.glitch.socialsAria': '社交媒体',
+    'home.glitch.toolsAria': '站点工具',
     'home.intro1':
       '你好，我是Charliefoo，85后，从小就是游戏迷和书迷，这两样爱好至今仍是我生活的重要支柱。',
     'home.intro2':
@@ -203,9 +239,11 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Nav
     'nav.blog': 'Blog',
     'nav.projects': 'Projects',
+    'nav.friends': 'Friends',
     'nav.photos': 'Photos',
     'nav.gallery': 'AI Gallery',
     'nav.changelog': 'Changelog',
+    'nav.about': 'About',
 
     // Global / a11y
     'a11y.mainMenu': 'Main menu',
@@ -380,11 +418,46 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': 'Display your GitHub pull requests using',
     'page.prs.subtitleSuffix': '',
 
-    'page.home.title': 'About',
+    'page.home.title': 'FOO-Z',
     'page.home.description':
-      "Charliefoo's personal blog focused on reading, running, thinking, and creating. Recording insights and technical explorations from life.",
+      "Charliefoo's personal blog portal — reading, running, thinking, and creating, framed in glitch art.",
+    'page.about.title': 'About',
+    'page.about.description':
+      "About Charliefoo — blog history, digital garden, and social links.",
+
+    // About page — blog story
+    'about.blog.title': 'About this blog',
+    'about.blog.lead':
+      'A quick look back at the blog’s history—it’s a record of more than ten years of my life.',
+    'about.history.title': 'Blog history',
+    'about.history.item1': '2008–2013: started on NetEase Blog',
+    'about.history.item2': '2013–2018: moved to Lofter and kept writing',
+    'about.history.item3':
+      '2020: migrated to Typlog and eventually renamed the blog 《付之一笑》 (Foo-Z)',
+    'about.name.title': '《付之一笑》',
+    'about.name.p1':
+      'Since 2020, rare black-swan events have scrambled many of my life plans. I’ve been learning how to live through a messy, disordered era.',
+    'about.name.p2':
+      '《付之一笑》 takes a character from my name, plus a hope that I can smile at life as it comes.',
+    'about.name.p3':
+      'In early 2022, something brought life to a halt; later that year, work hit a growth crisis, and I used the chance to pause my job.',
+    'about.name.p4':
+      'Without the mainstream narrative of striving, I started asking what in life actually feels meaningful.',
+    'about.name.p5':
+      'I began sorting through everything—including this blog. From Shaonan’s Product Thinking Letter I learned the idea of a “digital garden,” and decided to rearrange the blog that way.',
+    'about.garden.title': 'Digital garden',
+    'about.garden.p1':
+      'I first met “digital garden” in Shaonan’s Product Thinking Letter. Once I started noticing the phrase, new takes on it kept showing up elsewhere. In early 2022 I redesigned the blog around that idea—sorting the content and organizing it by themes.',
 
     // Home content
+    'home.glitch.line1': 'FOO',
+    'home.glitch.line2': 'Z',
+    'home.glitch.hold': 'Choose a portal',
+    'home.glitch.skip': 'Skip',
+    'home.glitch.aria': 'Glitch art home stage',
+    'home.glitch.portalsAria': 'Site portals',
+    'home.glitch.socialsAria': 'Social links',
+    'home.glitch.toolsAria': 'Site tools',
     'home.intro1':
       "Hi, I'm Charliefoo. I've been a gamer and a bookworm since childhood—both are still a big part of my life today.",
     'home.intro2':

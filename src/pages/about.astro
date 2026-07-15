@@ -1,0 +1,90 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import { UI } from '~/config'
+import { getLocale, useTranslations } from '~/i18n/translate'
+
+const page = {
+  bgType: 'glitch' as const,
+  ogImage: false,
+}
+
+const socialLabel = (title: string) => {
+  if (title === 'Github') return 'GitHub'
+  const onIndex = title.lastIndexOf(' on ')
+  return onIndex >= 0 ? title.slice(onIndex + 4) : title
+}
+
+const locale = getLocale(Astro.currentLocale)
+const t = useTranslations(locale)
+
+const historyItems = [
+  t('about.history.item1'),
+  t('about.history.item2'),
+  t('about.history.item3'),
+] as const
+---
+
+<BaseLayout
+  title={t('page.about.title')}
+  description={t('page.about.description')}
+  bgType={page.bgType}
+  ogImage={page.ogImage}
+>
+  <StandardLayout title={t('page.about.title')}>
+    <Fragment slot="article">
+      <p class="slide-enter-instant">{t('home.intro1')}</p>
+      <p class="slide-enter-instant">{t('home.intro2')}</p>
+
+      <p class="home-roles">
+        <strong>{t('home.roles')}</strong>
+      </p>
+
+      <hr />
+
+      <h2>{t('about.blog.title')}</h2>
+      <p>{t('about.blog.lead')}</p>
+
+      <h3>{t('about.history.title')}</h3>
+      <ul>
+        {historyItems.map((item) => <li>{item}</li>)}
+      </ul>
+
+      <h3>{t('about.name.title')}</h3>
+      <p>{t('about.name.p1')}</p>
+      <p>{t('about.name.p2')}</p>
+      <p>{t('about.name.p3')}</p>
+      <p>{t('about.name.p4')}</p>
+      <p>{t('about.name.p5')}</p>
+
+      <h3>{t('about.garden.title')}</h3>
+      <p>{t('about.garden.p1')}</p>
+
+      <hr />
+
+      <div class="home-socials">
+        <div class="mb-2">{t('home.findMeOn')}</div>
+        <div class="home-social-links flex flex-wrap gap-2">
+          {
+            UI.socialLinks.map((item) => (
+              <a
+                href={item.link}
+                title={item.title}
+                class="inline-flex items-center gap-1.5 op-75 hover:op-100"
+              >
+                {'icon' in item && (
+                  <span class={item.icon} aria-hidden="true" />
+                )}
+                <span>{socialLabel(item.title)}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <hr />
+
+      <p>{t('home.thanks')}</p>
+    </Fragment>
+  </StandardLayout>
+</BaseLayout>

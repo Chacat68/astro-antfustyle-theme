@@ -524,7 +524,9 @@ export interface Ui {
 }
 
 /* FEATURES */
+/** 全站背景统一为 glitch；旧枚举值仍接受并映射到 glitch */
 export type BgType =
+  | 'glitch'
   | 'plum'
   | 'dot'
   | 'rose'

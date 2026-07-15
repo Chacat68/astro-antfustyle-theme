@@ -1,14 +1,80 @@
-/* Shared page rhythm */
+/* 首页：全屏故障艺术展示台（锁滚动，避免右侧滚动条黑边） */
+html:has(.home-main),
+html:has(.home-main) body {
+  overflow: hidden;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+.home-main {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding-inline: 0 !important;
+  padding-block: 0 !important;
+}
+
+/* Shared page rhythm — 故障艺术 HUD 节奏 */
 .page-header {
-  padding-top: 0.35rem;
+  position: relative;
+  padding: 0.85rem 1rem 1rem;
+  margin-bottom: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--c-border) 85%, transparent);
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--c-accent) 6%, transparent),
+      transparent 42%
+    ),
+    color-mix(in srgb, var(--c-surface) 55%, transparent);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% 100%,
+    14px 100%,
+    0 calc(100% - 14px)
+  );
+}
+
+.page-header::before,
+.page-header::after {
+  content: '';
+  position: absolute;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-color: color-mix(in srgb, var(--c-accent) 70%, transparent);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.page-header::before {
+  top: 0.35rem;
+  left: 0.35rem;
+  border-width: 1px 0 0 1px;
+}
+
+.page-header::after {
+  right: 0.35rem;
+  bottom: 0.35rem;
+  border-width: 0 1px 1px 0;
 }
 
 .page-header h1 {
-  letter-spacing: -0.02em;
+  margin: 0 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 1.55em;
+  line-height: 1.25;
 }
 
-.page-header p {
+.page-header p,
+.page-header__subtitle {
+  margin: 0.75rem 0 0 !important;
   color: var(--c-muted);
+  letter-spacing: 0.04em;
+  line-height: 1.55;
 }
 
 .page-article > p:first-of-type {
@@ -25,6 +91,14 @@
 
   background: var(--c-surface);
   box-shadow: var(--c-shadow);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
 }
 
 .prose .home-roles::before {
@@ -38,6 +112,9 @@
   border-radius: 1px;
   background: var(--c-accent);
   opacity: 0.7;
+  box-shadow:
+    -1px 0 0 color-mix(in srgb, var(--c-glitch-red) 40%, transparent),
+    1px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 40%, transparent);
 }
 
 .prose .home-roles strong {
@@ -59,23 +136,39 @@
     background var(--duration) var(--ease-out),
     border-color var(--duration) var(--ease-out),
     opacity var(--duration) var(--ease-out),
-    transform var(--duration) var(--ease-out);
+    transform var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out);
 }
 
 .home-social-links a:hover,
 .home-social-links a:focus-visible {
-  border-color: var(--c-border);
+  border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
   background: var(--c-surface-hover);
   transform: translateY(-1px);
+  box-shadow:
+    -1px 0 0 color-mix(in srgb, var(--c-glitch-red) 35%, transparent),
+    1px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 35%, transparent);
 }
 
 .prose .list-item-link {
+  position: relative;
+  z-index: 1;
   padding: 0.75rem 0.9rem;
   border: 1px solid transparent;
   border-radius: var(--c-radius);
   margin: 0.12rem -0.9rem 0.32rem;
 
-  opacity: 0.72 !important;
+  /* 略提高底，避免被年份水印透穿影响可读 */
+  background: color-mix(in srgb, var(--c-bg) 72%, transparent);
+  opacity: 0.9 !important;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
   transition:
     background var(--duration) var(--ease-out),
     border-color var(--duration) var(--ease-out),
@@ -86,16 +179,19 @@
 
 .prose .list-item-link:hover,
 .prose .list-item-link:focus-visible {
-  border-color: color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
-  background: color-mix(in srgb, var(--c-surface-hover) 70%, var(--c-accent-soft));
-  box-shadow: var(--c-shadow);
+  border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
+  background: color-mix(in srgb, var(--c-surface-hover) 65%, var(--c-accent-soft));
+  box-shadow:
+    -2px 0 0 color-mix(in srgb, var(--c-glitch-red) 45%, transparent),
+    2px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 45%, transparent);
   opacity: 1 !important;
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
 .prose .list-item-link > span:first-child {
   color: var(--fg-deeper);
   font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 @media (max-width: 767.9px) {

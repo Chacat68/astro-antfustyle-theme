@@ -48,10 +48,11 @@
 - **`src/components/nav/NavBarSlot.astro`**：导航栏单侧组件序列渲染，`NavBar.astro` 左右两侧复用，新增导航组件类型时只改这一处。
 - **`src/components/widgets/search-panel.ts`**：`<search-panel>` 自定义元素完整逻辑，`SearchSwitch.astro` 仅保留模板与 Pagefind 装载脚本。
 - **站内搜索（Pagefind）**：`postbuild` 使用 Pagefind **≥ 1.5**，`--force-language zh-cn` 统一索引；`pagefind.init('zh-cn')`。`noindex` 页（英文回退中文稿）不入索引，避免重复占位。正文内注入标题/标签及 CJK 整词·单字·二元组增强召回；查询侧对中文做变体搜索合并。`postbuild` 同步索引到 `public/pagefind/`（gitignore）供 `pnpm dev` 联调。
-- **`src/components/backgrounds/p5-background.ts`**：p5 背景的公共自定义元素工厂 `defineP5Background(tagName, sketch)`，统一处理 p5 动态加载、`requestIdleCallback` 延迟初始化与生命周期销毁。新增 p5 背景只需写 sketch 函数。Plum / Rose 为原生 canvas 实现，不走此工厂。
-- **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。背景动画读取主题时必须走此工具（与 ThemeSwitch 同源：localStorage → 系统偏好），禁止只读 `html.dark`，否则会在 ThemeSwitch 脚本执行前误判浅色；主题切换后需能即时重算配色（Plum 另用 MutationObserver 重绘）。
-- **`src/components/backgrounds/Wave.astro`**：首页默认背景，使用纯 SVG + CSS 动画（无 p5 依赖），避免首屏加载约 1MB 的 `p5.min.js` 及全屏 canvas 成为 LCP 元素。Dot / Particle / Constellation 仍走 p5 工厂。
-- **首屏 LCP**：首页 intro 段落使用 `slide-enter-instant` 跳过 `slide-enter-content` 的 opacity 阶梯动画，确保标题与首段文字尽早计入 LCP。
+- **`src/components/backgrounds/three-background.ts`** + **`glitch-engine.ts`**：全站故障艺术背景工厂。`defineThreeBackground` 动态 `import('three')`、idle 延迟、CE 生命周期 dispose、主题 MutationObserver；引擎分 `lite`（透明叠层）与 `hero`（首页不透明舞台）。
+- **`src/components/backgrounds/Glitch.astro`**：默认全站背景；`Background.astro` 将旧 `bgType`（dot/plum/rose…）映射到 glitch。
+- **首页展示台**：[`GlitchHero.astro`](../src/components/home/GlitchHero.astro) 自挂 Three.js `hero` 模式 + 功能入口；`bgType: false` 避免双 canvas。About 内容在 [`/about`](../src/pages/about.astro)。
+- **`src/components/backgrounds/p5-background.ts`**：历史 p5 背景工厂（Dot/Particle/Constellation 组件仍保留源码，但页面已不再调度）。新增氛围背景优先走 Three glitch。
+- **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。背景读取主题必须走此工具；禁止只读 `html.dark`。
 - **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。
 - **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro`（Bluesky `html` / `details`）与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
 - **`src/utils/reading-time.ts`**：阅读时间估算（`resolveMinutesRead` / `estimateMinutesReadFromText`）。列表页（`ListView.astro`）用 entry `body` 估算，**禁止**为取 `minutesRead` 对每篇 `await render()`；remark 插件 `plugins/remark-reading-time.ts` 与正文页共用同一公式。

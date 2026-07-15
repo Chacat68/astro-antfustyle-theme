@@ -1,20 +1,12 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import StandardLayout from '~/layouts/StandardLayout.astro'
-import LatestPosts from '~/components/widgets/LatestPosts.astro'
-import { UI } from '~/config'
+import GlitchHero from '~/components/home/GlitchHero.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-// 页面文案统一由 i18n（page.home.*）提供
+// 首页：Three.js 故障艺术展示台 + 功能入口（无轻量背景层，避免双 canvas）
 const page = {
-  bgType: 'wave',
+  bgType: false as const,
   ogImage: false,
-} as const
-
-const socialLabel = (title: string) => {
-  if (title === 'Github') return 'GitHub'
-  const onIndex = title.lastIndexOf(' on ')
-  return onIndex >= 0 ? title.slice(onIndex + 4) : title
 }
 
 const locale = getLocale(Astro.currentLocale)
@@ -26,45 +18,8 @@ const t = useTranslations(locale)
   description={t('page.home.description')}
   bgType={page.bgType}
   ogImage={page.ogImage}
+  mainClass="home-main"
+  minimalChrome
 >
-  <StandardLayout title={t('page.home.title')}>
-    <Fragment slot="article">
-      <p class="slide-enter-instant">{t('home.intro1')}</p>
-      <p class="slide-enter-instant">{t('home.intro2')}</p>
-
-      <p class="home-roles">
-        <strong>{t('home.roles')}</strong>
-      </p>
-
-      <hr />
-
-      <LatestPosts limit={10} />
-
-      <hr />
-
-      <div class="home-socials">
-        <div class="mb-2">{t('home.findMeOn')}</div>
-        <div class="home-social-links flex flex-wrap gap-2">
-          {
-            UI.socialLinks.map((item) => (
-              <a
-                href={item.link}
-                title={item.title}
-                class="inline-flex items-center gap-1.5 op-75 hover:op-100"
-              >
-                {'icon' in item && (
-                  <span class={item.icon} aria-hidden="true" />
-                )}
-                <span>{socialLabel(item.title)}</span>
-              </a>
-            ))
-          }
-        </div>
-      </div>
-
-      <hr />
-
-      <p>{t('home.thanks')}</p>
-    </Fragment>
-  </StandardLayout>
+  <GlitchHero />
 </BaseLayout>

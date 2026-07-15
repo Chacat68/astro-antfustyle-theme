@@ -27,11 +27,19 @@ export const pageSchema = z.object({
   bgType: z
     .union([
       z.literal(false),
-      z.enum(['plum', 'dot', 'rose', 'particle', 'wave', 'constellation']),
+      z.enum([
+        'glitch',
+        'plum',
+        'dot',
+        'rose',
+        'particle',
+        'wave',
+        'constellation',
+      ]),
     ])
-    .default(false)
+    .default('glitch')
     .describe(
-      'Specifies whether to apply a background on this page and select its type. If not needed, delete the field or set to `false`.'
+      'Background type. Site-wide glitch art uses `glitch` (legacy values map to glitch). Set `false` to disable.'
     ),
   toc: z
     .boolean()
