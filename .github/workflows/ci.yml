@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - main
+      # 生产部署分支（Cloudflare Builds 绑定 run）
+      - run
 
   pull_request:
     branches:
       - main
+      - run
     types:
       - opened
       - synchronize

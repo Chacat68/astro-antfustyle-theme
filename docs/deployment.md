@@ -72,7 +72,7 @@ curl -s https://foo-z.com/ | grep -o 'rel="canonical" href="[^"]*"'
 
 ### GitHub Actions CI 与 Cloudflare Builds
 
-- **CI**（`.github/workflows/ci.yml`）仅在 `Chacat68/astro-antfustyle-theme` 的 **`main`** push/PR 时运行
+- **CI**（`.github/workflows/ci.yml`）在 `Chacat68/astro-antfustyle-theme` 的 **`main`** 与 **`run`** push/PR 时运行（check + lint + build）
 - **Cloudflare 生产部署** 由 **`run`** 分支 push 触发
 
-两者互不影响；以 Cloudflare Builds 结果为准判断生产是否更新。
+CI 通过不等于已上线；以 Cloudflare Builds 结果为准判断生产是否更新。

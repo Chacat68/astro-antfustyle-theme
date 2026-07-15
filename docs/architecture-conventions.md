@@ -49,15 +49,15 @@
 - **`src/components/widgets/search-panel.ts`**：`<search-panel>` 自定义元素完整逻辑，`SearchSwitch.astro` 仅保留模板与 Pagefind 装载脚本。
 - **站内搜索（Pagefind）**：`postbuild` 使用 Pagefind **≥ 1.5**，`--force-language zh-cn` 统一索引；`pagefind.init('zh-cn')`。`noindex` 页（英文回退中文稿）不入索引，避免重复占位。正文内注入标题/标签及 CJK 整词·单字·二元组增强召回；查询侧对中文做变体搜索合并。`postbuild` 同步索引到 `public/pagefind/`（gitignore）供 `pnpm dev` 联调。
 - **`src/components/backgrounds/three-background.ts`** + **`glitch-engine.ts`**：全站故障艺术背景工厂。`defineThreeBackground` 动态 `import('three')`、idle 延迟、CE 生命周期 dispose、主题 MutationObserver；引擎分 `lite`（透明叠层）与 `hero`（首页不透明舞台）。
-- **`src/components/backgrounds/Glitch.astro`**：默认全站背景；`Background.astro` 将旧 `bgType`（dot/plum/rose…）映射到 glitch。
+- **`src/components/backgrounds/Glitch.astro`**：默认全站背景；`Background.astro` 将旧 `bgType`（dot/plum/rose…）统一渲染为 glitch（旧 p5 组件已移除）。
 - **首页展示台**：[`GlitchHero.astro`](../src/components/home/GlitchHero.astro) 自挂 Three.js `hero` 模式 + 功能入口；`bgType: false` 避免双 canvas。About 内容在 [`/about`](../src/pages/about.astro)（文案见 `i18n` 的 `about.*`；理念配图在 `src/assets/about/`）。
-- **`src/components/backgrounds/p5-background.ts`**：历史 p5 背景工厂（Dot/Particle/Constellation 组件仍保留源码，但页面已不再调度）。新增氛围背景优先走 Three glitch。
+- **OG 图底图**：`plugins/og-template/markup.ts` 仅有 plum/dot/rose/particle 静态资源；页面 `bgType: glitch`（及 wave/constellation）会映射为 `dot`，避免生成失败。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。背景读取主题必须走此工具；禁止只读 `html.dark`。
 - **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。
-- **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro`（Bluesky `html` / `details`）与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
+- **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro`（Bluesky `html` / `details`）与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；带 `target` 的链接会强制 `rel="noopener noreferrer"`。新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
 - **`src/utils/reading-time.ts`**：阅读时间估算（`resolveMinutesRead` / `estimateMinutesReadFromText`）。列表页（`ListView.astro`）用 entry `body` 估算，**禁止**为取 `minutesRead` 对每篇 `await render()`；remark 插件 `plugins/remark-reading-time.ts` 与正文页共用同一公式。
 - **`src/utils/markdown-headings.ts`**：从 Markdown `body` 提取标题（`extractMarkdownHeadings`）。Shorts（`getShortsFromBlog`）用此工具取 h2 锚点，**禁止**为取 headings 对每篇 `await render()`。
-- **`public/_headers`**：Cloudflare Workers 静态资源安全响应头；改 CSP 时需兼顾 Umami/Ahrefs/Giscus、文章内 YouTube/Bilibili iframe、**Pagefind**（`script-src 'wasm-unsafe-eval'` + `worker-src 'self' blob:`）与 **Bunny Fonts**（`font-src https://fonts.bunny.net`）。
+- **`public/_headers`**：Cloudflare Workers 静态资源安全响应头；改 CSP 时需兼顾 Umami/Ahrefs/Giscus、文章内 YouTube/Bilibili iframe、**Pagefind**（`script-src 'wasm-unsafe-eval'` + `worker-src 'self' blob:`）、**Bunny Fonts**（`font-src https://fonts.bunny.net`）与 **KaTeX**（`font-src https://cdn.jsdelivr.net`）。
 
 ## 样式加载
 
