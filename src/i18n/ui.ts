@@ -63,13 +63,19 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Site stats
     'sitestats.title': '网站数据统计',
+    'sitestats.tag': '// SITE_STATS',
+    'sitestats.status': '{count} POSTS · LIVE',
     'sitestats.operatingTime': '经营时间',
     'sitestats.operatingTimeMain': '自 {start} 至今，共 {days} 天',
     'sitestats.operatingTimeSub': '（{years}年{months}个月{days}天）',
+    'sitestats.daysUnit': '天',
+    'sitestats.sinceStart': 'SINCE {start}',
     'sitestats.totalWords': '全部文章总字数',
-    'sitestats.postsPerYear': '每一年的文章数量',
+    'sitestats.postsPerYear': '// YEARLY_OUTPUT',
     'sitestats.yearItemCount': '{count} 篇',
     'sitestats.noData': '暂无数据',
+    'sitestats.footerSrc': 'SRC://BLOG',
+    'sitestats.footerSince': 'SINCE {start}',
 
     // ToC
     'toc.title': '目录',
@@ -325,13 +331,19 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Site stats
     'sitestats.title': 'Site stats',
-    'sitestats.operatingTime': 'Operating time',
+    'sitestats.tag': '// SITE_STATS',
+    'sitestats.status': '{count} POSTS · LIVE',
+    'sitestats.operatingTime': 'Uptime',
     'sitestats.operatingTimeMain': 'Since {start}, {days} days in total',
     'sitestats.operatingTimeSub': '({years}y {months}m {days}d)',
-    'sitestats.totalWords': 'Total word count',
-    'sitestats.postsPerYear': 'Posts per year',
+    'sitestats.daysUnit': 'days',
+    'sitestats.sinceStart': 'SINCE {start}',
+    'sitestats.totalWords': 'Total words',
+    'sitestats.postsPerYear': '// YEARLY_OUTPUT',
     'sitestats.yearItemCount': '{count} posts',
     'sitestats.noData': 'No data yet',
+    'sitestats.footerSrc': 'SRC://BLOG',
+    'sitestats.footerSince': 'SINCE {start}',
 
     // ToC
     'toc.title': 'Table of Contents',

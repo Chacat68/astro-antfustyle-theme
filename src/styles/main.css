@@ -19,6 +19,11 @@
   --c-glitch-red: #ff2a4a;
   --c-glitch-cyan: #2ad4ff;
 
+  /* HUD 壳层：角标线 / 网格 / LED glow */
+  --c-hud-line: rgba(2, 132, 199, 0.45);
+  --c-hud-grid: rgba(2, 132, 199, 0.06);
+  --c-glow: rgba(2, 132, 199, 0.25);
+
   /* 形状与阴影：更利落的直角倾向 */
   --c-radius: 0.2rem;
   --c-radius-sm: 0.125rem;
@@ -50,6 +55,10 @@
   --c-page-tint: rgba(56, 189, 248, 0.07);
   --c-glitch-red: #ff2a4a;
   --c-glitch-cyan: #2ad4ff;
+
+  --c-hud-line: rgba(56, 189, 248, 0.5);
+  --c-hud-grid: rgba(56, 189, 248, 0.07);
+  --c-glow: rgba(56, 189, 248, 0.35);
 
   --c-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
   --c-shadow-hover: 0 14px 36px rgba(0, 0, 0, 0.5);

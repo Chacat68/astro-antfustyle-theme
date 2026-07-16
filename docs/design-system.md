@@ -12,6 +12,7 @@
 | `--c-surface` / `--c-surface-hover` / `--c-border` | 卡片/面板表面与描边 |
 | `--c-accent` / `--c-accent-soft` / `--c-accent-muted` | 品牌天空蓝（浅 `#0284c7` / 深 `#38bdf8`） |
 | `--c-glitch-red` / `--c-glitch-cyan` | 故障 RGB 辅色（悬停错位、描边投影） |
+| `--c-hud-line` / `--c-hud-grid` / `--c-glow` | HUD 角标线、网格底、LED/焦点 glow（正文禁用大面积 glow） |
 | `--c-page-tint` | 顶部微渐变色调 |
 | `--c-radius` / `--c-radius-sm` / `--c-radius-lg` | 圆角阶梯（偏利落小圆角） |
 | `--c-shadow` / `--c-shadow-hover` | 轻阴影 |
@@ -65,6 +66,7 @@
 | `html` | 冷色底 + 极淡扫描线纹理 |
 | `.site-nav` | HUD 角标、当前页 accent 底线、悬停轻微 RGB text-shadow |
 | `.page-header` | 斜切面板 + 四角标 + 字距加宽标题 |
+| `SiteStats`（博客列表顶） | `hud-frame` + 四角 / LED / 扫描线 / mono 状态栏；指标块与年度柱对齐 AboutScreen 模块语法 |
 | 列表 / 社交链接 | 斜切裁切、悬停红青双边投影 |
 | 正文链接 / `hr` | 悬停 RGB 微错位；分隔线带故障色点缀 |
 

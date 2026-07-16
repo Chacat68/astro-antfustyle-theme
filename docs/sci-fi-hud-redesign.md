@@ -128,7 +128,7 @@
 
 | 表面 | 用 HUD？ | 说明 |
 |------|----------|------|
-| AboutScreen、Logo、Nav 底线、LatestPosts、Search 面板、GroupItem hover | 是 | 壳层 |
+| AboutScreen、Logo、Nav 底线、LatestPosts、SiteStats、Search 面板、GroupItem hover | 是 | 壳层 |
 | 博客列表行、文章 `.prose`、相册大图 | 否或极轻 | 保阅读 |
 | Footer | 轻 | 一行 mono `// EOF` 级 |
 
@@ -169,8 +169,9 @@
 1. 抽取 primitives；`AboutScreen` / `LogoButton` 改为消费 primitives
 2. `NavBar`：底部分割线用 `--c-hud-line`；active 链接触发细 neon underline
 3. `LatestPosts`：`.hud-frame` + mono 日期 / category
-4. `SearchSwitch`：面板加角标；输入框前 `>` prompt（克制，非全终端主题）
-5. `Footer`：mono 轻状态行
+4. `SiteStats`：博客列表顶统计面板对齐 AboutScreen（角标 / LED / 扫描线 / mono 状态栏）
+5. `SearchSwitch`：面板加角标；输入框前 `>` prompt（克制，非全终端主题）
+6. `Footer`：mono 轻状态行
 
 验收：首页 → 列表 → 搜索视觉同属一套语法。
 
@@ -229,6 +230,6 @@
 
 1. 去掉导航后，首屏仍能看出「付之一笑 + HUD 壳」，而非通用蓝白博客
 2. 长文页打开感觉安静，不觉得「游戏官网」
-3. AboutScreen、Logo、Nav、LatestPosts、Search 五处共用同一套角标/线宽/色相
+3. AboutScreen、Logo、Nav、LatestPosts、SiteStats、Search 共用同一套角标/线宽/色相
 4. 明暗主题与 theme_color 一致；reduced-motion 下无持续动画
 5. Lighthouse LCP 不因背景改造明显劣化（首页仍无 p5）
