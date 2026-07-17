@@ -1,10 +1,14 @@
 ---
-import Link from '~/components/base/Link.astro'
+/**
+ * 语言分段切换：中 | EN
+ * 文字槽位固定；高亮块滑动，避免切换时字形跳动。
+ * 用于顶栏导航与首页 SYS dock。
+ */
 import { getRelativeLocaleUrl } from 'astro:i18n'
 
 import { ensureTrailingSlash } from '~/utils/path'
 import { getLocale, useTranslations } from '~/i18n/translate'
-import { getAlternateLocale, type AppLocale } from '~/i18n/locales'
+import { APP_LOCALES, type AppLocale } from '~/i18n/locales'
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -18,22 +22,181 @@ const pathWithinLocale = currentPathname.startsWith(currentLocaleRoot)
 
 const normalizedPath = pathWithinLocale.replace(/^\/+/, '').replace(/\/+$/, '')
 
-const targetLocale = getAlternateLocale(locale)
-const targetHref = ensureTrailingSlash(
-  getRelativeLocaleUrl(targetLocale, normalizedPath)
+const SHORT_LABELS: Record<AppLocale, string> = { zh: '中', en: 'EN' }
+const activeIndex = Math.max(
+  0,
+  APP_LOCALES.findIndex((code) => code === locale)
 )
 
-const SHORT_LABELS: Record<AppLocale, string> = { en: 'EN', zh: '中' }
-const shortLabel = SHORT_LABELS[targetLocale]
-const title = `${t('a11y.languageSwitch')}: ${t(`lang.${targetLocale}`)}`
+const options = APP_LOCALES.map((code) => {
+  const href = ensureTrailingSlash(getRelativeLocaleUrl(code, normalizedPath))
+  const active = code === locale
+  const fullName = t(`lang.${code}`)
+  return {
+    code,
+    href,
+    active,
+    shortLabel: SHORT_LABELS[code],
+    title: active
+      ? `${fullName} (${t('a11y.languageCurrent')})`
+      : `${t('a11y.languageSwitch')}: ${fullName}`,
+  }
+})
+
+const [zhOpt, enOpt] = options
+const groupLabel = t('a11y.languageSwitch')
 ---
 
-<Link
-  class="inline-flex items-center gap-1 op-60 hover:op-100 op-transition"
-  href={targetHref}
-  {title}
-  aria-label={title}
+<nav
+  class="lang-switch"
+  aria-label={groupLabel}
+  data-active={locale}
+  style={`--ls-active: ${activeIndex}`}
 >
-  <span u-i-ri-translate-2 aria-hidden="true"></span>
-  <span class="text-sm font-500">{shortLabel}</span>
-</Link>
+  <a
+    class:list={[
+      'lang-switch__opt',
+      { 'lang-switch__opt--active': zhOpt.active },
+    ]}
+    href={zhOpt.href}
+    title={zhOpt.title}
+    aria-label={zhOpt.title}
+    aria-current={zhOpt.active ? 'true' : undefined}
+    tabindex={zhOpt.active ? -1 : undefined}
+    data-locale="zh"
+  >
+    {zhOpt.shortLabel}
+  </a>
+  <span class="lang-switch__sep" aria-hidden="true">/</span>
+  <a
+    class:list={[
+      'lang-switch__opt',
+      { 'lang-switch__opt--active': enOpt.active },
+    ]}
+    href={enOpt.href}
+    title={enOpt.title}
+    aria-label={enOpt.title}
+    aria-current={enOpt.active ? 'true' : undefined}
+    tabindex={enOpt.active ? -1 : undefined}
+    data-locale="en"
+  >
+    {enOpt.shortLabel}
+  </a>
+</nav>
+
+<style>
+  .lang-switch {
+    --ls-fg: var(--c-text);
+    --ls-muted: color-mix(in srgb, var(--c-text) 48%, transparent);
+    --ls-border: color-mix(in srgb, var(--c-accent) 32%, var(--c-border));
+    --ls-active-bg: color-mix(in srgb, var(--c-accent) 16%, transparent);
+    --ls-active-fg: var(--c-accent);
+    --ls-slot: 1.7rem;
+    --ls-sep: 0.55rem;
+    --ls-pad: 0.1rem;
+
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: var(--ls-slot) var(--ls-sep) var(--ls-slot);
+    align-items: stretch;
+    height: 1.55rem;
+    padding: var(--ls-pad);
+    border: 1px solid var(--ls-border);
+    border-radius: var(--c-radius-sm);
+    background: color-mix(in srgb, var(--c-surface) 72%, transparent);
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  /* 高亮块用伪元素，不占 grid 轨，文字槽位始终固定 */
+  .lang-switch::before {
+    content: '';
+    position: absolute;
+    top: var(--ls-pad);
+    bottom: var(--ls-pad);
+    left: var(--ls-pad);
+    width: var(--ls-slot);
+    border-radius: 2px;
+    background: var(--ls-active-bg);
+    transform: translateX(
+      calc(var(--ls-active) * (var(--ls-slot) + var(--ls-sep)))
+    );
+    transition: transform var(--duration-fast) var(--ease-out);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .lang-switch__sep {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.58rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--c-text) 28%, transparent);
+    user-select: none;
+  }
+
+  .lang-switch__opt {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: var(--ls-slot);
+    min-width: var(--ls-slot);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--ls-muted);
+    opacity: 1;
+    box-shadow: none;
+    text-shadow: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  /* 「中」单独用无衬线，避免 mono 回退字体墨水区偏位 */
+  .lang-switch__opt[data-locale='zh'] {
+    font-family:
+      'IBM Plex Sans',
+      'PingFang SC',
+      'Hiragino Sans GB',
+      'Noto Sans SC',
+      'Microsoft YaHei',
+      sans-serif;
+    font-size: 0.7rem;
+  }
+
+  .lang-switch__opt:hover:not(.lang-switch__opt--active),
+  .lang-switch__opt:focus-visible:not(.lang-switch__opt--active) {
+    color: var(--ls-fg);
+  }
+
+  .lang-switch__opt:focus-visible {
+    outline: 1px solid color-mix(in srgb, var(--c-accent) 55%, transparent);
+    outline-offset: 1px;
+  }
+
+  .lang-switch__opt--active {
+    color: var(--ls-active-fg);
+    cursor: default;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lang-switch::before,
+    .lang-switch__opt {
+      transition: none;
+    }
+  }
+</style>

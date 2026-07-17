@@ -247,6 +247,49 @@ const portals = [
     opacity: 1 !important;
   }
 
+  /* 语言分段控件：自管明暗与尺寸，不受 dock 全局 a/button 规则影响 */
+  .glitch-hero__dock :global(.lang-switch) {
+    --ls-fg: var(--gh-fg);
+    --ls-muted: rgba(244, 244, 242, 0.42);
+    --ls-border: rgba(244, 244, 242, 0.22);
+    --ls-active-bg: rgba(244, 244, 242, 0.1);
+    --ls-active-fg: var(--gh-fg);
+    opacity: 1 !important;
+    height: 1.45rem;
+    background: rgba(0, 0, 0, 0.28);
+  }
+
+  .glitch-hero__dock :global(.lang-switch a),
+  .glitch-hero__dock :global(.lang-switch .lang-switch__opt) {
+    box-sizing: border-box;
+    width: var(--ls-slot, 1.7rem) !important;
+    min-width: var(--ls-slot, 1.7rem) !important;
+    color: var(--ls-muted) !important;
+    opacity: 1 !important;
+    letter-spacing: 0 !important;
+    line-height: 1 !important;
+  }
+
+  .glitch-hero__dock :global(.lang-switch .lang-switch__opt[data-locale='en']) {
+    font-size: 0.68rem !important;
+    padding: 0 !important;
+  }
+
+  .glitch-hero__dock :global(.lang-switch .lang-switch__opt[data-locale='zh']) {
+    font-size: 0.7rem !important;
+    padding: 0 !important;
+  }
+
+  .glitch-hero__dock :global(.lang-switch a.lang-switch__opt:hover),
+  .glitch-hero__dock :global(.lang-switch a.lang-switch__opt:focus-visible) {
+    color: var(--ls-fg) !important;
+    opacity: 1 !important;
+  }
+
+  .glitch-hero__dock :global(.lang-switch__opt--active) {
+    color: var(--ls-active-fg) !important;
+  }
+
   .glitch-hero__dock :global(#theme-switch),
   .glitch-hero__dock :global(#search-switch) {
     display: inline-flex;
@@ -1132,12 +1175,6 @@ const portals = [
       themeObserver.observe(document.documentElement, {
         attributes: true,
         attributeFilter: ['class'],
-      })
-
-      // 悬停入口时加重故障
-      root.querySelectorAll('.glitch-hero__portal').forEach((el) => {
-        el.addEventListener('pointerenter', () => handle?.setIntensity(1.15))
-        el.addEventListener('pointerleave', () => handle?.setIntensity(0.55))
       })
     }
 

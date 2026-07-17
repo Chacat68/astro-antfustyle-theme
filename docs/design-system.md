@@ -41,6 +41,10 @@
 
 `LogoButton.astro`：故障艺术字标。左侧迷你方框（角标 + X + 底杠 + 低频扫描，呼应首页舞台）；右侧站名字标，悬停 / `:focus-visible` / 当前页显示 RGB 切片错位。无柔光光斑；链接强制 `op-100!`。尊重 `prefers-reduced-motion`。
 
+## 语言切换
+
+`LanguageSwitch.astro`：HUD 分段控件 `中 / EN`。两侧固定等宽槽位；文字位置不变，仅高亮块随当前语言滑动（避免 CJK/拉丁切换跳动）；当前项 `aria-current="true"`。用于顶栏 `langButton` 与首页 SYS dock。
+
 ## 浮层定位
 
 `SearchSwitch.astro` 的搜索面板挂在 sticky 导航内，而 `.site-nav` 的 `backdrop-filter` 会形成 fixed 包含块，因此不能用 `top/left: 50%`（会相对 header 而非视口）。
@@ -78,12 +82,12 @@
 |------|------|
 | 结构 | 全屏 Three.js `hero` 模式舞台 + 居中品牌字 + **右侧功能入口竖栏**（关于 / 博客 / 项目等） |
 | 文案 | i18n：`home.glitch.*`（中：付之 / 一笑；英：FOO / Z） |
-| 交互 | 点击入口跳转对应页面；悬停入口加重故障强度；桌面精确定位设备下入口默认收纳屏外仅露序号，悬停 / `:focus-visible` 滑出完整按钮 |
+| 交互 | 点击入口跳转对应页面；悬停入口不改变背景故障强度（避免整屏闪烁）；桌面精确定位设备下入口默认收纳屏外仅露序号，悬停 / `:focus-visible` 滑出完整按钮 |
 | 入口形态 | 右侧单列 HUD 信道块：角标 / 序号 / SRC / 悬停 RGB 错位与扫描线；≤768px 或触控 / `prefers-reduced-motion` 时展示完整按钮 |
 | 舞台动效 | 弧线 / 波纹 / 能量带 / 线框常驻运动；切片与闪白保持低频 |
 | 品牌故障 | Logo 方框 / 文字 / RGB 切片 / 底杠偶发闪烁错位（约 7–9.5s 周期，短促爆发）；`prefers-reduced-motion` 关闭 |
 | 左下 | 社交媒体（`UI.socialLinks`，标签 `SIG`） |
-| 右下 | 搜索 / 语言 / 日夜 / RSS / 更新日志（标签 `SYS`；顶栏 Logo+导航隐藏） |
+| 右下 | 搜索 / 语言分段（`中 / EN`） / 日夜 / RSS / 更新日志（标签 `SYS`；顶栏 Logo+导航隐藏） |
 | About | 已迁至 [`/about`](../src/pages/about.astro)（个人简介 + 博客历程 / 理念配图 + 联系方式 / 社交） |
 | 布局 | 品牌区 `place-items: center`；入口绝对定位贴右并垂直居中；`mainClass="home-main"` + `minimalChrome`；首页锁 `overflow` |
 | 舞台稳定 | `uTime` 周期化；监听 WebGL context lost/restored 与 `visibilitychange`，避免长时黑屏 |
