@@ -48,9 +48,13 @@
 - **`src/components/nav/NavBarSlot.astro`**：导航栏单侧组件序列渲染，`NavBar.astro` 左右两侧复用，新增导航组件类型时只改这一处。
 - **`src/components/widgets/search-panel.ts`**：`<search-panel>` 自定义元素完整逻辑，`SearchSwitch.astro` 仅保留模板与 Pagefind 装载脚本。
 - **站内搜索（Pagefind）**：`postbuild` 使用 Pagefind **≥ 1.5**，`--force-language zh-cn` 统一索引；`pagefind.init('zh-cn')`。`noindex` 页（英文回退中文稿）不入索引，避免重复占位。正文内注入标题/标签及 CJK 整词·单字·二元组增强召回；查询侧对中文做变体搜索合并。`postbuild` 同步索引到 `public/pagefind/`（gitignore）供 `pnpm dev` 联调。
-- **`src/components/backgrounds/three-background.ts`** + **`glitch-engine.ts`**：全站故障艺术背景工厂。`defineThreeBackground` 动态 `import('three')`、idle 延迟、CE 生命周期 dispose、主题 MutationObserver；引擎分 `lite`（透明叠层）与 `hero`（首页不透明舞台）。
-- **`src/components/backgrounds/Glitch.astro`**：默认全站背景；`Background.astro` 将旧 `bgType`（dot/plum/rose…）统一渲染为 glitch（旧 p5 组件已移除）。
+- **`src/components/backgrounds/glitch-engine.ts`**：首页 `GlitchHero` 的 Three.js `hero` 舞台（idle 延迟挂载、主题 MutationObserver、`prefers-reduced-motion` 静态帧）。
+- **`src/components/backgrounds/Glitch.astro`**：默认全站 **纯 CSS** lite 背景（网格/噪声/扫描线）；`Background.astro` 将旧 `bgType`（dot/plum/rose…）统一渲染为 glitch。内页不再下载 Three.js。
+- **`src/components/backgrounds/three-background.ts`**：历史 CE 工厂，现仅作参考/备用（lite 已改 CSS）；新背景优先 CSS/SVG。
 - **首页展示台**：[`GlitchHero.astro`](../src/components/home/GlitchHero.astro) 自挂 Three.js `hero` 模式；品牌字居中，功能入口为右侧竖栏（默认收纳屏外仅露序号，悬停滑出；窄屏 / 触控回落到完整按钮）；`bgType: false` 避免双 canvas。About 内容在 [`/about`](../src/pages/about.astro)（文案见 `i18n` 的 `about.*`；理念配图在 `src/assets/about/`）。
+- **字体**：`src/styles/fonts.css` 仅 latin `@font-face`；`Head.astro` preload 400/600。禁止用 `presetWebFonts` 拉全子集。
+- **KaTeX**：样式仅在 `RenderPost.astro` 引入，勿写回 `markdown.css` 全站 `@import`。
+- **Pagefind**：`SearchSwitch` 默认不急切加载；打开搜索（或 URL `?search=`）再 `__loadPagefind()`。
 - **OG 图底图**：`plugins/og-template/markup.ts` 仅有 plum/dot/rose/particle 静态资源；页面 `bgType: glitch`（及 wave/constellation）会映射为 `dot`，避免生成失败。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。背景读取主题必须走此工具；禁止只读 `html.dark`。
 - **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。本地图路径解析见 **`resolveLocalImagePath`**（`src/utils/resolve-local-image-path.ts`）：按完整后缀 / 唯一 basename 匹配，**禁止** `path.includes(id)` 子串匹配。
@@ -67,7 +71,8 @@
 
 ## 样式加载
 
-- viewerjs 的主样式在 `ImageViewer.astro` 的 script 中按需引入（`import 'viewerjs/dist/viewer.css'`），不要加回 `markdown.css` 全站加载；`markdown.css` 中仅保留主题对 `.viewer-*` 的覆盖规则。
+- viewerjs 主样式用 `viewerjs/dist/viewer.css?url` 挂在 `ImageViewer.astro` 模板（仅渲染该组件的页面），不要在 `<script>` 里 `import` CSS（易被抽进全站公共样式），也不要加回 `markdown.css`；`markdown.css` 中仅保留主题对 `.viewer-*` 的覆盖规则。
+- KaTeX 样式仅 `RenderPost.astro` 引入；`markdown.css` 禁止 `@import` KaTeX。
 - 设计 token、字体、背景色系统与页面分配约定见 [design-system.md](./design-system.md)。
 - UnoCSS 图标：`unocss.config.ts` 中 `presetIcons.collections` 从 `@iconify/json` 显式加载。Cursor/VS Code 会设置 `VSCODE_CWD`，导致默认 node-loader 被跳过；新增图标集合时需同步加入 `iconCollections` 列表。
 

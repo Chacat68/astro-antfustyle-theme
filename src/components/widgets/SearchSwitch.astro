@@ -216,62 +216,94 @@ const searchPanelI18n = JSON.stringify({
 
 <!-- https://github.com/pagefind/pagefind/blob/production-docs/pagefind_web_js/types/index.d.ts -->
 <!-- PROD 由构建产物提供；DEV 依赖 postbuild 同步到 public/pagefind -->
+<!-- 默认不急切加载：等打开搜索或 URL 带 ?search= 再拉取（约省 35KB+） -->
 <script is:inline define:vars={{scriptUrl: withBasePath('/pagefind/pagefind.js'), navHighlight}}>
+  let pagefindPromise = null
+
   async function loadPagefind() {
-    try {
-      const pagefind = await import(/* @vite-ignore */ scriptUrl)
+    if (window.pagefind) return window.pagefind
+    if (pagefindPromise) return pagefindPromise
 
-      // https://pagefind.app/docs/search-config/
-      // 索引以 --force-language zh-cn 构建；init 显式指定语言，避免英文页 html[lang=en] 加载失败
-      await pagefind.options({
-        'excerptLength': 20,
-        ...(navHighlight && {
-          'highlightParam': 'search'
-        }),
+    pagefindPromise = (async () => {
+      try {
+        const pagefind = await import(/* @vite-ignore */ scriptUrl)
 
-        // https://pagefind.app/docs/ranking/
-        ranking: {
-          termFrequency: 0.6,
-          termSimilarity: 1.0,
-          pageLength: 0.0,
-          termSaturation: 1.4
-        }
-      })
+        // https://pagefind.app/docs/search-config/
+        // 索引以 --force-language zh-cn 构建；init 显式指定语言，避免英文页 html[lang=en] 加载失败
+        await pagefind.options({
+          'excerptLength': 20,
+          ...(navHighlight && {
+            'highlightParam': 'search'
+          }),
 
-      await pagefind.init('zh-cn')
-      window.pagefind = pagefind
-    } catch (err) {
-      // DEV 尚未 build / 未同步索引时静默降级为 mock
-      console.warn('[pagefind] unavailable, using mock search results', err)
-    }
+          // https://pagefind.app/docs/ranking/
+          ranking: {
+            termFrequency: 0.6,
+            termSimilarity: 1.0,
+            pageLength: 0.0,
+            termSaturation: 1.4
+          }
+        })
+
+        await pagefind.init('zh-cn')
+        window.pagefind = pagefind
+        return pagefind
+      } catch (err) {
+        // DEV 尚未 build / 未同步索引时静默降级为 mock
+        console.warn('[pagefind] unavailable, using mock search results', err)
+        pagefindPromise = null
+        return null
+      }
+    })()
+
+    return pagefindPromise
   }
 
-  if (!window.pagefind) loadPagefind()
+  window.__loadPagefind = loadPagefind
+
+  // 从搜索结果带高亮参数落地时，仍需提前装载
+  if (navHighlight && new URLSearchParams(location.search).has('search')) {
+    loadPagefind()
+  }
 </script>
 
 {import.meta.env.PROD && navHighlight &&
   <script is:inline define:vars={{scriptUrl: withBasePath('/pagefind/pagefind-highlight.js')}}>
+    let highlightPromise = null
+
     async function loadPagefindHighlight() {
-      await import(scriptUrl)
+      if (window.pagefindHighlight) return window.pagefindHighlight
+      if (highlightPromise) return highlightPromise
 
-      const PagefindHighlight = window.PagefindHighlight
-      if (!PagefindHighlight) return
-      const pagefindHighlight = new PagefindHighlight({
-        // https://pagefind.app/docs/highlight-config
-        highlightParam: "search",
-        markContext: "[data-pagefind-body]",
-        markOptions: {
-          // https://markjs.io/#mark
-          className: "pagefind-highlight",
-          exclude: ["[data-pagefind-ignore]", "[data-pagefind-ignore] *"],
-        },
-        addStyles: false,
-      });
+      highlightPromise = (async () => {
+        await import(scriptUrl)
 
-      window.pagefindHighlight = pagefindHighlight
+        const PagefindHighlight = window.PagefindHighlight
+        if (!PagefindHighlight) return null
+        const pagefindHighlight = new PagefindHighlight({
+          // https://pagefind.app/docs/highlight-config
+          highlightParam: "search",
+          markContext: "[data-pagefind-body]",
+          markOptions: {
+            // https://markjs.io/#mark
+            className: "pagefind-highlight",
+            exclude: ["[data-pagefind-ignore]", "[data-pagefind-ignore] *"],
+          },
+          addStyles: false,
+        });
+
+        window.pagefindHighlight = pagefindHighlight
+        return pagefindHighlight
+      })()
+
+      return highlightPromise
     }
 
-    if (!window.pagefindHighlight) loadPagefindHighlight()
+    window.__loadPagefindHighlight = loadPagefindHighlight
+
+    if (new URLSearchParams(location.search).has('search')) {
+      loadPagefindHighlight()
+    }
   </script>}
 
 {import.meta.env.PROD && navHighlight &&
@@ -281,6 +313,6 @@ const searchPanelI18n = JSON.stringify({
       if(!params.has('search')) return
 
       // @ts-expect-error (for Cannot find name 'pagefindHighlight'.ts(2304))
-      pagefindHighlight.highlight()
+      pagefindHighlight?.highlight()
     })
   </script>}

@@ -1,6 +1,5 @@
-/* viewerjs 样式改为在 ImageViewer.astro 内按需引入，避免全站加载 */
+/* viewerjs / KaTeX 均按需加载，勿在此全站引入 */
 @import 'rehype-callouts/theme/vitepress';
-@import url('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css');
 
 /* Prose Complement */
 .prose {

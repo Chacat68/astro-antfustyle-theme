@@ -126,5 +126,10 @@ const cjkSearchBoost = isSearchable
       </div>
     )
   }
+  {/* KaTeX 仅正文页引入（body 内 link 合法且不污染首页/列表） */}
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  />
   <ImageViewer selector="article" options={{ title: 0, navbar: 0 }} />
 </BaseLayout>

@@ -236,6 +236,12 @@ class SearchPanel extends HTMLElement {
     if (!this.#content) return
     const value = (event.target as HTMLInputElement).value.trim()
 
+    // 打开面板后可能仍在装载；输入时再等一次
+    const ensurePagefind = (
+      window as Window & { __loadPagefind?: () => Promise<unknown> }
+    ).__loadPagefind
+    if (ensurePagefind) await ensurePagefind()
+
     // 有 Pagefind 时走真实搜索（PROD，或 DEV 已同步 public/pagefind）
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const pagefindApi = (window as any).pagefind as
@@ -628,6 +634,20 @@ class SearchPanel extends HTMLElement {
 /* 点击搜索按钮打开/关闭面板 */
 document.addEventListener('astro:page-load', () => {
   const handleToggle = () => {
+    // 打开搜索时再装载 Pagefind，避免首屏急切下载
+    const load = (
+      window as Window & {
+        __loadPagefind?: () => Promise<unknown>
+        __loadPagefindHighlight?: () => Promise<unknown>
+      }
+    ).__loadPagefind
+    void load?.()
+    void (
+      window as Window & {
+        __loadPagefindHighlight?: () => Promise<unknown>
+      }
+    ).__loadPagefindHighlight?.()
+
     toggleFadeEffect('backdrop', true, 'hidden')
     toggleFadeEffect('search-panel', true, 'hidden')
 

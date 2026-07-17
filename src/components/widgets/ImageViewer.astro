@@ -1,5 +1,7 @@
 ---
 import type Viewer from 'viewerjs'
+// 用 ?url 挂在本组件模板上，避免 script 内 CSS import 被抽进全站公共样式
+import viewerCssHref from 'viewerjs/dist/viewer.css?url'
 
 interface Props {
   selector: string
@@ -16,6 +18,8 @@ const {
 } = Astro.props as Props
 ---
 
+<link rel="stylesheet" href={viewerCssHref} />
+
 <image-viewer
   data-selector={selector}
   data-options={JSON.stringify(options)}
@@ -26,7 +30,6 @@ const {
 
 <script>
   import Viewer from 'viewerjs'
-  import 'viewerjs/dist/viewer.css'
   import { lockScroll, unlockScroll } from '~/utils/misc'
 
   // global default config

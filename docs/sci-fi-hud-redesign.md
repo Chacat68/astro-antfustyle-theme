@@ -209,11 +209,13 @@
 
 ## 8. 性能与无障碍红线
 
-1. 首页：`slide-enter-instant` + SVG Wave，禁止默认挂 p5
-2. 新装饰优先 CSS/SVG；p5 仅内页可选背景
+1. 首页：`GlitchHero` Three.js 仅 `hero`；内页背景必须是 CSS/SVG，禁止默认挂 Three.js / p5
+2. 新装饰优先 CSS/SVG；Three.js 仅首页展示台
 3. 全局尊重 `prefers-reduced-motion`
 4. 对比度：正文与 `--c-bg` 保持 WCAG AA；accent 仅用于交互与装饰，不作大段正文色
 5. 扫描线/网格不得降低正文对比（叠在背景层 `z-index` 负或极淡）
+6. 字体：仅 latin `@font-face`（`fonts.css`）；禁止 `presetWebFonts` 全子集
+7. Pagefind / KaTeX / viewerjs：按需加载，不进首屏急切路径
 
 ---
 

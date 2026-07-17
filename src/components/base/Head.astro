@@ -348,6 +348,23 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 }
 <link rel="alternate" hreflang="x-default" href={xDefaultURL.href} />
 
+<!-- 关键拉丁字体预加载（中文走系统栈；完整 @font-face 见 fonts.css） -->
+<link
+  rel="preload"
+  href="https://fonts.bunny.net/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<link
+  rel="preload"
+  href="https://fonts.bunny.net/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
+
 <!-- Icon -->
 <link rel="icon" type="image/svg+xml" href={withBasePath('/favicon.svg')} />
 <link rel="icon" sizes="32x32" href={withBasePath('/favicon.ico')} />

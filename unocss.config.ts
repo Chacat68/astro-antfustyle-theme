@@ -3,7 +3,6 @@ import {
   presetWind3,
   presetAttributify,
   presetIcons,
-  presetWebFonts,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
@@ -93,6 +92,16 @@ export default defineConfig({
         ...theme.breakpoints,
         lgp: '1128px',
       },
+      // 字体文件见 src/styles/fonts.css（仅 latin，避免 presetWebFonts 全子集膨胀）
+      fontFamily: {
+        ...theme.fontFamily,
+        sans: '"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif',
+        mono: '"DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+        condensed:
+          '"IBM Plex Sans Condensed", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif',
+        serif:
+          'Newsreader, ui-serif, Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif',
+      },
     }
   },
 
@@ -137,30 +146,6 @@ export default defineConfig({
         'height': '1.2em',
         'width': '1.2em',
         'vertical-align': 'text-bottom',
-      },
-    }),
-    presetWebFonts({
-      // bunny 在国内更稳；失败时不影响 icons 等其他 preset
-      provider: 'bunny',
-      fonts: {
-        // IBM Plex Sans：技术向、克制，比 Inter 更有辨识度，仍贴合 antfu 极简气质
-        sans: {
-          name: 'IBM Plex Sans',
-          weights: ['400', '500', '600', '700'],
-        },
-        mono: {
-          name: 'DM Mono',
-          weights: ['400', '600'],
-        },
-        condensed: {
-          name: 'IBM Plex Sans Condensed',
-          weights: ['400', '600'],
-        },
-        serif: {
-          name: 'Newsreader',
-          weights: ['400', '600'],
-          italic: true,
-        },
       },
     }),
   ],
