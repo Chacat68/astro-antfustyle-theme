@@ -36,11 +36,29 @@
     "categoryEn": "Game Development"
   },
   {
-    "id": "「江湖」",
-    "link": "https://foo-z.com/projects/",
-    "desc": "武侠题材卡牌游戏原型：回合制对局 + 牌组构筑，采用原创江湖世界观与门派体系（致敬传统武侠氛围），围绕招式、内功、轻功与奇遇构建策略组合。",
-    "descEn": "A wuxia-themed card game prototype: turn-based battles with deck building, set in an original jianghu world with sect systems, built around martial moves, inner power, lightness skills, and chance encounters.",
-    "icon": "i-ph-sword-duotone",
+    "id": "「星际贸易商」",
+    "link": "https://github.com/Chacat68/linegame-web",
+    "desc": "浏览器单机星际贸易经营游戏：Babylon.js 3D 星图、动态经济与贸易循环，涵盖舰队、金融、派系与本地存档。",
+    "descEn": "A browser-based single-player interstellar trading sim with a Babylon.js 3D star map, dynamic economy and trade loop, plus fleet, finance, factions, and local saves.",
+    "icon": "i-ph-rocket-launch-duotone",
+    "category": "游戏开发",
+    "categoryEn": "Game Development"
+  },
+  {
+    "id": "「PetPlan 宠物计划」",
+    "link": "https://github.com/Chacat68/PetPlan",
+    "desc": "横屏街机风格宠物养成放置游戏：命运桌资源循环、可操控的宠物远征探索战斗，以及领地建筑承接中期成长。",
+    "descEn": "A landscape arcade-style pet idle game: fate-table resource loops, controllable pet expeditions for exploration and combat, and territory buildings for mid-game progression.",
+    "icon": "i-ph-paw-print-duotone",
+    "category": "游戏开发",
+    "categoryEn": "Game Development"
+  },
+  {
+    "id": "「开元历险记（大唐王朝）」",
+    "link": "https://github.com/Chacat68/SimulatedTown",
+    "desc": "Godot 2D 俯视角模拟经营：唐末小镇建设与资源管理，兼顾家族治理、农商军备与外交辞令应对。",
+    "descEn": "A Godot 2D top-down town sim set in late Tang China: manage resources and construction while balancing clan rule, farming, trade, military escorts, and diplomatic encounters.",
+    "icon": "i-ph-house-line-duotone",
     "category": "游戏开发",
     "categoryEn": "Game Development"
   },

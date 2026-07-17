@@ -35,9 +35,9 @@ export const SITE = {
 | `https://www.chawfoo.com/article/diary9` | `/blog/diary9/` |
 | `https://www.chawfoo.com/look` | 改为文内锚点或删除（该页面已不存在） |
 
-项目页中指向本站项目列表的条目，使用完整 URL `https://foo-z.com/projects/`（schema 要求 `link` 为合法 URL，不可用相对路径）。
+项目页数据来源为 `src/content/projects/data.json`（中英双语字段约定见 [architecture-conventions.md](./architecture-conventions.md)）。指向本站项目列表的条目，使用完整 URL `https://foo-z.com/projects/`（schema 要求 `link` 为合法 URL，不可用相对路径）。
 
-独立子站（如 `https://arch.chawfoo.com/`）可继续保留完整 URL。
+GitHub / 独立子站项目（如 `https://github.com/Chacat68/linegame-web`、`https://arch.chawfoo.com/`）使用对应完整 URL。
 
 ## AI 绘图画廊（`/gallery`）
 
