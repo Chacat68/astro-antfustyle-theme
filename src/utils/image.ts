@@ -213,6 +213,7 @@ export async function fetchRemoteImageWithSharp(
       console.warn(
         `[fetchRemoteImageWithSharp] Exceeded size limit ${maxBytes}B`
       )
+      await reader.cancel().catch(() => undefined)
       return { isImage: false, data: null, width: null, height: null }
     }
     chunks.push(value)

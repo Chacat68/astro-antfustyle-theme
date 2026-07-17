@@ -65,11 +65,12 @@ function collectMarkdownContentIds(
     const extension = extname(entry.name)
     if (!markdownExtensions.has(extension)) continue
 
+    // 保持与 Astro content id 一致的大小写（勿 toLowerCase），
+    // 否则 Linux 生产环境下 sitemap 可能生成错误路径（如 Steam2022 → steam2022）
     const relativePath = relative(baseDirectory, entryPath)
       .split(sep)
       .join('/')
       .replace(/\.mdx?$/, '')
-      .toLowerCase()
     contentIds.add(relativePath)
   }
 

@@ -146,6 +146,9 @@ const getFilterHref = (tag: string) =>
 
   class PhotoView extends HTMLElement {
     #initialized = false
+    /** 每次 connect/disconnect 递增，用于丢弃过期的 async 初始化 */
+    #mountGeneration = 0
+    #fetchAbort: AbortController | null = null
     #isMasonry = this.dataset.layout === 'masonry'
     #masonryStrategy = this.dataset.masonryStrategy || 'sequential'
 
@@ -262,12 +265,21 @@ const getFilterHref = (tag: string) =>
     async connectedCallback() {
       if (this.#initialized) return
       this.#initialized = true
+      const generation = ++this.#mountGeneration
+
+      this.#fetchAbort?.abort()
+      this.#fetchAbort = new AbortController()
+
       this.#container = this.querySelector('.photo-container')
       this.#emptyState = this.querySelector('.photo-empty-state')
       this.#button = this.querySelector('.photo-layout-toggle')
-      this.#loader = document.querySelector('.photo-loader')
+      // Loader 是 photo-view 的兄弟节点，限定在父级内查找，避免全局误绑
+      this.#loader =
+        this.parentElement?.querySelector<HTMLElement>('.photo-loader') ?? null
 
-      const didLoad = await this.#fetchData()
+      const didLoad = await this.#fetchData(this.#fetchAbort.signal)
+      if (!this.isConnected || generation !== this.#mountGeneration) return
+
       this.#getLayout()
       if (!didLoad) {
         this.#showEmptyState('error')
@@ -308,6 +320,10 @@ const getFilterHref = (tag: string) =>
     }
 
     disconnectedCallback() {
+      this.#mountGeneration++
+      this.#fetchAbort?.abort()
+      this.#fetchAbort = null
+
       window.removeEventListener('scroll', this.#handleWindowScroll)
 
       if (this.#tagFilterEnabled()) {
@@ -334,14 +350,15 @@ const getFilterHref = (tag: string) =>
         this.#container = null
       }
 
+      this.#loader = null
       this.#emptyState = null
       this.#initialized = false
     }
 
-    #fetchData = async () => {
+    #fetchData = async (signal?: AbortSignal) => {
       try {
         const base = this.dataset.jsonBase || '/photos/photos'
-        const res = await fetch(`${base}.${this.dataset.hash}.json`)
+        const res = await fetch(`${base}.${this.dataset.hash}.json`, { signal })
         if (!res.ok) {
           throw new Error(`HTTP ${res.status} while loading ${res.url}`)
         }
@@ -349,6 +366,12 @@ const getFilterHref = (tag: string) =>
         this.#rawItems = Array.isArray(data) ? data : []
         return true
       } catch (err) {
+        if (
+          signal?.aborted ||
+          (err instanceof DOMException && err.name === 'AbortError')
+        ) {
+          return false
+        }
         console.error('[PhotoView] fetch error:', err)
         this.#rawItems = []
         this.#visibleItems = []

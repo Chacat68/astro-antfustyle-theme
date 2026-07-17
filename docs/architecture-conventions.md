@@ -53,11 +53,17 @@
 - **首页展示台**：[`GlitchHero.astro`](../src/components/home/GlitchHero.astro) 自挂 Three.js `hero` 模式；品牌字居中，功能入口为右侧竖栏（默认收纳屏外仅露序号，悬停滑出；窄屏 / 触控回落到完整按钮）；`bgType: false` 避免双 canvas。About 内容在 [`/about`](../src/pages/about.astro)（文案见 `i18n` 的 `about.*`；理念配图在 `src/assets/about/`）。
 - **OG 图底图**：`plugins/og-template/markup.ts` 仅有 plum/dot/rose/particle 静态资源；页面 `bgType: glitch`（及 wave/constellation）会映射为 `dot`，避免生成失败。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。背景读取主题必须走此工具；禁止只读 `html.dark`。
-- **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。
+- **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。本地图路径解析见 **`resolveLocalImagePath`**（`src/utils/resolve-local-image-path.ts`）：按完整后缀 / 唯一 basename 匹配，**禁止** `path.includes(id)` 子串匹配。
+- **`src/components/views/PhotoView.astro`**：相册/画廊客户端 CE。`connectedCallback` 为 async：用 `#mountGeneration` + `AbortController` 在 View Transitions 离开后丢弃过期初始化；`.photo-loader` 在父级内查找，勿用全局 `document.querySelector`。
 - **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro`（Bluesky `html` / `details`）与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；带 `target` 的链接会强制 `rel="noopener noreferrer"`。新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
 - **`src/utils/reading-time.ts`**：阅读时间估算（`resolveMinutesRead` / `estimateMinutesReadFromText`）。列表页（`ListView.astro`）用 entry `body` 估算，**禁止**为取 `minutesRead` 对每篇 `await render()`；remark 插件 `plugins/remark-reading-time.ts` 与正文页共用同一公式。
 - **`src/utils/markdown-headings.ts`**：从 Markdown `body` 提取标题（`extractMarkdownHeadings`）。Shorts（`getShortsFromBlog`）用此工具取 h2 锚点，**禁止**为取 headings 对每篇 `await render()`。
-- **`public/_headers`**：Cloudflare Workers 静态资源安全响应头；改 CSP 时需兼顾 Umami/Ahrefs/Giscus、文章内 YouTube/Bilibili iframe、**Pagefind**（`script-src 'wasm-unsafe-eval'` + `worker-src 'self' blob:`）、**Bunny Fonts**（`font-src https://fonts.bunny.net`）与 **KaTeX**（`font-src https://cdn.jsdelivr.net`）。
+- **`public/_headers`**：Cloudflare Workers 静态资源安全响应头。CSP 要点：
+  - **Pagefind**：`script-src 'wasm-unsafe-eval'` + `worker-src 'self' blob:`
+  - **Bunny Fonts / KaTeX**：`font-src` / `style-src` 含 `fonts.bunny.net`、`cdn.jsdelivr.net`
+  - **script-src / connect-src**：勿用宽泛 `https:`；第三方白名单含 `https://umami.chawfoo.com`、`analytics.ahrefs.com`、`giscus.app`。更换 Umami 域名时同步改此处与 `PUBLIC_UMAMI_SRC`
+  - **img-src / media-src**：可保留 `https:`（正文远程图、COS、Google favicon 等）
+  - 文章内 iframe：`frame-src` 含 YouTube / Bilibili / Giscus
 
 ## 样式加载
 
@@ -86,4 +92,5 @@ node -e "require('sharp')('in.webp').resize({width:2000,height:2000,fit:'inside'
 - 预渲染冲突策略：`prerenderConflictBehavior: 'error'`（Astro 6 稳定项，替代已移除的 `experimental.failOnPrerenderConflict`）。
 - 本地 Pagefind 索引目录 `public/pagefind/` 已从 `tsconfig` exclude，避免 `astro check` 扫描生成物。
 - `wrangler.toml` 为 Cloudflare Workers 生产部署配置（Worker `blog-4`），**不可删除**，详见 [deployment.md](./deployment.md)。
-- 单元测试：`pnpm test`（Node 内置 test runner + `--experimental-strip-types`），覆盖 `sanitize-html` / `reading-time` / `markdown-headings` / `httpUrlSchema`。
+- 单元测试：`pnpm test`（Node 内置 test runner + `--experimental-strip-types`），覆盖 `sanitize-html` / `reading-time` / `markdown-headings` / `httpUrlSchema` / `resolveLocalImagePath`。CI（`.github/workflows/ci.yml`）在 check、lint 之后、build 之前执行 `pnpm test`。
+- 英文博客 sitemap：`astro.config.ts` 的 `collectMarkdownContentIds` **保持与 Astro content id 相同的大小写**（勿 `toLowerCase`），避免 Linux 生产环境路径错误。

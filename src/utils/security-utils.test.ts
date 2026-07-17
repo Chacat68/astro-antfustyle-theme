@@ -5,6 +5,7 @@ import { sanitizeHtml } from './sanitize-html.ts'
 import { resolveMinutesRead } from './reading-time.ts'
 import { extractMarkdownHeadings } from './markdown-headings.ts'
 import { httpUrlSchema } from './url-schema.ts'
+import { resolveLocalImagePath } from './resolve-local-image-path.ts'
 
 describe('sanitizeHtml', () => {
   it('strips script and event handlers', () => {
@@ -76,5 +77,54 @@ describe('httpUrlSchema', () => {
       httpUrlSchema.safeParse('javascript:alert(1)').success,
       false
     )
+  })
+})
+
+describe('resolveLocalImagePath', () => {
+  const keys = [
+    '/src/content/photos/01.webp',
+    '/src/content/photos/photo1.webp',
+    '/src/content/photos/myphoto1.webp',
+    '/src/content/ai-gallery/category/a.webp',
+  ]
+
+  it('matches by exact path suffix and rejects substring collisions', () => {
+    assert.equal(
+      resolveLocalImagePath('01.webp', keys),
+      '/src/content/photos/01.webp'
+    )
+    assert.equal(
+      resolveLocalImagePath('photo1.webp', keys),
+      '/src/content/photos/photo1.webp'
+    )
+    assert.equal(
+      resolveLocalImagePath('myphoto1.webp', keys),
+      '/src/content/photos/myphoto1.webp'
+    )
+    assert.equal(resolveLocalImagePath('photo1', keys), undefined)
+  })
+
+  it('matches nested relative ids and rejects http(s)', () => {
+    assert.equal(
+      resolveLocalImagePath('category/a.webp', keys),
+      '/src/content/ai-gallery/category/a.webp'
+    )
+    assert.equal(
+      resolveLocalImagePath('https://example.com/x.webp', keys),
+      undefined
+    )
+  })
+
+  it('returns undefined when basename is ambiguous', () => {
+    const ambiguous = [
+      '/src/content/photos/a.webp',
+      '/src/content/ai-gallery/a.webp',
+    ]
+    const warnings: string[] = []
+    assert.equal(
+      resolveLocalImagePath('a.webp', ambiguous, (m) => warnings.push(m)),
+      undefined
+    )
+    assert.equal(warnings.length, 1)
   })
 })

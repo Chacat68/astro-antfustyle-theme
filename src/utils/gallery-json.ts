@@ -14,6 +14,7 @@ import {
   generatePlaceholder,
   getThumbnail,
 } from '~/utils/image'
+import { resolveLocalImagePath } from '~/utils/resolve-local-image-path'
 
 import type { PhotoGalleryItem } from '~/types/photo-gallery'
 
@@ -47,6 +48,8 @@ export function computeGalleryHash(entries: GalleryEntry[]): string {
     .digest('hex')
     .slice(0, 8)
 }
+
+export { resolveLocalImagePath } from '~/utils/resolve-local-image-path'
 
 function readCache(cachePath: string, uuid: string) {
   return JSON.parse(readFileSync(cachePath + uuid, 'utf-8')) as {
@@ -130,8 +133,8 @@ export async function buildGalleryData({
       continue
     }
 
-    // local image: match id with local image path
-    const localImagePath = localImageKeys.find((path) => path.includes(id))
+    // local image: exact / basename 匹配（见 resolveLocalImagePath）
+    const localImagePath = resolveLocalImagePath(id, localImageKeys)
     if (!localImagePath) {
       console.warn(`[${logPrefix}] Skipping invalid image: ${id}`)
       continue

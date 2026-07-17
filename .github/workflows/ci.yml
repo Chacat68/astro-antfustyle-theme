@@ -69,6 +69,9 @@ jobs:
       - name: 🔎 Check code lint
         run: pnpm lint
 
+      - name: 🧪 Run unit tests
+        run: pnpm test
+
       - name: 🚀 Build the project
         run: pnpm build
 
