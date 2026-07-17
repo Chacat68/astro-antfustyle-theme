@@ -50,7 +50,7 @@
 - **站内搜索（Pagefind）**：`postbuild` 使用 Pagefind **≥ 1.5**，`--force-language zh-cn` 统一索引；`pagefind.init('zh-cn')`。`noindex` 页（英文回退中文稿）不入索引，避免重复占位。正文内注入标题/标签及 CJK 整词·单字·二元组增强召回；查询侧对中文做变体搜索合并。`postbuild` 同步索引到 `public/pagefind/`（gitignore）供 `pnpm dev` 联调。
 - **`src/components/backgrounds/three-background.ts`** + **`glitch-engine.ts`**：全站故障艺术背景工厂。`defineThreeBackground` 动态 `import('three')`、idle 延迟、CE 生命周期 dispose、主题 MutationObserver；引擎分 `lite`（透明叠层）与 `hero`（首页不透明舞台）。
 - **`src/components/backgrounds/Glitch.astro`**：默认全站背景；`Background.astro` 将旧 `bgType`（dot/plum/rose…）统一渲染为 glitch（旧 p5 组件已移除）。
-- **首页展示台**：[`GlitchHero.astro`](../src/components/home/GlitchHero.astro) 自挂 Three.js `hero` 模式 + 功能入口；`bgType: false` 避免双 canvas。About 内容在 [`/about`](../src/pages/about.astro)（文案见 `i18n` 的 `about.*`；理念配图在 `src/assets/about/`）。
+- **首页展示台**：[`GlitchHero.astro`](../src/components/home/GlitchHero.astro) 自挂 Three.js `hero` 模式；品牌字居中，功能入口为右侧竖栏（默认收纳屏外仅露序号，悬停滑出；窄屏 / 触控回落到完整按钮）；`bgType: false` 避免双 canvas。About 内容在 [`/about`](../src/pages/about.astro)（文案见 `i18n` 的 `about.*`；理念配图在 `src/assets/about/`）。
 - **OG 图底图**：`plugins/og-template/markup.ts` 仅有 plum/dot/rose/particle 静态资源；页面 `bgType: glitch`（及 wave/constellation）会映射为 `dot`，避免生成失败。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。背景读取主题必须走此工具；禁止只读 `html.dark`。
 - **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。

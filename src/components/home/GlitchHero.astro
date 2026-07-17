@@ -1,7 +1,7 @@
 ---
 /**
  * 首页 Three.js 故障艺术展示台 + 功能入口
- * 中：品牌 + 页面入口；左下：社交；右下：搜索 / 语言 / 日夜 / RSS / 更新日志
+ * 中：品牌字；右：功能入口竖栏；左下：社交；右下：搜索 / 语言 / 日夜 / RSS / 更新日志
  */
 import Link from '~/components/base/Link.astro'
 import SearchSwitch from '~/components/widgets/SearchSwitch.astro'
@@ -83,41 +83,39 @@ const portals = [
         <span class="glitch-hero__line" data-text={line2}>{line2}</span>
       </h1>
     </header>
-
-    <p class="glitch-hero__hint">{t('home.glitch.hold')}</p>
-
-    <nav class="glitch-hero__portals" aria-label={t('home.glitch.portalsAria')}>
-      {
-        portals.map((item, index) => {
-          const idx = String(index + 1).padStart(2, '0')
-          return (
-            <Link
-              href={item.href}
-              class="glitch-hero__portal"
-              data-index={idx}
-              style={`--portal-i: ${index}`}
-            >
-              <span class="glitch-hero__portal-corners" aria-hidden="true" />
-              <span class="glitch-hero__portal-scan" aria-hidden="true" />
-              <span class="glitch-hero__portal-index" aria-hidden="true">
-                {idx}
-              </span>
-              <span
-                class={`${item.icon} glitch-hero__portal-icon`}
-                aria-hidden="true"
-              />
-              <span class="glitch-hero__portal-label" data-text={item.label}>
-                {item.label}
-              </span>
-              <span class="glitch-hero__portal-meta" aria-hidden="true">
-                SRC/{idx}
-              </span>
-            </Link>
-          )
-        })
-      }
-    </nav>
   </div>
+
+  <nav class="glitch-hero__portals" aria-label={t('home.glitch.portalsAria')}>
+    {
+      portals.map((item, index) => {
+        const idx = String(index + 1).padStart(2, '0')
+        return (
+          <Link
+            href={item.href}
+            class="glitch-hero__portal"
+            data-index={idx}
+            style={`--portal-i: ${index}`}
+          >
+            <span class="glitch-hero__portal-corners" aria-hidden="true" />
+            <span class="glitch-hero__portal-scan" aria-hidden="true" />
+            <span class="glitch-hero__portal-index" aria-hidden="true">
+              {idx}
+            </span>
+            <span
+              class={`${item.icon} glitch-hero__portal-icon`}
+              aria-hidden="true"
+            />
+            <span class="glitch-hero__portal-label" data-text={item.label}>
+              {item.label}
+            </span>
+            <span class="glitch-hero__portal-meta" aria-hidden="true">
+              SRC/{idx}
+            </span>
+          </Link>
+        )
+      })
+    }
+  </nav>
 
   <nav class="glitch-hero__dock glitch-hero__dock--social" aria-label={t('home.glitch.socialsAria')}>
     <span class="glitch-hero__dock-tag" aria-hidden="true">SIG</span>
@@ -266,8 +264,8 @@ const portals = [
     z-index: 1;
     display: grid;
     justify-items: center;
-    gap: 1.5rem;
-    width: min(100%, 36rem);
+    gap: 1.25rem;
+    width: auto;
     padding:
       max(3.5rem, env(safe-area-inset-top))
       1.25rem
@@ -281,6 +279,7 @@ const portals = [
     width: min(42vw, 240px);
     aspect-ratio: 1;
     border: 1px solid rgba(244, 244, 242, 0.85);
+    animation: brand-glitch 9.5s steps(1, end) infinite;
   }
 
   .glitch-hero__frame {
@@ -318,6 +317,7 @@ const portals = [
     box-shadow:
       -2px 0 0 var(--gh-red),
       2px 0 0 var(--gh-cyan);
+    animation: brand-bar-glitch 9.5s steps(1, end) infinite;
   }
 
   .glitch-hero__title {
@@ -332,6 +332,7 @@ const portals = [
     letter-spacing: 0.08em;
     text-align: center;
     text-transform: uppercase;
+    animation: brand-title-glitch 7.2s steps(1, end) infinite;
   }
 
   .glitch-hero__line {
@@ -354,6 +355,7 @@ const portals = [
     transform: translate(-1.5px, 0);
     clip-path: inset(0 0 55% 0);
     mix-blend-mode: screen;
+    animation: brand-rgb-red 7.2s steps(1, end) infinite;
   }
 
   .glitch-hero__line::after {
@@ -361,32 +363,325 @@ const portals = [
     transform: translate(1.5px, 0);
     clip-path: inset(45% 0 0 0);
     mix-blend-mode: screen;
+    animation: brand-rgb-cyan 7.2s steps(1, end) infinite;
+    animation-delay: 0.08s;
   }
 
-  .glitch-hero__hint {
-    margin: 0;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gh-muted);
+  /* 偶发故障：长周期大半时间静止，短促几帧错位 / 闪白 */
+  @keyframes brand-glitch {
+    0%,
+    41%,
+    46%,
+    82%,
+    88%,
+    100% {
+      transform: none;
+      filter: none;
+      border-color: rgba(244, 244, 242, 0.85);
+    }
+
+    42% {
+      transform: translate(-2px, 1px);
+      filter: contrast(1.15) saturate(1.25);
+      border-color: color-mix(in srgb, var(--gh-cyan) 70%, #fff);
+    }
+
+    43% {
+      transform: translate(3px, -1px);
+      filter: contrast(1.35) hue-rotate(-8deg);
+      border-color: color-mix(in srgb, var(--gh-red) 75%, #fff);
+    }
+
+    44% {
+      transform: translate(-1px, 0);
+      filter: brightness(1.35);
+    }
+
+    45% {
+      transform: translate(1px, 1px);
+      filter: none;
+    }
+
+    83% {
+      transform: translate(2px, 0);
+      border-color: rgba(244, 244, 242, 0.45);
+    }
+
+    84% {
+      transform: translate(-3px, 1px);
+      filter: contrast(1.2);
+      border-color: var(--gh-cyan);
+    }
+
+    85%,
+    86% {
+      transform: translate(1px, -1px);
+      filter: brightness(1.25);
+    }
+
+    87% {
+      transform: none;
+      filter: none;
+    }
   }
 
+  @keyframes brand-title-glitch {
+    0%,
+    41%,
+    46%,
+    82%,
+    88%,
+    100% {
+      transform: none;
+      opacity: 1;
+      text-shadow: none;
+    }
+
+    42% {
+      transform: translate(2px, 0);
+      opacity: 0.82;
+      text-shadow:
+        -2px 0 var(--gh-red),
+        2px 0 var(--gh-cyan);
+    }
+
+    43% {
+      transform: translate(-3px, 1px);
+      opacity: 1;
+      text-shadow:
+        3px 0 var(--gh-red),
+        -2px 0 var(--gh-cyan);
+    }
+
+    44% {
+      transform: translate(1px, -1px);
+      opacity: 0.7;
+      text-shadow: none;
+    }
+
+    45% {
+      transform: none;
+      opacity: 1;
+    }
+
+    83% {
+      transform: skewX(-4deg) translateX(2px);
+      opacity: 0.88;
+    }
+
+    84% {
+      transform: skewX(3deg) translateX(-2px);
+      text-shadow:
+        -3px 0 var(--gh-red),
+        3px 0 var(--gh-cyan);
+    }
+
+    85% {
+      transform: none;
+      opacity: 0.55;
+      text-shadow: none;
+    }
+
+    86%,
+    87% {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  @keyframes brand-rgb-red {
+    0%,
+    41%,
+    46%,
+    82%,
+    88%,
+    100% {
+      transform: translate(-1.5px, 0);
+      opacity: 0.65;
+      clip-path: inset(0 0 55% 0);
+    }
+
+    42% {
+      transform: translate(-7px, 1px);
+      opacity: 0.95;
+      clip-path: inset(8% 0 35% 0);
+    }
+
+    43% {
+      transform: translate(5px, -2px);
+      opacity: 0.85;
+      clip-path: inset(0 0 72% 0);
+    }
+
+    44% {
+      transform: translate(-4px, 0);
+      clip-path: inset(30% 0 20% 0);
+    }
+
+    45% {
+      transform: translate(-1.5px, 0);
+      opacity: 0.65;
+      clip-path: inset(0 0 55% 0);
+    }
+
+    83% {
+      transform: translate(-9px, 0);
+      opacity: 1;
+      clip-path: inset(0 0 40% 0);
+    }
+
+    84% {
+      transform: translate(6px, 2px);
+      clip-path: inset(55% 0 0 0);
+    }
+
+    85% {
+      transform: translate(-2px, -1px);
+      opacity: 0.4;
+    }
+
+    86%,
+    87% {
+      transform: translate(-1.5px, 0);
+      opacity: 0.65;
+      clip-path: inset(0 0 55% 0);
+    }
+  }
+
+  @keyframes brand-rgb-cyan {
+    0%,
+    41%,
+    46%,
+    82%,
+    88%,
+    100% {
+      transform: translate(1.5px, 0);
+      opacity: 0.65;
+      clip-path: inset(45% 0 0 0);
+    }
+
+    42% {
+      transform: translate(8px, -1px);
+      opacity: 0.95;
+      clip-path: inset(20% 0 15% 0);
+    }
+
+    43% {
+      transform: translate(-5px, 2px);
+      opacity: 0.85;
+      clip-path: inset(60% 0 0 0);
+    }
+
+    44% {
+      transform: translate(4px, 0);
+      clip-path: inset(10% 0 50% 0);
+    }
+
+    45% {
+      transform: translate(1.5px, 0);
+      opacity: 0.65;
+      clip-path: inset(45% 0 0 0);
+    }
+
+    83% {
+      transform: translate(9px, 1px);
+      opacity: 1;
+      clip-path: inset(35% 0 0 0);
+    }
+
+    84% {
+      transform: translate(-6px, -2px);
+      clip-path: inset(0 0 55% 0);
+    }
+
+    85% {
+      transform: translate(2px, 1px);
+      opacity: 0.4;
+    }
+
+    86%,
+    87% {
+      transform: translate(1.5px, 0);
+      opacity: 0.65;
+      clip-path: inset(45% 0 0 0);
+    }
+  }
+
+  @keyframes brand-bar-glitch {
+    0%,
+    41%,
+    46%,
+    82%,
+    88%,
+    100% {
+      transform: none;
+      opacity: 1;
+      box-shadow:
+        -2px 0 0 var(--gh-red),
+        2px 0 0 var(--gh-cyan);
+    }
+
+    42%,
+    84% {
+      transform: translateX(-4px) scaleX(1.08);
+      opacity: 0.75;
+      box-shadow:
+        -4px 0 0 var(--gh-red),
+        4px 0 0 var(--gh-cyan);
+    }
+
+    43%,
+    85% {
+      transform: translateX(5px) scaleX(0.92);
+      opacity: 1;
+      box-shadow:
+        3px 0 0 var(--gh-red),
+        -3px 0 0 var(--gh-cyan);
+    }
+
+    44%,
+    86% {
+      transform: none;
+      opacity: 0.45;
+    }
+
+    45%,
+    87% {
+      transform: none;
+      opacity: 1;
+      box-shadow:
+        -2px 0 0 var(--gh-red),
+        2px 0 0 var(--gh-cyan);
+    }
+  }
+
+  /* 右侧功能入口竖栏：脱离文档流，不挤占居中品牌 */
   .glitch-hero__portals {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    --portal-peek: 2.35rem;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
     gap: 0.55rem;
-    width: min(100%, 32rem);
+    width: min(12.5rem, 34vw);
+    max-height: calc(100svh - 8.5rem);
+    max-height: calc(100dvh - 8.5rem);
+    overflow: visible;
+    padding-block: 0.15rem;
+    padding-inline-end: max(0.35rem, env(safe-area-inset-right));
   }
 
   .glitch-hero__portal {
     position: relative;
     display: grid;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: var(--portal-peek) auto 1fr;
     align-items: center;
     gap: 0.55rem 0.65rem;
     min-height: 3.1rem;
-    padding: 0.75rem 0.85rem;
+    padding: 0.75rem 0.85rem 0.75rem 0;
     border: 0;
     background:
       linear-gradient(
@@ -407,18 +702,79 @@ const portals = [
       0 calc(100% - 10px)
     );
     transition:
-      background 160ms ease,
-      transform 160ms ease,
-      filter 160ms ease;
+      background 220ms ease,
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 220ms ease;
   }
 
-  /* 奇数列轻微错位，形成信道阵列节奏 */
-  .glitch-hero__portal:nth-child(odd) {
-    transform: translateY(calc((var(--portal-i, 0) % 2) * 0.2rem));
-  }
+  /* 精确定位设备：默认滑出屏外，仅露出序号条 */
+  @media (hover: hover) and (pointer: fine) {
+    .glitch-hero__portal {
+      transform: translateX(calc(100% - var(--portal-peek)));
+      background: rgba(5, 5, 5, 0.42);
+    }
 
-  .glitch-hero__portal:nth-child(even) {
-    transform: translateY(calc(0.35rem - (var(--portal-i, 0) % 2) * 0.15rem));
+    .glitch-hero__portal-corners,
+    .glitch-hero__portal-scan,
+    .glitch-hero__portal-icon,
+    .glitch-hero__portal-label,
+    .glitch-hero__portal-meta {
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .glitch-hero__portal-index {
+      justify-self: center;
+      color: rgba(244, 244, 242, 0.72);
+      transition: color 180ms ease;
+    }
+
+    .glitch-hero__portal:hover,
+    .glitch-hero__portal:focus-visible {
+      transform: translateX(0);
+      background:
+        linear-gradient(
+          120deg,
+          rgba(56, 189, 248, 0.14),
+          transparent 58%
+        ),
+        rgba(5, 5, 5, 0.5);
+      filter: drop-shadow(-1px 0 0 color-mix(in srgb, var(--gh-red) 55%, transparent))
+        drop-shadow(1px 0 0 color-mix(in srgb, var(--gh-cyan) 55%, transparent));
+      outline: none;
+    }
+
+    .glitch-hero__portal:hover .glitch-hero__portal-corners,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-corners,
+    .glitch-hero__portal:hover .glitch-hero__portal-icon,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-icon,
+    .glitch-hero__portal:hover .glitch-hero__portal-label,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-label,
+    .glitch-hero__portal:hover .glitch-hero__portal-meta,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-meta {
+      opacity: 1;
+    }
+
+    .glitch-hero__portal:hover .glitch-hero__portal-icon,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-icon {
+      opacity: 0.72;
+    }
+
+    .glitch-hero__portal:hover .glitch-hero__portal-meta,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-meta {
+      opacity: 1;
+      color: rgba(244, 244, 242, 0.7);
+    }
+
+    .glitch-hero__portal:hover .glitch-hero__portal-scan,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-scan {
+      opacity: 1;
+    }
+
+    .glitch-hero__portal:hover .glitch-hero__portal-index,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-index {
+      color: rgba(244, 244, 242, 0.85);
+    }
   }
 
   .glitch-hero__portal-corners {
@@ -478,6 +834,13 @@ const portals = [
     opacity: 0.72;
   }
 
+  .glitch-hero__portal-corners,
+  .glitch-hero__portal-scan,
+  .glitch-hero__portal-label,
+  .glitch-hero__portal-meta {
+    transition: opacity 180ms ease;
+  }
+
   .glitch-hero__portal-label {
     position: relative;
     justify-self: start;
@@ -519,39 +882,12 @@ const portals = [
     color: rgba(244, 244, 242, 0.22);
   }
 
-  .glitch-hero__portal:hover,
-  .glitch-hero__portal:focus-visible {
-    background:
-      linear-gradient(
-        120deg,
-        rgba(56, 189, 248, 0.14),
-        transparent 58%
-      ),
-      rgba(5, 5, 5, 0.5);
-    transform: translateY(-2px);
-    filter: drop-shadow(-1px 0 0 color-mix(in srgb, var(--gh-red) 55%, transparent))
-      drop-shadow(1px 0 0 color-mix(in srgb, var(--gh-cyan) 55%, transparent));
-    outline: none;
-  }
-
-  .glitch-hero__portal:hover .glitch-hero__portal-scan,
-  .glitch-hero__portal:focus-visible .glitch-hero__portal-scan {
-    opacity: 1;
-  }
-
   .glitch-hero__portal:hover .glitch-hero__portal-label::before,
   .glitch-hero__portal:focus-visible .glitch-hero__portal-label::before,
   .glitch-hero__portal:hover .glitch-hero__portal-label::after,
   .glitch-hero__portal:focus-visible .glitch-hero__portal-label::after {
     opacity: 0.7;
     mix-blend-mode: screen;
-  }
-
-  .glitch-hero__portal:hover .glitch-hero__portal-index,
-  .glitch-hero__portal:focus-visible .glitch-hero__portal-index,
-  .glitch-hero__portal:hover .glitch-hero__portal-meta,
-  .glitch-hero__portal:focus-visible .glitch-hero__portal-meta {
-    color: rgba(244, 244, 242, 0.7);
   }
 
   .glitch-hero__portal:hover .glitch-hero__portal-corners::before,
@@ -564,7 +900,32 @@ const portals = [
     border-color: var(--gh-red);
   }
 
-  @media (max-width: 640px) {
+  /* 无悬停能力时保持完整按钮（触控板宽屏等） */
+  @media not all and (hover: hover) {
+    .glitch-hero__portal:hover,
+    .glitch-hero__portal:focus-visible {
+      background:
+        linear-gradient(
+          120deg,
+          rgba(56, 189, 248, 0.14),
+          transparent 58%
+        ),
+        rgba(5, 5, 5, 0.5);
+      filter: drop-shadow(-1px 0 0 color-mix(in srgb, var(--gh-red) 55%, transparent))
+        drop-shadow(1px 0 0 color-mix(in srgb, var(--gh-cyan) 55%, transparent));
+      outline: none;
+    }
+  }
+
+  /* 窄屏：入口回到品牌下方单列，避免与右下工具坞重叠 */
+  @media (max-width: 768px) {
+    .glitch-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
     .glitch-hero__brand {
       width: min(52vw, 200px);
     }
@@ -573,30 +934,75 @@ const portals = [
       letter-spacing: 0.04em;
     }
 
-    .glitch-hero__hint {
-      letter-spacing: 0.14em;
-    }
-
     .glitch-hero__content {
       width: min(100%, 22rem);
       gap: 1.25rem;
-      padding-bottom: max(7.5rem, calc(env(safe-area-inset-bottom) + 6rem));
+      padding-bottom: 0.5rem;
     }
 
     .glitch-hero__portals {
-      grid-template-columns: 1fr;
-      width: 100%;
+      --portal-peek: auto;
+      position: relative;
+      top: auto;
+      right: auto;
+      transform: none;
+      z-index: 1;
+      width: min(100%, 22rem);
+      max-height: none;
+      margin-top: 0.25rem;
+      padding:
+        0
+        1.25rem
+        max(7.5rem, calc(env(safe-area-inset-bottom) + 6rem));
+      overflow: visible;
     }
 
-    .glitch-hero__portal,
-    .glitch-hero__portal:nth-child(odd),
-    .glitch-hero__portal:nth-child(even) {
+    .glitch-hero__portal {
+      grid-template-columns: auto auto 1fr;
+      padding: 0.75rem 0.85rem;
       transform: none;
+      background:
+        linear-gradient(
+          120deg,
+          rgba(244, 244, 242, 0.06),
+          transparent 48%
+        ),
+        rgba(5, 5, 5, 0.32);
+    }
+
+    .glitch-hero__portal-corners,
+    .glitch-hero__portal-icon,
+    .glitch-hero__portal-label {
+      opacity: 1;
+    }
+
+    .glitch-hero__portal-icon {
+      opacity: 0.72;
+    }
+
+    .glitch-hero__portal-index {
+      justify-self: start;
+      color: var(--gh-muted);
     }
 
     .glitch-hero__portal:hover,
     .glitch-hero__portal:focus-visible {
       transform: translateX(3px);
+      background:
+        linear-gradient(
+          120deg,
+          rgba(56, 189, 248, 0.14),
+          transparent 58%
+        ),
+        rgba(5, 5, 5, 0.5);
+      filter: drop-shadow(-1px 0 0 color-mix(in srgb, var(--gh-red) 55%, transparent))
+        drop-shadow(1px 0 0 color-mix(in srgb, var(--gh-cyan) 55%, transparent));
+      outline: none;
+    }
+
+    .glitch-hero__portal:hover .glitch-hero__portal-scan,
+    .glitch-hero__portal:focus-visible .glitch-hero__portal-scan {
+      opacity: 1;
     }
 
     .glitch-hero__portal-meta {
@@ -636,16 +1042,50 @@ const portals = [
 
   @media (prefers-reduced-motion: reduce) {
     .glitch-hero__portal,
-    .glitch-hero__portal:nth-child(odd),
-    .glitch-hero__portal:nth-child(even) {
+    .glitch-hero__portal-corners,
+    .glitch-hero__portal-scan,
+    .glitch-hero__portal-icon,
+    .glitch-hero__portal-label,
+    .glitch-hero__portal-meta,
+    .glitch-hero__portal-index {
       transition: none;
-      transform: none;
+    }
+
+    /* 减弱动效：取消屏外收纳，始终展示完整入口 */
+    .glitch-hero__portal {
+      transform: none !important;
+      background:
+        linear-gradient(
+          120deg,
+          rgba(244, 244, 242, 0.06),
+          transparent 48%
+        ),
+        rgba(5, 5, 5, 0.32);
+    }
+
+    .glitch-hero__portal-corners,
+    .glitch-hero__portal-icon,
+    .glitch-hero__portal-label,
+    .glitch-hero__portal-meta {
+      opacity: 1 !important;
+    }
+
+    .glitch-hero__portal-icon {
+      opacity: 0.72 !important;
     }
 
     .glitch-hero__portal:hover,
     .glitch-hero__portal:focus-visible {
       transform: none;
       filter: none;
+    }
+
+    .glitch-hero__brand,
+    .glitch-hero__title,
+    .glitch-hero__bar,
+    .glitch-hero__line::before,
+    .glitch-hero__line::after {
+      animation: none;
     }
 
     .glitch-hero__line::before,

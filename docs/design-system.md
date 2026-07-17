@@ -76,15 +76,16 @@
 
 | 要点 | 约定 |
 |------|------|
-| 结构 | 全屏 Three.js `hero` 模式舞台 + 品牌字 + **功能入口按钮**（关于 / 博客 / 项目等） |
+| 结构 | 全屏 Three.js `hero` 模式舞台 + 居中品牌字 + **右侧功能入口竖栏**（关于 / 博客 / 项目等） |
 | 文案 | i18n：`home.glitch.*`（中：付之 / 一笑；英：FOO / Z） |
-| 交互 | 点击入口跳转对应页面；悬停入口加重故障强度 |
-| 入口形态 | 双列 HUD 信道块：角标 / 序号 / SRC / 悬停 RGB 错位与扫描线 |
+| 交互 | 点击入口跳转对应页面；悬停入口加重故障强度；桌面精确定位设备下入口默认收纳屏外仅露序号，悬停 / `:focus-visible` 滑出完整按钮 |
+| 入口形态 | 右侧单列 HUD 信道块：角标 / 序号 / SRC / 悬停 RGB 错位与扫描线；≤768px 或触控 / `prefers-reduced-motion` 时展示完整按钮 |
 | 舞台动效 | 弧线 / 波纹 / 能量带 / 线框常驻运动；切片与闪白保持低频 |
+| 品牌故障 | Logo 方框 / 文字 / RGB 切片 / 底杠偶发闪烁错位（约 7–9.5s 周期，短促爆发）；`prefers-reduced-motion` 关闭 |
 | 左下 | 社交媒体（`UI.socialLinks`，标签 `SIG`） |
 | 右下 | 搜索 / 语言 / 日夜 / RSS / 更新日志（标签 `SYS`；顶栏 Logo+导航隐藏） |
 | About | 已迁至 [`/about`](../src/pages/about.astro)（个人简介 + 博客历程 / 理念配图 + 联系方式 / 社交） |
-| 布局 | `mainClass="home-main"` + `minimalChrome`（隐藏导航栏与页脚）；首页锁 `overflow` 避免滚动条黑边 |
+| 布局 | 品牌区 `place-items: center`；入口绝对定位贴右并垂直居中；`mainClass="home-main"` + `minimalChrome`；首页锁 `overflow` |
 | 舞台稳定 | `uTime` 周期化；监听 WebGL context lost/restored 与 `visibilitychange`，避免长时黑屏 |
 
 ## 样式文件分层

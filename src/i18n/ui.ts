@@ -249,7 +249,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Home content
     'home.glitch.line1': '付之',
     'home.glitch.line2': '一笑',
-    'home.glitch.hold': '选择入口',
     'home.glitch.skip': '跳过',
     'home.glitch.aria': '故障艺术首页展示台',
     'home.glitch.portalsAria': '站点功能入口',
@@ -519,7 +518,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Home content
     'home.glitch.line1': 'FOO',
     'home.glitch.line2': 'Z',
-    'home.glitch.hold': 'Choose a portal',
     'home.glitch.skip': 'Skip',
     'home.glitch.aria': 'Glitch art home stage',
     'home.glitch.portalsAria': 'Site portals',
