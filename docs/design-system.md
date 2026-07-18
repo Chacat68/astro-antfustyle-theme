@@ -1,6 +1,6 @@
 # 设计系统约定
 
-本站视觉方向：**故障艺术（Glitch）+ 天空蓝 accent**，正文优先可读。首页展示台用 **Three.js `hero`**；其余页面用 **纯 CSS `lite` 背景**（不再为内页下载 Three.js）。
+本站视觉方向：**故障艺术（Glitch）+ 天空蓝 accent**，正文优先可读。渲染引擎为 **Three.js**（首页 `hero` 舞台 + 其余页 `lite` 背景）。
 
 ## Token 来源
 
@@ -55,15 +55,15 @@
 
 ## 背景与页面分配
 
-背景调度：`src/components/backgrounds/Background.astro`。
+背景调度：`src/components/backgrounds/Background.astro`。引擎：[`glitch-engine.ts`](../src/components/backgrounds/glitch-engine.ts)（Three.js）。
 
 | `bgType` | 表现 | 典型页面 |
 |----------|------|----------|
-| `glitch` | 纯 CSS `lite`：网格 / 噪声 / 扫描线 / 淡色光斑（无 Three.js） | **除首页外几乎全部页面** |
+| `glitch` | `lite` 透明叠层：动态弧线 / 波纹 / 菱形 + 低频闪烁 | **除首页外几乎全部页面** |
 | 旧值 `dot` / `plum` / `rose` / … | 映射到 `glitch`（兼容 frontmatter） | — |
 | `false` | 无全局背景 | **首页**（由 Hero 自带 Three.js 舞台） |
 
-主题色读取走 `isDarkTheme()`（`src/utils/theme.ts`）。`prefers-reduced-motion` 时关闭 CSS 动画。
+主题色读取走 `isDarkTheme()`（`src/utils/theme.ts`）。`prefers-reduced-motion` 时只渲染静态一帧。
 
 ## 全站 UI（非首页）
 
