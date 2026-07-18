@@ -145,7 +145,6 @@ html.dark .prose {
 }
 
 .toc-desktop-on > .toc-desktop-anchor,
-.prose:hover .toc-desktop-content > .toc-desktop-anchor,
 .toc-desktop:hover > .toc-desktop-anchor {
   opacity: 0.6;
 }
@@ -161,9 +160,22 @@ html.dark .prose {
 }
 
 .toc-desktop-on > ul,
-.prose:hover .toc-desktop-content > ul,
 .toc-desktop:hover > ul {
   opacity: 0.6;
+}
+
+/*
+ * content 模式：仅在足够宽的视口随正文悬停展开。
+ * 窄屏（含刚过 lgp 的窗口）只显示锚点图标，悬停目录本身才展开，避免挤占阅读区。
+ */
+@media (min-width: 1400px) {
+  .prose:hover .toc-desktop-content > .toc-desktop-anchor {
+    opacity: 0.6;
+  }
+
+  .prose:hover .toc-desktop-content > ul {
+    opacity: 0.6;
+  }
 }
 
 .toc-desktop ul > li::before,

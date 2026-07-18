@@ -140,6 +140,12 @@ summary {
   border-width: 1px 0 0 1px;
 }
 
+@media (max-width: 767.9px) {
+  .site-nav::before {
+    left: 0.55rem;
+  }
+}
+
 .site-nav::after {
   top: 0.65rem;
   right: 0.85rem;

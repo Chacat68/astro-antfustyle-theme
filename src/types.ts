@@ -593,7 +593,7 @@ export interface TocConfig {
   /**
    * Controls how the TOC is displayed. Allowed values:
    * - `'always'`: TOC is always visible.
-   * - `'content'`: TOC shows when hovering over the content area (element with class 'prose').
+   * - `'content'`: 视口 ≥1400px 时悬停正文（`.prose`）展开；更窄时仅悬停目录本身才展开，避免挤占阅读区。
    * - `'hover'`: TOC shows only when hovering over the TOC itself.
    */
   displayMode: 'always' | 'content' | 'hover'

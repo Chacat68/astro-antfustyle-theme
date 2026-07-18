@@ -146,9 +146,16 @@
 
 @media (max-width: 767.9px) {
   .site-nav::after {
-    right: 1.5rem;
-    left: 1.5rem;
+    right: 1rem;
+    left: 1rem;
     bottom: 0.55rem;
+  }
+}
+
+@media (max-width: 379.9px) {
+  .site-nav::after {
+    right: 0.75rem;
+    left: 0.75rem;
   }
 }
 

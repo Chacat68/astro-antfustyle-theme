@@ -171,6 +171,7 @@ export const FEATURES: Features = {
   ],
 
   // 目录 (Table of Contents) 配置
+  // displayMode: 'content' — 宽屏悬停正文展开；窄于 1400px 仅悬停目录展开
   toc: [
     true,
     {

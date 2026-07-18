@@ -223,8 +223,23 @@ const word = SITE.title
     }
 
     .logo-word {
-      font-size: 1rem;
-      letter-spacing: 0.12em;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  /* 极窄屏只留方框标，给右侧工具按钮腾位 */
+  @media (max-width: 379.9px) {
+    .logo-word {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
   }
 

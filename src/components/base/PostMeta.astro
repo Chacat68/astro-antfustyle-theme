@@ -21,7 +21,7 @@ const dateLocale = localeToHtmlLang(locale)
 
 {
   isMinimal ? (
-    <div class="mt--6! op-50 font-mono text-sm tracking-wide">
+    <div class="post-meta post-meta--minimal op-50 font-mono text-sm tracking-wide">
       <time datetime={pubDate}>
         {formatDate(pubDate, true, false, dateLocale)}
       </time>
@@ -39,7 +39,7 @@ const dateLocale = localeToHtmlLang(locale)
       )}
     </div>
   ) : (
-    <div class="flex justify-start items-center gap-4 mt--6! op-50">
+    <div class="post-meta post-meta--icon flex flex-wrap justify-start items-center gap-x-4 gap-y-1 op-50">
       <div>
         <span class="i-ri-calendar-line mr-1.2" />
         <time datetime={pubDate}>

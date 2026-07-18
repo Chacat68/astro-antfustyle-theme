@@ -118,7 +118,10 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
     <!-- Main -->
     <main
       id="main"
-      class:list={['relative px-5 py-8 sm:(px-7 py-10)', mainClass]}
+      class:list={[
+        'relative px-5 py-8 sm:(px-7 py-10) lt-sm:(px-3.5 py-6)',
+        mainClass,
+      ]}
     >
       <!-- Content -->
       <slot />

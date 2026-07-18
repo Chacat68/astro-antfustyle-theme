@@ -29,7 +29,14 @@ const { keys, mergeOnMobile, internalNavs, socialLinks } = Astro.props
     ) : key === 'searchButton' ? (
       <SearchSwitch />
     ) : key === 'langButton' ? (
-      <LanguageSwitch />
+      // mergeOnMobile 时汉堡菜单内已有语言切换，顶栏窄屏隐藏避免挤爆
+      mergeOnMobile ? (
+        <span class="lt-md:hidden inline-flex">
+          <LanguageSwitch />
+        </span>
+      ) : (
+        <LanguageSwitch />
+      )
     ) : key === 'themeButton' ? (
       <ThemeSwitch />
     ) : key === 'rssLink' ? (
