@@ -57,7 +57,7 @@ curl -s https://foo-z.com/ | grep -o 'rel="canonical" href="[^"]*"'
 
 | 文件 | 说明 |
 |------|------|
-| `wrangler.toml` | Worker 名 `blog-4`，静态资源目录 `./dist` |
+| `wrangler.toml` | Worker 名 `blog-4`，静态资源目录 `./dist`；`[observability]` 启用日志（`logs.enabled` / `persist` / `invocation_logs`），`traces` 关闭 |
 | `public/_headers` | 生产安全响应头（CSP、HSTS、X-Frame-Options 等），随静态资源一并部署。CSP：Pagefind 需 `wasm-unsafe-eval`；Bunny / KaTeX 字体与样式域名；`script-src`/`connect-src` **不使用**宽泛 `https:`，白名单含 `umami.chawfoo.com`、Ahrefs、Giscus |
 | `src/config.ts` | `SITE.website` 必须为 `https://foo-z.com/` |
 | `.env.example` | 统计脚本、GitHub Token 等环境变量说明 |

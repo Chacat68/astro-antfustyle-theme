@@ -95,6 +95,6 @@ node -e "require('sharp')('in.webp').resize({width:2000,height:2000,fit:'inside'
 - `@ascorbic/feed-loader` v2 默认非 legacy：feeds 条目字段为 `published` / `url`（不再是 `pubdate` / `link`），见 `ListView.astro`。从 v1 升级后若 `/feeds` 空白，删除 `.astro/data-store.json`（或整目录 `.astro/`）再 `pnpm sync` / `pnpm build`，避免 HTTP 304 保留旧字段缓存。
 - 预渲染冲突策略：`prerenderConflictBehavior: 'error'`（Astro 6 稳定项，替代已移除的 `experimental.failOnPrerenderConflict`）。
 - 本地 Pagefind 索引目录 `public/pagefind/` 已从 `tsconfig` exclude，避免 `astro check` 扫描生成物。
-- `wrangler.toml` 为 Cloudflare Workers 生产部署配置（Worker `blog-4`），**不可删除**，详见 [deployment.md](./deployment.md)。
+- `wrangler.toml` 为 Cloudflare Workers 生产部署配置（Worker `blog-4`，含 observability 日志），**不可删除**，详见 [deployment.md](./deployment.md)。
 - 单元测试：`pnpm test`（Node 内置 test runner + `--experimental-strip-types`），覆盖 `sanitize-html` / `reading-time` / `markdown-headings` / `httpUrlSchema` / `resolveLocalImagePath`。CI（`.github/workflows/ci.yml`）在 check、lint 之后、build 之前执行 `pnpm test`。
 - 英文博客 sitemap：`astro.config.ts` 的 `collectMarkdownContentIds` **保持与 Astro content id 相同的大小写**（勿 `toLowerCase`），避免 Linux 生产环境路径错误。
