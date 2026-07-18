@@ -66,6 +66,25 @@ curl -s https://foo-z.com/ | grep -o 'rel="canonical" href="[^"]*"'
 
 ## 常见问题
 
+### 构建失败：Failed to parse image reference（`.tif`）
+
+日志类似：
+
+```text
+Failed to parse image reference: ... "src":".../uPic/xxx.tif" ...
+Caught error rendering /blog/diary1
+```
+
+原因：正文 Markdown 使用了腾讯云 COS 上的 **TIFF**（体积可达十余 MB）。`SITE.imageDomains` 启用远程优化后，Astro 会在构建期拉取并解析图片；`.tif` 不被该管线可靠支持，且浏览器也几乎无法直接显示。
+
+处理：在 COS 原链后追加数据万象参数，让构建与浏览器拿到 WebP/JPEG，例如：
+
+```markdown
+![alt](https://blog-1259751088.cos.ap-shanghai.myqcloud.com/uPic/xxx.tif?imageMogr2/format/webp)
+```
+
+新文请优先上传 `.webp` / `.jpg` / `.png`，避免再写裸 `.tif` 链接。
+
 ### 构建失败：YAML frontmatter
 
 日志出现 `bad indentation of a mapping entry` 时，检查对应 Markdown 的 frontmatter：含冒号的 `title` 等字段需用引号包裹。

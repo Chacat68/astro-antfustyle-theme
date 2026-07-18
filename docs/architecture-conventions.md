@@ -84,6 +84,7 @@ node -e "require('sharp')('in.webp').resize({width:2000,height:2000,fit:'inside'
 ```
 
 - 2026-06 压缩前的原图备份在 `.backup/photos-originals/`（也可从 git 历史恢复）。
+- 正文远程图域名见 `SITE.imageDomains`（含腾讯云 COS）。**禁止**在 Markdown 中使用裸 `.tif` / `.tiff` 链接：Astro 远程优化会在构建期失败，浏览器也无法直接显示。历史 TIFF 请追加 COS 数据万象参数，例如 `?imageMogr2/format/webp`（见 [deployment.md](./deployment.md) 常见问题）。
 
 ## 工程配置
 
