@@ -7,7 +7,7 @@ const t = useTranslations(locale)
 
 <button
   id="nav-open-button"
-  class="hidden lt-md:block op-60 hover:op-100 op-transition"
+  class="touch-target hidden lt-lg:inline-flex op-60 hover:op-100 op-transition"
   title={t('a11y.navigation')}
   aria-label={t('a11y.navigation')}
   aria-expanded="false"
@@ -18,9 +18,9 @@ const t = useTranslations(locale)
 
 <div
   id="nav-panel"
-  class="hidden! z-200 fixed top-10% left-50% translate-x--50%
+  class="hidden! z-200 fixed top-50vh left-50vw translate-x--50% translate-y--50%
     overflow-y-auto flex-col gap-5
-    w-90% max-h-80vh py-4 px-6 rounded-lg
+    w-90% max-w-md max-h-80vh py-4 px-6 rounded-lg
   border shadow-custom_0_0_10_0 text-(--c-text)"
 >
   <ul>
@@ -33,9 +33,9 @@ const t = useTranslations(locale)
 
 <style>
   #nav-panel {
+    /* sticky + backdrop-filter 的导航会形成 fixed 包含块，须用 vh/vw 相对视口 */
     display: flex;
-    top: max(6rem, 10vh);
-    max-height: calc(100vh - max(7rem, 14vh));
+    max-height: min(80vh, calc(100dvh - 2rem));
     border-color: var(--c-border);
     background-color: var(--c-bg);
   }

@@ -114,10 +114,10 @@ interface TextNavItem extends BaseNavItem {
    * Defines how the navigation item is displayed responsively. Allowed values:
    *  - `'alwaysText'`: Always display text, regardless of screen size.
    *  - `'alwaysIcon'`: Always display as a chart, regardless of screen size.
-   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥768px, hide text when <768px.
-   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥768px, hide icon when <768px.
-   *  - `'textToIconOnMobile'`: Display text when viewport is ≥768px, switch to icon when <768px.
-   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥768px, switch to text when <768px.
+   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥1024px, hide text when <1024px.
+   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥1024px, hide icon when <1024px.
+   *  - `'textToIconOnMobile'`: Display text when viewport is ≥1024px, switch to icon when <1024px.
+   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥1024px, switch to text when <1024px.
    *
    * The `text` property is required for `'alwaysText'`, `'textHiddenOnMobile'`,
    * `'iconToTextOnMobile'` or `'textToIconOnMobile'`.
@@ -140,10 +140,10 @@ export interface IconNavItem extends BaseNavItem {
    * Defines how the navigation item is displayed responsively. Allowed values:
    *  - `'alwaysText'`: Always display text, regardless of screen size.
    *  - `'alwaysIcon'`: Always display as a chart, regardless of screen size.
-   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥768px, hide text when <768px.
-   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥768px, hide icon when <768px.
-   *  - `'textToIconOnMobile'`: Display text when viewport is ≥768px, switch to icon when <768px.
-   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥768px, switch to text when <768px.
+   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥1024px, hide text when <1024px.
+   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥1024px, hide icon when <1024px.
+   *  - `'textToIconOnMobile'`: Display text when viewport is ≥1024px, switch to icon when <1024px.
+   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥1024px, switch to text when <1024px.
    *
    * The `text` property is required for `'alwaysText'`, `'textHiddenOnMobile'`,
    * `'iconToTextOnMobile'` or `'textToIconOnMobile'`.
@@ -174,10 +174,10 @@ export interface ResponsiveNavItem extends BaseNavItem {
    * Defines how the navigation item is displayed responsively. Allowed values:
    *  - `'alwaysText'`: Always display text, regardless of screen size.
    *  - `'alwaysIcon'`: Always display as a chart, regardless of screen size.
-   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥768px, hide text when <768px.
-   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥768px, hide icon when <768px.
-   *  - `'textToIconOnMobile'`: Display text when viewport is ≥768px, switch to icon when <768px.
-   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥768px, switch to text when <768px.
+   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥1024px, hide text when <1024px.
+   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥1024px, hide icon when <1024px.
+   *  - `'textToIconOnMobile'`: Display text when viewport is ≥1024px, switch to icon when <1024px.
+   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥1024px, switch to text when <1024px.
    *
    * The `text` property is required for `'alwaysText'`, `'textHiddenOnMobile'`,
    * `'iconToTextOnMobile'` or `'textToIconOnMobile'`.
@@ -235,10 +235,10 @@ interface TextSocialItem extends BaseSocialItem {
    * Defines how the social item is displayed responsively. Allowed values:
    *  - `'alwaysText'`: Always display text, regardless of screen size.
    *  - `'alwaysIcon'`: Always display as a chart, regardless of screen size.
-   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥768px, hide text when <768px.
-   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥768px, hide icon when <768px.
-   *  - `'textToIconOnMobile'`: Display text when viewport is ≥768px, switch to icon when <768px.
-   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥768px, switch to text when <768px.
+   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥1024px, hide text when <1024px.
+   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥1024px, hide icon when <1024px.
+   *  - `'textToIconOnMobile'`: Display text when viewport is ≥1024px, switch to icon when <1024px.
+   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥1024px, switch to text when <1024px.
    *
    * The `text` property is required for `'alwaysText'`, `'textHiddenOnMobile'`,
    * `'iconToTextOnMobile'` or `'textToIconOnMobile'`.
@@ -261,10 +261,10 @@ export interface IconSocialItem extends BaseSocialItem {
    * Defines how the social item is displayed responsively. Allowed values:
    *  - `'alwaysText'`: Always display text, regardless of screen size.
    *  - `'alwaysIcon'`: Always display as a chart, regardless of screen size.
-   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥768px, hide text when <768px.
-   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥768px, hide icon when <768px.
-   *  - `'textToIconOnMobile'`: Display text when viewport is ≥768px, switch to icon when <768px.
-   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥768px, switch to text when <768px.
+   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥1024px, hide text when <1024px.
+   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥1024px, hide icon when <1024px.
+   *  - `'textToIconOnMobile'`: Display text when viewport is ≥1024px, switch to icon when <1024px.
+   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥1024px, switch to text when <1024px.
    *
    * The `text` property is required for `'alwaysText'`, `'textHiddenOnMobile'`,
    * `'iconToTextOnMobile'` or `'textToIconOnMobile'`.
@@ -295,10 +295,10 @@ export interface ResponsiveSocialItem extends BaseSocialItem {
    * Defines how the social item is displayed responsively. Allowed values:
    *  - `'alwaysText'`: Always display text, regardless of screen size.
    *  - `'alwaysIcon'`: Always display as a chart, regardless of screen size.
-   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥768px, hide text when <768px.
-   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥768px, hide icon when <768px.
-   *  - `'textToIconOnMobile'`: Display text when viewport is ≥768px, switch to icon when <768px.
-   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥768px, switch to text when <768px.
+   *  - `'textHiddenOnMobile'`: Display text when viewport is ≥1024px, hide text when <1024px.
+   *  - `'iconHiddenOnMobile'`: Display icon when viewport is ≥1024px, hide icon when <1024px.
+   *  - `'textToIconOnMobile'`: Display text when viewport is ≥1024px, switch to icon when <1024px.
+   *  - `'iconToTextOnMobile'`: Display icon when viewport is ≥1024px, switch to text when <1024px.
    *
    * @remark
    * The `text` property is required for `'alwaysText'`, `'textHiddenOnMobile'`,
@@ -369,7 +369,8 @@ export interface NavBarLayout {
 
   /**
    * Controls whether the 'internalNavs' and 'socialLinks' section are combined into
-   * a single navigation menu on mobile, managed through a hamburger icon.
+   * a single navigation menu below the `lg` breakpoint (1024px), managed through a
+   * hamburger icon. Search / theme controls stay in the top bar.
    */
   mergeOnMobile: boolean
 }

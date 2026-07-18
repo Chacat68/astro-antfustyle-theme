@@ -6,14 +6,16 @@ const currentYear = new Date().getFullYear()
 const copyrightText = `© ${currentYear} ${SITE.author}`
 ---
 
-<footer class="slide-enter animate-delay-1600! px-7 mt-auto mb-8">
+<footer class="site-footer slide-enter animate-delay-1600! mt-auto mb-8">
   <div class="prose mx-auto op-50">
-    <div class="flex lt-sm:flex-col items-center text-sm whitespace-nowrap">
+    <div
+      class="flex flex-wrap lt-sm:flex-col items-center justify-center text-sm text-center gap-x-1 gap-y-1"
+    >
       <span class="font-mono text-xs tracking-wide op-80">// EOF</span>
-      <span class="lt-sm:hidden">&nbsp;·&nbsp;</span>
+      <span class="lt-sm:hidden" aria-hidden="true">·</span>
       <span>{copyrightText}</span>
-      <span class="lt-sm:hidden">&nbsp;|&nbsp;</span>
-      <span>
+      <span class="lt-sm:hidden" aria-hidden="true">|</span>
+      <span class="whitespace-normal">
         Powered by
         <Link
           class="op-100! color-[--fg]!"

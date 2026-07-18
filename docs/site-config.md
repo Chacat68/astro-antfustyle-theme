@@ -25,6 +25,8 @@ export const SITE = {
 
 `UI.navBarLayout` 控制顶栏左右组件序列。当前未放入 `socialLinks`：社交媒体图标不在导航栏（含移动端面板）显示，首页展示台左下角与 About「找到我」区块仍使用 `UI.socialLinks`。若要恢复到顶栏，在 `right`（或 `left`）数组中加入 `'socialLinks'` 即可。
 
+`mergeOnMobile: true` 时，视口 **`<1024px`（`lt-lg`）** 收起为汉堡菜单；搜索 / 主题按钮仍留在顶栏。`displayMode` 里带 `OnMobile` 的项也以 `1024px` 为切换界（见 `src/types.ts`）。
+
 ## 站内链接规范
 
 从旧 Notion / NotionNext 站点（`/article/<slug>`）迁移后，文章互链应使用 Astro 路由：

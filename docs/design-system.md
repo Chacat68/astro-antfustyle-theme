@@ -17,6 +17,8 @@
 | `--c-radius` / `--c-radius-sm` / `--c-radius-lg` | 圆角阶梯（偏利落小圆角） |
 | `--c-shadow` / `--c-shadow-hover` | 轻阴影 |
 | `--ease-out` / `--duration` / `--duration-fast` | 动效曲线与时长 |
+| `--page-gutter-x` | 内容区水平边距（`<640px` 为 `1.25rem`，`≥640px` 为 `1.75rem`） |
+| `--nav-gutter-x` | 顶栏水平边距（手机同内容区；`≥768px` 为 `2rem`） |
 
 正文灰阶（`--fg` / `--fg-deep` / `--fg-deeper`）定义在 `src/styles/markdown.css` 的 `.prose` 上。
 
@@ -71,10 +73,35 @@
 |------|------|
 | `html` | 冷色底 + 极淡扫描线纹理 |
 | `.site-nav` | HUD 角标、当前页 accent 底线、悬停轻微 RGB text-shadow |
+| `#main` / `.site-footer` | 水平边距用 `--page-gutter-x`，并与 `env(safe-area-inset-*)` 取 `max`；勿在 Uno 类里再写冲突的 `px-*` |
 | `.page-header` | 斜切面板 + 四角标 + 字距加宽标题；元信息在标题上方（勿用负边距叠字）；窄屏缩小字号并加大内边距避开角标 |
 | `SiteStats`（博客列表顶） | `hud-frame` + 四角 / LED / 扫描线 / mono 状态栏；指标块与年度柱对齐 AboutScreen 模块语法 |
-| 列表 / 社交链接 | 斜切裁切、悬停红青双边投影 |
+| 列表 / 社交链接 | 斜切裁切、悬停红青双边投影；窄屏列表项禁止负 `margin-inline` 贴边 |
 | 正文链接 / `hr` | 悬停 RGB 微错位；分隔线带故障色点缀 |
+| 视口 | `viewport-fit=cover`（`Head.astro`），以便刘海屏 safe-area 生效 |
+
+## 多端适配（断点与触控）
+
+断点职责（Uno + 裸 CSS 对齐到同一套宽度）：
+
+| 断点 | 宽度 | 职责 |
+|------|------|------|
+| 极窄 | `<380px` | Logo 缩字、首页 dock 换行、header 再缩 |
+| `sm` / `lt-sm` | `640px` | gutter、正文行高、blockquote/表头 nowrap 回退 |
+| `md` / `lt-md` | `768px` | 列表堆叠、手机级首页压缩 / dock 触控 |
+| `lg` / `lt-lg` | `1024px` | **导航汉堡折叠**（`mergeOnMobile`）、顶栏紧凑 padding、首页入口改文档流 |
+| `lgp` / `lt-lgp` | `1128px` | TOC 桌面栏 vs 浮层按钮、分组/相册内容宽 |
+| `1400px` | — | 内容区悬停展开正文 TOC |
+
+规则：
+
+1. **水平间距只认** `--page-gutter-x` / `--nav-gutter-x`；卡片/相册外层不要再叠 `mx-10` / `mx-20`。
+2. **网格**用 `minmax(min(100%, Npx), 1fr)`，禁止裸 `minmax(300px, 1fr)` 撑破窄屏。
+3. **图标控件**加 `.touch-target`（`min 2.75rem` ≈ 44px）；语言切换在窄屏 / `pointer: coarse` 下同步加大。
+4. **挂在 `.site-nav` 内的 fixed 面板**须用 `top-50vh left-50vw`（或 portal 到 `body`），不能用 `%`（`backdrop-filter` 会形成 fixed 包含块）。
+5. **导航折叠**：`mergeOnMobile: true` 时 `<1024px` 收进汉堡；桌面文案/图标切换类（`*OnMobile`）同步以 `lg` 为界。
+6. **首页**：`≥1024` 锁滚动 + 右侧 peek 入口；`<1024` 文档流入口并允许纵向滚动；`<768` 再压缩品牌 / dock。
+7. **触控无悬停**：相册 `figcaption` 常显（`@media (hover: none)`）。
 
 ## 首页 Glitch 展示台
 
@@ -85,13 +112,13 @@
 | 结构 | 全屏 Three.js `hero` 模式舞台 + 居中品牌字 + **右侧功能入口竖栏**（关于 / 博客 / 项目等） |
 | 文案 | i18n：`home.glitch.*`（中：付之 / 一笑；英：FOO / Z） |
 | 交互 | 点击入口跳转对应页面；悬停入口不改变背景故障强度（避免整屏闪烁）；桌面精确定位设备下入口默认收纳屏外仅露序号，悬停 / `:focus-visible` 滑出完整按钮 |
-| 入口形态 | 右侧单列 HUD 信道块：角标 / 序号 / SRC / 悬停 RGB 错位与扫描线；≤768px 或触控 / `prefers-reduced-motion` 时展示完整按钮 |
+| 入口形态 | 右侧单列 HUD 信道块：角标 / 序号 / SRC / 悬停 RGB 错位与扫描线；`<1024px` 改为品牌下方文档流完整按钮；触控 / `prefers-reduced-motion` 亦展示完整按钮 |
 | 舞台动效 | 弧线 / 波纹 / 能量带 / 线框常驻运动；切片与闪白保持低频 |
 | 品牌故障 | Logo 方框 / 文字 / RGB 切片 / 底杠偶发闪烁错位（约 7–9.5s 周期，短促爆发）；`prefers-reduced-motion` 关闭 |
 | 左下 | 社交媒体（`UI.socialLinks`，标签 `SIG`） |
 | 右下 | 搜索 / 语言分段（`中 / EN`） / 日夜 / RSS / 更新日志（标签 `SYS`；顶栏 Logo+导航隐藏） |
 | About | 已迁至 [`/about`](../src/pages/about.astro)（个人简介 + 博客历程 / 理念配图 + 联系方式 / 社交） |
-| 布局 | 品牌区 `place-items: center`；入口绝对定位贴右并垂直居中；`mainClass="home-main"` + `minimalChrome`；首页锁 `overflow` |
+| 布局 | 品牌区 `place-items: center`；桌面入口绝对定位贴右；`mainClass="home-main"` + `minimalChrome`；`≥1024` 锁 `overflow`，`<1024` 文档流入口 + 可纵向滚动（矮屏/横屏压缩品牌） |
 | 舞台稳定 | `uTime` 周期化；监听 WebGL context lost/restored 与 `visibilitychange`，避免长时黑屏 |
 
 ## 样式文件分层

@@ -100,6 +100,7 @@ const groupLabel = t('a11y.languageSwitch')
     grid-template-columns: var(--ls-slot) var(--ls-sep) var(--ls-slot);
     align-items: stretch;
     height: 1.55rem;
+    min-height: 1.55rem;
     padding: var(--ls-pad);
     border: 1px solid var(--ls-border);
     border-radius: var(--c-radius-sm);
@@ -191,6 +192,25 @@ const groupLabel = t('a11y.languageSwitch')
     color: var(--ls-active-fg);
     cursor: default;
     pointer-events: none;
+  }
+
+  /* 窄屏 / 粗指针：加大槽位，接近 44px 触控高度 */
+  @media (max-width: 767.9px), (pointer: coarse) {
+    .lang-switch {
+      --ls-slot: 2.1rem;
+      --ls-sep: 0.45rem;
+      --ls-pad: 0.15rem;
+      height: 2.75rem;
+      min-height: 2.75rem;
+    }
+
+    .lang-switch__opt {
+      font-size: 0.75rem;
+    }
+
+    .lang-switch__opt[data-locale='zh'] {
+      font-size: 0.78rem;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

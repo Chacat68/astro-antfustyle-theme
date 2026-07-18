@@ -116,6 +116,7 @@ export const UI: Ui = {
       'themeButton',
       'rssLink',
     ],
+    // true：<1024px（lt-lg）收进汉堡，避免平板顶栏挤爆
     mergeOnMobile: true,
   },
   tabbedLayoutTabs: [

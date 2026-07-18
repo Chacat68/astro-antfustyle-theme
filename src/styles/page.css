@@ -1,4 +1,4 @@
-/* 首页：全屏故障艺术展示台（锁滚动，避免右侧滚动条黑边） */
+/* 首页：桌面锁滚动；窄屏/矮屏允许纵向滚动，避免入口被裁切 */
 html:has(.home-main),
 html:has(.home-main) body {
   overflow: hidden;
@@ -13,6 +13,21 @@ html:has(.home-main) body {
   min-height: 100dvh;
   padding-inline: 0 !important;
   padding-block: 0 !important;
+}
+
+/* 平板/手机：文档流入口可能超出一屏，允许纵向滚动 */
+@media (max-width: 1023.9px) {
+  html:has(.home-main),
+  html:has(.home-main) body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100%;
+  }
+
+  .home-main {
+    min-height: auto;
+  }
 }
 
 /* Shared page rhythm — 故障艺术 HUD 节奏 */
@@ -226,8 +241,9 @@ html:has(.home-main) body {
   }
 
   .prose .list-item-link {
-    margin-inline: -0.35rem;
-    padding-inline: 0.35rem;
+    /* 窄屏不再负边距外扩，避免贴屏边 */
+    margin-inline: 0;
+    padding-inline: 0.5rem;
   }
 }
 
@@ -411,6 +427,14 @@ summary::-webkit-details-marker {
 }
 
 .photo-figure:hover figcaption,
-.photo-figure:focus figcaption {
+.photo-figure:focus figcaption,
+.photo-figure:focus-within figcaption {
   opacity: 1;
+}
+
+/* 触控设备无悬停：说明条常显（略淡），避免永远看不到文案 */
+@media (hover: none) {
+  .photo-figure figcaption {
+    opacity: 0.92;
+  }
 }

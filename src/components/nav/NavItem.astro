@@ -65,7 +65,7 @@ const ariaCurrent =
         (item.displayMode === 'alwaysIcon' ||
           item.displayMode === 'textToIconOnMobile') && (
           <Link
-            class="block op-80! op-transition"
+            class="touch-target op-80! op-transition"
             href={href}
             title={item.title}
             rel={rel}
@@ -78,7 +78,7 @@ const ariaCurrent =
       )
     ) : (
       <Link
-        class="lt-md:hidden op-50! op-transition"
+        class="lt-lg:hidden op-50! op-transition"
         href={href}
         title={item.title}
         rel={rel}
@@ -102,7 +102,7 @@ const ariaCurrent =
       class={`${
         item.displayMode === 'iconHiddenOnMobile' ||
         item.displayMode === 'textHiddenOnMobile'
-          ? 'lt-md:hidden'
+          ? 'lt-lg:hidden'
           : ''
       } op-transition`}
       href={href}
@@ -117,14 +117,14 @@ const ariaCurrent =
         item.displayMode === 'iconHiddenOnMobile') && <div class={item.icon} />}
       {item.displayMode === 'textToIconOnMobile' && (
         <>
-          <span class="lt-md:hidden">{item.text}</span>
-          <div class={`md:hidden ${item.icon}`} />
+          <span class="lt-lg:hidden">{item.text}</span>
+          <div class={`lg:hidden ${item.icon}`} />
         </>
       )}
       {item.displayMode === 'iconToTextOnMobile' && (
         <>
-          <span class="md:hidden">{item.text}</span>
-          <div class={`lt-md:hidden ${item.icon}`} />
+          <span class="lg:hidden">{item.text}</span>
+          <div class={`lt-lg:hidden ${item.icon}`} />
         </>
       )}
     </Link>

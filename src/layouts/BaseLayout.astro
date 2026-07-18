@@ -119,7 +119,8 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
     <main
       id="main"
       class:list={[
-        'relative px-5 py-8 sm:(px-7 py-10) lt-sm:(px-3.5 py-6)',
+        /* 水平边距由 main.css --page-gutter-x 统一控制 */
+        'relative py-8 sm:py-10 lt-sm:py-6',
         mainClass,
       ]}
     >

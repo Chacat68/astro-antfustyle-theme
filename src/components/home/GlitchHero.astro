@@ -960,17 +960,21 @@ const portals = [
     }
   }
 
-  /* 窄屏：入口回到品牌下方单列，避免与右下工具坞重叠 */
-  @media (max-width: 768px) {
+  /* 平板 + 手机：入口回到品牌下方单列，避免与侧栏/底坞争横向空间 */
+  @media (max-width: 1023.9px) {
     .glitch-hero {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      min-height: 100svh;
+      min-height: 100dvh;
+      height: auto;
+      overflow: visible;
     }
 
     .glitch-hero__brand {
-      width: min(52vw, 200px);
+      width: min(36vw, 200px);
     }
 
     .glitch-hero__title {
@@ -978,8 +982,9 @@ const portals = [
     }
 
     .glitch-hero__content {
-      width: min(100%, 22rem);
-      gap: 1.25rem;
+      width: min(100%, 26rem);
+      gap: 1.1rem;
+      padding-top: max(3rem, env(safe-area-inset-top));
       padding-bottom: 0.5rem;
     }
 
@@ -990,7 +995,7 @@ const portals = [
       right: auto;
       transform: none;
       z-index: 1;
-      width: min(100%, 22rem);
+      width: min(100%, 26rem);
       max-height: none;
       margin-top: 0.25rem;
       padding:
@@ -1056,6 +1061,23 @@ const portals = [
       letter-spacing: 0.12em;
       font-size: 0.82rem;
     }
+  }
+
+  /* 手机：再压缩品牌 / dock，加大触控 */
+  @media (max-width: 767.9px) {
+    .glitch-hero__brand {
+      width: min(42vw, 168px);
+    }
+
+    .glitch-hero__content {
+      width: min(100%, 22rem);
+      gap: 1rem;
+      padding-top: max(2.5rem, env(safe-area-inset-top));
+    }
+
+    .glitch-hero__portals {
+      width: min(100%, 22rem);
+    }
 
     .glitch-hero__dock {
       gap: 0.55rem;
@@ -1069,17 +1091,54 @@ const portals = [
     .glitch-hero__dock :global(a),
     .glitch-hero__dock :global(button),
     .glitch-hero__dock-link {
+      min-width: 2.75rem;
+      min-height: 2.75rem;
       font-size: 0.98rem;
+    }
+
+    .glitch-hero__dock :global(.lang-switch) {
+      --ls-slot: 2.1rem;
+      --ls-sep: 0.45rem;
+      height: 2.75rem;
     }
   }
 
-  @media (max-width: 380px) {
+  @media (max-width: 379.9px) {
     .glitch-hero__dock--social,
     .glitch-hero__dock--tools {
       max-width: calc(50vw - 0.85rem);
       flex-wrap: wrap;
       justify-content: center;
       row-gap: 0.35rem;
+    }
+
+    .glitch-hero__brand {
+      width: min(38vw, 140px);
+    }
+
+    .glitch-hero__portal {
+      padding: 0.65rem 0.75rem;
+    }
+  }
+
+  /* 矮屏 / 横屏（含平板横持）：压缩品牌与间距，优先保证入口可见 */
+  @media (max-width: 1023.9px) and (max-height: 640px) {
+    .glitch-hero__brand {
+      width: min(28vw, 112px);
+    }
+
+    .glitch-hero__content {
+      gap: 0.65rem;
+      padding-top: max(1.25rem, env(safe-area-inset-top));
+    }
+
+    .glitch-hero__portals {
+      margin-top: 0;
+      padding-bottom: max(5.5rem, calc(env(safe-area-inset-bottom) + 4.25rem));
+    }
+
+    .glitch-hero__portal {
+      padding: 0.55rem 0.7rem;
     }
   }
 

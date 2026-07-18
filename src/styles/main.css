@@ -35,6 +35,23 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 160ms;
   --duration: 200ms;
+
+  /* 页面水平边距：手机 ≥20px，避免正文贴边；刘海屏再取 safe-area */
+  --page-gutter-x: 1.25rem;
+  --nav-gutter-x: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --page-gutter-x: 1.75rem;
+    --nav-gutter-x: 1.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-gutter-x: 2rem;
+  }
 }
 
 :root.dark {
@@ -107,11 +124,22 @@ summary {
   outline-offset: 3px;
 }
 
+/* 触控：图标控件最小点击区域 ≈ 44px */
+.touch-target {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
 .site-nav {
   position: sticky;
   top: 0;
   z-index: 90;
 
+  padding-left: max(var(--nav-gutter-x), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--nav-gutter-x), env(safe-area-inset-right, 0px));
   border-bottom: 1px solid color-mix(in srgb, var(--c-border) 80%, transparent);
   background: linear-gradient(
     180deg,
@@ -121,6 +149,17 @@ summary {
   );
   backdrop-filter: blur(14px) saturate(1.1);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
+}
+
+/* 内容区水平边距（首页 .home-main 自行清零） */
+#main:not(.home-main) {
+  padding-left: max(var(--page-gutter-x), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--page-gutter-x), env(safe-area-inset-right, 0px));
+}
+
+.site-footer {
+  padding-left: max(var(--page-gutter-x), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--page-gutter-x), env(safe-area-inset-right, 0px));
 }
 
 .site-nav::before,
