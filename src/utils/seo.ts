@@ -1,15 +1,20 @@
 import { SITE } from '../config'
+import {
+  isEnglishChangelogFallback,
+  isMissingEnglishBlogTranslation,
+  isNoindexRoute,
+  NOINDEX_ROUTE_PATHS,
+  normalizeRoutePath,
+  shouldIncludeRouteInSitemap,
+} from './seo-filters'
 
-/** Routes excluded from sitemap and marked noindex in page head. */
-export const NOINDEX_ROUTE_PATHS = new Set([
-  '/404/',
-  '/feeds/',
-  '/highlights/',
-  '/prs/',
-  '/releases/',
-  '/shorts/',
-  '/streams/',
-])
+export {
+  isEnglishChangelogFallback,
+  isMissingEnglishBlogTranslation,
+  isNoindexRoute,
+  NOINDEX_ROUTE_PATHS,
+  normalizeRoutePath,
+}
 
 export const META_DESCRIPTION_MAX_LENGTH = 160
 export const META_TITLE_SOFT_MAX_LENGTH = 60
@@ -17,28 +22,6 @@ export const META_TITLE_SOFT_MAX_LENGTH = 60
 export function getConfiguredBasePath(base = SITE.base) {
   const trimmedBase = base.replace(/^\/+|\/+$/g, '')
   return trimmedBase ? `/${trimmedBase}/` : '/'
-}
-
-export function normalizeRoutePath(
-  pathname: string,
-  basePath = getConfiguredBasePath()
-) {
-  let routePath = pathname
-  if (basePath !== '/' && routePath.startsWith(basePath)) {
-    routePath = `/${routePath.slice(basePath.length)}`
-  }
-
-  routePath = routePath.replace(/\/+/g, '/')
-  if (!routePath.startsWith('/')) routePath = `/${routePath}`
-  return routePath.endsWith('/') ? routePath : `${routePath}/`
-}
-
-export function isNoindexRoute(routePath: string) {
-  if (NOINDEX_ROUTE_PATHS.has(routePath)) return true
-  if (!routePath.startsWith('/en/')) return false
-
-  const unprefixedRoutePath = routePath.replace(/^\/en/, '') || '/'
-  return NOINDEX_ROUTE_PATHS.has(unprefixedRoutePath)
 }
 
 export function getAbsoluteSiteUrl(routePath: string) {
@@ -88,28 +71,13 @@ export function truncateMetaDescription(
   return `${truncated.trimEnd()}…`
 }
 
-export function isMissingEnglishBlogTranslation(
-  routePath: string,
-  englishBlogIds: ReadonlySet<string>
-) {
-  const match = routePath.match(/^\/en\/blog\/(.+)\/$/)
-  if (!match) return false
-
-  return !englishBlogIds.has(decodeURIComponent(match[1]))
-}
-
 export function shouldIncludeInSitemap(
   page: string,
   englishBlogIds: ReadonlySet<string>
 ) {
-  const routePath = normalizeRoutePath(new URL(page).pathname)
-
-  // Alternate machine-readable representations are discovered from HTML and
-  // llms.txt; the XML sitemap remains a canonical HTML URL inventory.
-  if (routePath === '/llms.txt/' || routePath.endsWith('/index.html.md/')) {
-    return false
-  }
-  if (isNoindexRoute(routePath)) return false
-  if (isMissingEnglishBlogTranslation(routePath, englishBlogIds)) return false
-  return true
+  const routePath = normalizeRoutePath(
+    new URL(page).pathname,
+    getConfiguredBasePath()
+  )
+  return shouldIncludeRouteInSitemap(routePath, englishBlogIds)
 }

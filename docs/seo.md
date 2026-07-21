@@ -7,7 +7,7 @@
 | 层级 | 文件 | 职责 |
 |------|------|------|
 | 页面元数据 | `src/components/base/Head.astro` | title、description、canonical、Open Graph、Twitter Card、hreflang、JSON-LD |
-| 路由策略 | `src/utils/seo.ts` | noindex 路由表、sitemap 过滤、description 截断 |
+| 路由策略 | `src/utils/seo.ts`、`src/utils/seo-filters.ts` | noindex 路由表、sitemap 过滤、description 截断 |
 | 站点地图 | `astro.config.ts` → `@astrojs/sitemap` | 生成 `sitemap-index.xml`，排除 noindex 与无英文翻译的文章 |
 | 爬虫规则 | `astro.config.ts` → `astro-robots-txt` | 生成 `robots.txt`，指向 sitemap |
 | AI 内容索引 | `src/pages/llms.txt.ts` | 生成精简的双语文章目录与 Markdown 入口 |
@@ -28,15 +28,16 @@
 - `/404/`、`/feeds/`、`/streams/`、`/highlights/`、`/shorts/`
 - `/prs/`、`/releases/`（主题 Loader 示例页）
 - 英文 fallback 路由（如无对应 `blog_en` 文章的 `/en/blog/*`）
-- 仅中文内容的 `/en/changelog/*`
+- 仅中文内容的 `/en/changelog/` 与 `/en/changelog/*`（由 `isEnglishChangelogFallback()` 过滤）
 
-在页面层通过 `BaseLayout` 的 `noindex` prop 设置；在 sitemap 层通过 `src/utils/seo.ts` 的 `NOINDEX_ROUTE_PATHS` 与 `shouldIncludeInSitemap()` 统一过滤。
+在页面层通过 `BaseLayout` 的 `noindex` prop 设置；在 sitemap 层通过 `src/utils/seo.ts` 的 `NOINDEX_ROUTE_PATHS`、`isEnglishChangelogFallback()` 与 `shouldIncludeInSitemap()` 统一过滤。`customPages` 只加入可索引英文静态路由，勿把 noindex 页（如 `/en/shorts/`）写进去。
 
 ### 多语言 SEO
 
 - 默认语言（zh）在根路径（如 `/blog/`），英文在 `/en/` 前缀下。
 - 每页输出 `link rel="canonical"` 与 `hreflang` 交替链接，`x-default` 指向中文版。
-- 博客文章：有 `blog_en` 翻译时输出双语 hreflang；无翻译的英文路由 canonical 回中文并标记 noindex。
+- 博客文章：有 `blog_en` 翻译时，**中英文页都**输出双语 hreflang（`availableLocales` 在中文路由也会查英文翻译是否存在）；无翻译的英文路由 canonical 回中文并标记 noindex。
+- Changelog 仅中文：英文路由 rewrite 展示中文内容，`availableLocales=['zh']`、canonical 指向中文、noindex，且不进 sitemap。
 
 ### 结构化数据
 
@@ -93,7 +94,8 @@ pnpm seo:audit
 - `robots.txt` 与 sitemap 是否存在
 - `llms.txt`、中英文文章 Markdown 与 HTML alternate link 是否完整对应
 - 主要 AI crawler token 是否在 `robots.txt` 中明确允许
-- sitemap 是否错误包含 `llms.txt` 或 Markdown alternate
+- sitemap 是否错误包含 `llms.txt`、Markdown alternate 或 `/en/changelog`
+- 有英文翻译的中文博客页是否输出 `hreflang="en"`
 - 可索引页面的重复 title / description
 - title / description 长度是否超出建议范围
 

@@ -35,16 +35,19 @@ const locale = getLocale(Astro.currentLocale)
 const slug = Astro.params.slug
 if (!slug) throw new Error('Missing blog post slug')
 
-const enPost = !isDefaultLocale(locale)
-  ? (await getEnglishPostsById()).get(slug)
-  : null
+// 中英文页都要查是否有翻译，否则中文页会漏掉 hreflang="en"
+const enPostEntry = (await getEnglishPostsById()).get(slug)
+const hasEnglishTranslation = Boolean(enPostEntry)
 
-const post = enPost ?? (await getEntry('blog', slug))
+const post =
+  !isDefaultLocale(locale) && enPostEntry
+    ? enPostEntry
+    : await getEntry('blog', slug)
 
 if (!post) throw new Error(`Blog post not found: ${slug}`)
 
-const isEnglishFallback = !isDefaultLocale(locale) && !enPost
-const availableLocales: AppLocale[] = enPost
+const isEnglishFallback = !isDefaultLocale(locale) && !enPostEntry
+const availableLocales: AppLocale[] = hasEnglishTranslation
   ? [DEFAULT_LOCALE, 'en']
   : [DEFAULT_LOCALE]
 const canonicalLocale: AppLocale = isEnglishFallback ? DEFAULT_LOCALE : locale
