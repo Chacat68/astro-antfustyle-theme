@@ -36,7 +36,7 @@
 
 - 默认语言（zh）在根路径（如 `/blog/`），英文在 `/en/` 前缀下。
 - 每页输出 `link rel="canonical"` 与 `hreflang` 交替链接，`x-default` 指向中文版。
-- 博客文章：有 `blog_en` 翻译时输出双语 hreflang；无翻译的英文路由 canonical 回中文并标记 noindex。
+- 博客文章：有 `blog_en` 翻译时，**中英文页面均**输出双向 hreflang；无翻译的英文路由 canonical 回中文并标记 noindex。
 
 ### 结构化数据
 

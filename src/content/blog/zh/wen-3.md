@@ -2,7 +2,7 @@
 title: 不要温和地走进那良夜
 pubDate: '2023-03-06'
 lastModDate: '2023-03-06'
-description: '狄兰·托马斯名诗《不要温和地走进那良夜》：在痛苦与快乐并存中直面失败，于独处里学会与自己相处。'
+description: '狄兰·托马斯名诗《不要温和地走进那良夜》：在痛苦与快乐并存中直面失败，于独处里学会与自己相处，并收有双语原文。'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173335960.png?imageSlim'
 tags: [生活,诗句,英文,生命]
 category: '它山之石'
