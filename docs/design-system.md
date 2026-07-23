@@ -49,6 +49,14 @@
 
 `LanguageSwitch.astro`：HUD 分段控件 `中 / EN`。两侧固定等宽槽位；文字位置不变，仅高亮块随当前语言滑动（避免 CJK/拉丁切换跳动）；当前项 `aria-current="true"`。用于顶栏 `langButton` 与首页 SYS dock。
 
+## 首页 AboutScreen
+
+`AboutScreen.astro`：首页科幻 HUD 面板。四角括号、扫描线、状态栏 LED、角色模块芯片均复用 `--c-accent`；文案走 `home.intro*` / `home.role.*` / `home.screen.*`。页面标题为「首页」，屏内 h1 使用 `sr-only` 隐藏。首屏继续用 `slide-enter-instant` 保 LCP；动效尊重 `prefers-reduced-motion`。
+
+## 博客「网站数据统计」
+
+`SiteStats.astro`（博客列表页）：与首页 `AboutScreen` 同系的科幻 HUD 面板——四角括号、扫描线、扫描扫掠、状态栏 LED、`--c-accent` 网格底板。经营时间 / 总字数以大号数字指标呈现，年份分布为 HUD 风格比例条。文案键：`sitestats.*`（含 `tag` / `status` / `metrics` / `timeline` / footer）。动效尊重 `prefers-reduced-motion`。
+
 ## 浮层定位
 
 `SearchSwitch.astro` 的搜索面板挂在 sticky 导航内，而 `.site-nav` 的 `backdrop-filter` 会形成 fixed 包含块，因此不能用 `top/left: 50%`（会相对 header 而非视口）。

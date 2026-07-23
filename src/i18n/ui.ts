@@ -64,8 +64,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Site stats
     'sitestats.title': '网站数据统计',
-    'sitestats.tag': '// SITE_STATS',
-    'sitestats.status': '{count} POSTS · LIVE',
+    'sitestats.tag': 'SYS://TELEMETRY',
+    'sitestats.status': 'LIVE',
     'sitestats.operatingTime': '经营时间',
     'sitestats.operatingTimeMain': '自 {start} 至今，共 {days} 天',
     'sitestats.operatingTimeSub': '（{years}年{months}个月{days}天）',
@@ -75,8 +75,10 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'sitestats.postsPerYear': '// YEARLY_OUTPUT',
     'sitestats.yearItemCount': '{count} 篇',
     'sitestats.noData': '暂无数据',
-    'sitestats.footerSrc': 'SRC://BLOG',
-    'sitestats.footerSince': 'SINCE {start}',
+    'sitestats.metrics': 'CORE METRICS',
+    'sitestats.timeline': 'YEARLY OUTPUT',
+    'sitestats.footerLeft': 'NODE // BLOG',
+    'sitestats.footerRight': 'UPLINK STABLE',
 
     // ToC
     'toc.title': '目录',
@@ -332,8 +334,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Site stats
     'sitestats.title': 'Site stats',
-    'sitestats.tag': '// SITE_STATS',
-    'sitestats.status': '{count} POSTS · LIVE',
+    'sitestats.tag': 'SYS://TELEMETRY',
+    'sitestats.status': 'LIVE',
     'sitestats.operatingTime': 'Uptime',
     'sitestats.operatingTimeMain': 'Since {start}, {days} days in total',
     'sitestats.operatingTimeSub': '({years}y {months}m {days}d)',
@@ -343,8 +345,10 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'sitestats.postsPerYear': '// YEARLY_OUTPUT',
     'sitestats.yearItemCount': '{count} posts',
     'sitestats.noData': 'No data yet',
-    'sitestats.footerSrc': 'SRC://BLOG',
-    'sitestats.footerSince': 'SINCE {start}',
+    'sitestats.metrics': 'CORE METRICS',
+    'sitestats.timeline': 'YEARLY OUTPUT',
+    'sitestats.footerLeft': 'NODE // BLOG',
+    'sitestats.footerRight': 'UPLINK STABLE',
 
     // ToC
     'toc.title': 'Table of Contents',
