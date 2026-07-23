@@ -42,11 +42,15 @@
 
 `Head.astro` 输出 Schema.org JSON-LD `@graph`，包含：
 
-- `Person`（作者）
-- `WebSite`（站点）
+- `Person`（作者，含 `alternateName` / `sameAs`）
+- `WebSite`（站点，含 `Foo-Z` 别名）
 - `ImageObject`（OG 图）
 - `WebPage` 或 `BlogPosting`（按是否有 `pubDate` 区分）
 - `BreadcrumbList`（非首页）
+
+### Twitter Card 账号
+
+当 `FEATURES.share.twitter` 启用时，`Head.astro` 输出 `twitter:site` 与 `twitter:creator`（当前 `@Chacat68`）。
 
 ### AI 抓取入口
 
@@ -61,7 +65,13 @@
 ### Meta 长度控制
 
 - **Title**：`formatPageTitle()` 将浏览器标题控制在 60 字符内（保留 ` - 站点名` 后缀，截断过长的文章标题）。页面内 `<h1>` 仍显示完整标题。
-- **Description**：`truncateMetaDescription()` 在输出前将 description 截断至 160 字符。文章 frontmatter 仍可写完整句子，HTML meta 会自动处理。
+- **Description**：`truncateMetaDescription()` 在输出前将 description 截断至 160 字符；优先在句号边界收束，避免半截省略号。文章 frontmatter 仍应写完整句子，HTML meta 会自动处理。
+
+### 品牌与多语言首页
+
+- 中英文首页 `page.home.title` 均使用站点品牌「付之一笑」，避免英文页出现「FOO-Z - 付之一笑」式重复后缀。
+- 英文 description / about 文案可使用 `Foo-Z (付之一笑)` 作为可读别名；JSON-LD `WebSite.alternateName` 同步声明。
+- Sitemap `customPages` 需包含 `/en/about/` 等静态双语页，避免仅依赖 fallback rewrite 时漏收录。
 
 ## 页面文案规范
 
@@ -74,10 +84,16 @@
 ### 批量修正博客 description
 
 ```bash
-node scripts/fix-blog-descriptions.mjs
+pnpm seo:fix-descriptions
 ```
 
-脚本将 frontmatter 中的 `description` 调整到 50–160 字符：偏长则智能截断，偏短则优先取 `subtitle` 或正文首段补充。运行后建议重新构建并审计。
+脚本将 frontmatter 中的 `description` 调整到 50–160 字符：
+
+- 清理「欢迎阅读全文了解更多」等填充句与 `::directive` 泄漏
+- 偏长或半截描述优先在句号 / 词边界收束并以句号结尾（避免 `…`）
+- 偏短则优先取 `subtitle` 或正文首段补充
+
+运行后建议重新构建并审计。
 
 ### 运行 SEO 审计
 
@@ -108,9 +124,17 @@ pnpm seo:audit
 
 ### 新增博客文章 checklist
 
-1. frontmatter 填写 `title`、`description`（50–160 字符为佳）、`pubDate`
+1. frontmatter 填写 `title`、`description`（50–160 字符为佳，完整句子，勿用「欢迎阅读全文…」填充）、`pubDate`
 2. 可选：设置 `ogImage` 或在 `public/og-images/` 放置对应 PNG
-3. 若有英文版，在 `src/content/blog/en/` 添加同名 slug 文件
+3. 若有英文版，在 `src/content/blog/en/` 添加同名 slug 文件；无英译时勿手动创建空壳，交由 fallback + noindex 处理
+4. 重要文章尽量补齐英译，以便进入英文 sitemap 与 `llms.txt`
+
+### 生产环境抽检（部署后）
+
+1. `https://foo-z.com/robots.txt` 可访问且指向 sitemap
+2. `https://foo-z.com/sitemap-index.xml` 与 `sitemap-0.xml` 返回 **200**（非 403/500）
+3. Cloudflare 对 Googlebot / 主流 AI crawler 放行验证爬虫，避免 Bot Fight 误伤 sitemap
+4. Google Search Console 重新提交 sitemap 并关注「无法抓取」报告
 
 ## Open Graph 图片
 

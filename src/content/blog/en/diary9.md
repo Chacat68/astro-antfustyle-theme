@@ -2,7 +2,7 @@
 title: Notion Note-Taking Practice 2.0
 pubDate: '2022-11-17'
 lastModDate: '2022-11-17'
-description: 'This article introduces Notion''s core features and their application in knowledge management, including functional blocks, free layout, pages, and information…'
+description: 'This article introduces Notion''s core features and their application in knowledge management, including functional blocks, free layout, pages, and information.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174207263.png?imageSlim'
 tags: [Notion, Knowledge Management, Information Organization, Topics]
 category: 'Design Thinking'

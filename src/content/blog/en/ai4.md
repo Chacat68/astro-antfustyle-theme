@@ -2,7 +2,7 @@
 title: "Cherry Studio: The Preferred Choice for AI Desktop Clients"
 pubDate: '2025-06-11'
 lastModDate: '2025-06-11'
-description: 'An in-depth experience with Cherry Studio, a desktop client supporting multiple LLM providers, exploring its robust MCP protocol support and rich feature…'
+description: 'An in-depth experience with Cherry Studio, a desktop client supporting multiple LLM providers, exploring its robust MCP protocol support and rich feature.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250611005902963.png?imageSlim'
 tags: [AI Tools, Open Source Projects, MCP, Large Language Models, Productivity Tools, Cherry Studio]
 category: 'Artificial Intelligence'

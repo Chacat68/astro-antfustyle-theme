@@ -2,7 +2,7 @@
 title: Chrome Extension Recommendations 2024 Edition
 pubDate: '2024-04-10'
 lastModDate: '2024-04-10'
-description: '2024 edition of Chrome extension recommendations. With the rise of AI, many products have introduced AI features, making it worthwhile to revisit and…'
+description: '2024 edition of Chrome extension recommendations. With the rise of AI, many products have introduced AI features, making it worthwhile to revisit and.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501173821439.png?imageSlim'
 tags: [Extension Recommendations, Chrome, AI, Products]
 category: 'Life & Thoughts'

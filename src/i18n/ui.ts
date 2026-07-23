@@ -446,12 +446,12 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': 'Display your GitHub pull requests using',
     'page.prs.subtitleSuffix': '',
 
-    'page.home.title': 'FOO-Z',
+    'page.home.title': '付之一笑',
     'page.home.description':
-      "Charliefoo's personal blog portal — reading, running, thinking, and creating, framed in glitch art.",
+      "Foo-Z (付之一笑) — Charliefoo's personal blog: reading notes, running logs, technical thinking, and creative practice in a glitch-art frame.",
     'page.about.title': 'About',
     'page.about.description':
-      "About Charliefoo — blog journey, writing philosophy, and how to get in touch.",
+      'About Foo-Z (付之一笑) and Charliefoo — blog journey, writing philosophy, and how to get in touch.',
 
     // About page — blog story & philosophy
     'about.blog.title': 'About this blog',

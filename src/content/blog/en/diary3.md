@@ -2,7 +2,7 @@
 title: "Essay: The Shift from Consumer to Creator"
 pubDate: '2021-05-13'
 lastModDate: '2021-05-13'
-description: 'Recently, my work has been on pause, and suddenly I find myself with a lot of free time to allocate. In the 24 hours of each day, I’ve started to seriously…'
+description: 'Recently, my work has been on pause, and suddenly I find myself with a lot of free time to allocate. In the 24 hours of each day, I’ve started to seriously.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250103135535921.png?imageSlim'
 tags: [Life Rhythm, Time Management, Information Control, Family Life, Creativity, Health, Pandemic, UE Engine, Blog, Programming]
 category: 'Life Essays'

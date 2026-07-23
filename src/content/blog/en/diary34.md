@@ -2,7 +2,7 @@
 title: "From Fragile to Antifragile: Thriving in Uncertainty"
 pubDate: '2025-06-26'
 lastModDate: '2025-06-26'
-description: 'Explore the core concepts of antifragility and learn how to grow and benefit from chaos and uncertainty'
+description: Explore the core concepts of antifragility and learn how to grow and benefit from chaos and uncertainty.
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250626010422293.png?imageSlim'
 tags: [Antifragility, Personal Growth, Uncertainty, Resilience, Mental Models]
 category: 'Life Essays'

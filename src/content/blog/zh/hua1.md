@@ -2,7 +2,7 @@
 title: 华语集《陈绮贞的诗意时光》
 pubDate: '2025-02-01'
 lastModDate: '2025-02-01'
-description: 华语集《陈绮贞的诗意时光》：陈绮贞的音乐总是充满诗意，她用温柔的声线讲述着生活中的小确幸。 欢迎阅读全文了解更多。
+description: 陈绮贞，一个用吉他和歌声织就诗意的创作歌手。在独立音乐圈里，她就像是一位温柔的诗人，用简单的文字，唱出生活中最细腻的感动。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/2025-02-03-12-10-05.png?imageSlim'
 tags: [生活,华语音乐,陈绮贞,音乐,民谣]
 category: '音乐欣赏'

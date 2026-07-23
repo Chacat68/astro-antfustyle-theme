@@ -2,7 +2,7 @@
 title: "My 2025 Software Toolbox: A Productivity List for the AI Era"
 pubDate: '2025-02-20'
 lastModDate: '2025-02-20'
-description: 'A curated selection of practical software recommendations covering AI, note-taking, development, gaming, reading, and more, primarily for users within the…'
+description: 'A curated selection of practical software recommendations covering AI, note-taking, development, gaming, reading, and more, primarily for users within the.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042251538.png?imageSlim'
 tags: [Software Recommendations, AI Tools, Productivity Tools, Development Tools, MacOS]
 category: 'Life Notes'
