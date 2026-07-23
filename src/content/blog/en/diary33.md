@@ -2,7 +2,7 @@
 title: "Breaking Down the Walls in Our Minds: My Practice of a Growth Mindset"
 pubDate: '2025-06-22'
 lastModDate: '2025-06-22'
-description: 'Exploring the core concepts of a growth mindset and introducing how to cultivate it through practice'
+description: Exploring the core concepts of a growth mindset and introducing how to cultivate it through practice.
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250623020759494.png?imageSlim'
 tags: [Growth Mindset, Personal Growth, Learning Ability, Perspective, Mental Models]
 category: 'Life Notes'

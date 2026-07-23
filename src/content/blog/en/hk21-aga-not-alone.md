@@ -2,7 +2,7 @@
 title: 'AGA''s Cover of "No One Is Doomed to Be Alone": A Gentle Yet Steadfast Confession in Soft Vocals'
 pubDate: '2026-03-05'
 lastModDate: '2026-03-05'
-description: 'AGA (Jiang Haijia) covers Dear Jane''''s "No One Is Doomed to Be Alone" with delicate vocals, transforming the original fervent confession into a gentle yet…'
+description: 'AGA (Jiang Haijia) covers Dear Jane''''s "No One Is Doomed to Be Alone" with delicate vocals, transforming the original fervent confession into a gentle yet.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260305051244012.webp?imageSlim'
 tags: [Cantonese Music, AGA, Dear Jane, No One Is Doomed to Be Alone, Cover, Hong Kong Music, Live]
 category: 'Music Appreciation'

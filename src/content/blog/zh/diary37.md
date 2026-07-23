@@ -2,7 +2,7 @@
 title: 生活小记：重回母校
 pubDate: '2025-09-01'
 lastModDate: '2025-09-01'
-description: 生活小记：重回母校：重返母校的午后时光，在熟悉与陌生之间寻找那些被时光掩埋的青春记忆。 欢迎阅读全文了解更多。
+description: 曾经烂熟于心的归途，如今却让人感到陌生疏离。打车回校的路上，那份久违的熟悉感已然消散无踪。虽然目的地依旧未变，但沿途的风景早已在时光的雕琢下悄然蜕变。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250909022222406.webp?imageSlim'
 tags: [母校, 回忆, 青春, 时光]
 category: '生活随笔'

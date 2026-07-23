@@ -2,7 +2,7 @@
 title: "The Lingnan Spring Festival in the Countryside: Not Just Floral Scents, but the Boiling 'Nianli'"
 pubDate: '2026-02-20'
 lastModDate: '2026-02-20'
-description: 'The Spring Festival for Cantonese people isn''t just about New Year''s Eve flower markets and reunion dinners. As someone who grew up in western Guangdong…'
+description: 'The Spring Festival for Cantonese people isn''t just about New Year''s Eve flower markets and reunion dinners. As someone who grew up in western Guangdong.'
 image: ''
 tags: [Guangdong, Yuexi, Nianli, Spring Festival, Customs, Lingnan Culture]
 category: 'Cultural Essay'

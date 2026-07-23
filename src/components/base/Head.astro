@@ -6,7 +6,7 @@ import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n'
 import { checkFileExistsInDir } from '../../../plugins/remark-generate-og-image'
 import { withBasePath } from '~/utils/path'
 import { formatPageTitle, truncateMetaDescription } from '~/utils/seo'
-import { SITE, UI } from '~/config'
+import { FEATURES, SITE, UI } from '~/config'
 import { getLocale } from '~/i18n/translate'
 import { isDefaultLocale } from '~/i18n/locales'
 import { localeToHtmlLang, localeToOgLocale } from '~/i18n/locale-meta'
@@ -128,6 +128,17 @@ const ahrefsKey = import.meta.env.PUBLIC_AHREFS_KEY
 const enableUmami = analyticsEnabled && Boolean(umamiSrc && umamiWebsiteId)
 const enableAhrefs = analyticsEnabled && Boolean(ahrefsKey)
 
+const shareConfig = FEATURES.share
+const twitterShare =
+  Array.isArray(shareConfig) && shareConfig[0] ? shareConfig[1].twitter : false
+const twitterHandle =
+  Array.isArray(twitterShare) && twitterShare[0] ? twitterShare[1] : undefined
+const twitterCreator = twitterHandle
+  ? twitterHandle.startsWith('@')
+    ? twitterHandle
+    : `@${twitterHandle}`
+  : undefined
+
 function formatBreadcrumbName(segment: string) {
   try {
     return decodeURIComponent(segment).replace(/[-_]/g, ' ')
@@ -182,6 +193,7 @@ const websiteData = {
   '@id': websiteId,
   'url': siteRootURL.href,
   'name': SITE.title,
+  'alternateName': ['Foo-Z', 'FOO-Z', SITE.author],
   'description': SITE.description,
   'inLanguage': localeToHtmlLang(canonicalLocale),
   'publisher': {
@@ -336,6 +348,14 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 <meta property="twitter:description" content={pageDescription} />
 <meta property="twitter:image" content={ogImageURL} />
 <meta property="twitter:image:alt" content={ogImageAlt} />
+{
+  twitterCreator && (
+    <>
+      <meta property="twitter:site" content={twitterCreator} />
+      <meta property="twitter:creator" content={twitterCreator} />
+    </>
+  )
+}
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL.href} />

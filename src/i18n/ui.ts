@@ -184,10 +184,10 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     'page.home.title': '付之一笑',
     'page.home.description':
-      '付之一笑 — Charliefoo 的个人博客入口。故障艺术视觉下的阅读、跑步、思考与创作。',
+      '付之一笑 — Charliefoo 的个人博客入口：阅读笔记、跑步记录、技术思考与创作实践，故障艺术视觉下的生活与灵感。',
     'page.about.title': '关于',
     'page.about.description':
-      '付之一笑 — Charliefoo 的个人介绍：博客历程、写作理念与联系方式。',
+      '付之一笑 — Charliefoo 的个人介绍页：博客历程、写作理念、生活态度与联系方式，了解站点背后的人与故事。',
 
     // About page — 博客故事与理念
     'about.blog.title': '关于博客',
@@ -446,12 +446,12 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': 'Display your GitHub pull requests using',
     'page.prs.subtitleSuffix': '',
 
-    'page.home.title': 'FOO-Z',
+    'page.home.title': '付之一笑',
     'page.home.description':
-      "Charliefoo's personal blog portal — reading, running, thinking, and creating, framed in glitch art.",
+      "Foo-Z (付之一笑) — Charliefoo's personal blog: reading notes, running logs, technical thinking, and creative practice in a glitch-art frame.",
     'page.about.title': 'About',
     'page.about.description':
-      "About Charliefoo — blog journey, writing philosophy, and how to get in touch.",
+      'About Foo-Z (付之一笑) and Charliefoo — blog journey, writing philosophy, and how to get in touch.',
 
     // About page — blog story & philosophy
     'about.blog.title': 'About this blog',
