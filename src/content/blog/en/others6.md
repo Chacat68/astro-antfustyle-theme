@@ -2,7 +2,7 @@
 title: "From Authenticity to Life: A Poem on Self-Love"
 pubDate: '2025-01-09'
 lastModDate: '2025-01-09'
-description: 'This poem is widely circulated online as being by Charlie Chaplin, but this has not been confirmed, and multiple versions exist. Some research suggests the.'
+description: 'A widely misattributed Chaplin poem on self-love; research points to Kim and Alison McMillen, yet the message endures.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501171218408.png?imageSlim'
 tags: [Speech, English, Charlie Chaplin, Self-Love]
 category: 'Inspiration from Afar'

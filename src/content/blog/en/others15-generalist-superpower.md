@@ -2,7 +2,7 @@
 title: "Turn ‘Jack-of-All-Trades’ into an Edge: Building Generalist Compounding in Uncertain Times (Video Notes)"
 pubDate: '2026-01-26'
 lastModDate: '2026-01-26'
-description: 'When the world feels more like a “fireground” than a “chessboard,” generalists win by adapting fast and composing across domains. Give your many interests a.'
+description: 'When work feels like a fireground, generalists win by adapting fast; structure many interests so they compound.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260130233103285.webp?imageSlim'
 tags: [Self-Improvement, Learning Methods, Career Development, Generalist, Multi-Interests, Compounding]
 category: 'Learning from Others'

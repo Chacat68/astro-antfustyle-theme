@@ -16,6 +16,34 @@ const FILLER_PATTERNS = [
   /\s*点击查看全文[。.!！]?\s*$/u,
   /\s*Read more\.?\s*$/i,
 ]
+/** 英文 description 不得以这些虚词 / 半截词收尾 */
+const WEAK_TRAILING_TOKENS = new Set([
+  'a',
+  'an',
+  'the',
+  'and',
+  'or',
+  'of',
+  'to',
+  'in',
+  'on',
+  'at',
+  'for',
+  'with',
+  'from',
+  'into',
+  'about',
+  'as',
+  'its',
+  'their',
+  'our',
+  'your',
+  'my',
+  'by',
+  'via',
+  'vs',
+  'feature',
+])
 
 function walkMarkdown(directory, files = []) {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
@@ -85,21 +113,56 @@ function ensureTerminalPunctuation(text, prefersChinese) {
   return `${trimmed}${prefersChinese ? '。' : '.'}`
 }
 
+function lastAsciiToken(text) {
+  const bare = text.trim().replace(/[.!?。！？"'”’]+$/u, '')
+  const match = bare.match(/[A-Za-z]+(?:'[A-Za-z]+)?$/u)
+  return match ? match[0].toLowerCase() : ''
+}
+
+function endsWithWeakToken(text) {
+  const token = lastAsciiToken(text)
+  return Boolean(token && WEAK_TRAILING_TOKENS.has(token))
+}
+
+function isIncompleteDescription(text, prefersChinese) {
+  const cleaned = text.trim()
+  if (!cleaned) return true
+  if (/[,:;，；、]$/u.test(cleaned)) return true
+  if (/[….]{2,}$/u.test(cleaned) || /…$/u.test(cleaned)) return true
+  if (!prefersChinese && endsWithWeakToken(cleaned)) return true
+  // 未闭合括号（如「（笑」）视为残缺
+  const opens = (cleaned.match(/[（([]/gu) || []).length
+  const closes = (cleaned.match(/[）)\]]/gu) || []).length
+  if (opens > closes) return true
+  return false
+}
+
 function truncateAtSentence(description, maxLength = MAX_LEN) {
   const normalized = description.trim().replace(/\s+/g, ' ')
-  if (normalized.length <= maxLength) return normalized
+  const prefersChinese = /[\u4e00-\u9fff]/u.test(normalized)
+  if (
+    normalized.length <= maxLength &&
+    !isIncompleteDescription(normalized, prefersChinese)
+  ) {
+    return ensureTerminalPunctuation(normalized, prefersChinese)
+  }
 
   const sentencePattern = /[^.!?。！？]+[.!?。！？]+/gu
   const sentences = normalized.match(sentencePattern) || []
   let assembled = ''
   for (const sentence of sentences) {
     const candidate = `${assembled}${sentence}`.trim()
-    if (candidate.length <= maxLength) assembled = candidate
-    else break
+    if (
+      candidate.length <= maxLength &&
+      !isIncompleteDescription(candidate, prefersChinese)
+    ) {
+      assembled = candidate
+    } else if (candidate.length > maxLength) {
+      break
+    }
   }
   if (assembled.length >= MIN_LEN) return assembled
 
-  const prefersChinese = /[\u4e00-\u9fff]/u.test(normalized)
   const budget = maxLength - 1
   const truncated = normalized.slice(0, budget)
   const separators = prefersChinese
@@ -109,9 +172,27 @@ function truncateAtSentence(description, maxLength = MAX_LEN) {
   for (const separator of separators) {
     const index = truncated.lastIndexOf(separator)
     if (index > maxLength * 0.55) {
-      const cut = truncated.slice(0, index + (separator.trim() ? separator.length : 0)).trim()
-      return ensureTerminalPunctuation(cut.replace(/[,:;，；、]+$/u, ''), prefersChinese)
+      const cut = truncated
+        .slice(0, index + (separator.trim() ? separator.length : 0))
+        .trim()
+        .replace(/[,:;，；、]+$/u, '')
+      const next = ensureTerminalPunctuation(cut, prefersChinese)
+      if (!isIncompleteDescription(next, prefersChinese) && next.length >= MIN_LEN) {
+        return next
+      }
     }
+  }
+
+  // 英文弱尾词：继续回退到上一个空格，避免 "and." / "the." 之类半截句
+  if (!prefersChinese) {
+    let cut = truncated.trim()
+    while (cut.length >= MIN_LEN && endsWithWeakToken(cut)) {
+      const prevSpace = cut.lastIndexOf(' ')
+      if (prevSpace < MIN_LEN * 0.5) break
+      cut = cut.slice(0, prevSpace).trim().replace(/[,:;]+$/u, '')
+    }
+    const next = ensureTerminalPunctuation(cut, false)
+    if (!isIncompleteDescription(next, false) && next.length >= MIN_LEN) return next
   }
 
   return ensureTerminalPunctuation(truncated.trim(), prefersChinese)
@@ -212,16 +293,38 @@ function normalizeDescription(fields, body) {
 
   const chinese = prefersChineseText(fields, body)
   const hasTerminal = /[.!?。！？]$/u.test(cleaned)
-  const looksTruncated = !hasTerminal || /[,:;，；、]$/u.test(cleaned)
+  const looksTruncated =
+    !hasTerminal || isIncompleteDescription(cleaned, chinese)
 
   if (cleaned.length > MAX_LEN || looksTruncated) {
     const firstParagraph = extractFirstParagraph(body)
-    const source =
-      looksTruncated && firstParagraph
-        ? `${cleaned.replace(/[,:;，；、]+$/u, '')}. ${firstParagraph}`
-        : cleaned
+    const stem = cleaned.replace(/[,:;，；、…]+$/u, '').replace(/\.\.\.$/u, '')
+    // 半截英文勿直接加句号；优先用正文首段重写，其次 stem + 首段
+    let source = cleaned
+    if (looksTruncated && firstParagraph) {
+      if (!chinese && endsWithWeakToken(stem)) {
+        source = firstParagraph
+      } else {
+        source = `${stem}${/[.!?。！？]$/u.test(stem) ? '' : chinese ? '。' : '.'} ${firstParagraph}`
+      }
+    }
     const next = truncateAtSentence(source)
-    if (next.length >= MIN_LEN) return next
+    if (
+      next.length >= MIN_LEN &&
+      !isIncompleteDescription(next, chinese)
+    ) {
+      return next
+    }
+    if (firstParagraph) {
+      const fromBody = truncateAtSentence(firstParagraph)
+      if (
+        fromBody.length >= MIN_LEN &&
+        !isIncompleteDescription(fromBody, chinese)
+      ) {
+        return fromBody
+      }
+    }
+    return buildShortDescription({ ...fields, description: cleaned }, body)
   }
 
   if (cleaned.length < MIN_LEN) {

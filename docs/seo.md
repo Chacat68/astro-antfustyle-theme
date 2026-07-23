@@ -42,8 +42,8 @@
 
 `Head.astro` 输出 Schema.org JSON-LD `@graph`，包含：
 
-- `Person`（作者，含 `alternateName` / `sameAs`）
-- `WebSite`（站点，含 `Foo-Z` 别名）
+- `Person`（作者，含 `sameAs`）
+- `WebSite`（站点，含 `Foo-Z` / 作者别名）
 - `ImageObject`（OG 图）
 - `WebPage` 或 `BlogPosting`（按是否有 `pubDate` 区分）
 - `BreadcrumbList`（非首页）
@@ -91,6 +91,7 @@ pnpm seo:fix-descriptions
 
 - 清理「欢迎阅读全文了解更多」等填充句与 `::directive` 泄漏
 - 偏长或半截描述优先在句号 / 词边界收束并以句号结尾（避免 `…`）
+- 英文禁止以 `and` / `the` / `of` 等虚词收尾；未闭合括号也视为残缺
 - 偏短则优先取 `subtitle` 或正文首段补充
 
 运行后建议重新构建并审计。

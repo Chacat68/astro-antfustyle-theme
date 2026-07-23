@@ -184,7 +184,6 @@ const personData = {
   '@type': 'Person',
   '@id': personId,
   'name': SITE.author,
-  'alternateName': SITE.title,
   'url': siteRootURL.href,
   'sameAs': UI.socialLinks.map((item) => item.link),
 }
@@ -194,7 +193,7 @@ const websiteData = {
   '@id': websiteId,
   'url': siteRootURL.href,
   'name': SITE.title,
-  'alternateName': ['Foo-Z', 'FOO-Z'],
+  'alternateName': ['Foo-Z', 'FOO-Z', SITE.author],
   'description': SITE.description,
   'inLanguage': localeToHtmlLang(canonicalLocale),
   'publisher': {

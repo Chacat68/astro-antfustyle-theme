@@ -2,7 +2,7 @@
 title: Steam转区指南（2022）
 pubDate: '2022-08-25'
 lastModDate: '2022-08-25'
-description: 主要原因当然是节省成本和游玩更多的游戏，先说节省成本，和奈飞（Netflix）等流媒体的付费逻辑一样，更欠发达地区的付费金额会比发达地区要少一些，可以用更低的价格买到更多的游戏，谁还不是一个阿根廷人了？（笑.
+description: Steam 转区的动机与方法：用更低价格买更多游戏、政策变化、具体步骤与支付方式，附 2022 年实用经验。
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170736893.png?imageSlim'
 tags: [Steam, 转区, VPN, 支付方式, 游戏购买]
 category: '设计思考'

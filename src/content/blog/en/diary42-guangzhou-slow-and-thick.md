@@ -2,7 +2,7 @@
 title: 'The Slowness and Depth of Life in Guangzhou'
 pubDate: '2026-06-08'
 lastModDate: '2026-06-08'
-description: 'After seven years in Shanghai, returning to Guangzhou revealed a city’s slowness and depth—uncles under the arcades, an extra handful of scallions from the.'
+description: 'Back in Guangzhou after seven years in Shanghai—arcades, market kindness, and the city''s slow, thick sense of home.'
 tags: [Guangzhou, Life, Cantonese, Shanghai, Cities, Community]
 category: 'Life Essays'
 draft: false
