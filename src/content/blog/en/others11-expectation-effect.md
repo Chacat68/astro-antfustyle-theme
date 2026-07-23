@@ -2,7 +2,7 @@
 title: "The Expectation Effect: Why Believing You Can Makes You Can"
 pubDate: '2025-09-15'
 lastModDate: '2025-09-15'
-description: 'Explore the remarkable power of the expectation effect, understand how positive expectations can alter our life trajectories, and learn how to apply this…'
+description: 'Explore the remarkable power of the expectation effect, understand how positive expectations can alter our life trajectories, and learn how to apply this.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250911025808891.webp?imageSlim'
 tags: [Expectation Effect, Pygmalion Effect, Psychology, Self-Fulfilling Prophecy, Positive Psychology]
 category: 'Learning from Others'

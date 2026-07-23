@@ -2,7 +2,7 @@
 title: "Design Methodology: Decoding Disney's Storyboard Creation"
 pubDate: '2024-05-24'
 lastModDate: '2024-05-24'
-description: 'The process of using text and images on a whiteboard to aid thinking is clearer than using text alone. In the film and animation industry, presenting the…'
+description: 'Why whiteboard sketches beat text-only thinking, and how film storyboards surface detail through Disney-style methods.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174712623.png?imageSlim'
 tags: [Disney, Storyboard, Whiteboard, Design Method]
 category: 'Design Thinking'

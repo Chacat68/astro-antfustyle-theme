@@ -136,6 +136,41 @@ function auditDist() {
           `${rel}: description 长度 ${decodedDescription.length}（建议 ≥ 50）`
         )
       }
+
+      const weakTrailing = new Set([
+        'a',
+        'an',
+        'the',
+        'and',
+        'or',
+        'of',
+        'to',
+        'in',
+        'on',
+        'at',
+        'for',
+        'with',
+        'from',
+        'into',
+        'about',
+        'as',
+        'its',
+        'feature',
+      ])
+      const trailingToken = decodedDescription
+        .replace(/[.!?。！？"'\u201d\u2019]+$/u, '')
+        .match(/[A-Za-z]+(?:'[A-Za-z]+)?$/u)?.[0]
+        ?.toLowerCase()
+      if (trailingToken && weakTrailing.has(trailingToken)) {
+        warnings.push(
+          `${rel}: description 以弱尾词「${trailingToken}」收尾，疑似半截句`
+        )
+      }
+      const openParens = (decodedDescription.match(/[（([]/gu) || []).length
+      const closeParens = (decodedDescription.match(/[）)\]]/gu) || []).length
+      if (openParens > closeParens) {
+        warnings.push(`${rel}: description 存在未闭合括号`)
+      }
     }
   }
 

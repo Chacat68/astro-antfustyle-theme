@@ -2,7 +2,7 @@
 title: "Musings: Finding Moments of Happiness Amidst the Busyness"
 pubDate: '2021-10-23'
 lastModDate: '2021-10-23'
-description: 'Making time for family and friends amidst a hectic life, reflecting on time management and the anxiety of the creative process, and finding happiness through…'
+description: 'Making time for family and friends amidst a hectic life, reflecting on time management and the anxiety of the creative process, and finding happiness through.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042645752.png?imageSlim'
 tags: [Life Pace, Time Management, Family Life, Happiness, Stress, Mental Growth, Socializing, Art Appreciation]
 category: 'Life Musings'

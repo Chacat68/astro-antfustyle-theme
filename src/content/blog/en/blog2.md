@@ -2,7 +2,7 @@
 title: "The Dual System of Digital Notes: Balancing Cloud and Local"
 pubDate: '2023-11-08'
 lastModDate: '2023-11-08'
-description: 'Maintaining and Deconstructing a Digital Note System: Cloud notes and local notes, application of the P.A.R.A. method, the creation system and the importance…'
+description: 'Maintaining and Deconstructing a Digital Note System: Cloud notes and local notes, application of the P.A.R.A. method, the creation system and the importance.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501043318743.png?imageSlim'
 tags: [Knowledge Management, Digital, System, Maintenance, Creation]
 category: 'Design Thinking'

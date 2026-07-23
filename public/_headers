@@ -15,3 +15,20 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https:; media-src 'self' https: blob:; font-src 'self' data: https://fonts.bunny.net https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://umami.chawfoo.com https://analytics.ahrefs.com https://giscus.app; connect-src 'self' https://umami.chawfoo.com https://analytics.ahrefs.com https://giscus.app; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.bilibili.com https://giscus.app; worker-src 'self' blob:
+
+# Sitemap / robots：明确 MIME，便于爬虫与 CDN 正确识别
+/sitemap-index.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/sitemap-*.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600

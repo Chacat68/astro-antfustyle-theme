@@ -2,7 +2,7 @@
 title: "Random Thoughts: Breaking Free from the Trap of Perfectionism"
 pubDate: '2024-07-05'
 lastModDate: '2024-07-05'
-description: 'Making things work at minimal cost becomes unacceptable in the eyes of perfectionism, yet it seems to be the optimal solution for getting things done.…'
+description: 'Making things work at minimal cost becomes unacceptable in the eyes of perfectionism, yet it seems to be the optimal solution for getting things done.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042343768.png?imageSlim'
 tags: [minimal cost, life, simplicity, daily]
 category: 'Life Musings'

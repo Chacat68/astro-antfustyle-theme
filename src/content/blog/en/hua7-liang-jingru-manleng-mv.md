@@ -2,7 +2,7 @@
 title: Contain Passion Within Restraint, Let Love Warm Over Time
 pubDate: '2025-10-17'
 lastModDate: '2025-10-17'
-description: 'With lyrics by Yao Ruolong and music by Xiao Huangqi, "Slow to Cool" uses delicate lyricism and cinematic storytelling to depict the gentle distance between…'
+description: 'With lyrics by Yao Ruolong and music by Xiao Huangqi, "Slow to Cool" uses delicate lyricism and cinematic storytelling to depict the gentle distance between.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20251017031856047.webp?imageSlim'
 tags: [Music, Fish Leong, Slow to Cool, MV, Chinese Pop]
 category: 'Music Appreciation'

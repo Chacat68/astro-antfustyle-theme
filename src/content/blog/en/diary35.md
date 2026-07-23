@@ -2,7 +2,7 @@
 title: "The True Flavor of Life Lies in Simple Joys: In Memory of Mr. Cai Lan"
 pubDate: '2025-06-28'
 lastModDate: '2025-06-28'
-description: 'Remembering the legendary talent Mr. Cai Lan, reviewing the precious legacy he left in food, literature, and film'
+description: 'Remembering the legendary talent Mr. Cai Lan, reviewing the precious legacy he left in food, literature, and film. Today, we have lost a true artist of life.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250628030136150.png?imageSlim'
 tags: [Cai Lan, In Memory, Food, Literature, Life Wisdom]
 category: 'Life Essays'

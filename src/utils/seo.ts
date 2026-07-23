@@ -62,13 +62,35 @@ export function truncateMetaDescription(
   const normalized = description.trim().replace(/\s+/g, ' ')
   if (normalized.length <= maxLength) return normalized
 
-  const truncated = normalized.slice(0, maxLength)
-  const lastSpace = truncated.lastIndexOf(' ')
-  if (lastSpace > maxLength * 0.6) {
-    return `${truncated.slice(0, lastSpace).trimEnd()}…`
+  const sentencePattern = /[^.!?。！？]+[.!?。！？]+/gu
+  const sentences = normalized.match(sentencePattern) || []
+  let assembled = ''
+  for (const sentence of sentences) {
+    const candidate = `${assembled}${sentence}`.trim()
+    if (candidate.length <= maxLength) assembled = candidate
+    else break
+  }
+  if (assembled.length >= Math.min(50, maxLength * 0.5)) return assembled
+
+  const prefersChinese = /[\u4e00-\u9fff]/u.test(normalized)
+  const truncated = normalized.slice(0, maxLength - 1)
+  const separators = prefersChinese
+    ? ['。', '！', '？', '；', '，', ' ']
+    : ['. ', '! ', '? ', '; ', ', ', ' ']
+
+  for (const separator of separators) {
+    const index = truncated.lastIndexOf(separator)
+    if (index > maxLength * 0.55) {
+      const cut = truncated
+        .slice(0, index + (separator.trim() ? separator.length : 0))
+        .trim()
+        .replace(/[,:;，；、]+$/u, '')
+      if (/[.!?。！？]$/u.test(cut)) return cut
+      return `${cut}${prefersChinese ? '。' : '.'}`
+    }
   }
 
-  return `${truncated.trimEnd()}…`
+  return `${truncated.trimEnd()}${prefersChinese ? '。' : '.'}`
 }
 
 export function shouldIncludeInSitemap(

@@ -2,7 +2,7 @@
 title: "New Home, Old Customs, and the Journey Back: A Story of Returning Home"
 pubDate: '2023-07-04'
 lastModDate: '2023-07-04'
-description: 'This article introduces the core features of Notion and its application in knowledge management, including functional blocks, free formatting, pages, and…'
+description: 'A homecoming essay after the new house is finished: housewarming rituals, old customs, and memories on the road back.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501174132923.png?imageSlim'
 tags: [Life, Housewarming, Renovation, Furniture, Appliances]
 category: 'Life Essays'

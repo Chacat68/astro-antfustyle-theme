@@ -36,17 +36,17 @@ const slug = Astro.params.slug
 if (!slug) throw new Error('Missing blog post slug')
 
 // 中英文页都要查是否有翻译，否则中文页会漏掉 hreflang="en"
-const enPostEntry = (await getEnglishPostsById()).get(slug)
-const hasEnglishTranslation = Boolean(enPostEntry)
+const englishPost = (await getEnglishPostsById()).get(slug)
+const hasEnglishTranslation = Boolean(englishPost)
 
-const post =
-  !isDefaultLocale(locale) && enPostEntry
-    ? enPostEntry
-    : await getEntry('blog', slug)
+// 英文路由优先使用译稿；无译稿时回退中文并 noindex，避免重复收录
+const post = !isDefaultLocale(locale)
+  ? (englishPost ?? (await getEntry('blog', slug)))
+  : await getEntry('blog', slug)
 
 if (!post) throw new Error(`Blog post not found: ${slug}`)
 
-const isEnglishFallback = !isDefaultLocale(locale) && !enPostEntry
+const isEnglishFallback = !isDefaultLocale(locale) && !hasEnglishTranslation
 const availableLocales: AppLocale[] = hasEnglishTranslation
   ? [DEFAULT_LOCALE, 'en']
   : [DEFAULT_LOCALE]
