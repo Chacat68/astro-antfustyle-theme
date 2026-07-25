@@ -261,7 +261,7 @@ const searchPanelI18n = JSON.stringify({
 
   window.__loadPagefind = loadPagefind
 
-  // 从搜索结果带高亮参数落地时，仍需提前装载
+  // 硬导航带 ?search= 时提前装载；SPA 由下方 astro:page-load 处理
   if (navHighlight && new URLSearchParams(location.search).has('search')) {
     loadPagefind()
   }
@@ -301,6 +301,7 @@ const searchPanelI18n = JSON.stringify({
 
     window.__loadPagefindHighlight = loadPagefindHighlight
 
+    // 硬导航带 ?search= 时提前装载；SPA 由下方 astro:page-load 处理
     if (new URLSearchParams(location.search).has('search')) {
       loadPagefindHighlight()
     }
@@ -308,11 +309,20 @@ const searchPanelI18n = JSON.stringify({
 
 {import.meta.env.PROD && navHighlight &&
   <script>
-    document.addEventListener('astro:page-load', () => {
+    document.addEventListener('astro:page-load', async () => {
       const params = new URLSearchParams(location.search)
-      if(!params.has('search')) return
+      if (!params.has('search')) return
 
-      // @ts-expect-error (for Cannot find name 'pagefindHighlight'.ts(2304))
+      // View Transitions 后内联脚本不会重跑，须在此按需装载再高亮
+      interface HighlightApi {
+        highlight: () => void
+      }
+      const w = window as Window & {
+        __loadPagefind?: () => Promise<unknown>
+        __loadPagefindHighlight?: () => Promise<HighlightApi | null | undefined>
+      }
+      await w.__loadPagefind?.()
+      const pagefindHighlight = await w.__loadPagefindHighlight?.()
       pagefindHighlight?.highlight()
     })
   </script>}

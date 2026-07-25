@@ -124,13 +124,18 @@ summary {
   outline-offset: 3px;
 }
 
-/* 触控：图标控件最小点击区域 ≈ 44px */
+/* 触控：图标控件最小点击区域 ≈ 44px
+ * 不设 display，避免覆盖 UnoCSS 的 hidden / lt-*:inline-flex
+ * 默认可见控件用 :not(.hidden) 补 inline-flex */
 .touch-target {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 2.75rem;
   min-height: 2.75rem;
+}
+
+.touch-target:not(.hidden):not(.hidden\!) {
+  display: inline-flex;
 }
 
 .site-nav {

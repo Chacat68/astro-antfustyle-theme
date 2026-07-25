@@ -8,7 +8,7 @@
 |----|------|------|
 | BaseLayout CSS | `presetWebFonts` 打入 40+ `@font-face`（全子集）≈135KB | `fonts.css` 仅 latin；UnoCSS `extendTheme.fontFamily` |
 | KaTeX | `markdown.css` 全局 `@import`，首页也拉字体 | 仅 `RenderPost.astro` 引入 |
-| Pagefind | 首屏急切 `import(pagefind.js)` ≈35KB+ | 打开搜索或 `?search=` 再加载 |
+| Pagefind | 首屏急切 `import(pagefind.js)` ≈35KB+ | 打开搜索或 `?search=` 再加载；SPA（View Transitions）落到 `?search=` 时在 `astro:page-load` 中 `await` 装载高亮后再 `highlight()` |
 | viewerjs CSS | script 内 `import` 易进公共样式 | `?url` + 组件模板 `<link>` |
 
 内页背景仍用 Three.js `lite`（`Glitch.astro`，idle 延迟），以视觉为准，不为此换成纯 CSS。

@@ -169,6 +169,12 @@ export default defineConfig({
     ...projectIcons,
     ...portalIcons,
 
+    /* 易被 attributify 只生成 [attr=""]、缺少 .class 的工具类 */
+    'grid-flow-col',
+    'print:op-0',
+    'hidden!',
+    'lt-lg:inline-flex!',
+
     /* BaseLayout */
     'focus:not-sr-only',
     'focus:fixed',

@@ -105,9 +105,9 @@
 
 1. **水平间距只认** `--page-gutter-x` / `--nav-gutter-x`；卡片/相册外层不要再叠 `mx-10` / `mx-20`。
 2. **网格**用 `minmax(min(100%, Npx), 1fr)`，禁止裸 `minmax(300px, 1fr)` 撑破窄屏。
-3. **图标控件**加 `.touch-target`（`min 2.75rem` ≈ 44px）；语言切换在窄屏 / `pointer: coarse` 下同步加大。
+3. **图标控件**加 `.touch-target`（`min 2.75rem` ≈ 44px）；语言切换在窄屏 / `pointer: coarse` 下同步加大。`.touch-target` **不设** `display`，避免压过 UnoCSS `hidden`；需隐藏时用 `hidden!` + 对应断点 `lt-*:inline-flex!`（见 `NavSwitch`）。
 4. **挂在 `.site-nav` 内的 fixed 面板**须用 `top-50vh left-50vw`（或 portal 到 `body`），不能用 `%`（`backdrop-filter` 会形成 fixed 包含块）。
-5. **导航折叠**：`mergeOnMobile: true` 时 `<1024px` 收进汉堡；桌面文案/图标切换类（`*OnMobile`）同步以 `lg` 为界。
+5. **导航折叠**：`mergeOnMobile: true` 时 `<1024px` 收进汉堡；桌面文案/图标切换类（`*OnMobile`）同步以 `lg` 为界。顶栏左右槽用 `flex items-center`（勿依赖易被 attributify 吃掉的 `grid-flow-col` class）。
 6. **首页**：`≥1024` 锁滚动 + 右侧 peek 入口；`<1024` 文档流入口并允许纵向滚动；`<768` 再压缩品牌 / dock。
 7. **触控无悬停**：相册 `figcaption` 常显（`@media (hover: none)`）。
 
@@ -120,7 +120,7 @@
 | 结构 | 全屏 Three.js `hero` 模式舞台 + 居中品牌字 + **右侧功能入口竖栏**（关于 / 博客 / 项目等） |
 | 文案 | i18n：`home.glitch.*`（中：付之 / 一笑；英：FOO / Z） |
 | 交互 | 点击入口跳转对应页面；悬停入口不改变背景故障强度（避免整屏闪烁）；桌面精确定位设备下入口默认收纳屏外仅露序号，悬停 / `:focus-visible` 滑出完整按钮 |
-| 入口形态 | 右侧单列 HUD 信道块：角标 / 序号 / SRC / 悬停 RGB 错位与扫描线；`<1024px` 改为品牌下方文档流完整按钮；触控 / `prefers-reduced-motion` 亦展示完整按钮 |
+| 入口形态 | 右侧单列 HUD 信道块：角标 / 序号 / 图标 / SRC / 悬停 RGB 错位与扫描线；桌面 peek 宽 `--portal-peek: 1.5rem`；`<1024px` 改为品牌下方文档流完整按钮；触控 / `prefers-reduced-motion` 亦展示完整按钮；portal 专用图标见 `unocss.config.ts` 的 `portalIcons` |
 | 舞台动效 | 弧线 / 波纹 / 能量带 / 线框常驻运动；切片与闪白保持低频 |
 | 品牌故障 | Logo 方框 / 文字 / RGB 切片 / 底杠偶发闪烁错位（约 7–9.5s 周期，短促爆发）；`prefers-reduced-motion` 关闭 |
 | 左下 | 社交媒体（`UI.socialLinks`，标签 `SIG`） |

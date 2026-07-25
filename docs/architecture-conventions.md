@@ -53,7 +53,7 @@
 - **首页展示台**：[`GlitchHero.astro`](../src/components/home/GlitchHero.astro) 自挂 Three.js `hero` 模式；品牌字居中，功能入口为右侧竖栏（默认收纳屏外仅露序号，悬停滑出；窄屏 / 触控回落到完整按钮）；`bgType: false` 避免双 canvas。About 内容在 [`/about`](../src/pages/about.astro)（文案见 `i18n` 的 `about.*`；理念配图在 `src/assets/about/`）。
 - **字体**：`src/styles/fonts.css` 仅 latin `@font-face`；`Head.astro` preload 400/600。禁止用 `presetWebFonts` 拉全子集。
 - **KaTeX**：样式仅在 `RenderPost.astro` 引入，勿写回 `markdown.css` 全站 `@import`。
-- **Pagefind**：`SearchSwitch` 默认不急切加载；打开搜索（或 URL `?search=`）再 `__loadPagefind()`。
+- **Pagefind**：`SearchSwitch` 默认不急切加载；打开搜索（或 URL `?search=`）再 `__loadPagefind()` / `__loadPagefindHighlight()`。`astro:page-load` 在 View Transitions 落到 `?search=` 时须先 `await` 装载再 `highlight()`（内联脚本不会随 SPA 重跑）。
 - **OG 图底图**：`plugins/og-template/markup.ts` 仅有 plum/dot/rose/particle 静态资源；页面 `bgType: glitch`（及 wave/constellation）会映射为 `dot`，避免生成失败。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。背景读取主题必须走此工具；禁止只读 `html.dark`。
 - **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。本地图路径解析见 **`resolveLocalImagePath`**（`src/utils/resolve-local-image-path.ts`）：按完整后缀 / 唯一 basename 匹配，**禁止** `path.includes(id)` 子串匹配。
@@ -64,7 +64,8 @@
 - **`public/_headers`**：Cloudflare Workers 静态资源安全响应头。CSP 要点：
   - **Pagefind**：`script-src 'wasm-unsafe-eval'` + `worker-src 'self' blob:`
   - **Bunny Fonts / KaTeX**：`font-src` / `style-src` 含 `fonts.bunny.net`、`cdn.jsdelivr.net`
-  - **script-src / connect-src**：勿用宽泛 `https:`；第三方白名单含 `https://umami.chawfoo.com`、`analytics.ahrefs.com`、`giscus.app`。更换 Umami 域名时同步改此处与 `PUBLIC_UMAMI_SRC`
+  - **script-src / connect-src**：勿用宽泛 `https:`；第三方白名单含 `https://umami.chawfoo.com`、`analytics.ahrefs.com`、`giscus.app`、`api.github.com`（Giscus 讨论）、Cloudflare Insights（`static.cloudflareinsights.com` / `cloudflareinsights.com`）。更换 Umami 域名时同步改此处与 `PUBLIC_UMAMI_SRC`
+  - **Astro ClientRouter**：`script-src` 含 `data:`（View Transitions 会加载 `data:` 脚本）
   - **img-src / media-src**：可保留 `https:`（正文远程图、COS、Google favicon 等）
   - 文章内 iframe：`frame-src` 含 YouTube / Bilibili / Giscus
 
@@ -74,6 +75,8 @@
 - KaTeX 样式仅 `RenderPost.astro` 引入；`markdown.css` 禁止 `@import` KaTeX。
 - 设计 token、字体、背景色系统与页面分配约定见 [design-system.md](./design-system.md)。
 - UnoCSS 图标：`unocss.config.ts` 中 `presetIcons.collections` 从 `@iconify/json` 显式加载。Cursor/VS Code 会设置 `VSCODE_CWD`，导致默认 node-loader 被跳过；新增图标集合时需同步加入 `iconCollections` 列表。
+- UnoCSS attributify（`prefixedOnly: false`）偶发只生成 `[util=""]`、缺少 `.util`：导航曾因此丢失 `grid-flow-col` 导致顶栏竖排。顶栏改用 `flex`；易踩坑工具类（如 `grid-flow-col`、`print:op-0`）放入 `safelist`。条件 class 用 `class:list`，避免模板字符串插入字面量 `false`。
+- 首页 `GlitchHero` 入口图标：about / blog / projects 等不在 `navIcons`（`alwaysText` 无 `icon` 字段）时，须写入 `portalIcons` safelist，否则悬停展开后图标宽高为 0。
 
 ## 图片资产规范
 
