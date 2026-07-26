@@ -11,5 +11,8 @@ const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 ---
 
-<span class="font-mono op-50">&gt; </span>
-<Link class="font-mono op-50!" {href}>{t('footer.back')}</Link>
+<Link class="page-action-link page-action-link--back op-100!" {href}>
+  <span aria-hidden="true">←</span>
+  <span>{t('footer.back')}</span>
+  <span class="page-action-link__hint" aria-hidden="true">cd ..</span>
+</Link>

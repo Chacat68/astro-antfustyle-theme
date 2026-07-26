@@ -3,6 +3,7 @@ import { Image } from 'astro:assets'
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import ImageViewer from '~/components/widgets/ImageViewer.astro'
+import AboutScreen from '~/components/widgets/AboutScreen.astro'
 import { UI } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
 import imgTime from '~/assets/about/DSC03299.webp'
@@ -70,12 +71,8 @@ const philosophySections = [
 >
   <StandardLayout title={t('page.about.title')}>
     <Fragment slot="article">
-      <p class="slide-enter-instant">{t('home.intro1')}</p>
-      <p class="slide-enter-instant">{t('home.intro2')}</p>
-
-      <p class="home-roles">
-        <strong>{t('home.roles')}</strong>
-      </p>
+      {/* 身份名片面板：开场自述与角色模块由 AboutScreen 承载，正文自此保持安静 */}
+      <AboutScreen />
 
       <hr />
 

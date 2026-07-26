@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
+import Link from '~/components/base/Link.astro'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 const locale = getLocale(Astro.currentLocale)
@@ -10,6 +13,7 @@ const title = '404'
 const subtitle = ''
 const bgType = 'glitch' as const
 const ogImage = false
+const homeHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, ''))
 ---
 
 <BaseLayout
@@ -19,7 +23,19 @@ const ogImage = false
   {ogImage}
   noindex={true}
 >
-  <StandardLayout {title} {subtitle}>
-    <p slot="article">{t('page.404.message')}</p>
+  <StandardLayout title={t('page.404.description')} {subtitle}>
+    <Fragment slot="article">
+      <section class="not-found" aria-labelledby="not-found-title">
+        <span class="not-found__code" aria-hidden="true">404</span>
+        <div class="not-found__content">
+          <p class="hud-label">SYS://ROUTE_NOT_FOUND</p>
+          <h2 id="not-found-title">{title}</h2>
+          <p>{t('page.404.message')}</p>
+          <Link href={homeHref} class="not-found__link op-100!">
+            cd /home →
+          </Link>
+        </div>
+      </section>
+    </Fragment>
   </StandardLayout>
 </BaseLayout>

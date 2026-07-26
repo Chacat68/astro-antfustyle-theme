@@ -105,15 +105,23 @@ const links = Object.entries(config)
   })
 ---
 
-<span class="font-mono op-50">&gt; </span>
-<span class="op-50">{t('share.shareOn')}</span>
-{
-  links.map((link, idx) => (
-    <>
-      <Link class="op-50!" href={link.url} title={link.title} external={true}>
-        {link.label}
-      </Link>
-      {idx < links.length - 1 && <span class="op-25">/</span>}
-    </>
-  ))
-}
+<div class="share-actions">
+  <span class="share-actions__label">
+    <span aria-hidden="true">&gt;</span>
+    {t('share.shareOn')}
+  </span>
+  <span class="share-actions__links">
+    {
+      links.map((link) => (
+        <Link
+          class="page-action-link op-100!"
+          href={link.url}
+          title={link.title}
+          external={true}
+        >
+          {link.label}
+        </Link>
+      ))
+    }
+  </span>
+</div>

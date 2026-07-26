@@ -119,8 +119,9 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
     <main
       id="main"
       class:list={[
-        /* 水平边距由 main.css --page-gutter-x 统一控制 */
-        'relative py-8 sm:py-10 lt-sm:py-6',
+        /* 页面边距由 main.css 统一控制 */
+        'relative',
+        !minimalChrome && 'site-main',
         mainClass,
       ]}
     >
@@ -129,9 +130,15 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
       <!-- Share -->
       {
         ensureTrailingSlash(Astro.url.pathname) !== localeHome && (
-          <footer class="slide-enter animate-delay-1000! prose mx-auto mt-8 print:hidden">
-            <slot name="share" />
-            <br />
+          <footer
+            class="page-actions page-shell page-shell--reading slide-enter
+              animate-delay-1000! mt-12 print:hidden"
+          >
+            {Astro.slots.has('share') && (
+              <div class="page-actions__share">
+                <slot name="share" />
+              </div>
+            )}
             <BackLink />
           </footer>
         )

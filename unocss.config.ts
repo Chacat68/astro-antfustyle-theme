@@ -94,15 +94,20 @@ export default defineConfig({
 
   // will be deep-merged to the default theme
   extendTheme: (theme) => {
+    const baseTheme = theme as {
+      breakpoints?: Record<string, string>
+      fontFamily?: Record<string, string>
+    }
+
     return {
       ...theme,
       breakpoints: {
-        ...theme.breakpoints,
+        ...baseTheme.breakpoints,
         lgp: '1128px',
       },
       // 字体文件见 src/styles/fonts.css（仅 latin，避免 presetWebFonts 全子集膨胀）
       fontFamily: {
-        ...theme.fontFamily,
+        ...baseTheme.fontFamily,
         sans: '"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif',
         mono: '"DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
         condensed:

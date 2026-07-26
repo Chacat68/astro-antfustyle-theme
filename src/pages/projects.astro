@@ -22,10 +22,9 @@ const t = useTranslations(locale)
   ogImage={page.ogImage}
 >
   <StandardLayout
-    class="max-w-300"
+    width="reading"
     title={t('page.projects.title')}
     subtitle={t('page.projects.subtitle')}
-    isCentered={true}
   >
     <GroupView collectionType="projects" pageToc={page.toc} />
   </StandardLayout>

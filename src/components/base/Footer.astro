@@ -11,7 +11,10 @@ const copyrightText = `© ${currentYear} ${SITE.author}`
     <div
       class="flex flex-wrap lt-sm:flex-col items-center justify-center text-sm text-center gap-x-1 gap-y-1"
     >
-      <span class="font-mono text-xs tracking-wide op-80">// EOF</span>
+      <span class="inline-flex items-center gap-1.5">
+        <span class="hud-led hud-led--sm" aria-hidden="true"></span>
+        <span class="font-mono text-xs tracking-wide op-80">// EOF</span>
+      </span>
       <span class="lt-sm:hidden" aria-hidden="true">·</span>
       <span>{copyrightText}</span>
       <span class="lt-sm:hidden" aria-hidden="true">|</span>

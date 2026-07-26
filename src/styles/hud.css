@@ -23,6 +23,25 @@
     var(--c-shadow);
 }
 
+/* —— 斜切角（HUD 面板轮廓） ——
+ * --hud-cut 控制切角尺寸，便于按面板大小微调。 */
+.hud-cut {
+  --hud-cut: 10px;
+
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--hud-cut)) 0,
+    100% var(--hud-cut),
+    100% 100%,
+    var(--hud-cut) 100%,
+    0 calc(100% - var(--hud-cut))
+  );
+}
+
+.hud-cut--lg {
+  --hud-cut: 14px;
+}
+
 /* —— 四角括号（子元素或伪元素容器） —— */
 .hud-corners {
   pointer-events: none;
@@ -123,6 +142,49 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+}
+
+/* —— 页眉副标题：取代全站 op-50 italic —— */
+.hud-subtitle {
+  display: block;
+
+  color: var(--c-muted);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.78rem;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  line-height: 1.65;
+}
+
+.hud-subtitle::before {
+  content: '// ';
+  color: color-mix(in srgb, var(--c-accent) 70%, transparent);
+}
+
+/* —— 状态芯片：版本号 / PR 状态 / 分组前缀 —— */
+.hud-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  padding: 0.1rem 0.4rem;
+  border: 1px solid color-mix(in srgb, var(--c-accent) 30%, var(--c-border));
+
+  color: color-mix(in srgb, var(--c-accent) 82%, var(--c-text));
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  background: var(--c-accent-soft);
+}
+
+.hud-chip--muted {
+  border-color: var(--c-border);
+  color: var(--c-muted);
+  background: transparent;
 }
 
 /* —— 导航底部分割线 —— */

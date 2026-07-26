@@ -5,6 +5,7 @@ interface Props {
   isCentered?: boolean
   isSearchable?: boolean
   searchFilter?: string
+  width?: 'reading' | 'blog' | 'wide'
   class?: string
 }
 
@@ -14,25 +15,42 @@ const {
   isCentered = false,
   isSearchable,
   searchFilter,
+  width = 'reading',
   class: className,
 } = Astro.props
+
+const pagePath =
+  Astro.url.pathname.split('/').filter(Boolean).join(' / ') || 'index'
+const shellClass = `page-shell page-shell--${width}`
 ---
 
 <header
-  class:list={{
-    'page-header prose mx-auto mb-8': true,
-    'text-center': isCentered,
-  }}
+  class:list={['page-header prose', shellClass, { 'text-center': isCentered }]}
 >
-  {/* 元信息在标题上方，避免负边距叠进 h1 / 角标 */}
-  <slot name="head" />
-  {title && <h1>{title}</h1>}
-  {subtitle && <p class="page-header__subtitle op-50 italic">{subtitle}</p>}
+  <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+  <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+  <div class="page-header__chrome" aria-hidden="true">
+    <span class="page-header__path">
+      <span class="hud-led hud-led--sm"></span>
+      SYS://{pagePath}
+    </span>
+    <span class="page-header__status">ONLINE <span>●</span></span>
+  </div>
+  <div class="page-header__body">
+    {/* 元信息在标题上方，避免负边距叠进 h1 / 角标 */}
+    <slot name="head" />
+    {title && <h1>{title}</h1>}
+    {subtitle && <p class="page-header__subtitle hud-subtitle">{subtitle}</p>}
+  </div>
+  <div class="page-header__footer" aria-hidden="true">
+    <span>READ / CREATE / ARCHIVE</span>
+    <span>CH-F56</span>
+  </div>
 </header>
 {
   Astro.slots.has('article') && (
     <article
-      class="slide-enter-content prose page-article mx-auto"
+      class:list={['slide-enter-content prose page-article', shellClass]}
       data-pagefind-body={isSearchable ? '' : undefined}
       data-pagefind-filter={
         isSearchable && searchFilter ? searchFilter : undefined
@@ -44,7 +62,7 @@ const {
 }
 {
   Astro.slots.has('default') && (
-    <div class:list={['mx-auto', className]}>
+    <div class:list={[shellClass, className]}>
       <slot />
     </div>
   )

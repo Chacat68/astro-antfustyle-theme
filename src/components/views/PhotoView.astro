@@ -124,8 +124,7 @@ const getFilterHref = (tag: string) =>
     <button
       class="photo-layout-toggle z-50 fixed left-5 bottom-6
         flex items-center justify-center w-10 h-10 rounded-full
-        op-30 op-transition lt-lgp:(op-50! bg-#8883 dark:bg-#8886)
-        hover:(op-100! bg-#8883) print:hidden"
+        op-30 op-transition lt-lgp:op-50! hover:op-100! print:hidden"
       title={t('a11y.layoutToggle')}
     >
       <div u-i-ri-layout-masonry-line class="icon-masonry hidden"></div>
@@ -135,7 +134,15 @@ const getFilterHref = (tag: string) =>
   <Loader class="photo-loader" />
   <ImageViewer
     selector=".photo-container"
-    options={{ url: 'data-origin' }}
+    options={{
+      url: 'data-origin',
+      container: 'body',
+      className: 'photo-viewer-modal',
+      initialCoverage: 0.9,
+      // ViewerJS 默认继承 loading/decoding；缩略图的 lazy 属性会让
+      // 弹窗原图停在 0×0。灯箱只保留与跨域请求有关的安全属性。
+      inheritedAttributes: ['crossOrigin', 'referrerPolicy'],
+    }}
     asyncInsert={true}
     tabFocus={true}
   />
@@ -494,7 +501,7 @@ const getFilterHref = (tag: string) =>
         img.alt = item.desc
         img.loading = 'lazy'
         img.decoding = 'async'
-        img.dataset.origin = item.src
+        img.dataset.origin = item.viewer || item.src
         img.addEventListener(
           'load',
           function (this: HTMLImageElement) {
@@ -560,7 +567,7 @@ const getFilterHref = (tag: string) =>
         img.alt = item.desc
         img.loading = 'lazy'
         img.decoding = 'async'
-        img.dataset.origin = item.src
+        img.dataset.origin = item.viewer || item.src
         img.addEventListener(
           'load',
           function (this: HTMLImageElement) {

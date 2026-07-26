@@ -111,26 +111,22 @@ const wordExact = totalWordCount.toLocaleString()
 ---
 
 <section class="site-stats" aria-labelledby="site-stats-title">
-  <div class="stats-hud__frame">
-    <span class="stats-hud__corner stats-hud__corner--tl" aria-hidden="true"
-    ></span>
-    <span class="stats-hud__corner stats-hud__corner--tr" aria-hidden="true"
-    ></span>
-    <span class="stats-hud__corner stats-hud__corner--bl" aria-hidden="true"
-    ></span>
-    <span class="stats-hud__corner stats-hud__corner--br" aria-hidden="true"
-    ></span>
+  <div class="stats-hud__frame hud-frame">
+    <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+    <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+    <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+    <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
 
-    <div class="stats-hud__scanlines" aria-hidden="true"></div>
+    <div class="hud-scanlines stats-hud__scanlines" aria-hidden="true"></div>
     <div class="stats-hud__sweep" aria-hidden="true"></div>
 
     <header class="stats-hud__chrome">
       <div class="stats-hud__chrome-left">
-        <span class="stats-hud__led" aria-hidden="true"></span>
-        <span class="stats-hud__tag font-mono">{t('sitestats.tag')}</span>
+        <span class="hud-led" aria-hidden="true"></span>
+        <span class="hud-label stats-hud__tag">{t('sitestats.tag')}</span>
       </div>
-      <span class="stats-hud__status font-mono">
-        <span class="stats-hud__status-dot" aria-hidden="true"></span>
+      <span class="hud-status stats-hud__status">
+        <span class="hud-led hud-led--sm" aria-hidden="true"></span>
         {t('sitestats.status')}
       </span>
     </header>
@@ -141,7 +137,7 @@ const wordExact = totalWordCount.toLocaleString()
       </h3>
 
       <div class="stats-hud__section">
-        <div class="stats-hud__section-label font-mono">
+        <div class="hud-label stats-hud__section-label">
           {t('sitestats.metrics')}
         </div>
         <div class="stats-metrics">
@@ -190,10 +186,9 @@ const wordExact = totalWordCount.toLocaleString()
       </div>
 
       <div class="stats-hud__section">
-        <div class="stats-hud__section-label font-mono">
+        <div class="hud-label stats-hud__section-label">
           {t('sitestats.timeline')}
         </div>
-        <p class="stat-label stat-label--inline">{t('sitestats.postsPerYear')}</p>
         {
           yearCounts.length ? (
             <ul class="year-bars">
@@ -223,7 +218,7 @@ const wordExact = totalWordCount.toLocaleString()
       </div>
     </div>
 
-    <footer class="stats-hud__footer font-mono" aria-hidden="true">
+    <footer class="hud-label stats-hud__footer" aria-hidden="true">
       <span>{t('sitestats.footerLeft')}</span>
       <span class="stats-hud__footer-sep">//</span>
       <span>{t('sitestats.footerRight')}</span>
@@ -244,18 +239,15 @@ const wordExact = totalWordCount.toLocaleString()
 
   :global(:root.dark) .site-stats {
     --stats-glow: color-mix(in srgb, var(--c-accent) 55%, transparent);
-    --stats-panel: color-mix(in srgb, #0b1016 82%, var(--c-accent-soft));
+    --stats-panel: color-mix(in srgb, var(--c-bg) 86%, var(--c-accent-soft));
     --stats-scan: 8%;
     --stats-grid: 6%;
   }
 
+  /* 框体/角标/扫描线基础样式来自 hud.css，这里只叠加网格底与光晕 */
   .stats-hud__frame {
-    position: relative;
-    overflow: hidden;
     padding: 1rem 1.15rem 0.85rem;
 
-    border: 1px solid color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
-    border-radius: var(--c-radius-lg);
     background:
       linear-gradient(
         180deg,
@@ -290,45 +282,8 @@ const wordExact = totalWordCount.toLocaleString()
       0 12px 40px rgba(0, 0, 0, 0.45);
   }
 
-  .stats-hud__corner {
-    position: absolute;
-    z-index: 3;
-    width: 0.7rem;
-    height: 0.7rem;
-    border-color: var(--c-accent);
-    border-style: solid;
-    pointer-events: none;
-  }
-
-  .stats-hud__corner--tl {
-    top: 0.35rem;
-    left: 0.35rem;
-    border-width: 1.5px 0 0 1.5px;
-  }
-
-  .stats-hud__corner--tr {
-    top: 0.35rem;
-    right: 0.35rem;
-    border-width: 1.5px 1.5px 0 0;
-  }
-
-  .stats-hud__corner--bl {
-    bottom: 0.35rem;
-    left: 0.35rem;
-    border-width: 0 0 1.5px 1.5px;
-  }
-
-  .stats-hud__corner--br {
-    right: 0.35rem;
-    bottom: 0.35rem;
-    border-width: 0 1.5px 1.5px 0;
-  }
-
+  /* 扫描线密度按面板亮度微调，其余走 .hud-scanlines */
   .stats-hud__scanlines {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
     background: repeating-linear-gradient(
       to bottom,
       transparent 0,
@@ -336,13 +291,10 @@ const wordExact = totalWordCount.toLocaleString()
       color-mix(in srgb, var(--c-accent) var(--stats-scan), transparent) 2px,
       color-mix(in srgb, var(--c-accent) var(--stats-scan), transparent) 3px
     );
-    opacity: 0.55;
-    mix-blend-mode: soft-light;
   }
 
   :global(:root.dark) .stats-hud__scanlines {
     opacity: 0.72;
-    mix-blend-mode: screen;
   }
 
   .stats-hud__sweep {
@@ -388,26 +340,6 @@ const wordExact = totalWordCount.toLocaleString()
     min-width: 0;
   }
 
-  .stats-hud__led {
-    flex-shrink: 0;
-    width: 0.42rem;
-    height: 0.42rem;
-    border-radius: 50%;
-    background: var(--c-accent);
-    box-shadow: 0 0 8px var(--stats-glow);
-    animation: stats-hud-blink 1.8s steps(1, end) infinite;
-  }
-
-  .stats-hud__tag,
-  .stats-hud__status,
-  .stats-hud__section-label,
-  .stats-hud__footer {
-    color: color-mix(in srgb, var(--c-accent) 78%, var(--c-muted));
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
   .stats-hud__tag {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -415,19 +347,7 @@ const wordExact = totalWordCount.toLocaleString()
   }
 
   .stats-hud__status {
-    display: inline-flex;
     flex-shrink: 0;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
-  .stats-hud__status-dot {
-    width: 0.35rem;
-    height: 0.35rem;
-    border-radius: 50%;
-    background: var(--c-accent);
-    box-shadow: 0 0 6px var(--stats-glow);
-    animation: stats-hud-blink 1.2s steps(1, end) infinite;
   }
 
   .stats-hud__title {
@@ -479,10 +399,6 @@ const wordExact = totalWordCount.toLocaleString()
     color: var(--c-muted);
     font-size: 0.78rem;
     letter-spacing: 0.04em;
-  }
-
-  .stat-label--inline {
-    margin-bottom: 0.65rem !important;
   }
 
   .stat-value {
@@ -629,16 +545,6 @@ const wordExact = totalWordCount.toLocaleString()
     }
   }
 
-  @keyframes stats-hud-blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.2;
-    }
-  }
-
   @keyframes stats-hud-bar-in {
     from {
       transform: scaleX(0);
@@ -679,10 +585,9 @@ const wordExact = totalWordCount.toLocaleString()
     }
   }
 
+  /* .hud-led 的 reduced-motion 回退由 hud.css 统一处理 */
   @media (prefers-reduced-motion: reduce) {
     .stats-hud__sweep,
-    .stats-hud__led,
-    .stats-hud__status-dot,
     .year-bar__fill {
       animation: none;
     }
@@ -690,11 +595,6 @@ const wordExact = totalWordCount.toLocaleString()
     .stats-hud__sweep {
       will-change: auto;
       opacity: 0;
-    }
-
-    .stats-hud__led,
-    .stats-hud__status-dot {
-      opacity: 1;
     }
 
     .stat-card {

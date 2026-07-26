@@ -22,13 +22,13 @@ const t = useTranslations(locale)
   ogImage={page.ogImage}
   noindex={true}
 >
-  <StandardLayout class="max-w-65ch" isCentered={true}>
+  <StandardLayout isCentered={true}>
     <Fragment slot="head">
       <h1>
         {t('page.prs.heading')}
         <span class="animate-pulse">{t('page.prs.headingEmphasis')}</span>
       </h1>
-      <p class="page-header__subtitle op-50 italic">
+      <p class="page-header__subtitle hud-subtitle">
         {t('page.prs.subtitlePrefix')}{' '}
         <Link
           href="https://github.com/lin-stephanie/astro-loaders/tree/main/packages/astro-loader-github-prs"

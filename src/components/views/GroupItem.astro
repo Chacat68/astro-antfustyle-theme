@@ -19,21 +19,31 @@ const { maxGroupColumns, showGroupItemColorOnHover } = UI.groupView
 ---
 
 <div
-  class={`grid grid-cols-[repeat(auto-fill,minmax(min(100%,260px),1fr))] gap-3
-    py-8 mx-auto w-full lt-lgp:max-w-[712px]!`}
-  style={`max-width: min(100%, calc(280px * ${maxGroupColumns} + ${maxGroupColumns - 1} * 0.75rem));`}
+  class:list={[
+    'group-item-grid grid gap-3 w-full',
+    `group-item-grid--${maxGroupColumns}`,
+  ]}
 >
   {
-    items.map((item) => (
+    items.map((item, index) => (
       <Link
-        class={`group-item-link group relative flex items-center
-          px-3.5 pt-2 pb-3.5 rounded-[var(--c-radius)]
-          bg-transparent
+        class={`group-item-link hud-cut group relative flex items-center
+          px-3.5 pt-2 pb-3.5
           text-4.4 transition-all duration-300`}
         href={item.link}
-        aria-hidden={true}
         external={true}
       >
+        <span
+          class="hud-corner hud-corner--tl group-item-link__corner"
+          aria-hidden="true"
+        />
+        <span
+          class="hud-corner hud-corner--br group-item-link__corner"
+          aria-hidden="true"
+        />
+        <span class="group-item-link__index" aria-hidden="true">
+          {String(index + 1).padStart(2, '0')}
+        </span>
         <div class="pt-2 pr-5">
           {item.avatar ? (
             <img
@@ -48,9 +58,11 @@ const { maxGroupColumns, showGroupItemColorOnHover } = UI.groupView
             />
           )}
         </div>
-        <div class="flex-auto">
-          <div>{item.id}</div>
-          <div class="op-50 text-sm font-normal font-mono tracking-wide">{item.desc}</div>
+        <div class="flex-auto min-w-0">
+          <div class="group-item-link__title">{item.id}</div>
+          <div class="group-item-link__desc op-50 text-sm font-normal font-mono tracking-wide">
+            {item.desc}
+          </div>
         </div>
       </Link>
     ))
@@ -58,14 +70,94 @@ const { maxGroupColumns, showGroupItemColorOnHover } = UI.groupView
 </div>
 
 <style>
+  .group-item-grid {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(100%, 19rem), 1fr)
+    );
+  }
+
+  .group-item-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .group-item-link {
-    border: 1px solid transparent;
+    --hud-cut: 10px;
+
+    min-height: 6.25rem;
+    border: 1px solid color-mix(in srgb, var(--c-accent) 12%, var(--c-border));
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--c-accent) 5%, transparent),
+        transparent 55%
+      ),
+      color-mix(in srgb, var(--c-surface) 58%, transparent);
   }
 
   .group-item-link:hover,
   .group-item-link:focus-visible {
     border-color: color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
     background: var(--c-accent-soft);
+    box-shadow:
+      -2px 0 0 color-mix(in srgb, var(--c-glitch-red) 35%, transparent),
+      2px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 35%, transparent);
+  }
+
+  .group-item-link__index {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.7rem;
+    color: color-mix(in srgb, var(--c-accent) 58%, var(--c-muted));
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* 四角括号仅在 hover/focus 时浮现，静态列表保持安静 */
+  .group-item-link__corner {
+    opacity: 0;
+    transition: opacity var(--duration) var(--ease-out);
+  }
+
+  .group-item-link:hover .group-item-link__corner,
+  .group-item-link:focus-visible .group-item-link__corner {
+    opacity: 1;
+  }
+
+  /* mono 描述前的 accent 引导符，对齐首页入口的 SRC/ 语法 */
+  .group-item-link__desc::before {
+    content: '> ';
+    color: color-mix(in srgb, var(--c-accent) 70%, transparent);
+  }
+
+  .group-item-link__title {
+    padding-right: 1.75rem;
+    color: var(--c-text);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .group-item-link__desc {
+    margin-top: 0.25rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1127.9px) {
+    .group-item-grid,
+    .group-item-grid--2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 639.9px) {
+    .group-item-grid,
+    .group-item-grid--2 {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 </style>
-

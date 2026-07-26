@@ -1,11 +1,6 @@
 ---
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-interface Props {
-  title: string
-}
-
-const { title } = Astro.props
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 
@@ -17,7 +12,7 @@ const roles = [
 ] as const
 ---
 
-<section class="about-screen slide-enter-instant" aria-labelledby="about-screen-title">
+<section class="about-screen slide-enter-instant" aria-label={t('home.screen.tag')}>
   <div class="about-screen__frame hud-frame">
     <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
     <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
@@ -39,11 +34,6 @@ const roles = [
     </header>
 
     <div class="about-screen__body">
-      {/* 可见标题隐藏；保留 h1 供无障碍与文档标题「首页」 */}
-      <h1 id="about-screen-title" class="about-screen__title sr-only">
-        {title}
-      </h1>
-
       <p class="about-screen__intro">{t('home.intro1')}</p>
       <p class="about-screen__intro">{t('home.intro2')}</p>
 
@@ -85,7 +75,7 @@ const roles = [
   }
 
   :global(:root.dark) .about-screen {
-    --about-panel: color-mix(in srgb, #0b1016 82%, var(--c-accent-soft));
+    --about-panel: color-mix(in srgb, var(--c-bg) 86%, var(--c-accent-soft));
     --about-grid: 6%;
   }
 
@@ -180,15 +170,6 @@ const roles = [
 
   .about-screen__status {
     flex-shrink: 0;
-  }
-
-  .about-screen__title {
-    margin: 0 0 0.95rem !important;
-    color: var(--fg-deeper);
-    font-size: 1.85em;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-shadow: 0 0 18px color-mix(in srgb, var(--c-accent) 18%, transparent);
   }
 
   .about-screen__intro {

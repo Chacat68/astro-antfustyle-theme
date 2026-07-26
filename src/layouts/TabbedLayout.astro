@@ -9,9 +9,10 @@ import type { Tabs } from '~/types'
 
 interface Props {
   subtitle?: string
+  width?: 'reading' | 'blog'
 }
 
-const { subtitle } = Astro.props
+const { subtitle, width = 'reading' } = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -33,56 +34,147 @@ const isActive = (href: string) => currentPath === toHref(href)
 
 const tabKeyByPath: Record<string, string> = {
   '/changelog': 'nav.changelog',
-  '/feeds': 'nav.blog',
-  '/streams': 'nav.blog',
+  '/feeds': 'nav.feeds',
+  '/streams': 'nav.streams',
 }
+
+const activeTab = tabs.find((tab) => isActive(tab.path))
+const activeTabTitle = activeTab
+  ? t(tabKeyByPath[activeTab.path.replace(/\/+$/, '')] ?? activeTab.title)
+  : ''
+
+const pagePath =
+  Astro.url.pathname.split('/').filter(Boolean).join(' / ') || 'index'
+const shellClass = `page-shell page-shell--${width}`
 ---
 
-<nav
-  id="nav-tabs"
-  class="prose mx-auto mb-8"
-  aria-label={t('a11y.pageSections')}
->
-  <div
-    u-flex="~ gap-3 lt-sm:(col wrap gap-1)"
-    class="mb-0 text-3xl lt-sm:text-xl select-none"
-  >
-    {
-      tabs.map((tab) => (
-        <Link
-          class:list={{
-            'link op-transition!': true,
-            'active': isActive(tab.path),
-            'inactive': !isActive(tab.path),
-          }}
-          href={toHref(tab.path)}
-          aria-current={isActive(tab.path) ? 'page' : undefined}
-        >
-          {t(tabKeyByPath[tab.path.replace(/\/+$/, '')] ?? tab.title)}
-        </Link>
-      ))
-    }
+<header class:list={['page-header tabbed-header prose', shellClass]}>
+  <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+  <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+  <div class="page-header__chrome" aria-hidden="true">
+    <span class="page-header__path">
+      <span class="hud-led hud-led--sm"></span>
+      SYS://{pagePath}
+    </span>
+    <span class="page-header__status">CHANNEL SELECT</span>
   </div>
-  {subtitle && <p class="mt-4! op-50 italic">{subtitle}</p>}
-</nav>
-<div class="prose mx-auto">
+  <div class="page-header__body">
+    {activeTabTitle && <h1 class="sr-only">{activeTabTitle}</h1>}
+    <nav
+      id="nav-tabs"
+      class="tabbed-header__tabs"
+      aria-label={t('a11y.pageSections')}
+    >
+      {
+        tabs.map((tab, index) => (
+          <Link
+            class:list={{
+              'tab-link': true,
+              'tab-link--active': isActive(tab.path),
+            }}
+            href={toHref(tab.path)}
+            aria-current={isActive(tab.path) ? 'page' : undefined}
+          >
+            <span class="tab-link__index" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <span class="tab-link__text">
+              {t(tabKeyByPath[tab.path.replace(/\/+$/, '')] ?? tab.title)}
+            </span>
+          </Link>
+        ))
+      }
+    </nav>
+    {subtitle && <p class="hud-subtitle">{subtitle}</p>}
+  </div>
+  <div class="page-header__footer" aria-hidden="true">
+    <span>PUBLIC FEED / LIVE SIGNAL</span>
+    <span>03 CH</span>
+  </div>
+</header>
+<div class:list={['prose', shellClass]}>
   <slot />
 </div>
 
 <style>
-  .link {
+  .tabbed-header__tabs {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.25rem;
+    align-items: baseline;
+
+    user-select: none;
+  }
+
+  .tab-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+
     border-style: none !important;
+    color: var(--c-muted);
+    font-size: 1.5rem;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+    text-transform: uppercase;
+
+    opacity: 1 !important;
+    transition:
+      color var(--duration) var(--ease-out),
+      opacity var(--duration) var(--ease-out);
   }
 
-  .active {
-    opacity: 1;
+  .tab-link__index {
+    color: color-mix(in srgb, var(--c-accent) 60%, transparent);
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
   }
 
-  .inactive {
-    opacity: 0.2;
+  .tab-link__text {
+    position: relative;
+    padding-bottom: 0.15rem;
   }
 
-  .inactive:hover {
-    opacity: 0.5;
+  .tab-link:hover,
+  .tab-link:focus-visible {
+    color: var(--c-text);
+  }
+
+  .tab-link--active {
+    color: var(--c-text);
+    font-weight: 600;
+  }
+
+  .tab-link--active .tab-link__index {
+    color: var(--c-accent);
+  }
+
+  /* 当前 tab 的 accent 下划线，替代原先的 opacity 明暗区分 */
+  .tab-link--active .tab-link__text::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 1.5px;
+    background: var(--c-accent);
+    box-shadow:
+      -1px 0 0 color-mix(in srgb, var(--c-glitch-red) 40%, transparent),
+      1px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 40%, transparent);
+  }
+
+  @media (max-width: 639.9px) {
+    .tab-link {
+      font-size: 1.15rem;
+    }
+
+    .tabbed-header__tabs {
+      gap: 0.3rem 0.9rem;
+    }
   }
 </style>

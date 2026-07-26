@@ -108,19 +108,26 @@ if (images && images.length > 0) {
 
 const locale = getLocale(Astro.currentLocale)
 const dateLocale = localeToHtmlLang(locale)
+const expandDetailsLabel = locale === 'zh' ? '展开详情' : 'Expand details'
+const collapseDetailsLabel = locale === 'zh' ? '收起详情' : 'Collapse details'
+const mediaLinkLabel =
+  link && video
+    ? video.alt || (locale === 'zh' ? '查看媒体' : 'View media')
+    : undefined
 ---
 
 <section class={className}>
-  <div
-    class={`overflow-hidden flex flex-col
-      h-full b b-[#8884] rounded-lg bg-white dark:bg-black
-      shadow-transition-500`}
-  >
+  <div class="card-hud hud-cut relative overflow-hidden flex flex-col h-full">
+    <span class="hud-corner hud-corner--tl card-hud__corner" aria-hidden="true"
+    ></span>
+    <span class="hud-corner hud-corner--br card-hud__corner" aria-hidden="true"
+    ></span>
     {
       ((images && images.length > 0) || video) && (
         <MediaContainer
-          class="b-b b-b-[#8884] op-100!"
+          class="card-hud__media op-100!"
           href={link || undefined}
+          aria-label={mediaLinkLabel}
         >
           {images &&
             (images.length > 1 ? (
@@ -160,14 +167,13 @@ const dateLocale = localeToHtmlLang(locale)
     {
       external && (
         <Link
-          class={`overflow-hidden flex flex-col
-            b b-[#8884] rounded-lg mt-3 mx-3
-            op-100! shadow-transition-500 hover:(shadow-custom_0_5_15_-3)`}
+          class={`card-hud__subcard hud-cut overflow-hidden flex flex-col
+            mt-3 mx-3 op-100!`}
           href={external.uri}
         >
           {!COMPACT && external.img && (
             <Image
-              class="b-b b-b-[#8884] aspect-[1.91/1] object-cover"
+              class="card-hud__divider aspect-[1.91/1] object-cover"
               src={external.img}
               alt={external.title}
               width={1200}
@@ -176,7 +182,7 @@ const dateLocale = localeToHtmlLang(locale)
             />
           )}
           <div class="flex flex-col px-3 pt-2 pb-1">
-            <div class="flex flex-col gap-1 pb-1.5 b-b b-b-[#8884]">
+            <div class="card-hud__divider flex flex-col gap-1 pb-1.5">
               <p class="text-sm font-600">{external.title}</p>
               <p class="text-xs">{external.description}</p>
             </div>
@@ -191,9 +197,8 @@ const dateLocale = localeToHtmlLang(locale)
     {
       quote && (
         <div
-          class={`overflow-hidden flex flex-col gap-2
-            b b-[#8884] rounded-lg p-2 mt-3 mx-3
-            text-sm shadow-transition-500 hover:(shadow-custom_0_5_15_-3)`}
+          class={`card-hud__subcard hud-cut overflow-hidden flex flex-col gap-2
+            p-2 mt-3 mx-3 text-sm`}
         >
           <div class="flex items-center gap-1">
             <Image
@@ -237,14 +242,10 @@ const dateLocale = localeToHtmlLang(locale)
             class="card-item-details"
             style="max-height: 0; overflow-y: clip;"
           >
-            <ol class="relative border-s border-gray-200 dark:border-gray-700">
+            <ol class="card-hud__timeline relative">
               {safeDetails.slice(0, MAX_DETAILS + 1).map((detail, idx) => (
                 <li class="ms-4 mb-6 last:mb-0">
-                  <div
-                    class="absolute start--1.6 w-3 h-3
-                      border rounded-full border-white dark:border-gray-900 mt-1.5
-                      bg-gray-200 dark:bg-gray-700"
-                  />
+                  <div class="card-hud__dot absolute start--1.6 w-2.5 h-2.5 mt-1.5" />
                   {idx < MAX_DETAILS && (
                     <div class="prose card-item-prose" set:html={detail} />
                   )}
@@ -261,7 +262,7 @@ const dateLocale = localeToHtmlLang(locale)
       }
       {
         date && (
-          <div class="flex justify-between items-center pt-3 text-sm">
+          <div class="card-hud__foot flex justify-between items-center pt-3 text-sm">
             {link && safeHtml ? (
               <Link class="flex-auto op-transition" href={link}>
                 {formatDate(date, true, false, dateLocale)}
@@ -270,9 +271,25 @@ const dateLocale = localeToHtmlLang(locale)
               <p class="op-60">{formatDate(date, true, false, dateLocale)}</p>
             )}
             {safeDetails && (
-              <button class="details-switch op-50 op-transition hover:op-100">
-                <div u-i-famicons-chevron-down-sharp class="icon-down" />
-                <div u-i-famicons-chevron-up-sharp class="icon-up hidden" />
+              <button
+                type="button"
+                class="details-switch op-50 op-transition hover:op-100"
+                aria-label={expandDetailsLabel}
+                title={expandDetailsLabel}
+                aria-expanded="false"
+                data-expand-label={expandDetailsLabel}
+                data-collapse-label={collapseDetailsLabel}
+              >
+                <div
+                  u-i-famicons-chevron-down-sharp
+                  class="icon-down"
+                  aria-hidden="true"
+                />
+                <div
+                  u-i-famicons-chevron-up-sharp
+                  class="icon-up hidden"
+                  aria-hidden="true"
+                />
               </button>
             )}
           </div>
@@ -282,11 +299,91 @@ const dateLocale = localeToHtmlLang(locale)
   </div>
 </section>
 
+<style>
+  /* HUD 卡壳：取代原先的 white/black 卡 + #8884 边 */
+  .card-hud {
+    border: 1px solid color-mix(in srgb, var(--c-accent) 20%, var(--c-border));
+    background: var(--c-surface);
+    box-shadow: var(--c-shadow);
+    transition:
+      border-color var(--duration) var(--ease-out),
+      background-color var(--duration) var(--ease-out),
+      box-shadow var(--duration) var(--ease-out),
+      transform var(--duration) var(--ease-out);
+  }
+
+  .card-hud:hover,
+  .card-hud:focus-within {
+    border-color: color-mix(in srgb, var(--c-accent) 45%, var(--c-border));
+    background: color-mix(
+      in srgb,
+      var(--c-surface-hover) 40%,
+      var(--c-surface)
+    );
+    transform: translateY(-2px);
+    box-shadow:
+      -2px 0 0 color-mix(in srgb, var(--c-glitch-red) 40%, transparent),
+      2px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 40%, transparent),
+      var(--c-shadow-hover);
+  }
+
+  /* 四角括号仅在 grid（/shorts）常显；masonry 卡图多，避免压在照片上 */
+  .card-hud__corner {
+    display: none;
+  }
+
+  .card-grid .card-hud__corner {
+    display: block;
+  }
+
+  .card-hud__media,
+  .card-hud__divider {
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .card-hud__subcard {
+    border: 1px solid var(--c-border);
+    background: color-mix(in srgb, var(--c-bg) 55%, transparent);
+    transition:
+      border-color var(--duration) var(--ease-out),
+      background-color var(--duration) var(--ease-out);
+  }
+
+  .card-hud__subcard:hover {
+    border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
+    background: var(--c-accent-soft);
+  }
+
+  .card-hud__timeline {
+    border-inline-start: 1px solid var(--c-border);
+  }
+
+  .card-hud__dot {
+    border: 1px solid color-mix(in srgb, var(--c-accent) 55%, transparent);
+    background: color-mix(in srgb, var(--c-accent) 30%, var(--c-bg));
+  }
+
+  .card-hud__foot {
+    border-top: 1px solid color-mix(in srgb, var(--c-border) 60%, transparent);
+    margin-top: 0.75rem;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-hud:hover,
+    .card-hud:focus-within {
+      transform: none;
+    }
+  }
+</style>
+
 <script>
   class CollapsibleContent extends HTMLElement {
     #isExpanded = false
     #detailsContainer: HTMLElement | null = null
-    #button: HTMLElement | null = null
+    #button: HTMLButtonElement | null = null
     #upIcon: HTMLElement | null = null
     #downIcon: HTMLElement | null = null
     #handleClick: (() => void) | null = null
@@ -298,6 +395,7 @@ const dateLocale = localeToHtmlLang(locale)
       this.#upIcon = this.querySelector('.icon-up')
 
       this.#isExpanded = false
+      this.#syncButtonState()
       this.#setupEventListeners()
     }
 
@@ -324,9 +422,25 @@ const dateLocale = localeToHtmlLang(locale)
           this.#upIcon.classList.add('hidden')
           this.#downIcon.classList.remove('hidden')
         }
+        this.#syncButtonState()
       }
 
       this.#button.addEventListener('click', this.#handleClick)
+    }
+
+    #syncButtonState = () => {
+      if (!this.#button) return
+      const label = this.#isExpanded
+        ? this.#button.dataset.collapseLabel
+        : this.#button.dataset.expandLabel
+      this.#button.setAttribute(
+        'aria-expanded',
+        this.#isExpanded ? 'true' : 'false'
+      )
+      if (label) {
+        this.#button.setAttribute('aria-label', label)
+        this.#button.title = label
+      }
     }
 
     #cleanup = () => {

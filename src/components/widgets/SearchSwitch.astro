@@ -21,12 +21,19 @@ const maxItems = parseTuple(maxItemsPerPage, 'maxItemsPerPage')
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 const localeBase = getRelativeLocaleUrl(locale, '')
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/'
+const localeHomePath = localeBase.replace(/\/+$/, '') || '/'
+const isHomeSearch = currentPath === localeHomePath
 
 // 客户端（Custom Element）所需文案，经 data-i18n 注入
 const searchPanelI18n = JSON.stringify({
   loading: t('search.loading'),
+  loadingHint: t('search.loadingHint'),
   error: t('search.error'),
+  errorHint: t('search.errorHint'),
   noResults: t('search.noResults'),
+  noResultsHint: t('search.noResultsHint'),
+  resultCount: t('search.resultCount'),
   more: t('search.more'),
   all: t('search.all'),
   placeholder: t('search.placeholder'),
@@ -41,6 +48,8 @@ const searchPanelI18n = JSON.stringify({
   class="touch-target op-60 hover:op-100 op-transition"
   title={t('a11y.search')}
   aria-label={t('a11y.search')}
+  aria-controls="search-panel"
+  aria-expanded="false"
 >
   <div u-i-grommet-icons-search></div>
 </button>
@@ -49,58 +58,115 @@ const searchPanelI18n = JSON.stringify({
 <search-panel
   role="dialog"
   id="search-panel"
-  class={`hidden z-200 fixed top-50vh left-50vw translate-x--50% translate-y--50%
-    grid-rows-[auto_1fr_auto]
-    w-42rem lt-lgp:(w-90%) max-h-70vh lt-lgp:(max-h-80vh) p-3 lt-lgp:(pb-1)
-    text-(--c-text) search-panel-hud`}
+  class:list={[
+    'hidden text-(--c-text) search-panel-hud',
+    isHomeSearch
+      ? `search-panel--home z-200 fixed top-50vh left-50vw
+        translate-x--50% translate-y--50% grid-rows-[auto_1fr_auto]
+        w-42rem lt-lgp:(w-90%) max-h-70vh lt-lgp:(max-h-80vh)
+        p-3 lt-lgp:(pb-1)`
+      : 'search-panel--inner',
+  ]}
   aria-modal="true"
-  aria-labelledby="search-label"
+  aria-labelledby={isHomeSearch ? 'search-label' : 'search-dialog-title'}
+  aria-describedby={isHomeSearch ? undefined : 'search-dialog-description'}
   aria-keyshortcuts="ArrowUp,ArrowDown,Enter,Esc"
   data-filter={filterEnabled}
   data-batch-size={batchSize}
   data-max-items={maxItems}
   data-i18n={searchPanelI18n}
+  data-state="idle"
+  data-has-query="false"
 >
   <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
   <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
   <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
   <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
-  <div class="flex flex-col gap-2">
+  <header class="search-panel__header">
+    <div class="search-panel__heading">
+      <span class="search-panel__eyebrow" aria-hidden="true">
+        SYS://GLOBAL_INDEX
+      </span>
+      <h2 id="search-dialog-title">{t('search.title')}</h2>
+      <p id="search-dialog-description">{t('search.description')}</p>
+    </div>
+    <div class="search-panel__header-actions">
+      <span class="search-panel__status" aria-hidden="true">
+        <span class="hud-led hud-led--sm"></span>
+        {t('search.ready')}
+      </span>
+      <button
+        type="button"
+        id="search-close"
+        class="search-panel__close"
+        aria-label={t('search.close')}
+        title={t('search.close')}
+      >
+        <span aria-hidden="true">ESC</span>
+        <span class="search-panel__close-mark" aria-hidden="true">×</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="search-panel__controls flex flex-col gap-2">
     <!-- Tab list -->
     {
       filterEnabled && (
-        <div
-          role="tablist"
-          class="search-tabs flex gap-2 justify-start items-center text-xs font-mono"
-          aria-label={t('a11y.searchCategories')}
-        >
-          {includes.map((item) => (
-            <button
-              type="button"
-              role="tab"
-              class="px-1.5 py-0.5 rounded
-                bg-[var(--c-accent-soft)]!
-                aria-[selected=false]:op-40 aria-[selected=true]:op-100
-                aria-[selected=false]:hover:op-70 op-transition cursor-pointer"
-              data-type={item.toLowerCase()}
-            >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
-            </button>
-          ))}
+        <div class="search-tabs-shell">
+          <span class="search-tabs-label" aria-hidden="true">
+            {t('search.scope')} /
+          </span>
+          <div
+            role="tablist"
+            class="search-tabs flex gap-2 justify-start items-center text-xs font-mono"
+            aria-label={t('a11y.searchCategories')}
+          >
+            {includes.map((item) => (
+              <button
+                type="button"
+                role="tab"
+                class="px-1.5 py-0.5 rounded
+                  bg-[var(--c-accent-soft)]!
+                  aria-[selected=false]:op-40 aria-[selected=true]:op-100
+                  aria-[selected=false]:hover:op-70 op-transition cursor-pointer"
+                data-type={item.toLowerCase()}
+              >
+                {
+                  isHomeSearch
+                    ? item.charAt(0).toUpperCase() + item.slice(1)
+                    : item
+                        .split('_')
+                        .map((part) => part.toUpperCase())
+                        .join(' / ')
+                }
+              </button>
+            ))}
+          </div>
         </div>
       )
     }
     <!-- Search Bar -->
     <div
-      class="grid grid-cols-[auto_auto_1fr] items-center
+      class="search-query grid grid-cols-[auto_auto_1fr_auto] items-center
         h-10 px-3 rounded-md
         bg-[var(--c-accent-soft)] border border-[var(--c-border)]"
     >
-      <span
-        class="font-mono text-(--c-accent) op-70 pr-1 select-none"
-        aria-hidden="true">&gt;</span
-      >
-      <div u-i-grommet-icons-search class="op-60"></div>
+      {
+        isHomeSearch ? (
+          <span
+            class="font-mono text-(--c-accent) op-70 pr-1 select-none"
+            aria-hidden="true"
+          >
+            &gt;
+          </span>
+        ) : (
+          <span class="search-query__prompt" aria-hidden="true">QUERY /</span>
+        )
+      }
+      <div
+        u-i-grommet-icons-search
+        class:list={[isHomeSearch ? 'op-60' : 'search-query__icon']}
+      ></div>
       <label for="search-input" id="search-label" class="sr-only">
         {t('a11y.search')}
       </label>
@@ -117,21 +183,52 @@ const searchPanelI18n = JSON.stringify({
         aria-controls="search-results"
         aria-expanded="false"
       />
+      <button
+        type="button"
+        id="search-clear"
+        class="search-query__clear"
+        aria-label={t('search.clear')}
+        title={t('search.clear')}
+      >
+        <span aria-hidden="true">CLEAR</span>
+        <span aria-hidden="true">×</span>
+      </button>
     </div>
   </div>
+
   <!-- Search Results -->
   <div
     role="listbox"
     id="search-results"
-    class="overflow-y-auto my-1"
+    class="search-results overflow-y-auto"
     aria-labelledby="search-input"
     tabindex="-1"
     data-base={localeBase}
   >
+    <div id="search-summary" class="search-summary hidden" aria-live="polite">
+    </div>
+    <div id="search-empty" class="search-state search-state--empty">
+      <div class="search-state__visual" aria-hidden="true">
+        <span class="search-state__reticle"></span>
+        <div u-i-grommet-icons-search></div>
+      </div>
+      <strong>{t('search.emptyTitle')}</strong>
+      <span>{t('search.emptyHint')}</span>
+    </div>
     <!-- Results -->
     <div id="search-content"></div>
     <!-- Feedback -->
-    <div id="search-feedback" class="hidden py-3 text-center text-sm op-40">
+    <div
+      id="search-feedback"
+      class="search-state search-state--feedback hidden"
+      role="status"
+      aria-live="polite"
+    >
+      <div class="search-state__visual" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <strong id="search-feedback-label"></strong>
+      <span id="search-feedback-detail"></span>
     </div>
     <!-- Pagination -->
     <div
@@ -156,7 +253,11 @@ const searchPanelI18n = JSON.stringify({
     </div>
   </div>
   <!-- Shortcuts Footer -->
-  <footer role="note" aria-label={t('a11y.keyboardShortcuts')}>
+  <footer
+    class="search-panel__footer"
+    role="note"
+    aria-label={t('a11y.keyboardShortcuts')}
+  >
     <ul
       class="flex flex-wrap items-center gap-4.5 lt-md:hidden
         pt-3 border-t border-[var(--c-border)]
@@ -201,11 +302,591 @@ const searchPanelI18n = JSON.stringify({
       var(--c-shadow-hover);
   }
 
+  .search-panel--inner {
+    position: fixed;
+    z-index: 200;
+    /* site-nav 的 backdrop-filter 会建立 fixed containing block，必须显式按视口定位 */
+    top: 50vh;
+    left: 50vw;
+    width: min(var(--page-content-max), calc(100vw - 2.5rem));
+    height: min(46rem, calc(100dvh - 6rem));
+    max-height: 46rem;
+    padding: 1rem;
+    transform: translate(-50%, -50%);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--c-accent) 4%, transparent),
+        transparent 42%
+      ),
+      var(--c-bg);
+  }
+
+  .search-panel__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    min-width: 0;
+    padding: 0.25rem 0.35rem 0.9rem;
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--c-accent) 18%, var(--c-border));
+  }
+
+  .search-panel__heading {
+    min-width: 0;
+  }
+
+  .search-panel__eyebrow,
+  .search-panel__status,
+  .search-panel__close,
+  .search-tabs-label,
+  .search-query__prompt,
+  .search-query__clear {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .search-panel__eyebrow {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: color-mix(in srgb, var(--c-accent) 75%, var(--c-muted));
+    font-size: 0.65rem;
+  }
+
+  .search-panel__heading h2 {
+    margin: 0;
+    color: var(--c-text);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 650;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .search-panel__heading p {
+    max-width: 30rem;
+    margin: 0.4rem 0 0;
+    color: var(--c-muted);
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  .search-panel__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex: 0 0 auto;
+  }
+
+  .search-panel__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.32rem 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--c-accent) 18%, var(--c-border));
+    color: var(--c-muted);
+    font-size: 0.58rem;
+  }
+
+  .search-panel__close {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2rem;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-sm);
+    color: var(--c-muted);
+    background: color-mix(in srgb, var(--c-surface) 70%, transparent);
+    font-size: 0.58rem;
+    cursor: pointer;
+    transition:
+      color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out);
+  }
+
+  .search-panel__close:hover,
+  .search-panel__close:focus-visible {
+    border-color: color-mix(in srgb, var(--c-accent) 48%, var(--c-border));
+    color: var(--c-text);
+    background: var(--c-accent-soft);
+    outline: none;
+  }
+
+  .search-panel__close-mark {
+    color: var(--c-accent);
+    font-size: 1rem;
+    line-height: 0.8;
+  }
+
+  .search-panel__controls {
+    min-width: 0;
+  }
+
+  .search-tabs-shell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 0 0.25rem;
+  }
+
+  .search-tabs-label {
+    flex: 0 0 auto;
+    color: var(--c-muted);
+    font-size: 0.6rem;
+  }
+
+  .search-tabs {
+    min-width: 0;
+    padding-bottom: 0.1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .search-panel--inner :global(.search-tabs [role='tab']) {
+    flex: 0 0 auto;
+    min-height: 1.75rem;
+    padding: 0.28rem 0.65rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent !important;
+  }
+
+  .search-panel--inner
+    :global(.search-tabs [role='tab'][aria-selected='true']) {
+    border-color: color-mix(in srgb, var(--c-accent) 38%, var(--c-border));
+    color: var(--c-text);
+    background: var(--c-accent-soft) !important;
+  }
+
+  .search-query {
+    min-height: 3.5rem;
+    height: auto;
+    padding: 0 0.8rem;
+    border-radius: var(--c-radius);
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--c-accent) 8%, transparent),
+        transparent 52%
+      ),
+      color-mix(in srgb, var(--c-surface) 74%, transparent);
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .search-query:focus-within {
+    border-color: color-mix(in srgb, var(--c-accent) 65%, var(--c-border));
+    box-shadow:
+      -2px 0 0 color-mix(in srgb, var(--c-glitch-red) 28%, transparent),
+      2px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 28%, transparent),
+      0 0 0 3px color-mix(in srgb, var(--c-accent) 8%, transparent);
+  }
+
+  .search-query__prompt {
+    padding-right: 0.7rem;
+    color: color-mix(in srgb, var(--c-accent) 72%, var(--c-muted));
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
+
+  .search-query__icon {
+    color: var(--c-muted);
+    opacity: 0.72;
+  }
+
+  .search-query :global(#search-input) {
+    min-width: 0;
+    width: 100%;
+    height: 3.4rem;
+    padding: 0 0.75rem;
+    color: var(--c-text);
+    font-size: 1rem;
+  }
+
+  .search-query__clear {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.4rem;
+    border-radius: var(--c-radius-sm);
+    color: var(--c-muted);
+    font-size: 0.56rem;
+    cursor: pointer;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out);
+  }
+
+  .search-query__clear:hover,
+  .search-query__clear:focus-visible {
+    color: var(--c-text);
+    background: var(--c-accent-soft);
+    outline: none;
+  }
+
+  .search-panel--inner[data-has-query='false'] .search-query__clear {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .search-results {
+    min-height: 0;
+    margin: 0;
+    padding: 0 0.35rem 0.35rem;
+    border-block: 1px solid
+      color-mix(in srgb, var(--c-accent) 10%, var(--c-border));
+    background: color-mix(in srgb, var(--c-surface) 38%, transparent);
+    scroll-padding-block: 3rem 1rem;
+  }
+
+  .search-summary {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--c-border);
+    color: var(--c-muted);
+    background: color-mix(in srgb, var(--c-bg) 94%, transparent);
+    backdrop-filter: blur(10px);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .search-summary::before {
+    content: 'RESULT_SET / ';
+    color: var(--c-accent);
+  }
+
+  .search-state {
+    min-height: 100%;
+    padding: 3rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-muted);
+    text-align: center;
+  }
+
+  /*
+   * 状态可见性必须在组件内显式声明：否则下方的 display:flex 会覆盖
+   * 全局 .hidden，导致空状态与 loading/results 同时渲染。
+   */
+  .search-panel--inner .search-state.hidden,
+  .search-panel--inner[data-has-query='true'] .search-state--empty,
+  .search-panel--inner:not([data-state='idle']) .search-state--empty,
+  .search-panel--inner:is([data-state='idle'], [data-state='results'])
+    .search-state--feedback {
+    display: none;
+  }
+
+  .search-state strong {
+    margin-top: 1rem;
+    color: var(--c-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .search-state > span {
+    max-width: 25rem;
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  .search-state__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 1px solid color-mix(in srgb, var(--c-accent) 25%, var(--c-border));
+    color: var(--c-accent);
+    background: color-mix(in srgb, var(--c-accent) 7%, transparent);
+  }
+
+  .search-state__reticle {
+    position: absolute;
+    inset: -0.35rem;
+    border: 1px dashed
+      color-mix(in srgb, var(--c-accent) 20%, transparent);
+  }
+
+  .search-state--feedback .search-state__visual {
+    gap: 0.22rem;
+  }
+
+  .search-state--feedback .search-state__visual span {
+    width: 0.22rem;
+    height: 1.35rem;
+    background: currentColor;
+    opacity: 0.3;
+  }
+
+  .search-panel--inner:is(
+      [data-state='loading'],
+      [data-state='loading-more']
+    )
+    .search-state--feedback
+    .search-state__visual
+    span {
+    animation: search-signal 0.85s ease-in-out infinite alternate;
+  }
+
+  .search-panel--inner:is(
+      [data-state='loading'],
+      [data-state='loading-more']
+    )
+    .search-state--feedback
+    .search-state__visual
+    span:nth-child(2) {
+    animation-delay: 0.14s;
+  }
+
+  .search-panel--inner:is(
+      [data-state='loading'],
+      [data-state='loading-more']
+    )
+    .search-state--feedback
+    .search-state__visual
+    span:nth-child(3) {
+    animation-delay: 0.28s;
+  }
+
+  .search-panel--inner[data-state='loading-more']
+    .search-state--feedback {
+    min-height: auto;
+    padding: 1rem;
+    flex-direction: row;
+    gap: 0.65rem;
+  }
+
+  .search-panel--inner[data-state='loading-more']
+    .search-state--feedback
+    .search-state__visual {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .search-panel--inner[data-state='loading-more']
+    .search-state--feedback
+    strong {
+    margin-top: 0;
+  }
+
+  .search-panel--inner[data-state='loading-more'] #search-feedback-detail {
+    display: none;
+  }
+
+  .search-panel--inner[data-state='error'] .search-state__visual {
+    color: var(--c-glitch-red);
+  }
+
+  .search-panel__footer {
+    min-height: 1.9rem;
+  }
+
+  .search-panel__footer :global(ul) {
+    margin: 0;
+  }
+
+  .search-panel--home .search-panel__header,
+  .search-panel--home .search-state--empty,
+  .search-panel--home .search-state__visual,
+  .search-panel--home #search-feedback-detail,
+  .search-panel--home .search-summary,
+  .search-panel--home .search-query__clear {
+    display: none !important;
+  }
+
+  .search-panel--home :global(.search-result-route) {
+    display: none;
+  }
+
+  .search-panel--home .search-tabs-shell {
+    display: block;
+    padding: 0;
+  }
+
+  .search-panel--home .search-tabs-label {
+    display: none;
+  }
+
+  .search-panel--home .search-query {
+    min-height: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    border-radius: var(--c-radius);
+    background: var(--c-accent-soft);
+    box-shadow: none;
+  }
+
+  .search-panel--home .search-query:focus-within {
+    border-color: var(--c-border);
+    box-shadow: none;
+  }
+
+  .search-panel--home .search-query :global(#search-input) {
+    height: 100%;
+    padding: 0 0 0 0.5rem;
+    font-size: inherit;
+  }
+
+  .search-panel--home .search-results {
+    min-height: 0;
+    margin: 0.25rem 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .search-panel--home .search-state--feedback {
+    min-height: 0;
+    padding: 0.75rem;
+    display: block;
+    font-size: 0.875rem;
+    opacity: 0.4;
+  }
+
+  .search-panel--home .search-state--feedback.hidden {
+    display: none;
+  }
+
+  .search-panel--home .search-state--feedback strong {
+    margin: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  .search-panel--home .search-panel__footer {
+    min-height: 0;
+  }
+
   :global(:root.dark) .search-panel-hud {
     box-shadow:
       0 0 0 1px color-mix(in srgb, var(--c-accent) 14%, transparent) inset,
       0 0 28px color-mix(in srgb, var(--c-glow) 35%, transparent),
       var(--c-shadow-hover);
+  }
+
+  @keyframes search-signal {
+    from {
+      transform: scaleY(0.35);
+      opacity: 0.25;
+    }
+    to {
+      transform: scaleY(1);
+      opacity: 0.9;
+    }
+  }
+
+  @media (max-width: 639.9px) {
+    .search-panel--inner {
+      top: max(0.75rem, env(safe-area-inset-top, 0px));
+      right: auto;
+      bottom: auto;
+      left: 50vw;
+      width: calc(
+        100vw - 1.5rem - env(safe-area-inset-left, 0px) -
+          env(safe-area-inset-right, 0px)
+      );
+      height: calc(
+        100dvh - 1.5rem - env(safe-area-inset-top, 0px) -
+          env(safe-area-inset-bottom, 0px)
+      );
+      max-height: none;
+      padding: 0.8rem;
+      transform: translateX(-50%);
+      gap: 0.65rem;
+    }
+
+    .search-panel__header {
+      gap: 0.75rem;
+      padding: 0.1rem 0.15rem 0.7rem;
+    }
+
+    .search-panel__heading p,
+    .search-panel__status {
+      display: none;
+    }
+
+    .search-panel__eyebrow {
+      font-size: 0.58rem;
+    }
+
+    .search-panel__heading h2 {
+      font-size: 1.3rem;
+    }
+
+    .search-panel__close > span:first-child {
+      display: none;
+    }
+
+    .search-panel__close {
+      min-width: 2.25rem;
+      justify-content: center;
+    }
+
+    .search-tabs-shell {
+      align-items: flex-start;
+      gap: 0.45rem;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    .search-tabs {
+      width: 100%;
+    }
+
+    .search-query {
+      min-height: 3.25rem;
+      padding: 0 0.6rem;
+    }
+
+    .search-query__prompt {
+      display: none;
+    }
+
+    .search-query :global(#search-input) {
+      height: 3.15rem;
+      padding-inline: 0.65rem;
+      font-size: 1rem;
+    }
+
+    .search-query__clear > span:first-child {
+      display: none;
+    }
+
+    .search-results {
+      padding-inline: 0.15rem;
+    }
+
+    .search-state {
+      padding: 2rem 0.75rem;
+    }
+
+    .search-panel__footer {
+      min-height: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .search-state--feedback .search-state__visual span {
+      animation: none !important;
+    }
   }
 </style>
 

@@ -58,6 +58,12 @@ const giscusEnabled =
   isCommentable && Array.isArray(giscus) && giscus[0] && frontmatter.giscus
 
 const collectionType = post.collection
+const pageWidth =
+  collectionType === 'blog' ||
+  collectionType === 'blog_en' ||
+  collectionType === 'changelog'
+    ? 'blog'
+    : 'reading'
 // noindex 页（如英文回退的中文稿）不入库，避免与 canonical 中文页重复占满结果
 const isSearchable =
   Array.isArray(search) &&
@@ -88,7 +94,13 @@ const cjkSearchBoost = isSearchable
   {canonicalLocale}
   {noindex}
 >
-  <StandardLayout {title} {subtitle} {isSearchable} {searchFilter}>
+  <StandardLayout
+    width={pageWidth}
+    {title}
+    {subtitle}
+    {isSearchable}
+    {searchFilter}
+  >
     <Fragment slot="head">
       <PostMeta {pubDate} {lastModDate} {minutesRead} />
     </Fragment>
@@ -120,7 +132,10 @@ const cjkSearchBoost = isSearchable
   </Fragment>
   {
     giscusEnabled && (
-      <div slot="giscus" class="prose mx-auto mt-8">
+      <div
+        slot="giscus"
+        class:list={['prose', `page-shell page-shell--${pageWidth}`, 'mt-8']}
+      >
         <hr />
         <Giscus />
       </div>

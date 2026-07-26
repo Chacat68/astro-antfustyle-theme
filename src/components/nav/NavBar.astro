@@ -45,11 +45,11 @@ for (const item of new Set(left)) {
 ---
 
 <header
-  class={`site-nav flex items-center gap-6 pt-[1.75rem] pb-[2rem] lt-lg:(pt-4 pb-5) ${mergeOnMobile ? 'lt-lg:gap-2.5' : 'lt-md:gap-3'} lt-sm:gap-2`}
+  class={`site-nav site-nav-shell flex items-center gap-6 pt-[1.75rem] pb-[2rem] lt-lg:(pt-4 pb-5) ${mergeOnMobile ? 'lt-lg:gap-2.5' : 'lt-md:gap-3'} lt-sm:gap-2`}
 >
   <LogoButton />
   <nav
-    class={`flex items-center gap-4.8 w-full min-w-0 ${mergeOnMobile ? 'lt-lg:(justify-end gap-2.5)' : 'lt-md:(justify-end gap-2.5)'} lt-sm:gap-2
+    class={`site-nav__menu flex items-center gap-4.8 w-full min-w-0 ${mergeOnMobile ? 'lt-lg:(justify-end gap-2.5)' : 'lt-md:(justify-end gap-2.5)'} lt-sm:gap-2
     ${left.length !== 0 ? (right.length !== 0 ? 'justify-between' : '') : 'justify-end'}`}
     aria-label={t('a11y.mainMenu')}
   >
@@ -57,7 +57,7 @@ for (const item of new Set(left)) {
       left.length !== 0 && (
         <div
           class:list={[
-            'flex items-center gap-4.8 print:op-0',
+            'site-nav__group flex items-center gap-4.8 print:op-0',
             mergeOnMobile ? 'lt-lg:gap-2.5 lt-sm:gap-2' : 'lt-md:(gap-3)',
           ]}
         >
@@ -74,7 +74,7 @@ for (const item of new Set(left)) {
       right.length !== 0 && (
         <div
           class:list={[
-            'flex items-center gap-4.8 print:op-0',
+            'site-nav__group flex items-center gap-4.8 print:op-0',
             !right.includes('themeButton') &&
               !right.includes('searchButton') &&
               (mergeOnMobile ? 'lt-lg:hidden' : 'lt-md:hidden'),
@@ -142,3 +142,74 @@ for (const item of new Set(left)) {
     }
   </nav>
 </header>
+
+<style>
+  /*
+   * 导航骨架使用显式 CSS，避免动态 class 组合在部分构建中漏掉
+   * gap / padding，导致所有链接紧贴。折叠点与 lgp 内容宽度一致。
+   */
+  .site-nav-shell {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 1.75rem);
+    min-height: 5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.45rem;
+  }
+
+  .site-nav__menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .site-nav__group {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.8rem, 1.4vw, 1.25rem);
+    min-width: 0;
+  }
+
+  @media (max-width: 1127.9px) {
+    .site-nav-shell {
+      gap: 0.75rem;
+      min-height: 4.25rem;
+      padding-top: 0.8rem;
+      padding-bottom: 1rem;
+    }
+
+    .site-nav__menu {
+      gap: 0.35rem;
+    }
+
+    .site-nav__group {
+      gap: 0.2rem;
+    }
+
+    :global(.nav-item--desktop),
+    :global(.nav-compact-hide) {
+      display: none !important;
+    }
+
+    :global(#nav-open-button) {
+      display: inline-flex !important;
+    }
+  }
+
+  @media (max-width: 639.9px) {
+    .site-nav-shell {
+      gap: 0.4rem;
+      min-height: 3.75rem;
+      padding-top: 0.55rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .site-nav__menu,
+    .site-nav__group {
+      gap: 0.05rem;
+    }
+  }
+</style>
