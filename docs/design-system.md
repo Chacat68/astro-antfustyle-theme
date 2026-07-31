@@ -74,14 +74,14 @@
 | 区域 | 约定 |
 |------|------|
 | `StandardLayout` / `TabbedLayout` | `.studio-page` 内容轨；可选 `eyebrow` / `wide` / `isCentered` |
-| `.studio-page` | 默认 `max-width: 65ch`；`--wide` 为 `min(75rem, 100%)` |
+| `.studio-page` | 默认 `max-width: 65ch`；`--wide` 为 `min(var(--c-wide-max), 100%)` |
 | `.page-eyebrow` | 小号大写眉题 + 圆点；与首页 About 同源 |
 | `.page-header` | 底部分隔线 + 大标题（`clamp`）+ 副标题；**不再**用厚面板卡 |
 | `.studio-tabs` | TabbedLayout 胶囊 Tab（Changelog / Feeds / Streams） |
 | 列表 / 项目 / 友链 | `list-item-link` hover；`GroupItem` 为 `.group-card`（链接**勿** `aria-hidden`） |
 | 卡片流 | `CardItem` 为 `.studio-card`（Highlights / Shorts） |
 | GitHub 流 | `GithubItem` 摘要行圆角表面 |
-| 统计 / 页脚 / 404 | `SiteStats` 表面卡；`Footer` 对齐 65ch；`.studio-empty`（404 的 code 作 `h1`） |
+| 统计 / 页脚 / 404 | `SiteStats` 表面卡；`Footer` 对齐 `--c-nav-max`；`.studio-empty`（404 的 code 作 `h1`） |
 | `/about` | 独立完整 Studio 排版（历程 / 理念影像 / 深色 CTA），不只套 StandardLayout |
 | `#main` / `.site-footer` | 水平边距用 `--page-gutter-x`，并与 `env(safe-area-inset-*)` 取 `max`；勿在 Uno 类里再写冲突的 `px-*` |
 | 视口 | `viewport-fit=cover`（`Head.astro`），以便刘海屏 safe-area 生效 |
@@ -112,9 +112,9 @@
 
 | 区域 | 约定 |
 |------|------|
-| `html` | 冷灰蓝纯色底；`data-nav-rail="home\|content"` 控制导航轨宽度 |
+| `html` | 冷灰蓝纯色底；`data-nav-rail="home\|content\|wide"` 控制导航轨宽度 |
 | `.site-nav` / `.site-nav__shell` | 悬浮胶囊：深色底 + 浅色字（暗色主题反相）、圆角 pill、轻阴影；壳内 `a/button` 强制高对比（覆盖组件 `op-50/60`）；`transition:name` 跨页 morph，**不用** `persist`；**无** `backdrop-filter` |
-| 导航轨宽度 | 首页 `--c-nav-max: 90rem` 对齐 Hero；其余页 `--c-nav-max: 65ch` 对齐正文轨；左右垫 `--c-rail-pad` |
+| 导航轨宽度 | 首页 `--c-hero-max`；正文 `--c-content-max`（65ch）；宽列表 `--c-wide-max`（75rem）；左右垫 `--c-rail-pad` |
 | 搜索浮层 | `#search-panel` 仍在导航内；用 `50vh`/`50vw` 居中 |
 | 列表 / 社交链接 | 圆角 hover、轻阴影上浮 |
 | 正文链接 / `hr` | 悬停变色；分隔线克制单色 |
