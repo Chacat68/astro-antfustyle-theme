@@ -31,8 +31,8 @@ export async function GET() {
     scope: withBasePath('/'),
     start_url: withBasePath('/'),
     display: 'standalone',
-    theme_color: '#f2f4f6',
-    background_color: '#f2f4f6',
+    theme_color: '#f4f6fb',
+    background_color: '#f4f6fb',
   }
 
   return new Response(JSON.stringify(manifest), {

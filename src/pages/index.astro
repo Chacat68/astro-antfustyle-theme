@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import GlitchHero from '~/components/home/GlitchHero.astro'
+import StudioHero from '~/components/home/StudioHero.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-// 首页：Three.js 故障艺术展示台 + 功能入口（无轻量背景层，避免双 canvas）
+// 首页：Studio 风格大圆角 Hero（无全局背景层，舞台自带氛围）
 const page = {
   bgType: false as const,
   ogImage: false,
@@ -19,7 +19,6 @@ const t = useTranslations(locale)
   bgType={page.bgType}
   ogImage={page.ogImage}
   mainClass="home-main"
-  minimalChrome
 >
-  <GlitchHero />
+  <StudioHero />
 </BaseLayout>

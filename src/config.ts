@@ -161,7 +161,7 @@ export const FEATURES: Features = {
     {
       authorOrBrand: `${SITE.title}`,
       fallbackTitle: `${SITE.description}`,
-      fallbackBgType: 'glitch',
+      fallbackBgType: 'plum',
     },
   ],
 

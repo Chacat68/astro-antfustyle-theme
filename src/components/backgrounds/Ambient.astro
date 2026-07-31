@@ -1,0 +1,43 @@
+---
+/**
+ * 轻量氛围背景（Zypher 风格）：柔和色晕 + 细颗粒，无 WebGL
+ */
+---
+
+<div id="bg-ambient" class="bg-ambient" aria-hidden="true"></div>
+
+<style>
+  .bg-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        60% 45% at 85% -10%,
+        color-mix(in srgb, var(--c-page-tint) 80%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        50% 40% at 0% 100%,
+        color-mix(in srgb, var(--c-accent) 6%, transparent),
+        transparent 65%
+      );
+  }
+
+  .bg-ambient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    mix-blend-mode: multiply;
+  }
+
+  :global(.dark) .bg-ambient::after {
+    opacity: 0.05;
+    mix-blend-mode: screen;
+  }
+</style>

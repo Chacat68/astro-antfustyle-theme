@@ -44,94 +44,96 @@ for (const item of new Set(left)) {
 }
 ---
 
-<header
-  class={`site-nav flex items-center gap-6 p-[1.75rem_2rem_2rem] ${mergeOnMobile ? 'lt-md:px-7' : 'lt-md:(px-6 gap-3)'}`}
->
-  <LogoButton />
-  <nav
-    class={`flex items-center gap-4.8 w-full lt-md:justify-end
-    ${left.length !== 0 ? (right.length !== 0 ? 'justify-between' : '') : 'justify-end'}`}
-    aria-label={t('a11y.mainMenu')}
+<header class="site-nav">
+  <div
+    class={`site-nav__shell ${mergeOnMobile ? 'lt-md:gap-2' : 'lt-md:gap-2'}`}
   >
-    {
-      left.length !== 0 && (
-        <div
-          class={`grid grid-flow-col items-center gap-4.8 print:op-0 ${mergeOnMobile ? '' : 'lt-md:(gap-3)'}`}
-        >
-          <NavBarSlot
-            keys={left}
-            {mergeOnMobile}
-            internalNavs={localizedInternalNavs}
-            {socialLinks}
-          />
-        </div>
-      )
-    }
-    {
-      right.length !== 0 && (
-        <div
-          class={`grid grid-flow-col items-center gap-4.8 print:op-0
-              ${!right.includes('themeButton') && !right.includes('searchButton') && 'lt-md:hidden'}
-              ${mergeOnMobile ? '' : 'lt-md:(gap-3)'}`}
-        >
-          <NavBarSlot
-            keys={right}
-            {mergeOnMobile}
-            internalNavs={localizedInternalNavs}
-            {socialLinks}
-          />
-        </div>
-      )
-    }
-    {
-      mergeOnMobile && (
-        <NavSwitch>
-          <Fragment slot="text">
-            {localizedInternalNavs.length !== 0 &&
-              localizedInternalNavs.map((item) => (
-                <NavItem
-                  type="internal"
-                  {item}
-                  {mergeOnMobile}
-                  mobileItemType="text"
-                />
-              ))}
-            {showSocialInNav &&
-              socialLinks.length !== 0 &&
-              socialLinks.map((item) => (
-                <NavItem
-                  type="social"
-                  {item}
-                  {mergeOnMobile}
-                  mobileItemType="text"
-                />
-              ))}
-          </Fragment>
-          <Fragment slot="icon">
-            {localizedInternalNavs.length !== 0 &&
-              localizedInternalNavs.map((item) => (
-                <NavItem
-                  type="internal"
-                  {item}
-                  {mergeOnMobile}
-                  mobileItemType="icon"
-                />
-              ))}
-            {showSocialInNav &&
-              socialLinks.length !== 0 &&
-              socialLinks.map((item) => (
-                <NavItem
-                  type="social"
-                  {item}
-                  {mergeOnMobile}
-                  mobileItemType="icon"
-                />
-              ))}
-            <LanguageSwitch />
-            <RssLink class="op-50!" />
-          </Fragment>
-        </NavSwitch>
-      )
-    }
-  </nav>
+    <LogoButton />
+    <nav
+      class={`flex items-center gap-3 w-full lt-md:justify-end
+      ${left.length !== 0 ? (right.length !== 0 ? 'justify-between' : '') : 'justify-end'}`}
+      aria-label={t('a11y.mainMenu')}
+    >
+      {
+        left.length !== 0 && (
+          <div
+            class={`grid grid-flow-col items-center gap-3 print:op-0 ${mergeOnMobile ? '' : 'lt-md:(gap-2)'}`}
+          >
+            <NavBarSlot
+              keys={left}
+              {mergeOnMobile}
+              internalNavs={localizedInternalNavs}
+              {socialLinks}
+            />
+          </div>
+        )
+      }
+      {
+        right.length !== 0 && (
+          <div
+            class={`grid grid-flow-col items-center gap-3 print:op-0
+                ${!right.includes('themeButton') && !right.includes('searchButton') && 'lt-md:hidden'}
+                ${mergeOnMobile ? '' : 'lt-md:(gap-2)'}`}
+          >
+            <NavBarSlot
+              keys={right}
+              {mergeOnMobile}
+              internalNavs={localizedInternalNavs}
+              {socialLinks}
+            />
+          </div>
+        )
+      }
+      {
+        mergeOnMobile && (
+          <NavSwitch>
+            <Fragment slot="text">
+              {localizedInternalNavs.length !== 0 &&
+                localizedInternalNavs.map((item) => (
+                  <NavItem
+                    type="internal"
+                    {item}
+                    {mergeOnMobile}
+                    mobileItemType="text"
+                  />
+                ))}
+              {showSocialInNav &&
+                socialLinks.length !== 0 &&
+                socialLinks.map((item) => (
+                  <NavItem
+                    type="social"
+                    {item}
+                    {mergeOnMobile}
+                    mobileItemType="text"
+                  />
+                ))}
+            </Fragment>
+            <Fragment slot="icon">
+              {localizedInternalNavs.length !== 0 &&
+                localizedInternalNavs.map((item) => (
+                  <NavItem
+                    type="internal"
+                    {item}
+                    {mergeOnMobile}
+                    mobileItemType="icon"
+                  />
+                ))}
+              {showSocialInNav &&
+                socialLinks.length !== 0 &&
+                socialLinks.map((item) => (
+                  <NavItem
+                    type="social"
+                    {item}
+                    {mergeOnMobile}
+                    mobileItemType="icon"
+                  />
+                ))}
+              <LanguageSwitch />
+              <RssLink class="op-50!" />
+            </Fragment>
+          </NavSwitch>
+        )
+      }
+    </nav>
+  </div>
 </header>

@@ -1,6 +1,6 @@
 # 设计系统约定
 
-本站视觉方向：**故障艺术（Glitch）+ 天空蓝 accent**，正文优先可读。渲染引擎为 **Three.js**（首页 `hero` 舞台 + 其余页 `lite` 背景）。
+本站视觉方向：**Studio Agency（参考 Zypher）** — 冷灰蓝底、大圆角舞台、胶囊导航、近黑/近白 accent；正文优先可读。
 
 ## Token 来源
 
@@ -8,18 +8,19 @@
 
 | Token | 用途 |
 |-------|------|
-| `--c-bg` / `--c-text` / `--c-muted` | 页面底色、正文、次要文字（冷灰系，非暖奶油） |
+| `--c-bg` / `--c-text` / `--c-muted` | 页面底色、正文、次要文字（浅 `#f4f6fb` / 深 `#08090b`） |
 | `--c-surface` / `--c-surface-hover` / `--c-border` | 卡片/面板表面与描边 |
-| `--c-accent` / `--c-accent-soft` / `--c-accent-muted` | 品牌天空蓝（浅 `#0284c7` / 深 `#38bdf8`） |
-| `--c-glitch-red` / `--c-glitch-cyan` | 故障 RGB 辅色（悬停错位、描边投影） |
-| `--c-page-tint` | 顶部微渐变色调 |
-| `--c-radius` / `--c-radius-sm` / `--c-radius-lg` | 圆角阶梯（偏利落小圆角） |
+| `--c-accent` / `--c-accent-soft` / `--c-accent-muted` | 品牌近黑/近白（浅 `#18181b` / 深 `#f4f4f5`） |
+| `--c-hero-bg` / `--c-page-tint` | Hero 舞台底与页面微晕 |
+| `--c-nav-bg` / `--c-nav-fg` | 顶栏胶囊导航底色与前景 |
+| `--c-glitch-red` / `--c-glitch-cyan` | 兼容旧组件的故障辅色（新 UI 不再依赖） |
+| `--c-radius` / `--c-radius-sm` / `--c-radius-lg` | 圆角阶梯（偏大圆角） |
 | `--c-shadow` / `--c-shadow-hover` | 轻阴影 |
 | `--ease-out` / `--duration` / `--duration-fast` | 动效曲线与时长 |
 
 正文灰阶（`--fg` / `--fg-deep` / `--fg-deeper`）定义在 `src/styles/markdown.css` 的 `.prose` 上。
 
-**规则：** 新增组件优先引用上述 CSS 变量，避免再写硬编码灰阶或蓝系装饰色。
+**规则：** 新增组件优先引用上述 CSS 变量，避免再写硬编码灰阶或装饰色。
 
 ## 字体
 
@@ -27,9 +28,9 @@
 
 | 角色 | 字体 | 用法 |
 |------|------|------|
-| `font-sans` | IBM Plex Sans | 全站 UI / 正文拉丁部分 |
+| `font-sans` | Outfit | 全站 UI / 展示标题 / 正文拉丁部分 |
 | `font-mono` | DM Mono | 代码 |
-| `font-condensed` | IBM Plex Sans Condensed | 需要压缩显示的标签等 |
+| `font-condensed` | Outfit | 压缩标签等（与 sans 同源） |
 | `font-serif` | Newsreader | `em` 斜体强调（见 `markdown.css`） |
 
 中文回退系统字体栈；不要为中文单独引入大体积 Web 字体。
@@ -38,71 +39,69 @@
 
 ## Logo
 
-`LogoButton.astro`：故障艺术字标。左侧迷你方框（角标 + X + 底杠 + 低频扫描，呼应首页舞台）；右侧站名字标，悬停 / `:focus-visible` / 当前页显示 RGB 切片错位。无柔光光斑；链接强制 `op-100!`。尊重 `prefers-reduced-motion`。
+`LogoButton.astro`：Studio 字标。站名 + 小号 `z` 上标；悬停轻微上浮。置于深色胶囊导航内时继承 `--c-nav-fg`。
 
 ## 浮层定位
 
-`SearchSwitch.astro` 的搜索面板挂在 sticky 导航内，而 `.site-nav` 的 `backdrop-filter` 会形成 fixed 包含块，因此不能用 `top/left: 50%`（会相对 header 而非视口）。
+`SearchSwitch.astro` 的搜索面板挂在 sticky 导航内，而 `.site-nav__shell` 的 `backdrop-filter` 会形成 fixed 包含块，因此不能用 `top/left: 50%`（会相对 header 而非视口）。
 
 正确写法：`fixed top-50vh left-50vw translate-x--50% translate-y--50%`（`vh`/`vw` 相对视口，translate 相对面板自身）。
 
 ## 背景与页面分配
 
-背景调度：`src/components/backgrounds/Background.astro`。引擎：[`glitch-engine.ts`](../src/components/backgrounds/glitch-engine.ts)（Three.js）。
+背景调度：`src/components/backgrounds/Background.astro` → [`Ambient.astro`](../src/components/backgrounds/Ambient.astro)（CSS 色晕 + 细颗粒，无 WebGL）。
 
 | `bgType` | 表现 | 典型页面 |
 |----------|------|----------|
-| `glitch` | `lite` 透明叠层：动态弧线 / 波纹 / 菱形 + 低频闪烁 | **除首页外几乎全部页面** |
-| 旧值 `dot` / `plum` / `rose` / … | 映射到 `glitch`（兼容 frontmatter） | — |
-| `false` | 无全局背景 | **首页**（由 Hero 自带 Three.js 舞台） |
+| `glitch` / 旧值 `dot` / `plum` / … | 映射到 `Ambient`（兼容 frontmatter） | **除首页外几乎全部页面** |
+| `false` | 无全局背景 | **首页**（由 StudioHero 自带氛围舞台） |
 
-主题色读取走 `isDarkTheme()`（`src/utils/theme.ts`）。`prefers-reduced-motion` 时只渲染静态一帧。
+主题色读取走 `isDarkTheme()`（`src/utils/theme.ts`）。`prefers-reduced-motion` 时关闭 Hero 漂移动画。
+
+> Three.js `glitch-engine` 仍保留在仓库中（历史/可选扩展），但默认不再挂载。
 
 ## 全站 UI（非首页）
 
 | 区域 | 约定 |
 |------|------|
-| `html` | 冷色底 + 极淡扫描线纹理 |
-| `.site-nav` | HUD 角标、当前页 accent 底线、悬停轻微 RGB text-shadow |
-| `.page-header` | 斜切面板 + 四角标 + 字距加宽标题 |
-| 列表 / 社交链接 | 斜切裁切、悬停红青双边投影 |
-| 正文链接 / `hr` | 悬停 RGB 微错位；分隔线带故障色点缀 |
+| `html` | 冷灰蓝纯色底 |
+| `.site-nav` / `.site-nav__shell` | 悬浮胶囊：深色底 + 浅色字（暗色主题反相）、圆角 pill、轻阴影 |
+| `.page-header` | 大圆角浅面板 + 紧字距标题 |
+| 列表 / 社交链接 | 圆角 hover、轻阴影上浮 |
+| 正文链接 / `hr` | 悬停变色；分隔线克制单色 |
 
-## 首页 Glitch 展示台
+## 首页 Studio 展示台
 
-路径：[`src/components/home/GlitchHero.astro`](../src/components/home/GlitchHero.astro)，由 [`src/pages/index.astro`](../src/pages/index.astro) 挂载。
+路径：[`src/components/home/StudioHero.astro`](../src/components/home/StudioHero.astro)，由 [`src/pages/index.astro`](../src/pages/index.astro) 挂载。
 
 | 要点 | 约定 |
 |------|------|
-| 结构 | 全屏 Three.js `hero` 模式舞台 + 品牌字 + **功能入口按钮**（关于 / 博客 / 项目等） |
-| 文案 | i18n：`home.glitch.*`（中：付之 / 一笑；英：FOO / Z） |
-| 交互 | 点击入口跳转对应页面；悬停入口加重故障强度 |
-| 入口形态 | 双列 HUD 信道块：角标 / 序号 / SRC / 悬停 RGB 错位与扫描线 |
-| 舞台动效 | 弧线 / 波纹 / 能量带 / 线框常驻运动；切片与闪白保持低频 |
-| 左下 | 社交媒体（`UI.socialLinks`，标签 `SIG`） |
-| 右下 | 搜索 / 语言 / 日夜 / RSS / 更新日志（标签 `SYS`；顶栏 Logo+导航隐藏） |
-| About | 已迁至 [`/about`](../src/pages/about.astro)（个人简介 + 博客历程 / 理念配图 + 联系方式 / 社交） |
-| 布局 | `mainClass="home-main"` + `minimalChrome`（隐藏导航栏与页脚）；首页锁 `overflow` 避免滚动条黑边 |
-| 舞台稳定 | `uTime` 周期化；监听 WebGL context lost/restored 与 `visibilitychange`，避免长时黑屏 |
+| 结构 | 大圆角舞台（`2.5rem`）+ CSS 氛围（雾面 / 光带 / 颗粒）+ 四角标 |
+| 文案 | i18n：`home.studio.*`；品牌名取 `SITE.title` 作 hero 级信号 |
+| 交互 | 主 CTA 为实心浅色 pill；次要入口为玻璃边框 pill；悬停轻微上浮 |
+| 右下/底栏 | 信任短句 + 社交圆形图标 |
+| 顶栏 | 显示胶囊导航（不再 `minimalChrome`） |
+| 布局 | `mainClass="home-main"` 去 padding，保留页脚 |
 
 ## 样式文件分层
 
 | 文件 | 职责 |
 |------|------|
-| `main.css` | Token、导航、入场动画、搜索、滚动条、扫描线底纹 |
+| `main.css` | Token、胶囊导航、入场动画、搜索、滚动条 |
 | `prose.css` | 正文排版骨架（字号、间距、列表） |
 | `markdown.css` | Markdown 增强（链接、callouts、代码、TOC） |
-| `page.css` | 页面级节奏（header HUD、列表 hover、相册、标签筛选） |
+| `page.css` | 页面级节奏（header 面板、列表 hover、相册、标签筛选） |
 
 页面级样式写在 `page.css` 或组件 `<style>` 内，并复用 token；不要在 UnoCSS shortcuts 里扩散新的硬编码色板。
 
 ## 动效原则
 
 1. 页面入场：`slide-enter` / `slide-enter-content`（`FEATURES.slideEnterAnim`）；首屏 LCP 文案用 `slide-enter-instant`。
-2. 交互反馈：列表/导航 hover 使用 accent + RGB 微错位，**闪屏类故障保持低频**。
-3. 尊重 `prefers-reduced-motion`（背景动画应停用或降级）。
+2. 交互反馈：列表/导航 hover 使用轻阴影上浮，避免闪屏类故障。
+3. Hero：雾面缓慢漂移 + 光带轻微平移（至少 2 种有意动效）；尊重 `prefers-reduced-motion`。
 
 ## 相关配置
 
 - PWA `theme_color` / `background_color`：`src/pages/app.webmanifest.js`（与 `--c-bg` 浅色一致）
 - `<meta name="theme-color">`：`src/components/base/Head.astro`；切换主题时由 `ThemeSwitch` 同步为当前 `--c-bg`
+- OG 回退背景：`FEATURES.ogImage.fallbackBgType` 使用 `plum`（Satori 可用底图）

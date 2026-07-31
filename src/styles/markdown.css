@@ -22,9 +22,6 @@
 .prose a:hover {
   border-bottom-color: var(--c-accent-muted);
   color: var(--c-accent);
-  text-shadow:
-    -0.5px 0 color-mix(in srgb, var(--c-glitch-red) 30%, transparent),
-    0.5px 0 color-mix(in srgb, var(--c-glitch-cyan) 30%, transparent);
 }
 
 .prose a code {
@@ -36,10 +33,7 @@
   margin: 2em auto;
   border: 0;
   border-top: 1px solid
-    color-mix(in srgb, var(--c-accent) 35%, rgba(125, 125, 125, 0.28));
-  box-shadow:
-    -2px 0 0 color-mix(in srgb, var(--c-glitch-red) 28%, transparent),
-    2px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 28%, transparent);
+    color-mix(in srgb, var(--c-accent) 28%, rgba(125, 125, 125, 0.28));
 }
 
 html.dark .prose {

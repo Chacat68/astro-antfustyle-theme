@@ -1,79 +1,72 @@
 :root {
   color-scheme: light;
 
-  /* 表面与文字（故障艺术：冷灰底，非暖奶油） */
-  --c-bg: #f2f4f6;
+  /* 表面与文字（工作室：冷灰蓝底，参考 Zypher） */
+  --c-bg: #f4f6fb;
   --c-scrollbar: #c9d0d6;
   --c-scrollbar-hover: #a8b0b8;
-  --c-text: #0c1218;
-  --c-surface: rgba(255, 255, 255, 0.72);
-  --c-surface-hover: rgba(2, 132, 199, 0.06);
-  --c-border: rgba(12, 18, 24, 0.12);
-  --c-muted: rgba(12, 18, 24, 0.55);
+  --c-text: #0a0a0a;
+  --c-surface: rgba(255, 255, 255, 0.88);
+  --c-surface-hover: rgba(10, 10, 10, 0.04);
+  --c-border: #e4e4e7;
+  --c-muted: #71717a;
 
-  /* 天空蓝 accent + 故障辅色 */
-  --c-accent: #0284c7;
-  --c-accent-soft: rgba(2, 132, 199, 0.12);
-  --c-accent-muted: rgba(2, 132, 199, 0.55);
-  --c-page-tint: rgba(2, 132, 199, 0.06);
+  /* 近黑 accent；保留 glitch token 兼容旧组件 */
+  --c-accent: #18181b;
+  --c-accent-soft: rgba(24, 24, 27, 0.08);
+  --c-accent-muted: rgba(24, 24, 27, 0.55);
+  --c-page-tint: rgba(183, 189, 193, 0.22);
+  --c-hero-bg: #b7bdc1;
+  --c-nav-fg: #fafafa;
+  --c-nav-bg: rgba(10, 10, 10, 0.95);
   --c-glitch-red: #ff2a4a;
   --c-glitch-cyan: #2ad4ff;
 
-  /* 形状与阴影：更利落的直角倾向 */
-  --c-radius: 0.2rem;
-  --c-radius-sm: 0.125rem;
-  --c-radius-lg: 0.35rem;
-  --c-shadow: 0 10px 28px rgba(12, 18, 24, 0.06);
-  --c-shadow-hover: 0 14px 36px rgba(12, 18, 24, 0.1);
+  /* 形状与阴影：大圆角、轻投影 */
+  --c-radius: 1rem;
+  --c-radius-sm: 0.75rem;
+  --c-radius-lg: 1.5rem;
+  --c-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --c-shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.12);
 
   /* 动效 */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 160ms;
-  --duration: 200ms;
+  --duration: 220ms;
 }
 
 :root.dark {
   color-scheme: dark;
 
-  --c-bg: #050507;
+  --c-bg: #08090b;
   --c-scrollbar: #222;
   --c-scrollbar-hover: #444;
-  --c-text: #f4f4f2;
-  --c-surface: rgba(10, 12, 16, 0.72);
-  --c-surface-hover: rgba(56, 189, 248, 0.08);
-  --c-border: rgba(244, 244, 242, 0.12);
-  --c-muted: rgba(244, 244, 242, 0.55);
+  --c-text: #f4f4f5;
+  --c-surface: rgba(17, 17, 20, 0.88);
+  --c-surface-hover: rgba(244, 244, 245, 0.06);
+  --c-border: #27272a;
+  --c-muted: #a1a1aa;
 
-  --c-accent: #38bdf8;
-  --c-accent-soft: rgba(56, 189, 248, 0.14);
-  --c-accent-muted: rgba(56, 189, 248, 0.62);
-  --c-page-tint: rgba(56, 189, 248, 0.07);
+  --c-accent: #f4f4f5;
+  --c-accent-soft: rgba(244, 244, 245, 0.1);
+  --c-accent-muted: rgba(244, 244, 245, 0.62);
+  --c-page-tint: rgba(42, 45, 49, 0.45);
+  --c-hero-bg: #2a2d31;
+  --c-nav-fg: #0a0a0a;
+  --c-nav-bg: rgba(244, 244, 245, 0.95);
   --c-glitch-red: #ff2a4a;
   --c-glitch-cyan: #2ad4ff;
 
-  --c-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
-  --c-shadow-hover: 0 14px 36px rgba(0, 0, 0, 0.5);
+  --c-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --c-shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
 }
 
 html {
   scroll-behavior: smooth;
-
   background-color: var(--c-bg);
-  background-image:
-    linear-gradient(
-      180deg,
-      var(--c-page-tint),
-      transparent 22rem
-    ),
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 3px,
-      color-mix(in srgb, var(--c-text) 2.5%, transparent) 3px,
-      color-mix(in srgb, var(--c-text) 2.5%, transparent) 4px
-    );
 }
 
+html:has(#bg-ambient),
 html:has(#bg-rose) {
   scrollbar-gutter: stable;
 }
@@ -102,88 +95,72 @@ summary {
   position: sticky;
   top: 0;
   z-index: 90;
-
-  border-bottom: 1px solid color-mix(in srgb, var(--c-border) 80%, transparent);
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--c-bg) 92%, transparent),
-    color-mix(in srgb, var(--c-bg) 62%, transparent) 78%,
-    transparent
-  );
-  backdrop-filter: blur(14px) saturate(1.1);
-  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  padding: 1rem 1rem 0.25rem !important;
+  background: transparent;
+  border: 0;
 }
 
-.site-nav::before,
-.site-nav::after {
-  content: '';
-  position: absolute;
-  width: 0.55rem;
-  height: 0.55rem;
-  pointer-events: none;
-  border-color: color-mix(in srgb, var(--c-accent) 65%, transparent);
-  border-style: solid;
+.site-nav__shell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: min(100%, 64rem);
+  margin-inline: auto;
+  padding: 0.45rem 0.55rem 0.45rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+  border-radius: 999px;
+  background: var(--c-nav-bg);
+  color: var(--c-nav-fg);
+  box-shadow: var(--c-shadow);
+  backdrop-filter: blur(16px) saturate(1.05);
+  -webkit-backdrop-filter: blur(16px) saturate(1.05);
 }
 
-.site-nav::before {
-  top: 0.65rem;
-  left: 0.85rem;
-  border-width: 1px 0 0 1px;
-}
-
-.site-nav::after {
-  top: 0.65rem;
-  right: 0.85rem;
-  border-width: 1px 1px 0 0;
-}
-
-.site-nav :where(a, button) {
+.site-nav__shell :where(a, button) {
   position: relative;
-  border-radius: var(--c-radius-sm);
-  letter-spacing: 0.04em;
+  border-radius: 999px;
+  color: color-mix(in srgb, var(--c-nav-fg) 72%, transparent);
+  letter-spacing: -0.01em;
   transition:
     opacity var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out),
     background-color var(--duration-fast) var(--ease-out),
-    text-shadow var(--duration-fast) var(--ease-out);
+    transform var(--duration-fast) var(--ease-out);
 }
 
-.site-nav :where(a, button):hover,
-.site-nav :where(a, button):focus-visible {
-  text-shadow:
-    -1px 0 color-mix(in srgb, var(--c-glitch-red) 35%, transparent),
-    1px 0 color-mix(in srgb, var(--c-glitch-cyan) 35%, transparent);
+.site-nav__shell :where(a, button):hover,
+.site-nav__shell :where(a, button):focus-visible {
+  color: var(--c-nav-fg);
+  background: color-mix(in srgb, var(--c-nav-fg) 8%, transparent);
 }
 
-.site-nav a[aria-current='page'] {
-  color: var(--c-text);
+.site-nav__shell a[aria-current='page'] {
+  color: var(--c-nav-fg);
   opacity: 1 !important;
+  background: color-mix(in srgb, var(--c-nav-fg) 10%, transparent);
 }
 
-.site-nav a[aria-current='page']::after {
-  content: '';
-  position: absolute;
-  left: 0.15rem;
-  right: 0.15rem;
-  bottom: -0.2rem;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--c-accent),
-    transparent
-  );
-  box-shadow:
-    -1px 0 0 color-mix(in srgb, var(--c-glitch-red) 40%, transparent),
-    1px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 40%, transparent);
+.site-nav__shell :global(.logo-word) {
+  color: var(--c-nav-fg) !important;
+}
+
+.site-nav__shell :global(.logo-sup) {
+  color: color-mix(in srgb, var(--c-nav-fg) 60%, transparent);
 }
 
 @media print {
   .site-nav {
     position: static;
+    padding: 0 !important;
+  }
+
+  .site-nav__shell {
+    border: 0;
     background: transparent;
+    box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    color: var(--c-text);
   }
 }
 

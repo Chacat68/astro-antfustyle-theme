@@ -184,7 +184,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     'page.home.title': '付之一笑',
     'page.home.description':
-      '付之一笑 — Charliefoo 的个人博客入口。故障艺术视觉下的阅读、跑步、思考与创作。',
+      '付之一笑 — Charliefoo 的个人博客入口。阅读、跑步、思考与创作。',
     'page.about.title': '关于',
     'page.about.description':
       '付之一笑 — Charliefoo 的个人介绍：博客历程、写作理念与联系方式。',
@@ -241,11 +241,18 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'about.contact.email': '邮件：',
 
     // Home content
+    'home.studio.eyebrow': '个人博客 · 数字花园',
+    'home.studio.headline': '阅读、跑步、思考与创作',
+    'home.studio.description':
+      '安静而有趣的生活节奏——读书笔记、跑步记录、技术思考与创作心得，都写在这里。',
+    'home.studio.trust': '持续更新中',
+    'home.studio.aria': '首页展示舞台',
+    'home.studio.portalsAria': '站点功能入口',
     'home.glitch.line1': '付之',
     'home.glitch.line2': '一笑',
     'home.glitch.hold': '选择入口',
     'home.glitch.skip': '跳过',
-    'home.glitch.aria': '故障艺术首页展示台',
+    'home.glitch.aria': '首页展示台',
     'home.glitch.portalsAria': '站点功能入口',
     'home.glitch.socialsAria': '社交媒体',
     'home.glitch.toolsAria': '站点工具',
@@ -448,7 +455,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     'page.home.title': 'FOO-Z',
     'page.home.description':
-      "Charliefoo's personal blog portal — reading, running, thinking, and creating, framed in glitch art.",
+      "Charliefoo's personal blog portal — reading, running, thinking, and creating.",
     'page.about.title': 'About',
     'page.about.description':
       "About Charliefoo — blog journey, writing philosophy, and how to get in touch.",
@@ -505,11 +512,18 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'about.contact.email': 'Email: ',
 
     // Home content
+    'home.studio.eyebrow': 'Personal blog · Digital garden',
+    'home.studio.headline': 'Reading, running, thinking, creating',
+    'home.studio.description':
+      'A quiet, curious rhythm — reading notes, running logs, technical thoughts, and creative work, gathered here.',
+    'home.studio.trust': 'Updated regularly',
+    'home.studio.aria': 'Home stage',
+    'home.studio.portalsAria': 'Site portals',
     'home.glitch.line1': 'FOO',
     'home.glitch.line2': 'Z',
     'home.glitch.hold': 'Choose a portal',
     'home.glitch.skip': 'Skip',
-    'home.glitch.aria': 'Glitch art home stage',
+    'home.glitch.aria': 'Home stage',
     'home.glitch.portalsAria': 'Site portals',
     'home.glitch.socialsAria': 'Social links',
     'home.glitch.toolsAria': 'Site tools',

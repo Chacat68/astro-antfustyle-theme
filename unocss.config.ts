@@ -143,9 +143,9 @@ export default defineConfig({
       // bunny 在国内更稳；失败时不影响 icons 等其他 preset
       provider: 'bunny',
       fonts: {
-        // IBM Plex Sans：技术向、克制，比 Inter 更有辨识度，仍贴合 antfu 极简气质
+        // Outfit：几何无衬线，贴近 agency 展示排版（参考 Zypher / Neue Haas 气质）
         sans: {
-          name: 'IBM Plex Sans',
+          name: 'Outfit',
           weights: ['400', '500', '600', '700'],
         },
         mono: {
@@ -153,7 +153,7 @@ export default defineConfig({
           weights: ['400', '600'],
         },
         condensed: {
-          name: 'IBM Plex Sans Condensed',
+          name: 'Outfit',
           weights: ['400', '600'],
         },
         serif: {

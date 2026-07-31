@@ -1,5 +1,5 @@
 ---
-import Glitch from '~/components/backgrounds/Glitch.astro'
+import Ambient from '~/components/backgrounds/Ambient.astro'
 
 import type { BgType } from '~/types'
 
@@ -10,11 +10,13 @@ interface Props {
 const { type } = Astro.props
 ---
 
-{/* 全站统一故障艺术背景；保留 type 分支以便未来扩展强度档位 */}
-{(type === 'glitch' ||
-  type === 'plum' ||
-  type === 'dot' ||
-  type === 'rose' ||
-  type === 'particle' ||
-  type === 'wave' ||
-  type === 'constellation') && <Glitch />}
+{
+  /* 全站统一轻量氛围背景；旧 bgType 值均映射到 Ambient 以兼容 frontmatter */
+  (type === 'glitch' ||
+    type === 'plum' ||
+    type === 'dot' ||
+    type === 'rose' ||
+    type === 'particle' ||
+    type === 'wave' ||
+    type === 'constellation') && <Ambient />
+}

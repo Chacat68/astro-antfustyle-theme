@@ -1,80 +1,36 @@
-/* 首页：全屏故障艺术展示台（锁滚动，避免右侧滚动条黑边） */
-html:has(.home-main),
-html:has(.home-main) body {
-  overflow: hidden;
-  height: 100%;
-  overscroll-behavior: none;
-}
-
+/* 首页：Studio Hero 占满主栏宽度 */
 .home-main {
   flex: 1 1 auto;
   width: 100%;
-  min-height: 100svh;
-  min-height: 100dvh;
   padding-inline: 0 !important;
   padding-block: 0 !important;
 }
 
-/* Shared page rhythm — 故障艺术 HUD 节奏 */
+/* Shared page rhythm — Studio 圆角面板 */
 .page-header {
   position: relative;
-  padding: 0.85rem 1rem 1rem;
-  margin-bottom: 0.35rem;
-  border: 1px solid color-mix(in srgb, var(--c-border) 85%, transparent);
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--c-accent) 6%, transparent),
-      transparent 42%
-    ),
-    color-mix(in srgb, var(--c-surface) 55%, transparent);
-  clip-path: polygon(
-    0 0,
-    calc(100% - 14px) 0,
-    100% 14px,
-    100% 100%,
-    14px 100%,
-    0 calc(100% - 14px)
-  );
-}
-
-.page-header::before,
-.page-header::after {
-  content: '';
-  position: absolute;
-  width: 0.65rem;
-  height: 0.65rem;
-  border-color: color-mix(in srgb, var(--c-accent) 70%, transparent);
-  border-style: solid;
-  pointer-events: none;
-}
-
-.page-header::before {
-  top: 0.35rem;
-  left: 0.35rem;
-  border-width: 1px 0 0 1px;
-}
-
-.page-header::after {
-  right: 0.35rem;
-  bottom: 0.35rem;
-  border-width: 0 1px 1px 0;
+  padding: 1.15rem 1.25rem 1.2rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--c-border) 90%, transparent);
+  border-radius: var(--c-radius-lg);
+  background: color-mix(in srgb, var(--c-surface) 80%, transparent);
+  box-shadow: var(--c-shadow);
 }
 
 .page-header h1 {
   margin: 0 !important;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  font-size: 1.55em;
-  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.15;
 }
 
 .page-header p,
 .page-header__subtitle {
   margin: 0.75rem 0 0 !important;
   color: var(--c-muted);
-  letter-spacing: 0.04em;
-  line-height: 1.55;
+  letter-spacing: -0.01em;
+  line-height: 1.6;
 }
 
 .page-article > p:first-of-type {
@@ -84,37 +40,24 @@ html:has(.home-main) body {
 
 .prose .home-roles {
   position: relative;
-  padding: 0.85rem 1rem 0.85rem 1.15rem;
+  padding: 0.95rem 1.1rem 0.95rem 1.2rem;
   border: 1px solid var(--c-border);
   border-radius: var(--c-radius);
   margin-block: 1.6rem;
-
   background: var(--c-surface);
   box-shadow: var(--c-shadow);
-  clip-path: polygon(
-    0 0,
-    calc(100% - 10px) 0,
-    100% 10px,
-    100% 100%,
-    10px 100%,
-    0 calc(100% - 10px)
-  );
 }
 
 .prose .home-roles::before {
   content: '';
   position: absolute;
-  top: 0.65rem;
-  bottom: 0.65rem;
+  top: 0.85rem;
+  bottom: 0.85rem;
   left: 0;
-
   width: 2px;
-  border-radius: 1px;
+  border-radius: 999px;
   background: var(--c-accent);
-  opacity: 0.7;
-  box-shadow:
-    -1px 0 0 color-mix(in srgb, var(--c-glitch-red) 40%, transparent),
-    1px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 40%, transparent);
+  opacity: 0.55;
 }
 
 .prose .home-roles strong {
@@ -142,33 +85,21 @@ html:has(.home-main) body {
 
 .home-social-links a:hover,
 .home-social-links a:focus-visible {
-  border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
+  border-color: color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
   background: var(--c-surface-hover);
   transform: translateY(-1px);
-  box-shadow:
-    -1px 0 0 color-mix(in srgb, var(--c-glitch-red) 35%, transparent),
-    1px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 35%, transparent);
+  box-shadow: var(--c-shadow);
 }
 
 .prose .list-item-link {
   position: relative;
   z-index: 1;
-  padding: 0.75rem 0.9rem;
+  padding: 0.8rem 0.95rem;
   border: 1px solid transparent;
   border-radius: var(--c-radius);
-  margin: 0.12rem -0.9rem 0.32rem;
-
-  /* 略提高底，避免被年份水印透穿影响可读 */
+  margin: 0.12rem -0.95rem 0.32rem;
   background: color-mix(in srgb, var(--c-bg) 72%, transparent);
-  opacity: 0.9 !important;
-  clip-path: polygon(
-    0 0,
-    calc(100% - 10px) 0,
-    100% 10px,
-    100% 100%,
-    10px 100%,
-    0 calc(100% - 10px)
-  );
+  opacity: 0.92 !important;
   transition:
     background var(--duration) var(--ease-out),
     border-color var(--duration) var(--ease-out),
@@ -179,13 +110,11 @@ html:has(.home-main) body {
 
 .prose .list-item-link:hover,
 .prose .list-item-link:focus-visible {
-  border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-border));
-  background: color-mix(in srgb, var(--c-surface-hover) 65%, var(--c-accent-soft));
-  box-shadow:
-    -2px 0 0 color-mix(in srgb, var(--c-glitch-red) 45%, transparent),
-    2px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 45%, transparent);
+  border-color: color-mix(in srgb, var(--c-accent) 18%, var(--c-border));
+  background: color-mix(in srgb, var(--c-surface) 85%, var(--c-accent-soft));
+  box-shadow: var(--c-shadow);
   opacity: 1 !important;
-  transform: translateX(4px);
+  transform: translateY(-2px);
 }
 
 .prose .list-item-link > span:first-child {

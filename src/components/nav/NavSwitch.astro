@@ -20,7 +20,7 @@ const t = useTranslations(locale)
   id="nav-panel"
   class="hidden! z-200 fixed top-10% left-50% translate-x--50%
     overflow-y-auto flex-col gap-5
-    w-90% max-h-80vh py-4 px-6 rounded-lg
+    w-90% max-h-80vh py-5 px-6 rounded-3xl
   border shadow-custom_0_0_10_0 text-(--c-text)"
 >
   <ul>
@@ -34,10 +34,12 @@ const t = useTranslations(locale)
 <style>
   #nav-panel {
     display: flex;
-    top: max(6rem, 10vh);
+    top: max(5.5rem, 10vh);
     max-height: calc(100vh - max(7rem, 14vh));
-    border-color: var(--c-border);
-    background-color: var(--c-bg);
+    border-color: color-mix(in srgb, var(--c-border) 80%, transparent);
+    background-color: color-mix(in srgb, var(--c-surface) 92%, var(--c-bg));
+    box-shadow: var(--c-shadow-hover);
+    backdrop-filter: blur(16px);
   }
 </style>
 
