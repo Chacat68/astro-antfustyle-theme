@@ -127,7 +127,8 @@ const portals = [
     --sh-muted: rgba(250, 250, 250, 0.78);
 
     width: 100%;
-    padding: 0.25rem 1rem 1.25rem;
+    /* 与顶栏共用 --c-rail-pad，保证导航胶囊与舞台左右对齐 */
+    padding: 0.25rem var(--c-rail-pad, 1rem) 1.25rem;
   }
 
   .studio-hero__stage {
@@ -135,7 +136,7 @@ const portals = [
     isolation: isolate;
     overflow: hidden;
     min-height: min(72svh, 44rem);
-    max-width: 90rem;
+    max-width: var(--c-hero-max, 90rem);
     margin-inline: auto;
     border-radius: 2.5rem;
     background: var(--c-hero-bg, #b7bdc1);
@@ -456,7 +457,7 @@ const portals = [
 
   @media (min-width: 768px) {
     .studio-hero {
-      padding: 1rem 1rem 1.75rem;
+      padding: 1rem var(--c-rail-pad, 1rem) 1.75rem;
     }
 
     .studio-hero__stage {

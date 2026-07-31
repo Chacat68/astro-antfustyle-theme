@@ -33,6 +33,24 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 160ms;
   --duration: 220ms;
+
+  /* 导航轨：默认对齐正文；首页切到 Hero 宽度 */
+  --c-content-max: 65ch;
+  --c-hero-max: 90rem;
+  --c-nav-max: var(--c-content-max);
+  --c-rail-pad: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    /* 对齐 main 的 sm:px-7 */
+    --c-rail-pad: 1.75rem;
+  }
+}
+
+html[data-nav-rail='home'] {
+  --c-nav-max: var(--c-hero-max);
+  --c-rail-pad: 1rem;
 }
 
 :root.dark {
@@ -95,16 +113,18 @@ summary {
   position: sticky;
   top: 0;
   z-index: 90;
-  padding: 1rem 1rem 0.25rem !important;
+  padding: 1rem var(--c-rail-pad) 0.25rem !important;
   background: transparent;
   border: 0;
+  transition: padding var(--duration) var(--ease-out);
 }
 
 .site-nav__shell {
   display: flex;
   align-items: center;
   gap: 1rem;
-  width: min(100%, 64rem);
+  width: 100%;
+  max-width: var(--c-nav-max);
   margin-inline: auto;
   padding: 0.45rem 0.55rem 0.45rem 1rem;
   border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
@@ -114,6 +134,16 @@ summary {
   box-shadow: var(--c-shadow);
   backdrop-filter: blur(16px) saturate(1.05);
   -webkit-backdrop-filter: blur(16px) saturate(1.05);
+  transition:
+    max-width 0.55s var(--ease-out),
+    box-shadow var(--duration) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav,
+  .site-nav__shell {
+    transition: none;
+  }
 }
 
 .site-nav__shell :where(a, button) {

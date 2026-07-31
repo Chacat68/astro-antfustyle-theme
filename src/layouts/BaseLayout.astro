@@ -74,10 +74,13 @@ const {
 const hasCustomCursor =
   newTab && cursorType.length > 0 && cursorType !== 'pointer'
 if (hasCustomCursor) style['--external-link-cursor'] = cursorType
+
+/** 首页对齐 Hero；其余页对齐正文（65ch） */
+const navRail = mainClass === 'home-main' ? 'home' : 'content'
 ---
 
 <!doctype html>
-<html lang={localeToHtmlLang(locale)}>
+<html lang={localeToHtmlLang(locale)} data-nav-rail={navRail}>
   <head>
     <Head
       {title}
