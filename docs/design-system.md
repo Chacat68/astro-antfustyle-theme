@@ -74,16 +74,16 @@
 
 ## 首页 Studio 展示台
 
-路径：[`src/components/home/StudioHero.astro`](../src/components/home/StudioHero.astro)，由 [`src/pages/index.astro`](../src/pages/index.astro) 挂载。
+路径：[`src/components/home/StudioHero.astro`](../src/components/home/StudioHero.astro) + [`HomeAbout.astro`](../src/components/home/HomeAbout.astro)，由 [`src/pages/index.astro`](../src/pages/index.astro) 挂载。
 
 | 要点 | 约定 |
 |------|------|
-| 结构 | 大圆角舞台（`2.5rem`）+ 氛围摄影底图（`src/assets/home/studio-hero.webp`）+ 颗粒/遮罩 + 四角标 |
-| 文案 | i18n：`home.studio.*`；品牌名取 `SITE.title` 作 hero 级信号 |
-| 交互 | 主 CTA 为实心浅色 pill；次要入口为玻璃边框 pill；悬停轻微上浮 |
-| 右下/底栏 | 信任短句 + 社交圆形图标 |
-| 顶栏 | 显示胶囊导航（不再 `minimalChrome`） |
-| 布局 | `mainClass="home-main"` 去 padding，保留页脚 |
+| Hero | 大圆角舞台（`2.5rem`）+ 氛围摄影底图 + 颗粒/遮罩 + 四角标；「关于」锚点到 `#about` |
+| 文案 | i18n：`home.studio.*` / `home.about.*`；品牌名取 `SITE.title` 作 hero 级信号 |
+| 关于区块 | 简介 → 理念三栏影像 → 历程时间线 → 深色联系 CTA；完整正文仍在 `/about` |
+| 交互 | Hero CTA pill 悬停上浮；理念图轻微 zoom；CTA 按钮上浮 |
+| 顶栏 | 显示胶囊导航；首页轨宽对齐 Hero |
+| 布局 | `mainClass="home-main"` 去 padding；首页启用 Ambient 背景 |
 
 ## 样式文件分层
 

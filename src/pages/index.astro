@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StudioHero from '~/components/home/StudioHero.astro'
+import HomeAbout from '~/components/home/HomeAbout.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-// 首页：Studio 风格大圆角 Hero（无全局背景层，舞台自带氛围）
+// 首页：Studio Hero + 关于我展示；Ambient 轻量背景衬托下方内容
 const page = {
-  bgType: false as const,
+  bgType: 'glitch' as const,
   ogImage: false,
 }
 
@@ -21,4 +22,5 @@ const t = useTranslations(locale)
   mainClass="home-main"
 >
   <StudioHero />
+  <HomeAbout />
 </BaseLayout>
