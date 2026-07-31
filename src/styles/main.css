@@ -148,10 +148,11 @@ summary {
 .site-nav__shell :where(a, button) {
   position: relative;
   border-radius: 999px;
-  color: color-mix(in srgb, var(--c-nav-fg) 72%, transparent);
+  /* 胶囊深底上需更高对比；覆盖组件自带的 op-50/op-60 */
+  color: color-mix(in srgb, var(--c-nav-fg) 92%, transparent);
+  opacity: 1 !important;
   letter-spacing: -0.01em;
   transition:
-    opacity var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out),
     background-color var(--duration-fast) var(--ease-out),
     transform var(--duration-fast) var(--ease-out);
@@ -160,13 +161,12 @@ summary {
 .site-nav__shell :where(a, button):hover,
 .site-nav__shell :where(a, button):focus-visible {
   color: var(--c-nav-fg);
-  background: color-mix(in srgb, var(--c-nav-fg) 8%, transparent);
+  background: color-mix(in srgb, var(--c-nav-fg) 12%, transparent);
 }
 
 .site-nav__shell a[aria-current='page'] {
   color: var(--c-nav-fg);
-  opacity: 1 !important;
-  background: color-mix(in srgb, var(--c-nav-fg) 10%, transparent);
+  background: color-mix(in srgb, var(--c-nav-fg) 14%, transparent);
 }
 
 .site-nav__shell :global(.logo-word) {
@@ -174,7 +174,7 @@ summary {
 }
 
 .site-nav__shell :global(.logo-sup) {
-  color: color-mix(in srgb, var(--c-nav-fg) 60%, transparent);
+  color: color-mix(in srgb, var(--c-nav-fg) 70%, transparent);
 }
 
 @media print {
