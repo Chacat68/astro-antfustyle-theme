@@ -169,6 +169,30 @@ const portals = [
     animation: studio-drift 18s var(--ease-out) infinite alternate;
   }
 
+  :global(.dark) .studio-hero__mist {
+    background:
+      radial-gradient(
+        55% 50% at 68% 42%,
+        rgba(255, 170, 160, 0.28),
+        transparent 62%
+      ),
+      radial-gradient(
+        45% 40% at 30% 55%,
+        rgba(140, 190, 205, 0.28),
+        transparent 70%
+      ),
+      linear-gradient(135deg, #3a3f46 0%, #2a2d31 48%, #3d3834 100%);
+  }
+
+  :global(.dark) .studio-hero__shade {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.28) 0%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
+
   .studio-hero__streak {
     position: absolute;
     inset: 18% -20% auto;
