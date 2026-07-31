@@ -2,7 +2,7 @@
 title: "Stay Hungry, Stay Foolish: Steve Jobs' Life Mantra"
 pubDate: '2025-01-08'
 lastModDate: '2025-01-08'
-description: 'Steve Jobs''''s commencement speech at Stanford University, where he shared three stories from his life: about connecting the dots, about love and loss, and…'
+description: 'Steve Jobs'' Stanford talk: connecting dots, love and loss, and death—urging people to find work they truly love.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501170923573.png?imageSlim'
 tags: [Speech, Chinese, English, Steve Jobs, Destiny]
 category: 'Inspiration from Others'

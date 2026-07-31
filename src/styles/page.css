@@ -14,7 +14,7 @@
 }
 
 .studio-page--wide {
-  max-width: min(75rem, 100%);
+  max-width: min(var(--c-wide-max, 75rem), 100%);
 }
 
 .studio-page--center .page-header,
@@ -449,4 +449,11 @@ summary::-webkit-details-marker {
 .studio-empty__action:focus-visible {
   transform: translateY(-2px);
   outline: none;
+}
+
+/* 触控设备无悬停：说明条常显（略淡），避免永远看不到文案 */
+@media (hover: none) {
+  .photo-figure figcaption {
+    opacity: 0.92;
+  }
 }

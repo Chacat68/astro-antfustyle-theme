@@ -3,3 +3,19 @@ compatibility_date = "2025-10-25"
 
 [assets]
 directory = "./dist"
+
+# 可观察性：启用日志（落盘 + 调用日志），暂不开启 traces
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1

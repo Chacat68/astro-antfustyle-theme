@@ -1,9 +1,17 @@
 # 全站安全响应头（Cloudflare Workers 静态资源 `_headers`）
 # https://developers.cloudflare.com/workers/static-assets/headers/
 # CSP 注意：
+# - script-src 不再使用宽泛 https:；第三方仅白名单 Umami / Ahrefs / Giscus / Cloudflare Insights
+# - Umami 跨域：https://umami.chawfoo.com（script + connect）
+# - Giscus：script/frame 用 giscus.app；connect-src 另需 https://api.github.com（讨论数据）
+# - Cloudflare Web Analytics（Dashboard 自动注入）：script-src static.cloudflareinsights.com；
+#   自动注入时 beacon 上报走本域 /cdn-cgi/rum（connect-src 已有 'self'）；
+#   另加 cloudflareinsights.com 以兼容手动嵌入
+# - script-src data:：Astro ClientRouter（View Transitions）会加载 data: 脚本
 # - script-src 'wasm-unsafe-eval'：Pagefind WASM（勿用宽泛 unsafe-eval）
 # - worker-src 'self' blob:：Pagefind Web Worker
-# - font-src 含 fonts.bunny.net：UnoCSS presetWebFonts(bunny)
+# - style-src / font-src：Bunny Fonts + KaTeX（jsDelivr）
+# - img-src / media-src 仍允许 https:（正文远程图、Google favicon、COS 等）
 
 /*
   X-Content-Type-Options: nosniff
@@ -11,4 +19,21 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https:; media-src 'self' https: blob:; font-src 'self' data: https://fonts.bunny.net; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https:; connect-src 'self' https:; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.bilibili.com https://giscus.app; worker-src 'self' blob:
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https:; media-src 'self' https: blob:; font-src 'self' data: https://fonts.bunny.net https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' data: https://umami.chawfoo.com https://analytics.ahrefs.com https://giscus.app https://static.cloudflareinsights.com; connect-src 'self' https://umami.chawfoo.com https://analytics.ahrefs.com https://giscus.app https://api.github.com https://cloudflareinsights.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.bilibili.com https://giscus.app; worker-src 'self' blob:
+
+# Sitemap / robots：明确 MIME，便于爬虫与 CDN 正确识别
+/sitemap-index.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/sitemap-*.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600

@@ -2,7 +2,7 @@
 title: "Casual Notes: Rediscovering the Daily Practice of Writing in Cantonese"
 pubDate: '2022-02-18'
 lastModDate: '2022-02-18'
-description: 'Records the author''s attempt to resume writing in Cantonese, exploring the feelings and reflections of creating in one''s mother tongue. Through writing,…'
+description: 'Records the author''s attempt to resume writing in Cantonese, exploring the feelings and reflections of creating in one''s mother tongue. Through writing.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501043117650.png?imageSlim'
 tags: [Cantonese, Writing, Mother Tongue Creation, Cultural Identity, Life Records]
 category: 'Life Essays'

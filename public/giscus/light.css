@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 main {
   --primary-default: 2, 132, 199;
   --bg-default: 240, 248, 249;
@@ -91,10 +89,10 @@ main {
   --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-1);
 }
 
-/* Aligns the font family with the sans setting */
+/* 与全站 sans 一致：IBM Plex Sans（Bunny）+ 系统回退，避免 Google Fonts */
 main {
   font-family:
-    'Inter',
+    'IBM Plex Sans',
     ui-sans-serif,
     system-ui,
     -apple-system,

@@ -57,8 +57,8 @@ curl -s https://foo-z.com/ | grep -o 'rel="canonical" href="[^"]*"'
 
 | 文件 | 说明 |
 |------|------|
-| `wrangler.toml` | Worker 名 `blog-4`，静态资源目录 `./dist` |
-| `public/_headers` | 生产安全响应头（CSP、HSTS、X-Frame-Options 等），随静态资源一并部署；CSP 须含 Pagefind 的 `wasm-unsafe-eval` 与 Bunny Fonts 的 `fonts.bunny.net` |
+| `wrangler.toml` | Worker 名 `blog-4`，静态资源目录 `./dist`；`[observability]` 启用日志（`logs.enabled` / `persist` / `invocation_logs`），`traces` 关闭 |
+| `public/_headers` | 生产安全响应头（CSP、HSTS、X-Frame-Options 等），随静态资源一并部署。CSP：Pagefind 需 `wasm-unsafe-eval`；Bunny / KaTeX 字体与样式域名；`script-src` 含 `data:`（ClientRouter）；`script-src`/`connect-src` **不使用**宽泛 `https:`，白名单含 `umami.chawfoo.com`、Ahrefs、Giscus（含 `api.github.com`）、Cloudflare Insights |
 | `src/config.ts` | `SITE.website` 必须为 `https://foo-z.com/` |
 | `.env.example` | 统计脚本、GitHub Token 等环境变量说明 |
 
@@ -66,13 +66,32 @@ curl -s https://foo-z.com/ | grep -o 'rel="canonical" href="[^"]*"'
 
 ## 常见问题
 
+### 构建失败：Failed to parse image reference（`.tif`）
+
+日志类似：
+
+```text
+Failed to parse image reference: ... "src":".../uPic/xxx.tif" ...
+Caught error rendering /blog/diary1
+```
+
+原因：正文 Markdown 使用了腾讯云 COS 上的 **TIFF**（体积可达十余 MB）。`SITE.imageDomains` 启用远程优化后，Astro 会在构建期拉取并解析图片；`.tif` 不被该管线可靠支持，且浏览器也几乎无法直接显示。
+
+处理：在 COS 原链后追加数据万象参数，让构建与浏览器拿到 WebP/JPEG，例如：
+
+```markdown
+![alt](https://blog-1259751088.cos.ap-shanghai.myqcloud.com/uPic/xxx.tif?imageMogr2/format/webp)
+```
+
+新文请优先上传 `.webp` / `.jpg` / `.png`，避免再写裸 `.tif` 链接。
+
 ### 构建失败：YAML frontmatter
 
 日志出现 `bad indentation of a mapping entry` 时，检查对应 Markdown 的 frontmatter：含冒号的 `title` 等字段需用引号包裹。
 
 ### GitHub Actions CI 与 Cloudflare Builds
 
-- **CI**（`.github/workflows/ci.yml`）仅在 `Chacat68/astro-antfustyle-theme` 的 **`main`** push/PR 时运行
+- **CI**（`.github/workflows/ci.yml`）在 `Chacat68/astro-antfustyle-theme` 的 **`main`** 与 **`run`** push/PR 时运行（check + lint + **test** + build）
 - **Cloudflare 生产部署** 由 **`run`** 分支 push 触发
 
-两者互不影响；以 Cloudflare Builds 结果为准判断生产是否更新。
+CI 通过不等于已上线；以 Cloudflare Builds 结果为准判断生产是否更新。

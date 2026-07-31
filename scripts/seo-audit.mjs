@@ -74,8 +74,9 @@ function parsePageMeta(html) {
     const match = html.match(pattern)
     meta[key] = match ? match[1] || true : null
   }
-  meta.hreflangCount = (html.match(/<link rel="alternate" hreflang=/g) || [])
-    .length
+  meta.hreflangCount = (
+    html.match(/<link rel="alternate" hreflang=/g) || []
+  ).length
   return meta
 }
 
@@ -134,6 +135,41 @@ function auditDist() {
         warnings.push(
           `${rel}: description 长度 ${decodedDescription.length}（建议 ≥ 50）`
         )
+      }
+
+      const weakTrailing = new Set([
+        'a',
+        'an',
+        'the',
+        'and',
+        'or',
+        'of',
+        'to',
+        'in',
+        'on',
+        'at',
+        'for',
+        'with',
+        'from',
+        'into',
+        'about',
+        'as',
+        'its',
+        'feature',
+      ])
+      const trailingToken = decodedDescription
+        .replace(/[.!?。！？"'\u201d\u2019]+$/u, '')
+        .match(/[A-Za-z]+(?:'[A-Za-z]+)?$/u)?.[0]
+        ?.toLowerCase()
+      if (trailingToken && weakTrailing.has(trailingToken)) {
+        warnings.push(
+          `${rel}: description 以弱尾词「${trailingToken}」收尾，疑似半截句`
+        )
+      }
+      const openParens = (decodedDescription.match(/[（([]/gu) || []).length
+      const closeParens = (decodedDescription.match(/[）)\]]/gu) || []).length
+      if (openParens > closeParens) {
+        warnings.push(`${rel}: description 存在未闭合括号`)
       }
     }
   }
@@ -231,8 +267,37 @@ function auditDist() {
     if (sitemap.includes('llms.txt') || sitemap.includes('index.html.md')) {
       errors.push('sitemap 不应包含非 canonical 的 AI 抓取端点')
     }
+    if (sitemap.includes('/en/changelog')) {
+      errors.push('sitemap 不应包含英文 changelog fallback（noindex）')
+    }
   } else {
     errors.push('缺少 dist/sitemap-0.xml')
+  }
+
+  // 有英文翻译的中文博客页必须输出 hreflang="en"
+  const blogZhDirs = (() => {
+    const blogDir = join(DIST_DIR, 'blog')
+    if (!existsSync(blogDir)) return []
+    return readdirSync(blogDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+  })()
+
+  for (const slug of blogZhDirs) {
+    const zhHtmlPath = join(DIST_DIR, 'blog', slug, 'index.html')
+    const enHtmlPath = join(DIST_DIR, 'en', 'blog', slug, 'index.html')
+    if (!existsSync(zhHtmlPath) || !existsSync(enHtmlPath)) continue
+
+    const enHtml = readFileSync(enHtmlPath, 'utf8')
+    if (!isIndexable(parsePageMeta(enHtml).robots)) continue
+
+    const zhHtml = readFileSync(zhHtmlPath, 'utf8')
+    const expectedHreflang = `hreflang="en" href="https://${SITE_HOST}/en/blog/${slug}/"`
+    if (!zhHtml.includes(expectedHreflang)) {
+      errors.push(
+        `blog/${slug}/index.html: 缺少英文 hreflang（已有 /en/blog/${slug}/）`
+      )
+    }
   }
 
   const indexableCount = htmlFiles.filter((file) => {

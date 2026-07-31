@@ -34,12 +34,12 @@ const isActive = (href: string) => currentPath === toHref(href)
 
 const tabKeyByPath: Record<string, string> = {
   '/changelog': 'nav.changelog',
-  '/feeds': 'nav.blog',
-  '/streams': 'nav.blog',
+  '/feeds': 'nav.feeds',
+  '/streams': 'nav.streams',
 }
 
 const activeTab = tabs.find((tab) => isActive(tab.path))
-const activeLabel = activeTab
+const activeTabTitle = activeTab
   ? t(tabKeyByPath[activeTab.path.replace(/\/+$/, '')] ?? activeTab.title)
   : ''
 ---
@@ -54,6 +54,7 @@ const activeLabel = activeTab
         </p>
       )
     }
+    {activeTabTitle && <h1 class="sr-only">{activeTabTitle}</h1>}
     <nav class="studio-tabs" aria-label={t('a11y.pageSections')}>
       {
         tabs.map((tab) => (
@@ -73,7 +74,7 @@ const activeLabel = activeTab
     {
       subtitle && (
         <p class="page-header__subtitle">
-          {activeLabel ? `${activeLabel} · ${subtitle}` : subtitle}
+          {activeTabTitle ? `${activeTabTitle} · ${subtitle}` : subtitle}
         </p>
       )
     }

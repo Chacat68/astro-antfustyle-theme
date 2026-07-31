@@ -25,6 +25,8 @@ export const SITE = {
 
 `UI.navBarLayout` 控制顶栏左右组件序列。当前未放入 `socialLinks`：社交媒体图标不在导航栏（含移动端面板）显示，首页展示台左下角与 About「找到我」区块仍使用 `UI.socialLinks`。若要恢复到顶栏，在 `right`（或 `left`）数组中加入 `'socialLinks'` 即可。
 
+`mergeOnMobile: true` 时，视口 **`<1024px`（`lt-lg`）** 收起为汉堡菜单；搜索 / 主题按钮仍留在顶栏。`displayMode` 里带 `OnMobile` 的项也以 `1024px` 为切换界（见 `src/types.ts`）。
+
 ## 站内链接规范
 
 从旧 Notion / NotionNext 站点（`/article/<slug>`）迁移后，文章互链应使用 Astro 路由：
@@ -35,9 +37,9 @@ export const SITE = {
 | `https://www.chawfoo.com/article/diary9` | `/blog/diary9/` |
 | `https://www.chawfoo.com/look` | 改为文内锚点或删除（该页面已不存在） |
 
-项目页中指向本站项目列表的条目，使用完整 URL `https://foo-z.com/projects/`（schema 要求 `link` 为合法 URL，不可用相对路径）。
+项目页数据来源为 `src/content/projects/data.json`（中英双语字段约定见 [architecture-conventions.md](./architecture-conventions.md)）。指向本站项目列表的条目，使用完整 URL `https://foo-z.com/projects/`（schema 要求 `link` 为合法 URL，不可用相对路径）。
 
-独立子站（如 `https://arch.chawfoo.com/`）可继续保留完整 URL。
+GitHub / 独立子站项目（如 `https://github.com/Chacat68/linegame-web`、`https://arch.chawfoo.com/`）使用对应完整 URL。
 
 ## AI 绘图画廊（`/gallery`）
 
@@ -47,13 +49,17 @@ AI 生成图、概念稿等集中在 **`/gallery`**，数据文件为 **`src/con
 
 ## CI（GitHub Actions）
 
-`.github/workflows/ci.yml` 已配置为在 `Chacat68/astro-antfustyle-theme` 仓库的 `main` 分支 push / PR 时运行：
+`.github/workflows/ci.yml` 在 `Chacat68/astro-antfustyle-theme` 的 **`main`** 与生产分支 **`run`** 的 push / PR 时运行：
 
 - `pnpm check`
 - `pnpm lint`
 - `pnpm build`
 
 若需拉取 GitHub Releases / PRs 等远程内容，在仓库 Settings → Secrets 中添加 `GH_TOKEN_FOR_LOADER`（GitHub Personal Access Token）。未配置时构建仍会完成，远程 Loader 会保留上次缓存数据。
+
+## 评论（Giscus）
+
+`FEATURES.giscus` 当前为关闭。若要启用，须到 [giscus.app](https://giscus.app) 用本仓库 `Chacat68/astro-antfustyle-theme` 重新生成 `data-repo-id` / `data-category-id` 填入 `src/config.ts`，勿复用上游主题仓库的 ID。
 
 ## 部署与发布
 

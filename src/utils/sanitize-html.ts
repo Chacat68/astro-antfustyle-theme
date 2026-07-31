@@ -58,12 +58,34 @@ const ALLOWED_ATTR = [
   'width',
 ]
 
+let hooksRegistered = false
+
+/** 为带 target 的链接强制 noopener，防止 reverse tabnabbing */
+function ensureSanitizeHooks() {
+  if (hooksRegistered) return
+  hooksRegistered = true
+
+  DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+    if (!('tagName' in node) || node.tagName !== 'A') return
+    if (!node.hasAttribute('target')) return
+
+    const existing = (node.getAttribute('rel') || '')
+      .split(/\s+/)
+      .filter((token) => token && token !== 'opener')
+    const merged = new Set([...existing, 'noopener', 'noreferrer'])
+    node.setAttribute('rel', [...merged].join(' '))
+  })
+}
+
 /**
  * 净化远程/不可信 HTML，供 `set:html` 使用。
  * 空输入返回空字符串；会剥离事件处理器与 javascript: URL。
+ * 带 `target` 的链接会强制附带 `rel="noopener noreferrer"`。
  */
 export function sanitizeHtml(dirty: string | null | undefined): string {
   if (!dirty) return ''
+
+  ensureSanitizeHooks()
 
   return DOMPurify.sanitize(dirty, {
     ALLOWED_TAGS: [...ALLOWED_TAGS],

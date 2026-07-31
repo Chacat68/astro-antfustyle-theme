@@ -11,6 +11,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'nav.gallery': 'AI作品集',
     'nav.changelog': '更新日志',
     'nav.about': '关于',
+    'nav.feeds': 'Astro 博客',
+    'nav.streams': 'Astro 直播',
 
     // Global / a11y
     'a11y.mainMenu': '主菜单',
@@ -20,6 +22,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'a11y.themeToggle': '切换明暗主题',
     'a11y.rssFeed': 'RSS 订阅',
     'a11y.languageSwitch': '切换语言',
+    'a11y.languageCurrent': '当前语言',
     'a11y.skipToContent': '跳到正文',
     'a11y.openInNewTab': '在新标签页打开',
     'a11y.pageSections': '页面分区',
@@ -34,12 +37,23 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'a11y.keyboardShortcuts': '键盘快捷键',
 
     // Search panel
+    'search.title': '搜索站点',
+    'search.description': '从文章、英文内容与更新日志中定位关键词。',
+    'search.scope': '搜索范围',
+    'search.ready': '索引就绪',
+    'search.clear': '清除关键词',
+    'search.emptyTitle': '输入关键词开始检索',
+    'search.emptyHint': '支持标题、正文和标签，也可使用方向键浏览结果。',
     'search.navigate': '导航',
     'search.goToPage': '打开页面',
     'search.close': '关闭',
     'search.loading': '加载中...',
+    'search.loadingHint': '正在扫描站点索引',
     'search.error': '出错了，请重试。',
+    'search.errorHint': '搜索服务暂时不可用',
     'search.noResults': '未找到相关结果。',
+    'search.noResultsHint': '尝试缩短关键词或切换搜索范围',
+    'search.resultCount': '{count} 个相关页面',
     'search.more': '更多 +{count}',
     'search.all': '全部 {count}',
     'search.placeholder': '搜索',
@@ -65,13 +79,20 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Site stats
     'sitestats.eyebrow': 'Stats',
     'sitestats.title': '网站数据统计',
+    'sitestats.tag': 'SYS://TELEMETRY',
+    'sitestats.status': 'LIVE',
     'sitestats.operatingTime': '经营时间',
     'sitestats.operatingTimeMain': '自 {start} 至今，共 {days} 天',
     'sitestats.operatingTimeSub': '（{years}年{months}个月{days}天）',
+    'sitestats.daysUnit': '天',
+    'sitestats.sinceStart': 'SINCE {start}',
     'sitestats.totalWords': '全部文章总字数',
-    'sitestats.postsPerYear': '每一年的文章数量',
     'sitestats.yearItemCount': '{count} 篇',
     'sitestats.noData': '暂无数据',
+    'sitestats.metrics': 'CORE METRICS',
+    'sitestats.timeline': 'YEARLY OUTPUT',
+    'sitestats.footerLeft': 'NODE // BLOG',
+    'sitestats.footerRight': 'UPLINK STABLE',
 
     // ToC
     'toc.title': '目录',
@@ -122,6 +143,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'share.readingWithAuthor': '正在阅读 {author} 的 {url}\n\n我的想法是...',
 
     // Pages
+    'page.404.eyebrow': '出错了',
     'page.404.description': '页面未找到',
     'page.404.message': '这里什么也没有，不过很高兴见到你！',
     'page.404.home': '返回首页',
@@ -190,7 +212,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
       '付之一笑 — Charliefoo 的个人博客入口。阅读、跑步、思考与创作。',
     'page.about.title': '关于',
     'page.about.description':
-      '付之一笑 — Charliefoo 的个人介绍：博客历程、写作理念与联系方式。',
+      '付之一笑 — Charliefoo 的个人介绍页：博客历程、写作理念、生活态度与联系方式，了解站点背后的人与故事。',
 
     // About page — 博客故事与理念
     'about.blog.title': '关于博客',
@@ -235,8 +257,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
       '<strong>精神层面</strong> — 维持稳定的阅读与写作节奏，保持大脑的活跃状态',
     'about.philosophy.simple.item3':
       '<strong>社会层面</strong> — 主动观察世界的多样性，避免陷入信息茧房的陷阱',
-    'about.philosophy.simple.p2':
-      '简单不是贫乏，而是对复杂性的有意选择。',
+    'about.philosophy.simple.p2': '简单不是贫乏，而是对复杂性的有意选择。',
     'about.contact.title': '与我联系',
     'about.contact.p1':
       '感谢你耐心读到这里，也感谢你对我和这个数字花园的关注。如果我的文字触动了你，或者你有任何想法想要分享，都非常欢迎与我交流。',
@@ -272,7 +293,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.about.more': '阅读完整介绍',
     'home.glitch.line1': '付之',
     'home.glitch.line2': '一笑',
-    'home.glitch.hold': '选择入口',
     'home.glitch.skip': '跳过',
     'home.glitch.aria': '首页展示台',
     'home.glitch.portalsAria': '站点功能入口',
@@ -284,6 +304,15 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
       '最近专注于读书、创作和跑步，享受安静而有趣的生活节奏。喜欢喝茶聊天，持续创作新内容，为自己源源不断地创造心流体验。',
     'home.roles':
       '🎮 游戏开发者 | ✍️ 内容创作者 | 📱 手机摄影师 | 💻 vibe coding 苦手',
+    'home.role.game': '🎮 游戏开发者',
+    'home.role.creator': '✍️ 内容创作者',
+    'home.role.photo': '📱 手机摄影师',
+    'home.role.code': '💻 vibe coding 苦手',
+    'home.screen.tag': 'SYS://PROFILE',
+    'home.screen.status': '在线',
+    'home.screen.modules': '角色模块',
+    'home.screen.coords': 'LOC // 广州',
+    'home.screen.signal': '信号稳定',
     'home.findMeOn': '找到我：',
     'home.thanks':
       '感谢你阅读我的博客！如果这些内容对你有所启发或帮助，那就是对我最大的鼓励。你的支持和陪伴，意义非凡。谢谢！❤️',
@@ -302,6 +331,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'nav.gallery': 'AI Gallery',
     'nav.changelog': 'Changelog',
     'nav.about': 'About',
+    'nav.feeds': 'Astro Blog',
+    'nav.streams': 'Astro Streams',
 
     // Global / a11y
     'a11y.mainMenu': 'Main menu',
@@ -311,6 +342,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'a11y.themeToggle': 'Toggle light & dark',
     'a11y.rssFeed': 'RSS Feed',
     'a11y.languageSwitch': 'Switch language',
+    'a11y.languageCurrent': 'Current language',
     'a11y.skipToContent': 'Skip to content',
     'a11y.openInNewTab': 'Open in new tab',
     'a11y.pageSections': 'Page sections',
@@ -325,12 +357,25 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'a11y.keyboardShortcuts': 'Keyboard shortcuts',
 
     // Search panel
+    'search.title': 'Search site',
+    'search.description':
+      'Find keywords across posts, English content, and changelogs.',
+    'search.scope': 'Search scope',
+    'search.ready': 'Index ready',
+    'search.clear': 'Clear query',
+    'search.emptyTitle': 'Enter a keyword to begin',
+    'search.emptyHint':
+      'Search titles, copy, and tags, then use arrow keys to browse.',
     'search.navigate': 'Navigate',
     'search.goToPage': 'Go to page',
     'search.close': 'Close',
     'search.loading': 'Loading...',
+    'search.loadingHint': 'Scanning the site index',
     'search.error': 'Oops! Something went wrong. Try again.',
+    'search.errorHint': 'Search is temporarily unavailable',
     'search.noResults': 'No results found.',
+    'search.noResultsHint': 'Try a shorter query or switch the search scope',
+    'search.resultCount': '{count} matching pages',
     'search.more': 'More +{count}',
     'search.all': 'All {count}',
     'search.placeholder': 'Search',
@@ -356,13 +401,20 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Site stats
     'sitestats.eyebrow': 'Stats',
     'sitestats.title': 'Site stats',
-    'sitestats.operatingTime': 'Operating time',
+    'sitestats.tag': 'SYS://TELEMETRY',
+    'sitestats.status': 'LIVE',
+    'sitestats.operatingTime': 'Uptime',
     'sitestats.operatingTimeMain': 'Since {start}, {days} days in total',
     'sitestats.operatingTimeSub': '({years}y {months}m {days}d)',
-    'sitestats.totalWords': 'Total word count',
-    'sitestats.postsPerYear': 'Posts per year',
+    'sitestats.daysUnit': 'days',
+    'sitestats.sinceStart': 'SINCE {start}',
+    'sitestats.totalWords': 'Total words',
     'sitestats.yearItemCount': '{count} posts',
     'sitestats.noData': 'No data yet',
+    'sitestats.metrics': 'CORE METRICS',
+    'sitestats.timeline': 'YEARLY OUTPUT',
+    'sitestats.footerLeft': 'NODE // BLOG',
+    'sitestats.footerRight': 'UPLINK STABLE',
 
     // ToC
     'toc.title': 'Table of Contents',
@@ -413,6 +465,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'share.readingWithAuthor': "Reading {author}'s {url}\n\nI think...",
 
     // Pages
+    'page.404.eyebrow': 'Error',
     'page.404.description': 'Page not found',
     'page.404.message': 'Nice to meet you tho!',
     'page.404.home': 'Back home',
@@ -478,12 +531,12 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.prs.subtitlePrefix': 'Display your GitHub pull requests using',
     'page.prs.subtitleSuffix': '',
 
-    'page.home.title': 'FOO-Z',
+    'page.home.title': '付之一笑',
     'page.home.description':
       "Charliefoo's personal blog portal — reading, running, thinking, and creating.",
     'page.about.title': 'About',
     'page.about.description':
-      "About Charliefoo — blog journey, writing philosophy, and how to get in touch.",
+      'About Foo-Z (付之一笑) and Charliefoo — blog journey, writing philosophy, and how to get in touch.',
 
     // About page — blog story & philosophy
     'about.blog.title': 'About this blog',
@@ -502,7 +555,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
       '<strong>2025</strong> Rebuilt as a static site with Astro for a much faster experience',
     'about.philosophy.title': 'Writing philosophy',
     'about.philosophy.time.title': 'Words that travel through time',
-    'about.philosophy.time.imgAlt': 'Illustration for words that travel through time',
+    'about.philosophy.time.imgAlt':
+      'Illustration for words that travel through time',
     'about.philosophy.time.p1':
       'Every piece carries my subjectivity—that’s unavoidable, and precious. I don’t chase absolute objectivity, but I try to stay honest: honest about my limits, honest about what I think right now.',
     'about.philosophy.time.p2':
@@ -510,7 +564,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'about.philosophy.time.p3':
       'Like a gardener tending a plot, I hope this digital space stays green through the seasons—flowers that don’t fade.',
     'about.philosophy.free.title': 'Free, yet restrained',
-    'about.philosophy.free.imgAlt': 'Illustration for free yet restrained expression',
+    'about.philosophy.free.imgAlt':
+      'Illustration for free yet restrained expression',
     'about.philosophy.free.p1':
       'Freedom is where writing starts; restraint is its boundary. Real freedom comes from understanding the world deeply—not from dumping everything without care.',
     'about.philosophy.free.p2':
@@ -518,7 +573,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'about.philosophy.free.p3':
       'Doubt begins thought; analysis charts the path; discernment is wisdom in practice. I hope every piece can stand that test.',
     'about.philosophy.simple.title': 'Recording a simple life',
-    'about.philosophy.simple.imgAlt': 'Illustration for recording a simple life',
+    'about.philosophy.simple.imgAlt':
+      'Illustration for recording a simple life',
     'about.philosophy.simple.p1':
       'A complex world needs a simple life for balance. I put energy into what matters, cut decision fatigue, and leave more mental room for making things.',
     'about.philosophy.simple.lead': 'Simplicity shows up in three layers:',
@@ -571,7 +627,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.about.more': 'Read the full story',
     'home.glitch.line1': 'FOO',
     'home.glitch.line2': 'Z',
-    'home.glitch.hold': 'Choose a portal',
     'home.glitch.skip': 'Skip',
     'home.glitch.aria': 'Home stage',
     'home.glitch.portalsAria': 'Site portals',
@@ -583,6 +638,15 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
       "Lately I'm focusing on reading, creating, and running—enjoying a quiet but interesting rhythm. I love tea and long chats, and I keep making new things to stay in flow.",
     'home.roles':
       '🎮 Game developer | ✍️ Creator | 📱 Mobile photographer | 💻 Vibe-coding newbie',
+    'home.role.game': '🎮 Game developer',
+    'home.role.creator': '✍️ Creator',
+    'home.role.photo': '📱 Mobile photographer',
+    'home.role.code': '💻 Vibe-coding newbie',
+    'home.screen.tag': 'SYS://PROFILE',
+    'home.screen.status': 'Online',
+    'home.screen.modules': 'Role modules',
+    'home.screen.coords': 'LOC // Guangzhou',
+    'home.screen.signal': 'Signal stable',
     'home.findMeOn': 'Find me on',
     'home.thanks':
       'Thanks for reading! If anything here helps or inspires you, that means a lot to me. Your support and company matter more than you know. Thank you! ❤️',

@@ -2,7 +2,7 @@
 title: "SDL 3.4 Released: A Small Upgrade that Makes Cross-Platform Development Smoother (Video Notes)"
 pubDate: '2026-01-10'
 lastModDate: '2026-01-10'
-description: 'A structured write-up of a quick video plus SDL 3.4.0 release notes: GPU/2D renderer interoperability, native PNG, Emscripten and input improvements—practical…'
+description: 'A structured write-up of a quick video plus SDL 3.4.0 release notes: GPU/2D renderer interoperability, native PNG, Emscripten and input improvements—practical.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260130234501463.webp?imageSlim'
 tags: [Game Development, SDL, SDL3, Cross-Platform, Graphics Rendering]
 category: 'Learning from Others'

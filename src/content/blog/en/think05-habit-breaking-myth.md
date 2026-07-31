@@ -2,7 +2,7 @@
 title: Why Willpower Can't Break Bad Habits
 pubDate: '2025-10-24'
 lastModDate: '2025-10-24'
-description: 'Unveiling the science of habit formation, why willpower is ineffective for changing habits, and how to easily build new habits through habit replacement'
+description: 'Unveiling the science of habit formation, why willpower is ineffective for changing habits, and how to easily build new habits through habit replacement.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501042645752.png?imageSlim'
 tags: [Habit Formation, Willpower, Psychology, Self-Improvement, Behavior Change, Mindset Growth, Science]
 category: 'Mindset Growth'

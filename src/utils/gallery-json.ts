@@ -14,13 +14,15 @@ import {
   generatePlaceholder,
   getThumbnail,
 } from '~/utils/image'
+import { resolveLocalImagePath } from '~/utils/resolve-local-image-path'
 
 import type { PhotoGalleryItem } from '~/types/photo-gallery'
 
 const PLACEHOLDER_PIXEL_TARGET = 100
 // balance high pixel density and file size
 const THUMBNAIL_WIDTH = 720
-const VERSION = 1
+const VIEWER_LONG_EDGE = 1600
+const VERSION = 2
 
 export interface GalleryEntry {
   id: string
@@ -46,6 +48,20 @@ export function computeGalleryHash(entries: GalleryEntry[]): string {
     .update(`${VERSION}-${JSON.stringify(entries)}`)
     .digest('hex')
     .slice(0, 8)
+}
+
+export { resolveLocalImagePath } from '~/utils/resolve-local-image-path'
+
+/** 灯箱使用同源优化图，避免远程原图在嵌入场景中被拦截；长边固定以控制体积。 */
+async function getViewerImage(
+  src: string | ImageMetadata,
+  ratio: number
+): Promise<string> {
+  const width =
+    ratio >= 1
+      ? VIEWER_LONG_EDGE
+      : Math.max(1, Math.round(VIEWER_LONG_EDGE * ratio))
+  return getThumbnail(src, width, ratio)
 }
 
 function readCache(cachePath: string, uuid: string) {
@@ -86,11 +102,13 @@ export async function buildGalleryData({
           THUMBNAIL_WIDTH,
           cache.aspectRatio
         )
+        const viewer = await getViewerImage(id, cache.aspectRatio)
         data.push({
           uuid,
           src: id,
           desc,
           thumbnail,
+          viewer,
           placeholder: cache.placeholder,
           aspectRatio: cache.aspectRatio,
           ...(tags?.length ? { tags } : {}),
@@ -116,12 +134,14 @@ export async function buildGalleryData({
       // get thumbnail
       const aspectRatio = remoteImage.width / remoteImage.height
       const thumbnail = await getThumbnail(id, THUMBNAIL_WIDTH, aspectRatio)
+      const viewer = await getViewerImage(id, aspectRatio)
 
       data.push({
         uuid,
         src: id,
         desc,
         thumbnail,
+        viewer,
         placeholder,
         aspectRatio,
         ...(tags?.length ? { tags } : {}),
@@ -130,8 +150,8 @@ export async function buildGalleryData({
       continue
     }
 
-    // local image: match id with local image path
-    const localImagePath = localImageKeys.find((path) => path.includes(id))
+    // local image: exact / basename 匹配（见 resolveLocalImagePath）
+    const localImagePath = resolveLocalImagePath(id, localImageKeys)
     if (!localImagePath) {
       console.warn(`[${logPrefix}] Skipping invalid image: ${id}`)
       continue
@@ -150,11 +170,13 @@ export async function buildGalleryData({
         THUMBNAIL_WIDTH,
         cache.aspectRatio
       )
+      const viewer = await getViewerImage(localImage, cache.aspectRatio)
       data.push({
         uuid,
         src: localImage.src,
         desc,
         thumbnail,
+        viewer,
         placeholder: cache.placeholder,
         aspectRatio: cache.aspectRatio,
         ...(tags?.length ? { tags } : {}),
@@ -182,12 +204,14 @@ export async function buildGalleryData({
       THUMBNAIL_WIDTH,
       aspectRatio
     )
+    const viewer = await getViewerImage(localImage, aspectRatio)
 
     data.push({
       uuid,
       src: localImage.src,
       desc,
       thumbnail,
+      viewer,
       placeholder,
       aspectRatio,
       ...(tags?.length ? { tags } : {}),

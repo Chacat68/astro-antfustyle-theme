@@ -4,6 +4,7 @@ export interface PhotoGalleryItem {
   src: string
   desc: string
   thumbnail: string
+  viewer: string
   placeholder: string
   aspectRatio: number
   /** 仅 AI 画廊使用；可属于多个标签，未设置时仅在「全部」下展示 */

@@ -13,22 +13,20 @@ import { unified } from '@astrojs/markdown-remark'
 
 import { remarkPlugins, rehypePlugins } from './plugins'
 import { SITE } from './src/config'
-import {
-  getAbsoluteSiteUrl,
-  shouldIncludeInSitemap,
-} from './src/utils/seo'
+import { getAbsoluteSiteUrl, shouldIncludeInSitemap } from './src/utils/seo'
 const markdownExtensions = new Set(['.md', '.mdx'])
 const englishBlogIds = collectMarkdownContentIds(
   fileURLToPath(new URL('./src/content/blog/en', import.meta.url))
 )
+// 仅列入可索引英文路由；noindex 页（如 /en/shorts/）勿加入，以免污染 sitemap
 const englishStaticRoutePaths = [
   '/en/',
   '/en/blog/',
+  '/en/about/',
   '/en/friends/',
   '/en/photos/',
   '/en/gallery/',
   '/en/projects/',
-  '/en/shorts/',
 ]
 const customSitemapPages = Array.from(
   new Set([
@@ -65,11 +63,12 @@ function collectMarkdownContentIds(
     const extension = extname(entry.name)
     if (!markdownExtensions.has(extension)) continue
 
+    // 保持与 Astro content id 一致的大小写（勿 toLowerCase），
+    // 否则 Linux 生产环境下 sitemap 可能生成错误路径（如 Steam2022 → steam2022）
     const relativePath = relative(baseDirectory, entryPath)
       .split(sep)
       .join('/')
       .replace(/\.mdx?$/, '')
-      .toLowerCase()
     contentIds.add(relativePath)
   }
 

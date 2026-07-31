@@ -46,19 +46,32 @@ for (const item of new Set(left)) {
 
 <header class="site-nav" transition:name="site-nav">
   <div
-    class={`site-nav__shell ${mergeOnMobile ? 'lt-md:gap-2' : 'lt-md:gap-2'}`}
+    class:list={[
+      'site-nav__shell',
+      mergeOnMobile ? 'lt-lg:gap-2' : 'lt-md:gap-2',
+    ]}
     transition:name="site-nav-shell"
   >
     <LogoButton />
     <nav
-      class={`flex items-center gap-3 w-full lt-md:justify-end
-      ${left.length !== 0 ? (right.length !== 0 ? 'justify-between' : '') : 'justify-end'}`}
+      class:list={[
+        'flex items-center gap-3 w-full min-w-0',
+        mergeOnMobile ? 'lt-lg:justify-end' : 'lt-md:justify-end',
+        left.length !== 0
+          ? right.length !== 0
+            ? 'justify-between'
+            : ''
+          : 'justify-end',
+      ]}
       aria-label={t('a11y.mainMenu')}
     >
       {
         left.length !== 0 && (
           <div
-            class={`grid grid-flow-col items-center gap-3 print:op-0 ${mergeOnMobile ? '' : 'lt-md:(gap-2)'}`}
+            class:list={[
+              'flex items-center gap-3 print:op-0',
+              mergeOnMobile ? 'lt-lg:gap-2' : 'lt-md:gap-2',
+            ]}
           >
             <NavBarSlot
               keys={left}
@@ -72,9 +85,13 @@ for (const item of new Set(left)) {
       {
         right.length !== 0 && (
           <div
-            class={`grid grid-flow-col items-center gap-3 print:op-0
-                ${!right.includes('themeButton') && !right.includes('searchButton') && 'lt-md:hidden'}
-                ${mergeOnMobile ? '' : 'lt-md:(gap-2)'}`}
+            class:list={[
+              'flex items-center gap-3 print:op-0',
+              !right.includes('themeButton') &&
+                !right.includes('searchButton') &&
+                (mergeOnMobile ? 'lt-lg:hidden' : 'lt-md:hidden'),
+              mergeOnMobile ? 'lt-lg:gap-2' : 'lt-md:gap-2',
+            ]}
           >
             <NavBarSlot
               keys={right}

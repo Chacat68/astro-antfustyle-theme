@@ -67,11 +67,32 @@ const tocEnabled = Array.isArray(toc) && toc[0] && pageToc
         />
       )}
       {Object.keys(data).map((key, idx) => (
-        <div class="slide-enter" style={{ '--enter-stage': idx }}>
-          <Categorizer text={key} needId={tocEnabled} wide={true} />
+        <section
+          class="group-section slide-enter"
+          style={{ '--enter-stage': idx }}
+        >
+          <Categorizer
+            text={key}
+            needId={tocEnabled}
+            wide={true}
+            showLabel={false}
+          />
           <GroupItem items={data[key]} />
-        </div>
+        </section>
       ))}
     </>
   )
 }
+
+<style>
+  /* 卡片组之间保留明确停顿，避免下一分类标题紧贴上一组末卡片。 */
+  .group-section + .group-section {
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 639.9px) {
+    .group-section + .group-section {
+      margin-top: 2rem;
+    }
+  }
+</style>

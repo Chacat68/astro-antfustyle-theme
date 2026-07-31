@@ -44,14 +44,16 @@ const internalHref = ensureTrailingSlash(
 
 <div class="slide-enter" style={{ '--enter-stage': idx }}>
   <Link
-    u-flex="~ items-center lt-md:(col items-start) gap-2"
     class="list-item-link border-b-none! op-transition!"
     href={redirect ?? internalHref}
     external={redirect ? true : false}
     enableNewTabWarning={redirect ? true : false}
   >
-    <Fragment slot="title">{title}</Fragment>
-    <span slot="end" u-flex="~ gap-2 items-center">
+    <span class="list-item-link__index" aria-hidden="true">
+      {String(idx + 1).padStart(2, '0')}
+    </span>
+    <span class="list-item-link__title">{title}</span>
+    <span class="list-item-link__meta">
       {
         video && (
           <span
@@ -73,7 +75,7 @@ const internalHref = ensureTrailingSlash(
         )
       }
       <time
-        class="op-50 text-sm ws-nowrap"
+        class="op-50 text-sm ws-nowrap font-mono tracking-wide"
         datetime={new Date(date).toISOString()}
       >
         {formatDate(date, false, false, dateLocale)}
@@ -89,3 +91,83 @@ const internalHref = ensureTrailingSlash(
     </span>
   </Link>
 </div>
+
+<style>
+  .list-item-link {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .list-item-link__index {
+    color: color-mix(in srgb, var(--c-accent) 72%, var(--c-muted));
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  .list-item-link__index::before {
+    content: '[';
+    opacity: 0.45;
+  }
+
+  .list-item-link__index::after {
+    content: ']';
+    opacity: 0.45;
+  }
+
+  .list-item-link__title {
+    min-width: 0;
+    color: var(--fg-deeper, var(--c-text));
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .list-item-link__meta {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-end;
+    color: var(--c-muted);
+  }
+
+  .list-item-link::after {
+    content: '↗';
+    position: absolute;
+    top: 50%;
+    right: 0.7rem;
+    color: var(--c-accent);
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.75rem;
+    opacity: 0;
+    transform: translate(-0.4rem, -50%);
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+
+  .list-item-link:hover::after,
+  .list-item-link:focus-visible::after {
+    opacity: 0.75;
+    transform: translate(0, -50%);
+  }
+
+  @media (max-width: 767.9px) {
+    .list-item-link {
+      grid-template-columns: 1.8rem minmax(0, 1fr);
+      gap: 0.3rem 0.55rem;
+    }
+
+    .list-item-link__meta {
+      grid-column: 2;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .list-item-link::after {
+      display: none;
+    }
+  }
+</style>

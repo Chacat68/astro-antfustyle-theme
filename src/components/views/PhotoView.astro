@@ -72,7 +72,7 @@ const getFilterHref = (tag: string) =>
   tag ? `${filterPath}?tag=${encodeURIComponent(tag)}` : filterPath
 ---
 
-<div class="mx-20 lt-lgp:mx-10 lt-md:mx-1">
+<div class="w-full">
   <photo-view
     data-hash={contentHash}
     data-json-base={jsonBase}
@@ -124,8 +124,7 @@ const getFilterHref = (tag: string) =>
     <button
       class="photo-layout-toggle z-50 fixed left-5 bottom-6
         flex items-center justify-center w-10 h-10 rounded-full
-        op-30 op-transition lt-lgp:(op-50! bg-#8883 dark:bg-#8886)
-        hover:(op-100! bg-#8883) print:hidden"
+        op-30 op-transition lt-lgp:op-50! hover:op-100! print:hidden"
       title={t('a11y.layoutToggle')}
     >
       <div u-i-ri-layout-masonry-line class="icon-masonry hidden"></div>
@@ -135,7 +134,15 @@ const getFilterHref = (tag: string) =>
   <Loader class="photo-loader" />
   <ImageViewer
     selector=".photo-container"
-    options={{ url: 'data-origin' }}
+    options={{
+      url: 'data-origin',
+      container: 'body',
+      className: 'photo-viewer-modal',
+      initialCoverage: 0.9,
+      // ViewerJS 默认继承 loading/decoding；缩略图的 lazy 属性会让
+      // 弹窗原图停在 0×0。灯箱只保留与跨域请求有关的安全属性。
+      inheritedAttributes: ['crossOrigin', 'referrerPolicy'],
+    }}
     asyncInsert={true}
     tabFocus={true}
   />
@@ -146,6 +153,9 @@ const getFilterHref = (tag: string) =>
 
   class PhotoView extends HTMLElement {
     #initialized = false
+    /** 每次 connect/disconnect 递增，用于丢弃过期的 async 初始化 */
+    #mountGeneration = 0
+    #fetchAbort: AbortController | null = null
     #isMasonry = this.dataset.layout === 'masonry'
     #masonryStrategy = this.dataset.masonryStrategy || 'sequential'
 
@@ -262,12 +272,21 @@ const getFilterHref = (tag: string) =>
     async connectedCallback() {
       if (this.#initialized) return
       this.#initialized = true
+      const generation = ++this.#mountGeneration
+
+      this.#fetchAbort?.abort()
+      this.#fetchAbort = new AbortController()
+
       this.#container = this.querySelector('.photo-container')
       this.#emptyState = this.querySelector('.photo-empty-state')
       this.#button = this.querySelector('.photo-layout-toggle')
-      this.#loader = document.querySelector('.photo-loader')
+      // Loader 是 photo-view 的兄弟节点，限定在父级内查找，避免全局误绑
+      this.#loader =
+        this.parentElement?.querySelector<HTMLElement>('.photo-loader') ?? null
 
-      const didLoad = await this.#fetchData()
+      const didLoad = await this.#fetchData(this.#fetchAbort.signal)
+      if (!this.isConnected || generation !== this.#mountGeneration) return
+
       this.#getLayout()
       if (!didLoad) {
         this.#showEmptyState('error')
@@ -308,6 +327,10 @@ const getFilterHref = (tag: string) =>
     }
 
     disconnectedCallback() {
+      this.#mountGeneration++
+      this.#fetchAbort?.abort()
+      this.#fetchAbort = null
+
       window.removeEventListener('scroll', this.#handleWindowScroll)
 
       if (this.#tagFilterEnabled()) {
@@ -334,14 +357,15 @@ const getFilterHref = (tag: string) =>
         this.#container = null
       }
 
+      this.#loader = null
       this.#emptyState = null
       this.#initialized = false
     }
 
-    #fetchData = async () => {
+    #fetchData = async (signal?: AbortSignal) => {
       try {
         const base = this.dataset.jsonBase || '/photos/photos'
-        const res = await fetch(`${base}.${this.dataset.hash}.json`)
+        const res = await fetch(`${base}.${this.dataset.hash}.json`, { signal })
         if (!res.ok) {
           throw new Error(`HTTP ${res.status} while loading ${res.url}`)
         }
@@ -349,6 +373,12 @@ const getFilterHref = (tag: string) =>
         this.#rawItems = Array.isArray(data) ? data : []
         return true
       } catch (err) {
+        if (
+          signal?.aborted ||
+          (err instanceof DOMException && err.name === 'AbortError')
+        ) {
+          return false
+        }
         console.error('[PhotoView] fetch error:', err)
         this.#rawItems = []
         this.#visibleItems = []
@@ -471,7 +501,7 @@ const getFilterHref = (tag: string) =>
         img.alt = item.desc
         img.loading = 'lazy'
         img.decoding = 'async'
-        img.dataset.origin = item.src
+        img.dataset.origin = item.viewer || item.src
         img.addEventListener(
           'load',
           function (this: HTMLImageElement) {
@@ -537,7 +567,7 @@ const getFilterHref = (tag: string) =>
         img.alt = item.desc
         img.loading = 'lazy'
         img.decoding = 'async'
-        img.dataset.origin = item.src
+        img.dataset.origin = item.viewer || item.src
         img.addEventListener(
           'load',
           function (this: HTMLImageElement) {

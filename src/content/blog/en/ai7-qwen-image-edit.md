@@ -2,7 +2,7 @@
 title: "Qwen-Image-Edit: A Dual Expert in Precise Semantic and Appearance Editing"
 pubDate: '2025-08-23'
 lastModDate: '2025-08-23'
-description: 'Qwen-Image-Edit is an image editing variant based on Qwen-Image, balancing semantic and appearance editing. It supports precise text editing in both Chinese…'
+description: 'Qwen-Image-Edit is an image editing variant based on Qwen-Image, balancing semantic and appearance editing. It supports precise text editing in both Chinese.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250823231937920.webp?imageSlim'
 tags: [AI, Image Editing, Qwen, Model, Open Source, Tool, Local]
 category: 'Artificial Intelligence'

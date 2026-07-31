@@ -25,21 +25,34 @@ const { keys, mergeOnMobile, internalNavs, socialLinks } = Astro.props
 {
   keys.map((key) =>
     key === 'hr' ? (
-      <Divider class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
+      <Divider
+        class={mergeOnMobile ? 'nav-compact-hide lt-lg:hidden' : undefined}
+      />
     ) : key === 'searchButton' ? (
       <SearchSwitch />
     ) : key === 'langButton' ? (
-      <LanguageSwitch />
+      // mergeOnMobile 时汉堡菜单内已有语言切换，顶栏在折叠断点下隐藏避免挤爆
+      mergeOnMobile ? (
+        <span class="nav-compact-hide lt-lg:hidden inline-flex">
+          <LanguageSwitch />
+        </span>
+      ) : (
+        <LanguageSwitch />
+      )
     ) : key === 'themeButton' ? (
       <ThemeSwitch />
     ) : key === 'rssLink' ? (
-      <RssLink class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
+      <RssLink
+        class={mergeOnMobile ? 'nav-compact-hide lt-lg:hidden' : undefined}
+      />
     ) : key === 'internalNavs' ? (
       internalNavs.map((item) => (
         <NavItem type="internal" {item} {mergeOnMobile} />
       ))
     ) : (
-      socialLinks.map((item) => <NavItem type="social" {item} {mergeOnMobile} />)
+      socialLinks.map((item) => (
+        <NavItem type="social" {item} {mergeOnMobile} />
+      ))
     )
   )
 }

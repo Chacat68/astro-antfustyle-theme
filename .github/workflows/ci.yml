@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - main
+      # 生产部署分支（Cloudflare Builds 绑定 run）
+      - run
 
   pull_request:
     branches:
       - main
+      - run
     types:
       - opened
       - synchronize
@@ -65,6 +68,9 @@ jobs:
 
       - name: 🔎 Check code lint
         run: pnpm lint
+
+      - name: 🧪 Run unit tests
+        run: pnpm test
 
       - name: 🚀 Build the project
         run: pnpm build

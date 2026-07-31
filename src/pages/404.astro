@@ -21,9 +21,9 @@ const homeHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, ''))
     <div class="studio-empty">
       <p class="page-eyebrow">
         <span class="page-eyebrow__dot" aria-hidden="true"></span>
-        Error
+        {t('page.404.eyebrow')}
       </p>
-      <p class="studio-empty__code">404</p>
+      <h1 class="studio-empty__code">404</h1>
       <p class="studio-empty__message">{t('page.404.message')}</p>
       <Link class="studio-empty__action" href={homeHref}>
         {t('page.404.home')}

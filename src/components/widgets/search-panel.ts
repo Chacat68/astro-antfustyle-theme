@@ -31,8 +31,12 @@ interface SubResult {
 
 interface SearchPanelI18n {
   loading: string
+  loadingHint: string
   error: string
+  errorHint: string
   noResults: string
+  noResultsHint: string
+  resultCount: string
   more: string
   all: string
   placeholder: string
@@ -41,8 +45,12 @@ interface SearchPanelI18n {
 
 const FALLBACK_I18N: SearchPanelI18n = {
   loading: 'Loading...',
+  loadingHint: 'Scanning the site index',
   error: 'Oops! Something went wrong. Try again.',
+  errorHint: 'Search is temporarily unavailable',
   noResults: 'No results found.',
+  noResultsHint: 'Try a shorter query or switch the search scope',
+  resultCount: '{count} matching pages',
   more: 'More +{count}',
   all: 'All {count}',
   placeholder: 'Search',
@@ -82,15 +90,28 @@ function appendSearchResultItem(
   a.setAttribute('tabindex', '-1')
   a.setAttribute('aria-selected', options.ariaSelected ? 'true' : 'false')
 
+  const titleRow = document.createElement('div')
+  titleRow.className = 'search-result-title-row'
+
   const titleEl = document.createElement('div')
   titleEl.className = 'search-result-title'
   titleEl.textContent = title
+
+  const routeEl = document.createElement('span')
+  routeEl.className = 'search-result-route'
+  try {
+    const url = new URL(href, window.location.href)
+    routeEl.textContent = decodeURI(`${url.pathname}${url.hash}`)
+  } catch {
+    routeEl.textContent = href
+  }
 
   const excerptEl = document.createElement('div')
   excerptEl.className = 'search-result-excerpt'
   excerptEl.innerHTML = sanitizeSearchExcerpt(excerpt)
 
-  a.append(titleEl, excerptEl)
+  titleRow.append(titleEl, routeEl)
+  a.append(titleRow, excerptEl)
   parent.appendChild(a)
   return a
 }
@@ -107,7 +128,8 @@ const fakeResults = [
     meta: {
       title: '或使用生产预览',
     },
-    excerpt: '也可运行 <mark>pnpm build && pnpm preview</mark> 在预览服务中验证搜索。',
+    excerpt:
+      '也可运行 <mark>pnpm build && pnpm preview</mark> 在预览服务中验证搜索。',
   },
 ]
 
@@ -116,10 +138,16 @@ class SearchPanel extends HTMLElement {
   #label: HTMLLabelElement | null = null
   #results: HTMLElement | null = null
   #feedback: HTMLElement | null = null
+  #feedbackLabel: HTMLElement | null = null
+  #feedbackDetail: HTMLElement | null = null
+  #empty: HTMLElement | null = null
+  #summary: HTMLElement | null = null
   #content: HTMLElement | null = null
   #pagination: HTMLElement | null = null
   #btnMore: HTMLButtonElement | null = null
   #btnAll: HTMLButtonElement | null = null
+  #clearButton: HTMLButtonElement | null = null
+  #closeButton: HTMLButtonElement | null = null
   #selectedItem: HTMLAnchorElement | null = null
 
   #filter = this.dataset.filter === 'true'
@@ -146,13 +174,21 @@ class SearchPanel extends HTMLElement {
     this.#label = this.querySelector('#search-label')
     this.#results = this.querySelector('#search-results')
     this.#feedback = this.querySelector('#search-feedback')
+    this.#feedbackLabel = this.querySelector('#search-feedback-label')
+    this.#feedbackDetail = this.querySelector('#search-feedback-detail')
+    this.#empty = this.querySelector('#search-empty')
+    this.#summary = this.querySelector('#search-summary')
     this.#content = this.querySelector('#search-content')
+    this.#clearButton = this.querySelector('#search-clear')
+    this.#closeButton = this.querySelector('#search-close')
 
     this.#initI18n()
     this.#initFilter()
     this.#initPagination()
 
     this.#input?.addEventListener('input', this.#handleInput)
+    this.#clearButton?.addEventListener('click', this.#handleClear)
+    this.#closeButton?.addEventListener('click', this.#handleClose)
 
     this.#content?.addEventListener('click', this.#handleResultClick)
     this.#content?.addEventListener(
@@ -161,10 +197,14 @@ class SearchPanel extends HTMLElement {
     )
 
     this.addEventListener('keydown', this.#handleResultsKeyDown)
+    this.#syncQueryState()
+    this.#showEmptyState(!this.#input?.value.trim())
   }
 
   disconnectedCallback() {
     this.#input?.removeEventListener('input', this.#handleInput)
+    this.#clearButton?.removeEventListener('click', this.#handleClear)
+    this.#closeButton?.removeEventListener('click', this.#handleClose)
 
     this.#content?.removeEventListener('click', this.#handleResultClick)
     this.#content?.removeEventListener(
@@ -200,10 +240,18 @@ class SearchPanel extends HTMLElement {
       return
     }
 
-    const storedTab = localStorage.getItem('search-tab')
-    this.#currentTab = storedTab ? parseInt(storedTab, 10) : 0
-
     this.#tabs = Array.from(this.querySelectorAll('[role="tab"]'))
+
+    const storedTab = localStorage.getItem('search-tab')
+    const parsed = storedTab ? Number.parseInt(storedTab, 10) : 0
+    const max = this.#tabs.length
+    this.#currentTab =
+      Number.isFinite(parsed) && parsed >= 0 && parsed < max ? parsed : 0
+    // 配置变更导致旧索引失效时，写回合法值，避免后续搜索丢 collection 过滤
+    if (storedTab !== null && String(this.#currentTab) !== storedTab) {
+      localStorage.setItem('search-tab', String(this.#currentTab))
+    }
+
     for (let i = 0; i < this.#tabs.length; i++) {
       const isSelected = i === this.#currentTab
       this.#tabs[i].setAttribute('aria-selected', isSelected.toString())
@@ -227,6 +275,19 @@ class SearchPanel extends HTMLElement {
   #handleInput = async (event: Event) => {
     if (!this.#content) return
     const value = (event.target as HTMLInputElement).value.trim()
+    const requestId = ++this.#activeRequestId
+
+    this.#syncQueryState(value)
+    this.#resetView()
+    if (value.length === 0) return
+    this.#showLoading(requestId)
+
+    // 打开面板后可能仍在装载；输入时再等一次
+    const ensurePagefind = (
+      window as Window & { __loadPagefind?: () => Promise<unknown> }
+    ).__loadPagefind
+    if (ensurePagefind) await ensurePagefind()
+    if (requestId !== this.#activeRequestId) return
 
     // 有 Pagefind 时走真实搜索（PROD，或 DEV 已同步 public/pagefind）
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -247,10 +308,6 @@ class SearchPanel extends HTMLElement {
       | undefined
 
     if (pagefindApi) {
-      const requestId = ++this.#activeRequestId
-      this.#resetView()
-      if (value.length === 0) return
-
       // start search
       try {
         const options: { filters?: Record<string, string | string[]> } = {}
@@ -258,8 +315,6 @@ class SearchPanel extends HTMLElement {
           const type = this.#tabs[this.#currentTab].dataset.type
           if (type) options.filters = { collection: type }
         }
-
-        this.#showLoading(requestId)
 
         const res = await pagefindApi.debouncedSearch(value, options, 300)
         // a more recent search call has been made, nothing to do
@@ -269,7 +324,9 @@ class SearchPanel extends HTMLElement {
         // 中文：主搜索召回不足时，用二元/三元组变体补漏（避免「生活」类宽词刷屏）
         let results = res.results
         if (results.length < 3) {
-          const variants = buildCjkQueryVariants(value).filter((q) => q !== value)
+          const variants = buildCjkQueryVariants(value).filter(
+            (q) => q !== value
+          )
           if (variants.length > 0) {
             const extras = await Promise.all(
               variants.slice(0, 12).map((q) => pagefindApi.search(q, options))
@@ -298,11 +355,7 @@ class SearchPanel extends HTMLElement {
         this.#showOnlyError(requestId)
       }
     } else {
-      if (this.#content.childElementCount > 0 && value) return
-      if (!value) {
-        this.#content.replaceChildren()
-        return
-      }
+      if (requestId !== this.#activeRequestId) return
       const baseHref = this.#results?.dataset.base ?? '#'
       for (let i = 0; i < fakeResults.length; i++) {
         const result = fakeResults[i]
@@ -315,7 +368,26 @@ class SearchPanel extends HTMLElement {
         )
       }
       this.#selectedItem = this.#content.querySelector('a')
+      this.#showFeedback('')
+      this.#showSummary(fakeResults.length)
+      this.dataset.state = 'results'
+      this.#results?.removeAttribute('aria-busy')
     }
+  }
+
+  #handleClear = () => {
+    if (!this.#input) return
+    this.#input.value = ''
+    this.#input.dispatchEvent(new Event('input', { bubbles: true }))
+    this.#input.focus()
+  }
+
+  #handleClose = () => {
+    toggleFadeEffect('search-panel', false, 'hidden')
+    toggleFadeEffect('backdrop', false, 'hidden')
+    const searchSwitch = document.getElementById('search-switch')
+    searchSwitch?.setAttribute('aria-expanded', 'false')
+    searchSwitch?.focus()
   }
 
   #handleResultClick = (event: MouseEvent) => {
@@ -325,6 +397,9 @@ class SearchPanel extends HTMLElement {
       this.classList.remove('fade-in')
     this.classList.add('hidden')
     toggleFadeEffect('backdrop', false, 'hidden')
+    document
+      .getElementById('search-switch')
+      ?.setAttribute('aria-expanded', 'false')
   }
 
   #handleResultsPointerOver = (event: MouseEvent) => {
@@ -378,6 +453,7 @@ class SearchPanel extends HTMLElement {
   }
 
   #activateTab = async (idx: number) => {
+    if (idx < 0 || idx >= this.#tabs.length) return
     if (idx === this.#currentTab) return
 
     this.#tabs[this.#currentTab]?.setAttribute('aria-selected', 'false')
@@ -475,6 +551,8 @@ class SearchPanel extends HTMLElement {
 
       if (requestId !== this.#activeRequestId) return
       this.#showFeedback('')
+      this.#showSummary(this.#allResults.length)
+      this.dataset.state = 'results'
       this.#content.appendChild(frag)
       this.#selectedItem?.scrollIntoView({
         behavior: 'smooth',
@@ -516,6 +594,9 @@ class SearchPanel extends HTMLElement {
   #resetView = () => {
     this.#content?.replaceChildren()
     this.#showFeedback('')
+    this.#showSummary(0)
+    this.#showEmptyState(!this.#input?.value.trim())
+    this.dataset.state = 'idle'
     this.#input?.setAttribute('aria-expanded', 'false')
     this.#results?.removeAttribute('aria-busy')
 
@@ -529,10 +610,29 @@ class SearchPanel extends HTMLElement {
     }
   }
 
-  #showFeedback = (feedback: string) => {
+  #syncQueryState = (value = this.#input?.value.trim() ?? '') => {
+    this.dataset.hasQuery = value ? 'true' : 'false'
+  }
+
+  #showEmptyState = (show: boolean) => {
+    this.#empty?.classList.toggle('hidden', !show)
+  }
+
+  #showSummary = (count: number) => {
+    if (!this.#summary) return
+    const show = count > 0
+    this.#summary.textContent = show
+      ? formatI18n(this.#i18n.resultCount, { count })
+      : ''
+    this.#summary.classList.toggle('hidden', !show)
+  }
+
+  #showFeedback = (feedback: string, detail = '') => {
     if (!this.#feedback) return
-    if (feedback) this.#feedback.textContent = feedback
+    if (this.#feedbackLabel) this.#feedbackLabel.textContent = feedback
+    if (this.#feedbackDetail) this.#feedbackDetail.textContent = detail
     this.#feedback.classList.toggle('hidden', !feedback)
+    if (feedback) this.#showEmptyState(false)
   }
 
   #showLoading = (requestId: number, next = false) => {
@@ -542,7 +642,8 @@ class SearchPanel extends HTMLElement {
       this.#showPagination(false)
       this.#batchLoading = true
     }
-    this.#showFeedback(this.#i18n.loading)
+    this.dataset.state = next ? 'loading-more' : 'loading'
+    this.#showFeedback(this.#i18n.loading, this.#i18n.loadingHint)
     this.#results?.setAttribute('aria-busy', 'true')
     if (!next) this.#input?.setAttribute('aria-expanded', 'true')
   }
@@ -550,14 +651,16 @@ class SearchPanel extends HTMLElement {
   #showOnlyError = (requestId: number) => {
     if (requestId !== this.#activeRequestId) return
 
-    this.#showFeedback(this.#i18n.error)
+    this.dataset.state = 'error'
+    this.#showFeedback(this.#i18n.error, this.#i18n.errorHint)
     this.#results?.removeAttribute('aria-busy')
   }
 
   #showOnlyNoResult = (requestId: number) => {
     if (requestId !== this.#activeRequestId) return
 
-    this.#showFeedback(this.#i18n.noResults)
+    this.dataset.state = 'no-results'
+    this.#showFeedback(this.#i18n.noResults, this.#i18n.noResultsHint)
     this.#results?.removeAttribute('aria-busy')
   }
 
@@ -619,8 +722,25 @@ class SearchPanel extends HTMLElement {
 /* 点击搜索按钮打开/关闭面板 */
 document.addEventListener('astro:page-load', () => {
   const handleToggle = () => {
+    // 打开搜索时再装载 Pagefind，避免首屏急切下载
+    const load = (
+      window as Window & {
+        __loadPagefind?: () => Promise<unknown>
+        __loadPagefindHighlight?: () => Promise<unknown>
+      }
+    ).__loadPagefind
+    void load?.()
+    void (
+      window as Window & {
+        __loadPagefindHighlight?: () => Promise<unknown>
+      }
+    ).__loadPagefindHighlight?.()
+
     toggleFadeEffect('backdrop', true, 'hidden')
     toggleFadeEffect('search-panel', true, 'hidden')
+    document
+      .getElementById('search-switch')
+      ?.setAttribute('aria-expanded', 'true')
 
     // auto-focus the search input after panel becomes visible
     requestAnimationFrame(() => {

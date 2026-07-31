@@ -1,6 +1,8 @@
 ---
 import '@unocss/reset/tailwind.css'
+import '~/styles/fonts.css'
 import '~/styles/main.css'
+import '~/styles/hud.css'
 import '~/styles/prose.css'
 import '~/styles/markdown.css'
 import '~/styles/page.css'
@@ -37,6 +39,8 @@ interface Props {
   noindex?: boolean
   /** 追加到 `<main>` 的 class（如首页全屏 Hero 去 padding） */
   mainClass?: string
+  /** 导航轨宽度：首页 Hero / 正文 65ch / 宽列表壳 */
+  navRail?: 'home' | 'content' | 'wide'
   /** 首页展示台：隐藏导航栏、页脚与回到顶部 */
   minimalChrome?: boolean
 }
@@ -54,6 +58,7 @@ const {
   canonicalLocale,
   noindex,
   mainClass,
+  navRail: navRailProp,
   minimalChrome = false,
 } = Astro.props
 
@@ -75,8 +80,9 @@ const hasCustomCursor =
   newTab && cursorType.length > 0 && cursorType !== 'pointer'
 if (hasCustomCursor) style['--external-link-cursor'] = cursorType
 
-/** 首页对齐 Hero；其余页对齐正文（65ch） */
-const navRail = mainClass === 'home-main' ? 'home' : 'content'
+/** 首页对齐 Hero；宽页对齐 shell；其余对齐正文（65ch） */
+const navRail =
+  navRailProp ?? (mainClass === 'home-main' ? 'home' : 'content')
 ---
 
 <!doctype html>
@@ -98,7 +104,7 @@ const navRail = mainClass === 'home-main' ? 'home' : 'content'
 
   <body
     class="relative flex flex-col min-h-screen
-      font-sans text-gray-700 dark:text-gray-200"
+      font-sans text-[var(--c-text)]"
     style={Object.keys(style).length !== 0 ? style : undefined}
     data-no-sliding={enableSlideEnterAnim ? undefined : ''}
   >

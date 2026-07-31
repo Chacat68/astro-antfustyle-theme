@@ -6,7 +6,7 @@ import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n'
 import { checkFileExistsInDir } from '../../../plugins/remark-generate-og-image'
 import { withBasePath } from '~/utils/path'
 import { formatPageTitle, truncateMetaDescription } from '~/utils/seo'
-import { SITE, UI } from '~/config'
+import { FEATURES, SITE, UI } from '~/config'
 import { getLocale } from '~/i18n/translate'
 import { isDefaultLocale } from '~/i18n/locales'
 import { localeToHtmlLang, localeToOgLocale } from '~/i18n/locale-meta'
@@ -128,6 +128,17 @@ const ahrefsKey = import.meta.env.PUBLIC_AHREFS_KEY
 const enableUmami = analyticsEnabled && Boolean(umamiSrc && umamiWebsiteId)
 const enableAhrefs = analyticsEnabled && Boolean(ahrefsKey)
 
+const shareConfig = FEATURES.share
+const twitterShare =
+  Array.isArray(shareConfig) && shareConfig[0] ? shareConfig[1].twitter : false
+const twitterHandle =
+  Array.isArray(twitterShare) && twitterShare[0] ? twitterShare[1] : undefined
+const twitterCreator = twitterHandle
+  ? twitterHandle.startsWith('@')
+    ? twitterHandle
+    : `@${twitterHandle}`
+  : undefined
+
 function formatBreadcrumbName(segment: string) {
   try {
     return decodeURIComponent(segment).replace(/[-_]/g, ' ')
@@ -182,6 +193,7 @@ const websiteData = {
   '@id': websiteId,
   'url': siteRootURL.href,
   'name': SITE.title,
+  'alternateName': ['Foo-Z', 'FOO-Z', SITE.author],
   'description': SITE.description,
   'inLanguage': localeToHtmlLang(canonicalLocale),
   'publisher': {
@@ -271,7 +283,10 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+/>
 <meta name="generator" content={Astro.generator} />
 
 <!-- Primary Metadata -->
@@ -336,6 +351,14 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 <meta property="twitter:description" content={pageDescription} />
 <meta property="twitter:image" content={ogImageURL} />
 <meta property="twitter:image:alt" content={ogImageAlt} />
+{
+  twitterCreator && (
+    <>
+      <meta property="twitter:site" content={twitterCreator} />
+      <meta property="twitter:creator" content={twitterCreator} />
+    </>
+  )
+}
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL.href} />
@@ -347,6 +370,23 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
   ))
 }
 <link rel="alternate" hreflang="x-default" href={xDefaultURL.href} />
+
+<!-- 关键拉丁字体预加载（中文走系统栈；完整 @font-face 见 fonts.css） -->
+<link
+  rel="preload"
+  href="https://fonts.bunny.net/outfit/files/outfit-latin-400-normal.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<link
+  rel="preload"
+  href="https://fonts.bunny.net/outfit/files/outfit-latin-600-normal.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
 
 <!-- Icon -->
 <link rel="icon" type="image/svg+xml" href={withBasePath('/favicon.svg')} />

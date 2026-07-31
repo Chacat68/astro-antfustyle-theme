@@ -22,7 +22,7 @@ export default defineEcConfig({
     uiFontFamily: "'DM Mono', 'Input Mono', 'Fira Code', 'monospace'",
     uiFontSize: '1em',
     codeBackground: (context) =>
-      context.theme.name === 'vitesse-dark' ? '#0e0e0e' : '#fafafa',
+      context.theme.name === 'vitesse-dark' ? '#06080c' : '#f4f7f9',
     codeFontFamily: "'DM Mono', 'Input Mono', 'Fira Code', 'monospace'",
     codeFontSize: '14.72px',
     codeLineHeight: '1.4',
@@ -35,7 +35,7 @@ export default defineEcConfig({
       inlineButtonBackgroundActiveOpacity: '0.2',
       inlineButtonBackgroundHoverOrFocusOpacity: '0.1',
       terminalBackground: ({ theme }) =>
-        theme.name === 'vitesse-dark' ? '#0e0e0e' : '#fafafa',
+        theme.name === 'vitesse-dark' ? '#06080c' : '#f4f7f9',
       tooltipSuccessBackground: ({ theme }) =>
         setLuminance(theme.colors['terminal.ansiGreen'] || '#0dbc79', 0.22),
     },

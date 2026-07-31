@@ -2,7 +2,7 @@
 title: "The Game Loop: Video Game Code Architecture"
 pubDate: '2025-03-09'
 lastModDate: '2025-03-09'
-description: 'The game loop is a core concept in video game development, responsible for coordinating and managing all aspects of a game, including rendering, user input…'
+description: 'The game loop is a core concept in video game development, responsible for coordinating and managing all aspects of a game, including rendering, user input.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250501171049217.png?imageSlim'
 tags: [Game Development, Game Engine, Code Architecture, Performance Optimization]
 category: 'Learning from Others'

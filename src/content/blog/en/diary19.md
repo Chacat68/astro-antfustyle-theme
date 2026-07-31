@@ -2,7 +2,7 @@
 title: "The World in My Ears: My Podcast Guide"
 pubDate: '2024-06-25'
 lastModDate: '2024-06-25'
-description: 'Listening to podcasts has become a particularly favorite hobby of mine lately. As a pure information medium, channels from diverse backgrounds have led me to…'
+description: 'Why podcasts became my favorite medium lately, and how channels from many backgrounds keep surfacing fresh finds.'
 image: 'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20250104010045379.png?imageSlim'
 tags: [Farming, Games, Reference, Pixel]
 category: 'Life Notes'
