@@ -1,25 +1,33 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import StandardLayout from '~/layouts/StandardLayout.astro'
+import Link from '~/components/base/Link.astro'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
-
-const title = '404'
-const subtitle = ''
-const bgType = 'glitch' as const
-const ogImage = false
+const homeHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, ''))
 ---
 
 <BaseLayout
-  {title}
+  title="404"
   description={t('page.404.description')}
-  {bgType}
-  {ogImage}
+  bgType="ambient"
+  ogImage={false}
   noindex={true}
 >
-  <StandardLayout {title} {subtitle}>
-    <p slot="article">{t('page.404.message')}</p>
-  </StandardLayout>
+  <div class="studio-page studio-page--center">
+    <div class="studio-empty">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow__dot" aria-hidden="true"></span>
+        Error
+      </p>
+      <p class="studio-empty__code">404</p>
+      <p class="studio-empty__message">{t('page.404.message')}</p>
+      <Link class="studio-empty__action" href={homeHref}>
+        {t('page.404.home')}
+      </Link>
+    </div>
+  </div>
 </BaseLayout>

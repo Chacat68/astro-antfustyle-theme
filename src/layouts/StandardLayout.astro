@@ -1,50 +1,80 @@
 ---
+/**
+ * 内容页 Studio 壳：眉题 + 大标题 + 副标题，正文/宽列表共用
+ */
 interface Props {
   title?: string
   subtitle?: string
+  eyebrow?: string
   isCentered?: boolean
   isSearchable?: boolean
   searchFilter?: string
+  /** 宽内容（项目 / 友链 / 相册等） */
+  wide?: boolean
   class?: string
 }
 
 const {
   title,
   subtitle,
+  eyebrow,
   isCentered = false,
   isSearchable,
   searchFilter,
+  wide = false,
   class: className,
 } = Astro.props
 ---
 
-<header
-  class:list={{
-    'page-header prose mx-auto mb-8': true,
-    'text-center': isCentered,
-  }}
+<div
+  class:list={[
+    'studio-page',
+    wide && 'studio-page--wide',
+    isCentered && 'studio-page--center',
+  ]}
 >
-  {title && <h1>{title}</h1>}
-  {subtitle && <p class="page-header__subtitle op-50 italic">{subtitle}</p>}
-  <slot name="head" />
-</header>
-{
-  Astro.slots.has('article') && (
-    <article
-      class="slide-enter-content prose page-article mx-auto"
-      data-pagefind-body={isSearchable ? '' : undefined}
-      data-pagefind-filter={
-        isSearchable && searchFilter ? searchFilter : undefined
-      }
-    >
-      <slot name="article" />
-    </article>
-  )
-}
-{
-  Astro.slots.has('default') && (
-    <div class:list={['mx-auto', className]}>
-      <slot />
-    </div>
-  )
-}
+  <header
+    class:list={[
+      'page-header',
+      isCentered && 'page-header--center',
+    ]}
+  >
+    {
+      eyebrow && (
+        <p class="page-eyebrow">
+          <span class="page-eyebrow__dot" aria-hidden="true" />
+          {eyebrow}
+        </p>
+      )
+    }
+    {title && <h1 class="page-header__title">{title}</h1>}
+    {
+      subtitle && (
+        <p class="page-header__subtitle">{subtitle}</p>
+      )
+    }
+    <slot name="head" />
+  </header>
+
+  {
+    Astro.slots.has('article') && (
+      <article
+        class="slide-enter-content prose page-article"
+        data-pagefind-body={isSearchable ? '' : undefined}
+        data-pagefind-filter={
+          isSearchable && searchFilter ? searchFilter : undefined
+        }
+      >
+        <slot name="article" />
+      </article>
+    )
+  }
+
+  {
+    Astro.slots.has('default') && (
+      <div class:list={['studio-page__body', className]}>
+        <slot />
+      </div>
+    )
+  }
+</div>

@@ -5,10 +5,10 @@ import CardView from '~/components/views/CardView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 const page = {
-  bgType: 'glitch',
+  bgType: 'ambient' as const,
   toc: false,
   ogImage: false,
-} as const
+}
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -22,6 +22,8 @@ const t = useTranslations(locale)
   noindex={true}
 >
   <StandardLayout
+    wide
+    eyebrow="Highlights"
     title={t('page.highlights.title')}
     subtitle={t('page.highlights.subtitle')}
     isCentered={true}

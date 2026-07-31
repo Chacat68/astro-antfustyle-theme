@@ -28,6 +28,7 @@ export const pageSchema = z.object({
     .union([
       z.literal(false),
       z.enum([
+        'ambient',
         'glitch',
         'plum',
         'dot',
@@ -37,9 +38,9 @@ export const pageSchema = z.object({
         'constellation',
       ]),
     ])
-    .default('glitch')
+    .default('ambient')
     .describe(
-      'Background type. Site-wide glitch art uses `glitch` (legacy values map to glitch). Set `false` to disable.'
+      'Background type. Site-wide Studio look uses `ambient` (legacy values including `glitch` map to Ambient). Set `false` to disable.'
     ),
   toc: z
     .boolean()

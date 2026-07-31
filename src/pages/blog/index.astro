@@ -9,10 +9,10 @@ const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 
 const page = {
-  bgType: 'glitch',
+  bgType: 'ambient' as const,
   toc: false,
   ogImage: true,
-} as const
+}
 ---
 
 <BaseLayout
@@ -23,6 +23,7 @@ const page = {
 >
   <StandardLayout
     class="prose"
+    eyebrow="Blog"
     title={t('page.blog.title')}
     subtitle={t('page.blog.subtitle')}
   >

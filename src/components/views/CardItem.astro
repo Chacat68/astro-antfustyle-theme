@@ -110,16 +110,12 @@ const locale = getLocale(Astro.currentLocale)
 const dateLocale = localeToHtmlLang(locale)
 ---
 
-<section class={className}>
-  <div
-    class={`overflow-hidden flex flex-col
-      h-full b b-[#8884] rounded-lg bg-white dark:bg-black
-      shadow-transition-500`}
-  >
+<section class:list={['studio-card-wrap', className]}>
+  <div class="studio-card overflow-hidden flex flex-col h-full">
     {
       ((images && images.length > 0) || video) && (
         <MediaContainer
-          class="b-b b-b-[#8884] op-100!"
+          class="studio-card__media op-100!"
           href={link || undefined}
         >
           {images &&
@@ -160,14 +156,12 @@ const dateLocale = localeToHtmlLang(locale)
     {
       external && (
         <Link
-          class={`overflow-hidden flex flex-col
-            b b-[#8884] rounded-lg mt-3 mx-3
-            op-100! shadow-transition-500 hover:(shadow-custom_0_5_15_-3)`}
+          class="studio-card__embed overflow-hidden flex flex-col mt-3 mx-3 op-100!"
           href={external.uri}
         >
           {!COMPACT && external.img && (
             <Image
-              class="b-b b-b-[#8884] aspect-[1.91/1] object-cover"
+              class="studio-card__media aspect-[1.91/1] object-cover"
               src={external.img}
               alt={external.title}
               width={1200}
@@ -176,7 +170,7 @@ const dateLocale = localeToHtmlLang(locale)
             />
           )}
           <div class="flex flex-col px-3 pt-2 pb-1">
-            <div class="flex flex-col gap-1 pb-1.5 b-b b-b-[#8884]">
+            <div class="studio-card__embed-head flex flex-col gap-1 pb-1.5">
               <p class="text-sm font-600">{external.title}</p>
               <p class="text-xs">{external.description}</p>
             </div>
@@ -190,11 +184,7 @@ const dateLocale = localeToHtmlLang(locale)
     }
     {
       quote && (
-        <div
-          class={`overflow-hidden flex flex-col gap-2
-            b b-[#8884] rounded-lg p-2 mt-3 mx-3
-            text-sm shadow-transition-500 hover:(shadow-custom_0_5_15_-3)`}
-        >
+        <div class="studio-card__embed overflow-hidden flex flex-col gap-2 p-2 mt-3 mx-3 text-sm">
           <div class="flex items-center gap-1">
             <Image
               class="size-1em rounded-full object-cover"
@@ -237,14 +227,10 @@ const dateLocale = localeToHtmlLang(locale)
             class="card-item-details"
             style="max-height: 0; overflow-y: clip;"
           >
-            <ol class="relative border-s border-gray-200 dark:border-gray-700">
+            <ol class="studio-card__timeline relative">
               {safeDetails.slice(0, MAX_DETAILS + 1).map((detail, idx) => (
                 <li class="ms-4 mb-6 last:mb-0">
-                  <div
-                    class="absolute start--1.6 w-3 h-3
-                      border rounded-full border-white dark:border-gray-900 mt-1.5
-                      bg-gray-200 dark:bg-gray-700"
-                  />
+                  <div class="studio-card__dot absolute start--1.6 w-3 h-3 mt-1.5" />
                   {idx < MAX_DETAILS && (
                     <div class="prose card-item-prose" set:html={detail} />
                   )}
@@ -281,6 +267,57 @@ const dateLocale = localeToHtmlLang(locale)
     </ContentContainer>
   </div>
 </section>
+
+<style>
+  .studio-card {
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-lg);
+    background: var(--c-surface);
+    box-shadow: var(--c-shadow);
+    transition:
+      transform var(--duration) var(--ease-out),
+      border-color var(--duration) var(--ease-out),
+      box-shadow var(--duration) var(--ease-out);
+  }
+
+  .studio-card-wrap:hover .studio-card,
+  .studio-card-wrap:focus-within .studio-card {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--c-accent) 18%, var(--c-border));
+    box-shadow: var(--c-shadow-hover);
+  }
+
+  .studio-card__media {
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .studio-card__embed {
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius);
+    background: color-mix(in srgb, var(--c-bg) 55%, transparent);
+    transition: box-shadow var(--duration) var(--ease-out);
+  }
+
+  .studio-card__embed:hover,
+  .studio-card__embed:focus-visible {
+    box-shadow: var(--c-shadow);
+    outline: none;
+  }
+
+  .studio-card__embed-head {
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .studio-card__timeline {
+    border-inline-start: 1px solid var(--c-border);
+  }
+
+  .studio-card__dot {
+    border: 1px solid var(--c-surface);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c-muted) 45%, var(--c-surface));
+  }
+</style>
 
 <script>
   class CollapsibleContent extends HTMLElement {

@@ -5,11 +5,10 @@ import GithubView from '~/components/views/GithubView.astro'
 import Link from '~/components/base/Link.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-// 页面文案统一由 i18n（page.releases.*）提供
 const page = {
-  bgType: 'glitch',
+  bgType: 'ambient' as const,
   ogImage: false,
-} as const
+}
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -22,13 +21,13 @@ const t = useTranslations(locale)
   ogImage={page.ogImage}
   noindex={true}
 >
-  <StandardLayout class="max-w-65ch" isCentered={true}>
+  <StandardLayout eyebrow="GitHub" isCentered={true}>
     <Fragment slot="head">
-      <h1>
+      <h1 class="page-header__title">
         {t('page.releases.heading')}
         <span class="animate-pulse">{t('page.releases.headingEmphasis')}</span>
       </h1>
-      <p class="page-header__subtitle op-50 italic">
+      <p class="page-header__subtitle">
         {t('page.releases.subtitlePrefix')}{' '}
         <Link
           href="https://github.com/lin-stephanie/astro-loaders/tree/main/packages/astro-loader-github-releases"

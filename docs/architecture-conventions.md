@@ -48,8 +48,9 @@
 - **`src/components/nav/NavBarSlot.astro`**：导航栏单侧组件序列渲染，`NavBar.astro` 左右两侧复用，新增导航组件类型时只改这一处。
 - **`src/components/widgets/search-panel.ts`**：`<search-panel>` 自定义元素完整逻辑，`SearchSwitch.astro` 仅保留模板与 Pagefind 装载脚本。
 - **站内搜索（Pagefind）**：`postbuild` 使用 Pagefind **≥ 1.5**，`--force-language zh-cn` 统一索引；`pagefind.init('zh-cn')`。`noindex` 页（英文回退中文稿）不入索引，避免重复占位。正文内注入标题/标签及 CJK 整词·单字·二元组增强召回；查询侧对中文做变体搜索合并。`postbuild` 同步索引到 `public/pagefind/`（gitignore）供 `pnpm dev` 联调。
-- **`src/components/backgrounds/Ambient.astro`**：默认全站轻量氛围背景（CSS 色晕 + 细颗粒）。`Background.astro` 将旧 `bgType`（glitch/dot/plum/rose…）映射到 Ambient。
-- **首页展示台**：[`StudioHero.astro`](../src/components/home/StudioHero.astro) 为大圆角氛围舞台 + 品牌标题 + CTA；`bgType: false` 避免叠层背景。About 内容在 [`/about`](../src/pages/about.astro)（文案见 `i18n` 的 `about.*`；理念配图在 `src/assets/about/`）。
+- **`src/components/backgrounds/Ambient.astro`**：默认全站轻量氛围背景（CSS 色晕 + 细颗粒）。`Background.astro` 将旧 `bgType`（glitch/dot/plum/rose…）映射到 Ambient；页面默认传 `bgType: 'ambient'`。
+- **首页展示台**：[`StudioHero.astro`](../src/components/home/StudioHero.astro) 为大圆角氛围舞台 + 品牌标题 + CTA；下方 [`HomeAbout.astro`](../src/components/home/HomeAbout.astro) 为「关于我」摘要。完整 About 在 [`/about`](../src/pages/about.astro)（Studio 独立排版；文案 `about.*` / `home.about.*`；理念配图 `src/assets/about/`）。
+- **内容页布局**：[`StandardLayout.astro`](../src/layouts/StandardLayout.astro) / [`TabbedLayout.astro`](../src/layouts/TabbedLayout.astro) 提供 Studio 内容壳（eyebrow、宽轨、胶囊 Tab）；列表/卡片/项目组件见 `GroupItem` / `CardItem` / `GithubItem`。
 - **`src/components/backgrounds/three-background.ts`** + **`glitch-engine.ts`** / **`Glitch.astro`**：历史 Three.js 故障背景，源码保留但默认不再挂载。
 - **`src/components/backgrounds/p5-background.ts`**：历史 p5 背景工厂（Dot/Particle/Constellation 组件仍保留源码，但页面已不再调度）。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。主题相关逻辑走此工具；禁止只读 `html.dark`。

@@ -8,15 +8,16 @@ interface Props {
 }
 
 const { type } = Astro.props
+
+const useAmbient =
+  type === 'ambient' ||
+  type === 'glitch' ||
+  type === 'plum' ||
+  type === 'dot' ||
+  type === 'rose' ||
+  type === 'particle' ||
+  type === 'wave' ||
+  type === 'constellation'
 ---
 
-{
-  /* 全站统一轻量氛围背景；旧 bgType 值均映射到 Ambient 以兼容 frontmatter */
-  (type === 'glitch' ||
-    type === 'plum' ||
-    type === 'dot' ||
-    type === 'rose' ||
-    type === 'particle' ||
-    type === 'wave' ||
-    type === 'constellation') && <Ambient />
-}
+{useAmbient && <Ambient />}

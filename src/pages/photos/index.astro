@@ -8,9 +8,9 @@ const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 
 const page = {
-  bgType: 'glitch',
+  bgType: 'ambient' as const,
   ogImage: false,
-} as const
+}
 ---
 
 <BaseLayout
@@ -20,6 +20,8 @@ const page = {
   ogImage={page.ogImage}
 >
   <StandardLayout
+    wide
+    eyebrow="Photos"
     title={t('page.photos.title')}
     subtitle={t('page.photos.subtitle')}
     isCentered={true}

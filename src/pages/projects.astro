@@ -4,12 +4,11 @@ import StandardLayout from '~/layouts/StandardLayout.astro'
 import GroupView from '~/components/views/GroupView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-// 页面文案统一由 i18n（page.projects.*）提供
 const page = {
-  bgType: 'glitch',
+  bgType: 'ambient' as const,
   toc: true,
   ogImage: true,
-} as const
+}
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -22,7 +21,8 @@ const t = useTranslations(locale)
   ogImage={page.ogImage}
 >
   <StandardLayout
-    class="max-w-300"
+    wide
+    eyebrow="Work"
     title={t('page.projects.title')}
     subtitle={t('page.projects.subtitle')}
     isCentered={true}

@@ -3,11 +3,11 @@ import Link from '~/components/base/Link.astro'
 import { UI } from '~/config'
 
 export interface GroupItemData {
-    id: string;
-    link: string;
-    desc: string;
-    icon?: string;
-    avatar?: string;
+  id: string
+  link: string
+  desc: string
+  icon?: string
+  avatar?: string
 }
 
 interface Props {
@@ -19,41 +19,123 @@ const { maxGroupColumns, showGroupItemColorOnHover } = UI.groupView
 ---
 
 <div
-  class={`grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-3
-    py-8 mx-auto lt-lgp:max-w-[712px]! lt-md:max-w-[350px]!`}
-  style={`max-width: calc(350px * ${maxGroupColumns} + ${maxGroupColumns - 1} * 0.75rem);`}
+  class="group-grid"
+  style={`--group-cols: ${maxGroupColumns};`}
 >
   {
     items.map((item) => (
       <Link
-        class={`group relative flex items-center
-          px-3.5 pt-2 pb-3.5 rounded-md
-          bg-transparent hover:bg-[var(--c-accent-soft)]
-          text-4.4 transition-all duration-300`}
+        class="group-card"
         href={item.link}
         aria-hidden={true}
         external={true}
       >
-        <div class="pt-2 pr-5">
+        <div class="group-card__media">
           {item.avatar ? (
-            <img
-              src={item.avatar}
-              alt={item.id}
-              class="w-12 h-12 rounded-full object-cover op-80 group-hover:op-100 transition-opacity duration-300"
-            />
+            <img src={item.avatar} alt={item.id} class="group-card__avatar" />
           ) : (
             <div
-              class={`group-hover:data-show-color:saturate-100 op-50 saturate-0 leading-9 text-7.5 ${item.icon || 'i-ph-user-circle-duotone'}`}
-              data-show-color={showGroupItemColorOnHover ? '' : undefined}
+              class:list={[
+                'group-card__icon',
+                item.icon || 'i-ph-user-circle-duotone',
+                showGroupItemColorOnHover && 'group-card__icon--color-on-hover',
+              ]}
             />
           )}
         </div>
-        <div class="flex-auto">
-          <div>{item.id}</div>
-          <div class="op-50 text-sm font-normal">{item.desc}</div>
+        <div class="group-card__copy">
+          <div class="group-card__title">{item.id}</div>
+          <div class="group-card__desc">{item.desc}</div>
         </div>
       </Link>
     ))
   }
 </div>
 
+<style>
+  .group-grid {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(100%, 17.5rem), 1fr)
+    );
+    gap: 0.85rem;
+    width: 100%;
+    max-width: calc(
+      17.5rem * var(--group-cols) + 0.85rem * (var(--group-cols) - 1)
+    );
+    margin: 0.5rem auto 0;
+    padding: 0.5rem 0 1.5rem;
+  }
+
+  .group-card {
+    display: flex;
+    align-items: center;
+    gap: 0.95rem;
+    padding: 1rem 1.05rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius-lg);
+    background: var(--c-surface);
+    color: var(--c-text) !important;
+    opacity: 1 !important;
+    text-decoration: none;
+    box-shadow: var(--c-shadow);
+    transition:
+      transform var(--duration) var(--ease-out),
+      border-color var(--duration) var(--ease-out),
+      background-color var(--duration) var(--ease-out),
+      box-shadow var(--duration) var(--ease-out);
+  }
+
+  .group-card:hover,
+  .group-card:focus-visible {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
+    background: color-mix(in srgb, var(--c-surface) 80%, var(--c-accent-soft));
+    box-shadow: var(--c-shadow-hover);
+    outline: none;
+  }
+
+  .group-card__media {
+    flex: 0 0 auto;
+  }
+
+  .group-card__avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    object-fit: cover;
+  }
+
+  .group-card__icon {
+    font-size: 1.85rem;
+    line-height: 1;
+    opacity: 0.72;
+    filter: saturate(0);
+    transition:
+      opacity var(--duration) var(--ease-out),
+      filter var(--duration) var(--ease-out);
+  }
+
+  .group-card:hover .group-card__icon--color-on-hover,
+  .group-card:focus-visible .group-card__icon--color-on-hover {
+    opacity: 1;
+    filter: saturate(1);
+  }
+
+  .group-card__copy {
+    min-width: 0;
+  }
+
+  .group-card__title {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .group-card__desc {
+    margin-top: 0.2rem;
+    color: var(--c-muted);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+</style>

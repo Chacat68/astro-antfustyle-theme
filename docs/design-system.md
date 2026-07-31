@@ -53,22 +53,37 @@
 
 | `bgType` | 表现 | 典型页面 |
 |----------|------|----------|
-| `glitch` / 旧值 `dot` / `plum` / … | 映射到 `Ambient`（兼容 frontmatter） | **除首页外几乎全部页面** |
-| `false` | 无全局背景 | **首页**（由 StudioHero 自带氛围舞台） |
+| `ambient` | Ambient 色晕 + 颗粒 | **全站默认**（首页、列表、文章、关于、404 等） |
+| `glitch` / 旧值 `dot` / `plum` / … | 映射到 `Ambient`（兼容 frontmatter） | 历史内容 frontmatter |
+| `false` | 无全局背景 | 特殊页按需关闭 |
 
 主题色读取走 `isDarkTheme()`（`src/utils/theme.ts`）。`prefers-reduced-motion` 时关闭 Hero 漂移动画。
 
 > Three.js `glitch-engine` 仍保留在仓库中（历史/可选扩展），但默认不再挂载。
 
-## 全站 UI（非首页）
+## 内容页 Studio 壳
+
+| 区域 | 约定 |
+|------|------|
+| `StandardLayout` / `TabbedLayout` | `.studio-page` 内容轨；可选 `eyebrow` / `wide` / `isCentered` |
+| `.studio-page` | 默认 `max-width: 65ch`；`--wide` 为 `min(75rem, 100%)` |
+| `.page-eyebrow` | 小号大写眉题 + 圆点；与首页 About 同源 |
+| `.page-header` | 底部分隔线 + 大标题（`clamp`）+ 副标题；**不再**用厚面板卡 |
+| `.studio-tabs` | TabbedLayout 胶囊 Tab（Changelog / Feeds / Streams） |
+| 列表 / 项目 / 友链 | `list-item-link` hover；`GroupItem` 为 `.group-card` |
+| 卡片流 | `CardItem` 为 `.studio-card`（Highlights / Shorts） |
+| GitHub 流 | `GithubItem` 摘要行圆角表面 |
+| 统计 / 页脚 / 404 | `SiteStats` 表面卡；`Footer` 对齐 65ch；`.studio-empty` |
+| `/about` | 独立完整 Studio 排版（历程 / 理念影像 / 深色 CTA），不只套 StandardLayout |
+
+## 全站 UI 壳层
 
 | 区域 | 约定 |
 |------|------|
 | `html` | 冷灰蓝纯色底；`data-nav-rail="home\|content"` 控制导航轨宽度 |
 | `.site-nav` / `.site-nav__shell` | 悬浮胶囊：深色底 + 浅色字（暗色主题反相）、圆角 pill、轻阴影；壳内 `a/button` 强制高对比（覆盖组件 `op-50/60`）；`transition:name` 跨页 morph，**不用** `persist` |
-| 导航轨宽度 | 首页 `--c-nav-max: 90rem` 对齐 Hero；其余页 `--c-nav-max: 65ch` 对齐 `.prose`；左右垫 `--c-rail-pad` |
+| 导航轨宽度 | 首页 `--c-nav-max: 90rem` 对齐 Hero；其余页 `--c-nav-max: 65ch` 对齐正文轨；左右垫 `--c-rail-pad` |
 | 搜索浮层 | `#search-panel` 仍在导航内；胶囊**禁止** `backdrop-filter`，否则会变成 fixed 包含块导致面板偏位 |
-| `.page-header` | 大圆角浅面板 + 紧字距标题 |
 | 列表 / 社交链接 | 圆角 hover、轻阴影上浮 |
 | 正文链接 / `hr` | 悬停变色；分隔线克制单色 |
 
@@ -92,7 +107,7 @@
 | `main.css` | Token、胶囊导航、入场动画、搜索、滚动条 |
 | `prose.css` | 正文排版骨架（字号、间距、列表） |
 | `markdown.css` | Markdown 增强（链接、callouts、代码、TOC） |
-| `page.css` | 页面级节奏（header 面板、列表 hover、相册、标签筛选） |
+| `page.css` | Studio 内容壳（`.studio-page` / eyebrow / tabs / 404）、列表 hover、相册、标签筛选 |
 
 页面级样式写在 `page.css` 或组件 `<style>` 内，并复用 token；不要在 UnoCSS shortcuts 里扩散新的硬编码色板。
 

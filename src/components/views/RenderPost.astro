@@ -79,7 +79,7 @@ const cjkSearchBoost = isSearchable
   {title}
   {description}
   {ogImage}
-  bgType="glitch"
+  bgType="ambient"
   {pubDate}
   {lastModDate}
   {tags}
@@ -88,7 +88,13 @@ const cjkSearchBoost = isSearchable
   {canonicalLocale}
   {noindex}
 >
-  <StandardLayout {title} {subtitle} {isSearchable} {searchFilter}>
+  <StandardLayout
+    eyebrow={collectionType === 'changelog' ? 'Changelog' : 'Article'}
+    {title}
+    {subtitle}
+    {isSearchable}
+    {searchFilter}
+  >
     <Fragment slot="head">
       <PostMeta {pubDate} {lastModDate} {minutesRead} />
     </Fragment>

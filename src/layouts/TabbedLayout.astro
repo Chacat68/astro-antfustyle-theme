@@ -9,9 +9,10 @@ import type { Tabs } from '~/types'
 
 interface Props {
   subtitle?: string
+  eyebrow?: string
 }
 
-const { subtitle } = Astro.props
+const { subtitle, eyebrow } = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -36,53 +37,48 @@ const tabKeyByPath: Record<string, string> = {
   '/feeds': 'nav.blog',
   '/streams': 'nav.blog',
 }
+
+const activeTab = tabs.find((tab) => isActive(tab.path))
+const activeLabel = activeTab
+  ? t(tabKeyByPath[activeTab.path.replace(/\/+$/, '')] ?? activeTab.title)
+  : ''
 ---
 
-<nav
-  id="nav-tabs"
-  class="prose mx-auto mb-8"
-  aria-label={t('a11y.pageSections')}
->
-  <div
-    u-flex="~ gap-3 lt-sm:(col wrap gap-1)"
-    class="mb-0 text-3xl select-none"
-  >
+<div class="studio-page">
+  <header class="page-header">
     {
-      tabs.map((tab) => (
-        <Link
-          class:list={{
-            'link op-transition!': true,
-            'active': isActive(tab.path),
-            'inactive': !isActive(tab.path),
-          }}
-          href={toHref(tab.path)}
-          aria-current={isActive(tab.path) ? 'page' : undefined}
-        >
-          {t(tabKeyByPath[tab.path.replace(/\/+$/, '')] ?? tab.title)}
-        </Link>
-      ))
+      eyebrow && (
+        <p class="page-eyebrow">
+          <span class="page-eyebrow__dot" aria-hidden="true" />
+          {eyebrow}
+        </p>
+      )
     }
+    <nav class="studio-tabs" aria-label={t('a11y.pageSections')}>
+      {
+        tabs.map((tab) => (
+          <Link
+            class:list={[
+              'studio-tabs__link',
+              isActive(tab.path) && 'studio-tabs__link--active',
+            ]}
+            href={toHref(tab.path)}
+            aria-current={isActive(tab.path) ? 'page' : undefined}
+          >
+            {t(tabKeyByPath[tab.path.replace(/\/+$/, '')] ?? tab.title)}
+          </Link>
+        ))
+      }
+    </nav>
+    {
+      subtitle && (
+        <p class="page-header__subtitle">
+          {activeLabel ? `${activeLabel} · ${subtitle}` : subtitle}
+        </p>
+      )
+    }
+  </header>
+  <div class="prose page-article">
+    <slot />
   </div>
-  {subtitle && <p class="mt-4! op-50 italic">{subtitle}</p>}
-</nav>
-<div class="prose mx-auto">
-  <slot />
 </div>
-
-<style>
-  .link {
-    border-style: none !important;
-  }
-
-  .active {
-    opacity: 1;
-  }
-
-  .inactive {
-    opacity: 0.2;
-  }
-
-  .inactive:hover {
-    opacity: 0.5;
-  }
-</style>

@@ -5,10 +5,10 @@ import ListView from '~/components/views/ListView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
 const page = {
-  bgType: 'glitch',
+  bgType: 'ambient' as const,
   toc: false,
   ogImage: false,
-} as const
+}
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -21,7 +21,7 @@ const t = useTranslations(locale)
   ogImage={page.ogImage}
   noindex={true}
 >
-  <TabbedLayout subtitle={t('page.streams.subtitle')}>
+  <TabbedLayout eyebrow="Updates" subtitle={t('page.streams.subtitle')}>
     <ListView collectionType="streams" pageToc={page.toc} />
   </TabbedLayout>
 </BaseLayout>

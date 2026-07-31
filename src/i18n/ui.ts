@@ -3,6 +3,7 @@ import type { AppLocale } from './locales'
 export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
   zh: {
     // Nav
+    'nav.home': '首页',
     'nav.blog': '博客',
     'nav.projects': '项目',
     'nav.friends': '友链',
@@ -62,6 +63,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'widget.categories': '内容分类',
 
     // Site stats
+    'sitestats.eyebrow': 'Stats',
     'sitestats.title': '网站数据统计',
     'sitestats.operatingTime': '经营时间',
     'sitestats.operatingTimeMain': '自 {start} 至今，共 {days} 天',
@@ -122,6 +124,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Pages
     'page.404.description': '页面未找到',
     'page.404.message': '这里什么也没有，不过很高兴见到你！',
+    'page.404.home': '返回首页',
     'page.blog.title': '博客',
     'page.blog.subtitle':
       '最近专注于读书、创作和跑步，持续创作新内容，为自己源源不断地创造心流体验。',
@@ -291,6 +294,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
   },
   en: {
     // Nav
+    'nav.home': 'Home',
     'nav.blog': 'Blog',
     'nav.projects': 'Projects',
     'nav.friends': 'Friends',
@@ -350,6 +354,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'widget.categories': 'Categories',
 
     // Site stats
+    'sitestats.eyebrow': 'Stats',
     'sitestats.title': 'Site stats',
     'sitestats.operatingTime': 'Operating time',
     'sitestats.operatingTimeMain': 'Since {start}, {days} days in total',
@@ -410,6 +415,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Pages
     'page.404.description': 'Page not found',
     'page.404.message': 'Nice to meet you tho!',
+    'page.404.home': 'Back home',
     'page.blog.title': 'Blog',
     'page.blog.subtitle':
       'Reading notes, running logs, creative work, and life.',

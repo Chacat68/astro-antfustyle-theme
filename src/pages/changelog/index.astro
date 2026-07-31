@@ -10,7 +10,7 @@ const t = useTranslations(locale)
 const isEnglishFallback = !isDefaultLocale(locale)
 
 const page = {
-  bgType: 'glitch',
+  bgType: 'ambient',
   toc: false,
   ogImage: false,
 } as const
@@ -25,7 +25,10 @@ const page = {
   canonicalLocale="zh"
   noindex={isEnglishFallback}
 >
-  <TabbedLayout subtitle={t('page.changelog.subtitle')}>
+  <TabbedLayout
+    eyebrow="Updates"
+    subtitle={t('page.changelog.subtitle')}
+  >
     <ListView collectionType="changelog" pageToc={page.toc} />
   </TabbedLayout>
 </BaseLayout>

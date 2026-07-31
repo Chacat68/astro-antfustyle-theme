@@ -4,11 +4,10 @@ import StandardLayout from '~/layouts/StandardLayout.astro'
 import CardView from '~/components/views/CardView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
 
-// 页面文案统一由 i18n（page.shorts.*）提供
 const page = {
-  bgType: 'glitch',
+  bgType: 'ambient' as const,
   ogImage: true,
-} as const
+}
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -22,6 +21,8 @@ const t = useTranslations(locale)
   noindex={true}
 >
   <StandardLayout
+    wide
+    eyebrow="Shorts"
     title={t('page.shorts.title')}
     subtitle={t('page.shorts.subtitle')}
     isCentered={true}
