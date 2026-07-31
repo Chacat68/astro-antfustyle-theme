@@ -65,8 +65,9 @@
 | 区域 | 约定 |
 |------|------|
 | `html` | 冷灰蓝纯色底；`data-nav-rail="home\|content"` 控制导航轨宽度 |
-| `.site-nav` / `.site-nav__shell` | 悬浮胶囊：深色底 + 浅色字（暗色主题反相）、圆角 pill、轻阴影；`transition:persist` 跨页保留，宽度随轨动画 |
+| `.site-nav` / `.site-nav__shell` | 悬浮胶囊：深色底 + 浅色字（暗色主题反相）、圆角 pill、轻阴影；`transition:name` 做跨页 morph，**不用** `persist`（避免语言切换 / 链接陈旧） |
 | 导航轨宽度 | 首页 `--c-nav-max: 90rem` 对齐 Hero；其余页 `--c-nav-max: 65ch` 对齐 `.prose`；左右垫 `--c-rail-pad` |
+| 搜索浮层 | `#search-panel` 仍在导航内；胶囊**禁止** `backdrop-filter`，否则会变成 fixed 包含块导致面板偏位 |
 | `.page-header` | 大圆角浅面板 + 紧字距标题 |
 | 列表 / 社交链接 | 圆角 hover、轻阴影上浮 |
 | 正文链接 / `hr` | 悬停变色；分隔线克制单色 |

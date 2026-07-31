@@ -44,9 +44,10 @@ for (const item of new Set(left)) {
 }
 ---
 
-<header class="site-nav" transition:persist="site-nav">
+<header class="site-nav" transition:name="site-nav">
   <div
     class={`site-nav__shell ${mergeOnMobile ? 'lt-md:gap-2' : 'lt-md:gap-2'}`}
+    transition:name="site-nav-shell"
   >
     <LogoButton />
     <nav
@@ -137,35 +138,3 @@ for (const item of new Set(left)) {
     </nav>
   </div>
 </header>
-
-<script>
-  const withSlash = (pathname: string) =>
-    pathname.endsWith('/') ? pathname : `${pathname}/`
-
-  function syncPersistedNav() {
-    const isHome = Boolean(document.querySelector('.home-main'))
-    document.documentElement.dataset.navRail = isHome ? 'home' : 'content'
-
-    const path = withSlash(window.location.pathname)
-    document
-      .querySelectorAll<HTMLAnchorElement>('.site-nav a[href]')
-      .forEach((link) => {
-        const href = link.getAttribute('href')
-        if (!href || href.startsWith('http') || href.startsWith('#')) {
-          link.removeAttribute('aria-current')
-          return
-        }
-        try {
-          const current =
-            withSlash(new URL(href, window.location.origin).pathname) === path
-          if (current) link.setAttribute('aria-current', 'page')
-          else link.removeAttribute('aria-current')
-        } catch {
-          link.removeAttribute('aria-current')
-        }
-      })
-  }
-
-  syncPersistedNav()
-  document.addEventListener('astro:page-load', syncPersistedNav)
-</script>

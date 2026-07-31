@@ -18,7 +18,7 @@
   --c-page-tint: rgba(183, 189, 193, 0.22);
   --c-hero-bg: #b7bdc1;
   --c-nav-fg: #fafafa;
-  --c-nav-bg: rgba(10, 10, 10, 0.95);
+  --c-nav-bg: #0a0a0a;
   --c-glitch-red: #ff2a4a;
   --c-glitch-cyan: #2ad4ff;
 
@@ -71,7 +71,7 @@ html[data-nav-rail='home'] {
   --c-page-tint: rgba(42, 45, 49, 0.45);
   --c-hero-bg: #2a2d31;
   --c-nav-fg: #0a0a0a;
-  --c-nav-bg: rgba(244, 244, 245, 0.95);
+  --c-nav-bg: #f4f4f5;
   --c-glitch-red: #ff2a4a;
   --c-glitch-cyan: #2ad4ff;
 
@@ -129,11 +129,10 @@ summary {
   padding: 0.45rem 0.55rem 0.45rem 1rem;
   border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
   border-radius: 999px;
+  /* 不用 backdrop-filter：避免成为 search-panel 的 fixed 包含块 */
   background: var(--c-nav-bg);
   color: var(--c-nav-fg);
   box-shadow: var(--c-shadow);
-  backdrop-filter: blur(16px) saturate(1.05);
-  -webkit-backdrop-filter: blur(16px) saturate(1.05);
   transition:
     max-width 0.55s var(--ease-out),
     box-shadow var(--duration) var(--ease-out);
@@ -188,8 +187,6 @@ summary {
     border: 0;
     background: transparent;
     box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
     color: var(--c-text);
   }
 }
