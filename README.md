@@ -90,7 +90,7 @@ Entries use the same basic shape in both data files. The AI gallery also support
 ]
 ```
 
-Build-time JSON (`/photos/photos.<hash>.json`, `/gallery/gallery.<hash>.json`) carries thumbnails and placeholders. Toggle layout (masonry / square) is stored per page in `localStorage` (`photo-layout` vs `ai-gallery-layout`). Add remote image hosts to `SITE.imageDomains` in `src/config.ts` when Astro needs to optimize a new domain. Hide the gallery nav item in `src/config.ts` if you do not need it.
+Build-time JSON (`/photos/photos.<hash>.json`, `/gallery/gallery.<hash>.json`) carries thumbnails and placeholders. `/photos` sorts entries by `id` descending so newer COS timestamp filenames appear first. Toggle layout (masonry / square) is stored per page in `localStorage` (`photo-layout` vs `ai-gallery-layout`). Add remote image hosts to `SITE.imageDomains` in `src/config.ts` when Astro needs to optimize a new domain. Hide the gallery nav item in `src/config.ts` if you do not need it.
 
 ## Preview
 

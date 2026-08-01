@@ -10,10 +10,14 @@ import type { APIRoute } from 'astro'
 
 const CACHE_PATH = './node_modules/.astro/photos/'
 
-const photos = (await getCollection('photos')).map((p) => ({
-  id: p.data.id,
-  desc: p.data.desc,
-}))
+// file loader 会按 entry id（即图片 URL/路径）升序返回，COS 时间戳文件名会把新图排到末尾。
+// 这里按 id 降序，让新上传的照片出现在相册前面。
+const photos = (await getCollection('photos'))
+  .map((p) => ({
+    id: p.data.id,
+    desc: p.data.desc,
+  }))
+  .sort((a, b) => b.id.localeCompare(a.id))
 
 export const hash = computeGalleryHash(photos)
 
