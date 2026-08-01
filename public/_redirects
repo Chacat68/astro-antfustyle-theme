@@ -22,7 +22,11 @@
 /article/Steam2022/ https://foo-z.com/blog/steam2022/ 301
 
 # Old top-level pages whose purpose or location changed.
-# /about 现由 src/pages/about.astro 承接，不再重定向到首页
+# 关于内容已并入首页 #about（Location 带 hash，浏览器落点到关于区）
+/about https://foo-z.com/#about 301
+/about/ https://foo-z.com/#about 301
+/en/about https://foo-z.com/en/#about 301
+/en/about/ https://foo-z.com/en/#about 301
 /archive https://foo-z.com/blog/ 301
 /archive/ https://foo-z.com/blog/ 301
 /article https://foo-z.com/blog/ 301

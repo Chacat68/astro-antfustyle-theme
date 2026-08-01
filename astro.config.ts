@@ -22,7 +22,6 @@ const englishBlogIds = collectMarkdownContentIds(
 const englishStaticRoutePaths = [
   '/en/',
   '/en/blog/',
-  '/en/about/',
   '/en/friends/',
   '/en/photos/',
   '/en/gallery/',

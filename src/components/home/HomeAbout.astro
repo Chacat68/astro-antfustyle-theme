@@ -1,13 +1,11 @@
 ---
 /**
- * 首页「关于我」展示：简介 / 理念 / 历程 / 联系
- * 视觉对齐 Studio 体系：宽轨排版、大圆角影像、克制动效
+ * 首页「关于我」完整内容（原 /about 已并入此处）
  */
 import { Image } from 'astro:assets'
 import Link from '~/components/base/Link.astro'
+import ImageViewer from '~/components/widgets/ImageViewer.astro'
 import { UI } from '~/config'
-import { ensureTrailingSlash } from '~/utils/path'
-import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
 import imgTime from '~/assets/about/DSC03299.webp'
 import imgFree from '~/assets/about/DSC04066.webp'
@@ -15,7 +13,6 @@ import imgSimple from '~/assets/about/DSC03225.webp'
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
-const aboutHref = ensureTrailingSlash(getRelativeLocaleUrl(locale, 'about'))
 
 const roles = [
   t('home.about.role.game'),
@@ -24,34 +21,42 @@ const roles = [
   t('home.about.role.code'),
 ] as const
 
-const philosophy = [
+const historyItems = [
+  t('about.history.item1'),
+  t('about.history.item2'),
+  t('about.history.item3'),
+  t('about.history.item4'),
+  t('about.history.item5'),
+  t('about.history.item6'),
+] as const
+
+const simpleItems = [
+  t('about.philosophy.simple.item1'),
+  t('about.philosophy.simple.item2'),
+  t('about.philosophy.simple.item3'),
+] as const
+
+const philosophySections = [
   {
     title: t('about.philosophy.time.title'),
-    body: t('about.philosophy.time.p1'),
     image: imgTime,
     alt: t('about.philosophy.time.imgAlt'),
+    paragraphs: [
+      t('about.philosophy.time.p1'),
+      t('about.philosophy.time.p2'),
+      t('about.philosophy.time.p3'),
+    ],
   },
   {
     title: t('about.philosophy.free.title'),
-    body: t('about.philosophy.free.p1'),
     image: imgFree,
     alt: t('about.philosophy.free.imgAlt'),
+    paragraphs: [
+      t('about.philosophy.free.p1'),
+      t('about.philosophy.free.p2'),
+      t('about.philosophy.free.p3'),
+    ],
   },
-  {
-    title: t('about.philosophy.simple.title'),
-    body: t('about.philosophy.simple.p1'),
-    image: imgSimple,
-    alt: t('about.philosophy.simple.imgAlt'),
-  },
-] as const
-
-const journey = [
-  { year: '2008', text: t('home.about.journey.2008') },
-  { year: '2013', text: t('home.about.journey.2013') },
-  { year: '2019', text: t('home.about.journey.2019') },
-  { year: '2023', text: t('home.about.journey.2023') },
-  { year: '2024', text: t('home.about.journey.2024') },
-  { year: '2025', text: t('home.about.journey.2025') },
 ] as const
 
 const socialLabel = (title: string) => {
@@ -62,105 +67,118 @@ const socialLabel = (title: string) => {
 ---
 
 <section class="home-about" id="about" aria-labelledby="home-about-title">
-  <div class="home-about__rail">
-    <header class="home-about__intro">
-      <p class="home-about__eyebrow">
-        <span class="home-about__dot" aria-hidden="true"></span>
+  <div class="about-page">
+    <header class="about-page__intro">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow__dot" aria-hidden="true"></span>
         {t('home.about.eyebrow')}
       </p>
-      <h2 class="home-about__title" id="home-about-title">
+      <h2 class="about-page__title" id="home-about-title">
         {t('home.about.title')}
       </h2>
-      <div class="home-about__lead">
+      <div class="about-page__lead">
         <p>{t('home.intro1')}</p>
         <p>{t('home.intro2')}</p>
       </div>
-      <ul class="home-about__roles" aria-label={t('home.about.rolesAria')}>
-        {
-          roles.map((role) => (
-            <li>{role}</li>
-          ))
-        }
+      <ul class="about-page__roles" aria-label={t('home.about.rolesAria')}>
+        {roles.map((role) => <li>{role}</li>)}
       </ul>
     </header>
 
-    <div class="home-about__block">
-      <div class="home-about__block-head">
-        <p class="home-about__eyebrow">
-          <span class="home-about__dot" aria-hidden="true"></span>
-          {t('home.about.philosophyEyebrow')}
-        </p>
-        <h3 class="home-about__block-title">{t('home.about.philosophyTitle')}</h3>
-      </div>
-      <div class="home-about__philosophy">
+    <div class="about-page__block" aria-labelledby="home-about-history">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow__dot" aria-hidden="true"></span>
+        {t('home.about.journeyEyebrow')}
+      </p>
+      <h3 class="about-page__heading" id="home-about-history">
+        {t('about.history.title')}
+      </h3>
+      <ol class="about-page__history">
         {
-          philosophy.map((item, index) => (
-            <article
-              class="home-about__pillar"
-              style={`--pillar-i: ${index}`}
-            >
-              <figure class="home-about__pillar-media">
-                <Image
-                  src={item.image}
-                  alt={item.alt}
-                  widths={[480, 720, 960]}
-                  sizes="(max-width: 900px) 100vw, 33vw"
-                  loading="lazy"
-                />
-              </figure>
-              <h4 class="home-about__pillar-title">{item.title}</h4>
-              <p class="home-about__pillar-body">{item.body}</p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="home-about__block">
-      <div class="home-about__block-head">
-        <p class="home-about__eyebrow">
-          <span class="home-about__dot" aria-hidden="true"></span>
-          {t('home.about.journeyEyebrow')}
-        </p>
-        <h3 class="home-about__block-title">{t('home.about.journeyTitle')}</h3>
-      </div>
-      <ol class="home-about__journey">
-        {
-          journey.map((item) => (
-            <li class="home-about__journey-item">
-              <span class="home-about__journey-year">{item.year}</span>
-              <span class="home-about__journey-text">{item.text}</span>
-            </li>
+          historyItems.map((item) => (
+            <li class="about-page__history-item" set:html={item} />
           ))
         }
       </ol>
     </div>
 
-    <div class="home-about__cta" aria-labelledby="home-about-contact">
-      <div class="home-about__cta-copy">
-        <p class="home-about__eyebrow home-about__eyebrow--on-dark">
-          <span class="home-about__dot" aria-hidden="true"></span>
+    <div class="about-page__block" aria-labelledby="home-about-philosophy">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow__dot" aria-hidden="true"></span>
+        {t('home.about.philosophyEyebrow')}
+      </p>
+      <h3 class="about-page__heading" id="home-about-philosophy">
+        {t('about.philosophy.title')}
+      </h3>
+
+      {
+        philosophySections.map((section) => (
+          <article class="about-page__pillar">
+            <figure class="about-page__media">
+              <Image
+                src={section.image}
+                alt={section.alt}
+                widths={[640, 960, 1280]}
+                sizes="(max-width: 768px) 100vw, 720px"
+                loading="lazy"
+              />
+            </figure>
+            <div class="about-page__pillar-copy">
+              <h4>{section.title}</h4>
+              {section.paragraphs.map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+
+      <article class="about-page__pillar">
+        <figure class="about-page__media">
+          <Image
+            src={imgSimple}
+            alt={t('about.philosophy.simple.imgAlt')}
+            widths={[640, 960, 1280]}
+            sizes="(max-width: 768px) 100vw, 720px"
+            loading="lazy"
+          />
+        </figure>
+        <div class="about-page__pillar-copy">
+          <h4>{t('about.philosophy.simple.title')}</h4>
+          <p>{t('about.philosophy.simple.p1')}</p>
+          <p>{t('about.philosophy.simple.lead')}</p>
+          <ul>
+            {simpleItems.map((item) => <li set:html={item} />)}
+          </ul>
+          <p>{t('about.philosophy.simple.p2')}</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="about-page__cta" aria-labelledby="home-about-contact">
+      <div class="about-page__cta-copy">
+        <p class="page-eyebrow page-eyebrow--on-dark">
+          <span class="page-eyebrow__dot" aria-hidden="true"></span>
           {t('home.about.contactEyebrow')}
         </p>
-        <h3 class="home-about__cta-title" id="home-about-contact">
+        <h3 class="about-page__cta-title" id="home-about-contact">
           {t('about.contact.title')}
         </h3>
-        <p class="home-about__cta-desc">{t('about.contact.p2')}</p>
+        <p>{t('about.contact.p1')}</p>
+        <p>{t('about.contact.p2')}</p>
       </div>
-      <div class="home-about__cta-actions">
-        <a class="home-about__cta-primary" href="mailto:chawf56@outlook.com">
+      <div class="about-page__cta-actions">
+        <a class="about-page__mail" href="mailto:chawf56@outlook.com">
           chawf56@outlook.com
         </a>
-        <Link class="home-about__cta-secondary" href={aboutHref}>
-          {t('home.about.more')}
-        </Link>
-        <div class="home-about__cta-socials">
+        <div class="about-page__socials">
+          <span class="about-page__socials-label">{t('home.findMeOn')}</span>
           {
-            UI.socialLinks.slice(0, 4).map((item) => (
+            UI.socialLinks.map((item) => (
               <Link
                 href={item.link}
                 title={item.title}
-                class="home-about__cta-social"
+                class="about-page__social"
                 aria-label={socialLabel(item.title)}
                 external
               >
@@ -174,338 +192,13 @@ const socialLabel = (title: string) => {
       </div>
     </div>
   </div>
+  <ImageViewer selector=".about-page" options={{ title: 0, navbar: 0 }} />
 </section>
 
 <style>
   .home-about {
     width: 100%;
-    padding: 4.5rem var(--c-rail-pad, 1.25rem) 5rem;
+    padding: var(--c-space-section) var(--c-rail-pad, 1.25rem);
     color: var(--c-text);
-  }
-
-  .home-about__rail {
-    width: 100%;
-    max-width: min(72rem, var(--c-hero-max, 90rem));
-    margin-inline: auto;
-    display: grid;
-    gap: 4.5rem;
-  }
-
-  .home-about__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0;
-    color: var(--c-muted);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-
-  .home-about__eyebrow--on-dark {
-    color: rgba(250, 250, 250, 0.72);
-  }
-
-  .home-about__dot {
-    width: 0.35rem;
-    height: 0.35rem;
-    border-radius: 999px;
-    background: currentColor;
-  }
-
-  .home-about__intro {
-    display: grid;
-    gap: 1.25rem;
-    max-width: 42rem;
-  }
-
-  .home-about__title {
-    margin: 0;
-    font-size: clamp(2rem, 4.5vw, 3.25rem);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-  }
-
-  .home-about__lead {
-    display: grid;
-    gap: 0.85rem;
-    color: var(--c-muted);
-    font-size: 1.05rem;
-    line-height: 1.7;
-  }
-
-  .home-about__lead p {
-    margin: 0;
-  }
-
-  .home-about__roles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem 1.1rem;
-    margin: 0.35rem 0 0;
-    padding: 0;
-    list-style: none;
-    color: var(--c-text);
-    font-size: 0.92rem;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
-
-  .home-about__roles li {
-    position: relative;
-  }
-
-  .home-about__roles li:not(:last-child)::after {
-    content: '·';
-    margin-inline-start: 1.1rem;
-    color: var(--c-muted);
-  }
-
-  .home-about__block {
-    display: grid;
-    gap: 1.75rem;
-  }
-
-  .home-about__block-head {
-    display: grid;
-    gap: 0.65rem;
-    max-width: 36rem;
-  }
-
-  .home-about__block-title {
-    margin: 0;
-    font-size: clamp(1.45rem, 2.4vw, 1.9rem);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
-  }
-
-  .home-about__philosophy {
-    display: grid;
-    gap: 1.25rem;
-  }
-
-  .home-about__pillar {
-    display: grid;
-    gap: 0.85rem;
-    align-content: start;
-  }
-
-  .home-about__pillar-media {
-    margin: 0;
-    overflow: hidden;
-    border-radius: var(--c-radius-lg);
-    aspect-ratio: 4 / 3;
-    background: var(--c-hero-bg, #b7bdc1);
-    box-shadow: var(--c-shadow);
-  }
-
-  .home-about__pillar-media :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.7s var(--ease-out);
-  }
-
-  .home-about__pillar:hover .home-about__pillar-media :global(img) {
-    transform: scale(1.03);
-  }
-
-  .home-about__pillar-title {
-    margin: 0.15rem 0 0;
-    font-size: 1.15rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  .home-about__pillar-body {
-    margin: 0;
-    color: var(--c-muted);
-    font-size: 0.95rem;
-    line-height: 1.65;
-  }
-
-  .home-about__journey {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0;
-    border-top: 1px solid var(--c-border);
-  }
-
-  .home-about__journey-item {
-    display: grid;
-    grid-template-columns: 5.5rem 1fr;
-    gap: 1rem;
-    padding: 1.15rem 0;
-    border-bottom: 1px solid var(--c-border);
-  }
-
-  .home-about__journey-year {
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .home-about__journey-text {
-    color: var(--c-muted);
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
-
-  .home-about__cta {
-    display: grid;
-    gap: 1.75rem;
-    padding: 2rem 1.5rem;
-    border-radius: 2rem;
-    background: var(--c-nav-bg);
-    color: var(--c-nav-fg);
-    box-shadow: var(--c-shadow);
-  }
-
-  .home-about__cta-copy {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .home-about__cta-title {
-    margin: 0;
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-  }
-
-  .home-about__cta-desc {
-    margin: 0;
-    max-width: 28rem;
-    color: color-mix(in srgb, var(--c-nav-fg) 72%, transparent);
-    font-size: 0.98rem;
-    line-height: 1.65;
-  }
-
-  .home-about__cta-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .home-about__cta-primary,
-  .home-about__cta-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.6rem;
-    padding: 0.55rem 1.15rem;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition:
-      transform var(--duration-fast) var(--ease-out),
-      background-color var(--duration-fast) var(--ease-out),
-      color var(--duration-fast) var(--ease-out);
-  }
-
-  .home-about__cta-primary {
-    background: var(--c-nav-fg);
-    color: var(--c-nav-bg) !important;
-    opacity: 1 !important;
-  }
-
-  .home-about__cta-secondary {
-    border: 1px solid color-mix(in srgb, var(--c-nav-fg) 28%, transparent);
-    color: var(--c-nav-fg) !important;
-    opacity: 1 !important;
-    background: transparent;
-  }
-
-  .home-about__cta-primary:hover,
-  .home-about__cta-primary:focus-visible,
-  .home-about__cta-secondary:hover,
-  .home-about__cta-secondary:focus-visible {
-    transform: translateY(-2px);
-    outline: none;
-  }
-
-  .home-about__cta-secondary:hover,
-  .home-about__cta-secondary:focus-visible {
-    background: color-mix(in srgb, var(--c-nav-fg) 10%, transparent);
-  }
-
-  .home-about__cta-socials {
-    display: inline-flex;
-    gap: 0.45rem;
-    margin-inline-start: 0.25rem;
-  }
-
-  .home-about__cta-social {
-    display: grid;
-    place-items: center;
-    width: 2.35rem;
-    height: 2.35rem;
-    border: 1px solid color-mix(in srgb, var(--c-nav-fg) 24%, transparent);
-    border-radius: 999px;
-    color: color-mix(in srgb, var(--c-nav-fg) 88%, transparent) !important;
-    opacity: 1 !important;
-    font-size: 1rem;
-    transition:
-      background-color var(--duration-fast) var(--ease-out),
-      color var(--duration-fast) var(--ease-out);
-  }
-
-  .home-about__cta-social:hover,
-  .home-about__cta-social:focus-visible {
-    background: color-mix(in srgb, var(--c-nav-fg) 12%, transparent);
-    color: var(--c-nav-fg) !important;
-    outline: none;
-  }
-
-  @media (min-width: 768px) {
-    .home-about {
-      padding-block: 5.5rem 6rem;
-    }
-
-    .home-about__philosophy {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.5rem;
-    }
-
-    .home-about__journey-item {
-      grid-template-columns: 7rem 1fr;
-      gap: 1.5rem;
-      padding-block: 1.35rem;
-    }
-
-    .home-about__cta {
-      grid-template-columns: 1.2fr 1fr;
-      align-items: end;
-      gap: 2rem;
-      padding: 2.5rem 2.25rem;
-    }
-
-    .home-about__cta-actions {
-      justify-content: flex-end;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .home-about__pillar-media :global(img),
-    .home-about__cta-primary,
-    .home-about__cta-secondary {
-      transition: none;
-    }
-
-    .home-about__pillar:hover .home-about__pillar-media :global(img),
-    .home-about__cta-primary:hover,
-    .home-about__cta-secondary:hover {
-      transform: none;
-    }
   }
 </style>

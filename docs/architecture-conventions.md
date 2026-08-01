@@ -16,7 +16,7 @@
 
 1. **禁止硬编码 `locale === 'zh' / 'en'`**。路由相关判断使用 `isDefaultLocale(locale)`，语言切换使用 `getAlternateLocale(locale)`。
 2. **页面文案不写在页面 frontmatter 里**，统一走 `ui.ts` 的 `page.*` 键。页面顶部仅保留行为配置（`bgType` / `toc` / `ogImage`）。
-3. **导航文案**由 `ui.ts` 的 `nav.*` 键提供（`NavBar.astro` 中 `navKeyByPath` 映射）；`src/config.ts` 中 `internalNavs` 的 `title`/`text` 仅作 fallback。
+3. **导航文案**由 `ui.ts` 的 `nav.*` 键提供（`NavBar.astro` 中 `navKeyByPath` 映射）；内部导航统一 `alwaysText`，`title`/`text` 由 i18n 覆盖。
 
 ### 客户端脚本的 i18n
 
@@ -42,6 +42,7 @@
 
 - `descEn` / `categoryEn` 为可选字段（见 `src/content/schema.ts`），缺省时英文路由回退中文。
 - 渲染端通过 `pickLocalized(locale, zhValue, enValue)` 取值（见 `GroupView.astro`）。
+- 友链列表在 `GroupView` 中按数据源**倒序**展示（数组末项靠前）；项目列表保持原序。
 
 ## 组件组织
 
@@ -49,7 +50,7 @@
 - **`src/components/widgets/search-panel.ts`**：`<search-panel>` 自定义元素完整逻辑，`SearchSwitch.astro` 仅保留模板与 Pagefind 装载脚本。
 - **站内搜索（Pagefind）**：`postbuild` 使用 Pagefind **≥ 1.5**，`--force-language zh-cn` 统一索引；`pagefind.init('zh-cn')`。`noindex` 页（英文回退中文稿）不入索引，避免重复占位。正文内注入标题/标签及 CJK 整词·单字·二元组增强召回；查询侧对中文做变体搜索合并。`postbuild` 同步索引到 `public/pagefind/`（gitignore）供 `pnpm dev` 联调。`SearchSwitch` 默认不急切加载；打开搜索（或 URL `?search=`）再 `__loadPagefind()` / `__loadPagefindHighlight()`。`astro:page-load` 在 View Transitions 落到 `?search=` 时须先 `await` 装载再 `highlight()`（内联脚本不会随 SPA 重跑）。
 - **`src/components/backgrounds/Ambient.astro`**：默认全站轻量氛围背景（CSS 色晕 + 细颗粒）。`Background.astro` 将旧 `bgType`（glitch/dot/plum/rose…）映射到 Ambient；页面默认传 `bgType: 'ambient'`。
-- **首页展示台**：[`StudioHero.astro`](../src/components/home/StudioHero.astro) 为大圆角氛围舞台 + 品牌标题 + CTA；下方 [`HomeAbout.astro`](../src/components/home/HomeAbout.astro) 为「关于我」摘要。完整 About 在 [`/about`](../src/pages/about.astro)（Studio 独立排版；文案 `about.*` / `home.about.*`；理念配图 `src/assets/about/`）。
+- **首页展示台**：[`StudioHero.astro`](../src/components/home/StudioHero.astro) 为大圆角氛围舞台 + 核心主题；下方 [`HomeAbout.astro`](../src/components/home/HomeAbout.astro) 承载完整关于内容（`.about-page`，样式在 `page.css`；`#about`）。独立 `/about` 已删除，旧链经 `public/_redirects` 回首页。文案 `about.*` / `home.about.*`；理念配图 `src/assets/about/`。全站页面轨宽统一 `70rem`；垂直节奏用 `--c-space-nav-page` / `--c-space-section` / `--c-space-block`（见 `main.css`）。
 - **内容页布局**：[`StandardLayout.astro`](../src/layouts/StandardLayout.astro) / [`TabbedLayout.astro`](../src/layouts/TabbedLayout.astro) 提供 Studio 内容壳（eyebrow、宽轨、胶囊 Tab）；列表/卡片/项目组件见 `GroupItem` / `CardItem` / `GithubItem`。
 - **字体**：`src/styles/fonts.css`（若启用本地子集）或 Bunny Fonts / 等价 CDN；`Head.astro` preload 主字重。禁止用 `presetWebFonts` 拉全子集。搜索浮层约束见 [design-system.md](./design-system.md)。
 - **KaTeX**：样式仅在 `RenderPost.astro` 引入，勿写回 `markdown.css` 全站 `@import`。
@@ -60,6 +61,7 @@
 - **`src/components/views/PhotoView.astro`**：相册/画廊客户端 CE。`connectedCallback` 为 async：用 `#mountGeneration` + `AbortController` 在 View Transitions 离开后丢弃过期初始化；`.photo-loader` 在父级内查找，勿用全局 `document.querySelector`。
 - **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro`（Bluesky `html` / `details`）与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；带 `target` 的链接会强制 `rel="noopener noreferrer"`。新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
 - **`src/utils/reading-time.ts`**：阅读时间估算（`resolveMinutesRead` / `estimateMinutesReadFromText`）。列表页（`ListView.astro`）用 entry `body` 估算，**禁止**为取 `minutesRead` 对每篇 `await render()`；remark 插件 `plugins/remark-reading-time.ts` 与正文页共用同一公式。
+- **列表排序**：博客 `ListView` 按发布日新→旧；日志（changelog）按旧→新，使序号 `01` 对应最早一条更新。
 - **`src/utils/markdown-headings.ts`**：从 Markdown `body` 提取标题（`extractMarkdownHeadings`）。Shorts（`getShortsFromBlog`）用此工具取 h2 锚点，**禁止**为取 headings 对每篇 `await render()`。
 - **`public/_headers`**：Cloudflare Workers 静态资源安全响应头。CSP 要点：
   - **Pagefind**：`script-src 'wasm-unsafe-eval'` + `worker-src 'self' blob:`
@@ -86,7 +88,7 @@ node -e "require('sharp')('in.webp').resize({width:2000,height:2000,fit:'inside'
 ```
 
 - 2026-06 压缩前的原图备份在 `.backup/photos-originals/`（也可从 git 历史恢复）。
-- 正文远程图域名见 `SITE.imageDomains`（含腾讯云 COS）。**禁止**在 Markdown 中使用裸 `.tif` / `.tiff` 链接：Astro 远程优化会在构建期失败，浏览器也无法直接显示。历史 TIFF 请追加 COS 数据万象参数，例如 `?imageMogr2/format/webp`（见 [deployment.md](./deployment.md) 常见问题）。
+- `SITE.imageDomains` 仅授权需 Astro 构建期优化的远程图域名（如 Bluesky / Unsplash）。**腾讯云 COS 不加入该列表**：正文大量 COS 图走原链（`?imageSlim` 等），避免 Cloudflare Builds 境外拉取失败导致「Failed to parse image reference」。**禁止**在 Markdown 中使用裸 `.tif` / `.tiff` 链接；历史 TIFF 请追加 `?imageMogr2/format/webp`（见 [deployment.md](./deployment.md) 常见问题）。
 
 ## 工程配置
 

@@ -123,16 +123,13 @@ const navRail =
     {!minimalChrome && <NavBar />}
 
     <!-- Main -->
-    <main
-      id="main"
-      class:list={['relative px-5 py-8 sm:(px-7 py-10)', mainClass]}
-    >
+    <main id="main" class:list={['relative', mainClass]}>
       <!-- Content -->
       <slot />
       <!-- Share -->
       {
         ensureTrailingSlash(Astro.url.pathname) !== localeHome && (
-          <footer class="slide-enter animate-delay-1000! prose mx-auto mt-8 print:hidden">
+          <footer class="slide-enter animate-delay-1000! prose page-share mx-auto print:hidden">
             <slot name="share" />
             <br />
             <BackLink />

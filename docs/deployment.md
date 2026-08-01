@@ -66,6 +66,22 @@ curl -s https://foo-z.com/ | grep -o 'rel="canonical" href="[^"]*"'
 
 ## 常见问题
 
+### 构建失败：Failed to parse image reference（COS / 远程图）
+
+日志类似：
+
+```text
+Failed to parse image reference: {&#x22;inferSize&#x22;:true,&#x22;src&#x22;:&#x22;https://blog-1259751088.cos.ap-shanghai.myqcloud.com/....png?imageSlim&#x22;,...}
+Caught error rendering /blog/design7
+```
+
+说明：Astro 在 `updateImageReferencesInBody` 里对 JSON 解析失败和 `getImage`/`inferSize` 失败共用同一报错文案。Cloudflare Builds 从境外拉腾讯云上海 COS 时，常见真实原因是远程拉取超时或失败（单页多图时更明显），不一定是 JSON 本身坏了。
+
+处理：
+
+1. **推荐（已落地）**：不要把 `blog-1259751088.cos.ap-shanghai.myqcloud.com` 放进 `SITE.imageDomains`。正文 Markdown 远程图将按原链输出，由 COS/`?imageSlim` 负责优化，构建不再依赖境外拉取。
+2. 若必须启用 Astro 远程优化：保证构建环境能稳定访问该 COS，并避免超大图、裸 `.tif`。
+
 ### 构建失败：Failed to parse image reference（`.tif`）
 
 日志类似：
@@ -75,9 +91,9 @@ Failed to parse image reference: ... "src":".../uPic/xxx.tif" ...
 Caught error rendering /blog/diary1
 ```
 
-原因：正文 Markdown 使用了腾讯云 COS 上的 **TIFF**（体积可达十余 MB）。`SITE.imageDomains` 启用远程优化后，Astro 会在构建期拉取并解析图片；`.tif` 不被该管线可靠支持，且浏览器也几乎无法直接显示。
+原因：正文 Markdown 使用了腾讯云 COS 上的 **TIFF**（体积可达十余 MB）。若 COS 域名在 `SITE.imageDomains` 中，Astro 会在构建期拉取并解析；`.tif` 不被该管线可靠支持，且浏览器也几乎无法直接显示。
 
-处理：在 COS 原链后追加数据万象参数，让构建与浏览器拿到 WebP/JPEG，例如：
+处理：在 COS 原链后追加数据万象参数，让浏览器拿到 WebP/JPEG，例如：
 
 ```markdown
 ![alt](https://blog-1259751088.cos.ap-shanghai.myqcloud.com/uPic/xxx.tif?imageMogr2/format/webp)

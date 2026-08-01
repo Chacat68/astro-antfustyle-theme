@@ -24,7 +24,6 @@ const navKeyByPath: Record<string, string> = {
   '/photos': 'nav.photos',
   '/gallery': 'nav.gallery',
   '/changelog': 'nav.changelog',
-  '/about': 'nav.about',
 }
 
 const localizedInternalNavs = internalNavs.map((item) => {
@@ -55,24 +54,14 @@ for (const item of new Set(left)) {
     <LogoButton />
     <nav
       class:list={[
-        'flex items-center gap-3 w-full min-w-0',
-        mergeOnMobile ? 'lt-lg:justify-end' : 'lt-md:justify-end',
-        left.length !== 0
-          ? right.length !== 0
-            ? 'justify-between'
-            : ''
-          : 'justify-end',
+        'site-nav__menu flex items-center justify-end gap-2 min-w-0',
+        left.length !== 0 && right.length !== 0 && 'justify-between',
       ]}
       aria-label={t('a11y.mainMenu')}
     >
       {
         left.length !== 0 && (
-          <div
-            class:list={[
-              'flex items-center gap-3 print:op-0',
-              mergeOnMobile ? 'lt-lg:gap-2' : 'lt-md:gap-2',
-            ]}
-          >
+          <div class="site-nav__primary flex items-center print:op-0">
             <NavBarSlot
               keys={left}
               {mergeOnMobile}
@@ -86,11 +75,10 @@ for (const item of new Set(left)) {
         right.length !== 0 && (
           <div
             class:list={[
-              'flex items-center gap-3 print:op-0',
+              'site-nav__utility flex items-center print:op-0',
               !right.includes('themeButton') &&
                 !right.includes('searchButton') &&
                 (mergeOnMobile ? 'lt-lg:hidden' : 'lt-md:hidden'),
-              mergeOnMobile ? 'lt-lg:gap-2' : 'lt-md:gap-2',
             ]}
           >
             <NavBarSlot
@@ -147,7 +135,7 @@ for (const item of new Set(left)) {
                   />
                 ))}
               <LanguageSwitch />
-              <RssLink class="op-50!" />
+              <RssLink />
             </Fragment>
           </NavSwitch>
         )

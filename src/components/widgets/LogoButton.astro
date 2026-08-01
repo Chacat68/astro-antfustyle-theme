@@ -1,7 +1,6 @@
 ---
 /**
- * 导航左上角品牌字标（Studio 风格）
- * 简洁字标 + 轻微 hover 上浮，对齐胶囊导航对比色
+ * 导航品牌字标：纯文本，无徽标/底色
  */
 import Link from '~/components/base/Link.astro'
 import { ensureTrailingSlash } from '~/utils/path'
@@ -15,71 +14,71 @@ const word = SITE.title
 ---
 
 <Link
-  class="logo-link select-none op-100! hover:op-100"
+  class="logo-link select-none"
   href={homeHref}
-  aria-label={SITE.author}
+  aria-label={SITE.title}
   aria-current={ensureTrailingSlash(Astro.url.pathname) === homeHref
     ? 'page'
-    : false}
+    : undefined}
 >
-  <span class="logo">
-    <span class="logo-word">{word}</span>
-    <sup class="logo-sup" aria-hidden="true">z</sup>
-  </span>
+  <span class="logo-word">{word}</span>
 </Link>
 
-<style>
-  .logo {
+<style is:global>
+  .site-nav__shell a.logo-link {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.15rem;
-    padding: 0.2rem 0.15rem;
+    align-items: center;
+    padding: 0.15rem 0.1rem;
+    color: var(--c-nav-fg);
+    text-decoration: none;
+    opacity: 1 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    transform: none;
   }
 
-  .logo-word {
+  .site-nav__shell a.logo-link:hover,
+  .site-nav__shell a.logo-link:focus-visible,
+  .site-nav__shell a.logo-link[aria-current='page'] {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    transform: none;
+  }
+
+  .site-nav__shell .logo-word {
     display: block;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.02em;
     white-space: nowrap;
     color: inherit;
-    transition: transform var(--duration-fast, 160ms) var(--ease-out, ease);
+    background: transparent;
+    transition: opacity var(--duration-fast, 160ms) var(--ease-out, ease);
   }
 
-  .logo-sup {
-    font-size: 0.62rem;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0;
-    opacity: 0.55;
+  .site-nav__shell a.logo-link:hover .logo-word,
+  .site-nav__shell a.logo-link:focus-visible .logo-word {
+    opacity: 0.78;
   }
 
-  .logo-link:hover .logo-word,
-  .logo-link:focus-visible .logo-word {
-    transform: translateY(-1px);
-  }
-
-  .logo-link:focus-visible {
+  .site-nav__shell a.logo-link:focus-visible {
     outline: 1px solid color-mix(in srgb, currentColor 55%, transparent);
     outline-offset: 4px;
-    border-radius: 999px;
   }
 
-  @media (max-width: 767.9px) {
-    .logo-word {
-      font-size: 0.98rem;
+  @media (max-width: 379.9px) {
+    .site-nav__shell .logo-word {
+      font-size: 0.92rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .logo-word {
+    .site-nav__shell .logo-word {
       transition: none;
-    }
-
-    .logo-link:hover .logo-word,
-    .logo-link:focus-visible .logo-word {
-      transform: none;
     }
   }
 </style>

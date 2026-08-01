@@ -34,12 +34,17 @@
   --duration-fast: 160ms;
   --duration: 220ms;
 
-  /* 对齐轨：默认对齐正文；首页 Hero；宽页对齐 shell */
-  --c-content-max: 65ch;
-  --c-hero-max: 90rem;
-  --c-wide-max: 75rem;
+  /* 对齐轨：全站页面宽度统一 70rem */
+  --c-content-max: 70rem;
+  --c-hero-max: 70rem;
+  --c-wide-max: 70rem;
   --c-nav-max: var(--c-content-max);
   --c-rail-pad: 1.25rem;
+
+  /* 垂直节奏：导航↔页面、页面内大区块统一 */
+  --c-space-nav-page: 1.15rem;
+  --c-space-section: 3.25rem;
+  --c-space-block: 1.15rem;
 
   /* 与 unocss fontFamily.mono / 搜索面板 / safe-area 边距兼容 */
   --font-mono:
@@ -47,8 +52,8 @@
     'Liberation Mono', 'Courier New', monospace;
   --page-gutter-x: 1.25rem;
   --nav-gutter-x: 1.25rem;
-  --page-shell-max: 75rem;
-  --page-content-max: 43.75rem;
+  --page-shell-max: 70rem;
+  --page-content-max: 70rem;
   --page-reading-max: var(--page-content-max);
   --page-blog-max: var(--page-content-max);
 }
@@ -59,6 +64,9 @@
     --c-rail-pad: 1.75rem;
     --page-gutter-x: 1.75rem;
     --nav-gutter-x: 1.75rem;
+    --c-space-nav-page: 1.35rem;
+    --c-space-section: 3.75rem;
+    --c-space-block: 1.25rem;
   }
 }
 
@@ -70,7 +78,6 @@
 
 html[data-nav-rail='home'] {
   --c-nav-max: var(--c-hero-max);
-  --c-rail-pad: 1rem;
 }
 
 html[data-nav-rail='wide'] {
@@ -148,31 +155,95 @@ summary {
 
 .site-nav {
   position: sticky;
-  top: 0;
+  top: 0.5rem;
   z-index: 90;
-  padding: 1rem var(--c-rail-pad) 0.25rem !important;
+  /* 底边距即导航↔页面间隙 */
+  padding: 0.65rem var(--c-rail-pad) var(--c-space-nav-page) !important;
   background: transparent;
   border: 0;
   transition: padding var(--duration) var(--ease-out);
 }
 
+/* 内容页：顶距交给导航底边距，底距与区块节奏对齐 */
+#main {
+  padding-top: 0 !important;
+  padding-bottom: var(--c-space-section) !important;
+  padding-inline: max(
+    var(--page-gutter-x),
+    env(safe-area-inset-left, 0px)
+  )
+    max(var(--page-gutter-x), env(safe-area-inset-right, 0px));
+}
+
 .site-nav__shell {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   width: 100%;
   max-width: var(--c-nav-max);
+  min-height: 3.5rem;
   margin-inline: auto;
-  padding: 0.45rem 0.55rem 0.45rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+  padding: 0.4rem 0.55rem 0.4rem 1.05rem;
+  border: 1px solid color-mix(in srgb, var(--c-nav-fg) 16%, transparent);
   border-radius: 999px;
   /* 不用 backdrop-filter：避免成为 search-panel 的 fixed 包含块 */
   background: var(--c-nav-bg);
   color: var(--c-nav-fg);
-  box-shadow: var(--c-shadow);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--c-nav-fg) 12%, transparent) inset,
+    0 18px 50px -28px rgba(0, 0, 0, 0.55);
   transition:
     max-width 0.55s var(--ease-out),
-    box-shadow var(--duration) var(--ease-out);
+    box-shadow var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease-out);
+}
+
+/* Logo 左、功能按钮右：菜单占满剩余轨宽并右对齐 */
+.site-nav__menu {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+.site-nav__shell::before {
+  position: absolute;
+  z-index: -1;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--c-nav-fg) 7%, transparent),
+    transparent 28% 72%,
+    color-mix(in srgb, var(--c-nav-fg) 4%, transparent)
+  );
+  content: '';
+  pointer-events: none;
+}
+
+.site-nav__primary,
+.site-nav__utility {
+  min-width: 0;
+  /* 组内间距：文字导航略松，图标控件仍紧凑 */
+  gap: 0.15rem;
+}
+
+.site-nav__shell .nav-item--desktop {
+  padding: 0.35rem 0.55rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.site-nav__divider {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 1px;
+  height: 1.05rem;
+  margin-inline: 0.55rem;
+  border: 0;
+  background: color-mix(in srgb, var(--c-nav-fg) 22%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -195,23 +266,45 @@ summary {
     transform var(--duration-fast) var(--ease-out);
 }
 
-.site-nav__shell :where(a, button):hover,
-.site-nav__shell :where(a, button):focus-visible {
+.site-nav__shell :where(a:not(.logo-link), button):hover,
+.site-nav__shell :where(a:not(.logo-link), button):focus-visible {
+  color: var(--c-nav-fg);
+  background: color-mix(in srgb, var(--c-nav-fg) 10%, transparent);
+  transform: translateY(-1px);
+}
+
+.site-nav__shell a:not(.logo-link)[aria-current='page'] {
   color: var(--c-nav-fg);
   background: color-mix(in srgb, var(--c-nav-fg) 12%, transparent);
 }
 
-.site-nav__shell a[aria-current='page'] {
+/* Logo：纯文本，无胶囊底色（main.css 勿写 :global，否则规则无效） */
+.site-nav__shell a.logo-link,
+.site-nav__shell a.logo-link:hover,
+.site-nav__shell a.logo-link:focus-visible,
+.site-nav__shell a.logo-link[aria-current='page'] {
   color: var(--c-nav-fg);
-  background: color-mix(in srgb, var(--c-nav-fg) 14%, transparent);
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none;
+  transform: none;
+  border-radius: 0;
 }
 
-.site-nav__shell :global(.logo-word) {
-  color: var(--c-nav-fg) !important;
-}
+@media (max-width: 1023.9px) {
+  .site-nav {
+    top: 0.25rem;
+    padding-top: 0.5rem !important;
+    padding-bottom: var(--c-space-nav-page) !important;
+  }
 
-.site-nav__shell :global(.logo-sup) {
-  color: color-mix(in srgb, var(--c-nav-fg) 70%, transparent);
+  .site-nav__shell {
+    min-height: 3.25rem;
+  }
+
+  .site-nav__divider {
+    margin-inline: 0.4rem;
+  }
 }
 
 @media print {
@@ -662,4 +755,3 @@ search-panel.search-panel--inner #search-pagination button:focus-visible {
     white-space: normal;
   }
 }
-

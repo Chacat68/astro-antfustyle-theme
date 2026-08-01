@@ -32,7 +32,11 @@ if (collectionType === 'projects' || collectionType === 'friends') {
   const entries = await getCollection(collectionType)
   isEmpty = entries.length === 0
 
-  data = entries
+  // 友链按数据源倒序展示（最新加入的靠前）
+  const ordered =
+    collectionType === 'friends' ? [...entries].reverse() : entries
+
+  data = ordered
     .map((entry) => entry.data)
     .reduce(
       (

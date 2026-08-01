@@ -12,8 +12,9 @@ export const SITE: Site = {
   imageDomains: [
     'cdn.bsky.app',
     'images.unsplash.com',
-    // 博客正文 / 封面大量使用腾讯云 COS
-    'blog-1259751088.cos.ap-shanghai.myqcloud.com',
+    // 故意不加入腾讯云 COS：Cloudflare Builds 从境外拉上海 COS 做
+    // inferSize/优化时易超时，Astro 会以「Failed to parse image reference」中断构建。
+    // 正文 COS 图走原链（可带 ?imageSlim / imageMogr2），由 CDN 侧处理。
   ],
 }
 
@@ -34,25 +35,28 @@ export const UI: Ui = {
       text: 'Projects',
     },
     {
-      path: '/friends',
-      title: 'Friends',
-      displayMode: 'iconToTextOnMobile',
-      text: 'Friends',
-      icon: 'i-ri-group-line',
-    },
-    {
       path: '/photos',
       title: 'Photos',
-      displayMode: 'iconToTextOnMobile',
+      displayMode: 'alwaysText',
       text: 'Photos',
-      icon: 'i-ri-camera-ai-line',
     },
     {
       path: '/gallery',
       title: 'Gallery',
-      displayMode: 'iconToTextOnMobile',
+      displayMode: 'alwaysText',
       text: 'Gallery',
-      icon: 'i-ri-palette-line',
+    },
+    {
+      path: '/friends',
+      title: 'Friends',
+      displayMode: 'alwaysText',
+      text: 'Friends',
+    },
+    {
+      path: '/changelog',
+      title: 'Changelog',
+      displayMode: 'alwaysText',
+      text: 'Changelog',
     },
     /*
     {
@@ -72,13 +76,6 @@ export const UI: Ui = {
       icon: 'i-meteor-icons-grid',
     },
     */
-    {
-      path: '/changelog',
-      title: 'Changelog',
-      displayMode: 'iconToTextOnMobile',
-      text: 'Changelog',
-      icon: 'i-ri-draft-line',
-    },
   ],
   socialLinks: [
     {
@@ -125,7 +122,6 @@ export const UI: Ui = {
     { title: 'AstroStreams', path: '/streams' },
   ],
   groupView: {
-    maxGroupColumns: 3,
     showGroupItemColorOnHover: true,
   },
   githubView: {

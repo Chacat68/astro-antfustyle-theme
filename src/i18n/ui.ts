@@ -8,9 +8,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'nav.projects': '项目',
     'nav.friends': '友链',
     'nav.photos': '相册',
-    'nav.gallery': 'AI作品集',
-    'nav.changelog': '更新日志',
-    'nav.about': '关于',
+    'nav.gallery': '作品',
+    'nav.changelog': '日志',
     'nav.feeds': 'Astro 博客',
     'nav.streams': 'Astro 直播',
 
@@ -87,6 +86,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'sitestats.daysUnit': '天',
     'sitestats.sinceStart': 'SINCE {start}',
     'sitestats.totalWords': '全部文章总字数',
+    'sitestats.postsPerYear': '每年发文',
     'sitestats.yearItemCount': '{count} 篇',
     'sitestats.noData': '暂无数据',
     'sitestats.metrics': 'CORE METRICS',
@@ -210,11 +210,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.home.title': '付之一笑',
     'page.home.description':
       '付之一笑 — Charliefoo 的个人博客入口。阅读、跑步、思考与创作。',
-    'page.about.title': '关于',
-    'page.about.description':
-      '付之一笑 — Charliefoo 的个人介绍页：博客历程、写作理念、生活态度与联系方式，了解站点背后的人与故事。',
-
-    // About page — 博客故事与理念
+    // 首页 About 区块 — 博客故事与理念
     'about.blog.title': '关于博客',
     'about.history.title': '博客历程',
     'about.history.item1':
@@ -290,7 +286,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.about.journey.2024': '加入十年之约，立志持续更新十年以上',
     'home.about.journey.2025': 'Astro 静态化重构，显著提升访问速度',
     'home.about.contactEyebrow': 'Contact',
-    'home.about.more': '阅读完整介绍',
     'home.glitch.line1': '付之',
     'home.glitch.line2': '一笑',
     'home.glitch.skip': '跳过',
@@ -299,7 +294,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.glitch.socialsAria': '社交媒体',
     'home.glitch.toolsAria': '站点工具',
     'home.intro1':
-      '你好，我是Charliefoo，85后，从小就是游戏迷和书迷，这两样爱好至今仍是我生活的重要支柱。',
+      '85后，从小就是游戏迷和书迷，这两样爱好至今仍是我生活的重要支柱。',
     'home.intro2':
       '最近专注于读书、创作和跑步，享受安静而有趣的生活节奏。喜欢喝茶聊天，持续创作新内容，为自己源源不断地创造心流体验。',
     'home.roles':
@@ -328,9 +323,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'nav.projects': 'Projects',
     'nav.friends': 'Friends',
     'nav.photos': 'Photos',
-    'nav.gallery': 'AI Gallery',
-    'nav.changelog': 'Changelog',
-    'nav.about': 'About',
+    'nav.gallery': 'Works',
+    'nav.changelog': 'Log',
     'nav.feeds': 'Astro Blog',
     'nav.streams': 'Astro Streams',
 
@@ -409,6 +403,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'sitestats.daysUnit': 'days',
     'sitestats.sinceStart': 'SINCE {start}',
     'sitestats.totalWords': 'Total words',
+    'sitestats.postsPerYear': 'Posts per year',
     'sitestats.yearItemCount': '{count} posts',
     'sitestats.noData': 'No data yet',
     'sitestats.metrics': 'CORE METRICS',
@@ -534,11 +529,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.home.title': '付之一笑',
     'page.home.description':
       "Charliefoo's personal blog portal — reading, running, thinking, and creating.",
-    'page.about.title': 'About',
-    'page.about.description':
-      'About Foo-Z (付之一笑) and Charliefoo — blog journey, writing philosophy, and how to get in touch.',
-
-    // About page — blog story & philosophy
+    // Home About section — blog story & philosophy
     'about.blog.title': 'About this blog',
     'about.history.title': 'Blog journey',
     'about.history.item1':
@@ -624,7 +615,6 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.about.journey.2025':
       'Rebuilt with Astro for a much faster static experience',
     'home.about.contactEyebrow': 'Contact',
-    'home.about.more': 'Read the full story',
     'home.glitch.line1': 'FOO',
     'home.glitch.line2': 'Z',
     'home.glitch.skip': 'Skip',
@@ -633,7 +623,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.glitch.socialsAria': 'Social links',
     'home.glitch.toolsAria': 'Site tools',
     'home.intro1':
-      "Hi, I'm Charliefoo. I've been a gamer and a bookworm since childhood—both are still a big part of my life today.",
+      "I've been a gamer and a bookworm since childhood—both are still a big part of my life today.",
     'home.intro2':
       "Lately I'm focusing on reading, creating, and running—enjoying a quiet but interesting rhythm. I love tea and long chats, and I keep making new things to stay in flow.",
     'home.roles':

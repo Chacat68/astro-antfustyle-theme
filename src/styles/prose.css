@@ -1,5 +1,5 @@
 .prose {
-  max-width: 65ch;
+  max-width: var(--c-content-max, 70rem);
   font-size: 1rem;
   line-height: 1.75;
 }

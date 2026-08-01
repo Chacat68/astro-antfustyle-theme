@@ -95,26 +95,35 @@ const internalHref = ensureTrailingSlash(
 <style>
   .list-item-link {
     display: grid;
-    grid-template-columns: 2.25rem minmax(0, 1fr) auto;
-    gap: 0.8rem;
+    grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+    gap: 0.95rem;
     align-items: center;
   }
 
+  /* 等宽序号 + 右侧细隔线，替代易折行的 [01] 括号 */
   .list-item-link__index {
-    color: color-mix(in srgb, var(--c-accent) 72%, var(--c-muted));
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    align-self: stretch;
+    min-width: 2.75rem;
+    padding-right: 0.7rem;
+    border-right: 1px solid color-mix(in srgb, var(--c-border) 88%, transparent);
+    color: var(--c-muted);
     font-family: var(--font-mono, ui-monospace, monospace);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    white-space: nowrap;
+    transition: color var(--duration-fast) var(--ease-out);
   }
 
-  .list-item-link__index::before {
-    content: '[';
-    opacity: 0.45;
-  }
-
-  .list-item-link__index::after {
-    content: ']';
-    opacity: 0.45;
+  .list-item-link:hover .list-item-link__index,
+  .list-item-link:focus-visible .list-item-link__index {
+    color: var(--c-accent);
+    border-right-color: color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
   }
 
   .list-item-link__title {
@@ -156,8 +165,14 @@ const internalHref = ensureTrailingSlash(
 
   @media (max-width: 767.9px) {
     .list-item-link {
-      grid-template-columns: 1.8rem minmax(0, 1fr);
-      gap: 0.3rem 0.55rem;
+      grid-template-columns: 2.35rem minmax(0, 1fr);
+      gap: 0.35rem 0.7rem;
+    }
+
+    .list-item-link__index {
+      min-width: 2.35rem;
+      padding-right: 0.55rem;
+      font-size: 0.68rem;
     }
 
     .list-item-link__meta {

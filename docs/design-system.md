@@ -17,6 +17,10 @@
 | `--c-radius` / `--c-radius-sm` / `--c-radius-lg` | 圆角阶梯（偏大圆角） |
 | `--c-shadow` / `--c-shadow-hover` | 轻阴影 |
 | `--ease-out` / `--duration` / `--duration-fast` | 动效曲线与时长 |
+| `--c-content-max` / `--c-hero-max` / `--c-wide-max` | 全站页面轨宽，统一 `70rem` |
+| `--c-space-nav-page` | 导航底边 ↔ 页面顶（`1.15rem` / `≥640px` 为 `1.35rem`） |
+| `--c-space-section` | 页面大区块间距（`3.25rem` / `≥640px` 为 `3.75rem`） |
+| `--c-space-block` | 区块内小间距（标题组、页脚内边距等） |
 | `--page-gutter-x` | 内容区水平边距（`<640px` 为 `1.25rem`，`≥640px` 为 `1.75rem`） |
 | `--nav-gutter-x` | 顶栏水平边距（手机同内容区；`≥768px` 为 `2rem`） |
 
@@ -43,11 +47,11 @@
 
 ## Logo
 
-`LogoButton.astro`：Studio 字标。站名 + 小号 `z` 上标；悬停轻微上浮。置于深色胶囊导航内时继承 `--c-nav-fg`。
+`LogoButton.astro`：纯文本「付之一笑」，无徽标、无底色；悬停略降透明度。置于胶囊导航内时继承 `--c-nav-fg`。
 
 ## 语言切换
 
-`LanguageSwitch.astro`：分段控件 `中 / EN`。两侧固定等宽槽位；文字位置不变，仅高亮块随当前语言滑动（避免 CJK/拉丁切换跳动）；当前项 `aria-current="true"`。用于顶栏 `langButton`。
+`LanguageSwitch.astro`：单图标按钮（`i-ri-translate-2`），交互对齐 `ThemeSwitch`——点击跳转到另一语言的同路径页面；`title` / `aria-label` 标明目标语言。用于顶栏 `langButton`。
 
 ## 浮层定位（搜索面板）
 
@@ -73,16 +77,17 @@
 
 | 区域 | 约定 |
 |------|------|
-| `StandardLayout` / `TabbedLayout` | `.studio-page` 内容轨；可选 `eyebrow` / `wide` / `isCentered` |
-| `.studio-page` | 默认 `max-width: 65ch`；`--wide` 为 `min(var(--c-wide-max), 100%)` |
+| `StandardLayout` / `TabbedLayout` | `.studio-page` 内容轨；可选 `eyebrow` / `wide` / `isCentered`（博客列表页标题与说明居中） |
+| `.studio-page` | 默认 `max-width: var(--c-content-max)`（70rem）；`--wide` 为 `min(var(--c-wide-max), 100%)` |
+| `.about-page` | 关于页与首页 About 共用排版；宽度同 `--c-content-max`（70rem） |
 | `.page-eyebrow` | 小号大写眉题 + 圆点；与首页 About 同源 |
 | `.page-header` | 底部分隔线 + 大标题（`clamp`）+ 副标题；**不再**用厚面板卡 |
 | `.studio-tabs` | TabbedLayout 胶囊 Tab（Changelog / Feeds / Streams） |
-| 列表 / 项目 / 友链 | `list-item-link` hover；`GroupItem` 为 `.group-card`（链接**勿** `aria-hidden`） |
+| 列表 / 项目 / 友链 | 博客/日志 `list-item-link`：等宽序号 + 右侧细隔线（勿用易折行的 `[01]`）；hover 时序号转 accent。`GroupItem` 为 `.group-card`（链接**勿** `aria-hidden`）；`.group-grid` 铺满内容轨 |
 | 卡片流 | `CardItem` 为 `.studio-card`（Highlights / Shorts） |
 | GitHub 流 | `GithubItem` 摘要行圆角表面 |
 | 统计 / 页脚 / 404 | `SiteStats` 表面卡；`Footer` 对齐 `--c-nav-max`；`.studio-empty`（404 的 code 作 `h1`） |
-| `/about` | 独立完整 Studio 排版（历程 / 理念影像 / 深色 CTA），不只套 StandardLayout |
+| 首页 About | `.about-page` 完整排版（历程 / 理念影像 / 深色 CTA），挂在 `HomeAbout`；独立 `/about` 已移除 |
 | `#main` / `.site-footer` | 水平边距用 `--page-gutter-x`，并与 `env(safe-area-inset-*)` 取 `max`；勿在 Uno 类里再写冲突的 `px-*` |
 | 视口 | `viewport-fit=cover`（`Head.astro`），以便刘海屏 safe-area 生效 |
 
@@ -101,21 +106,22 @@
 
 规则：
 
-1. **水平间距只认** `--page-gutter-x` / `--nav-gutter-x`；卡片/相册外层不要再叠 `mx-10` / `mx-20`。
+1. **水平间距只认** `--page-gutter-x` / `--nav-gutter-x` / `--c-rail-pad`；**垂直节奏只认** `--c-space-nav-page` / `--c-space-section` / `--c-space-block`。勿再写冲突的 `py-8` / 硬编码大间距。
 2. **网格**用 `minmax(min(100%, Npx), 1fr)`，禁止裸 `minmax(300px, 1fr)` 撑破窄屏。
-3. **图标控件**加 `.touch-target`（`min 2.75rem` ≈ 44px）；语言切换在窄屏 / `pointer: coarse` 下同步加大。`.touch-target` **不设** `display`，避免压过 UnoCSS `hidden`；需隐藏时用 `hidden!` + 对应断点 `lt-*:inline-flex!`（见 `NavSwitch`）。
+3. **图标控件**加 `.touch-target`（`min 2.75rem` ≈ 44px）。`.touch-target` **不设** `display`，避免压过 UnoCSS `hidden`；需隐藏时用 `hidden!` + 对应断点 `lt-*:inline-flex!`（见 `NavSwitch`）。
 4. **挂在 `.site-nav` 内的 fixed 面板**须用 `top-50vh left-50vw`（或 portal 到 `body`），不能用 `%`。
-5. **导航折叠**：`mergeOnMobile: true` 时 `<1024px` 收进汉堡；桌面文案/图标切换类（`*OnMobile`）同步以 `lg` 为界。顶栏左右槽用 `flex items-center`。
+5. **导航折叠**：`mergeOnMobile: true` 时 `<1024px` 收进汉堡；内部导航统一 `alwaysText`，功能按钮（搜索 / 语言 / 主题 / RSS）为图标。`#nav-panel` 须重置为页面色（`--c-text` / `--c-bg`），避免继承胶囊 `--c-nav-fg` 导致暗色主题看不清。顶栏左右槽用 `flex items-center`。
 6. **触控无悬停**：相册 `figcaption` 常显（`@media (hover: none)`）。
+7. **控件对比度**：胶囊内文字/图标相对 `--c-nav-bg`，汉堡面板相对页面 `--c-bg`；联系区 CTA 复用 `--c-nav-*`（反相块）。壳层需 `opacity: 1 !important` 覆盖组件默认 `op-60`，桌面文字入口勿再加 `op-50`。明暗切换后目标 ≥ WCAG AA（正文 4.5:1，图标可按大字号 3:1）。
 
 ## 全站 UI 壳层
 
 | 区域 | 约定 |
 |------|------|
 | `html` | 冷灰蓝纯色底；`data-nav-rail="home\|content\|wide"` 控制导航轨宽度 |
-| `.site-nav` / `.site-nav__shell` | 悬浮胶囊：深色底 + 浅色字（暗色主题反相）、圆角 pill、轻阴影；壳内 `a/button` 强制高对比（覆盖组件 `op-50/60`）；`transition:name` 跨页 morph，**不用** `persist`；**无** `backdrop-filter` |
-| 导航轨宽度 | 首页 `--c-hero-max`；正文 `--c-content-max`（65ch）；宽列表 `--c-wide-max`（75rem）；左右垫 `--c-rail-pad` |
-| 搜索浮层 | `#search-panel` 仍在导航内；用 `50vh`/`50vw` 居中 |
+| `.site-nav` / `.site-nav__shell` | 悬浮胶囊：Logo 靠左，入口/控件靠右；页面入口为文字（`alwaysText`），搜索/语言/主题/RSS 为图标；分组用 `.site-nav__divider`；`transition:name` 跨页 morph，**不用** `persist`；**无** `backdrop-filter` |
+| 导航轨宽度 | 全站页面宽度统一 `--c-content-max` / `--c-hero-max` / `--c-wide-max` = `70rem`；左右垫 `--c-rail-pad` |
+| 搜索浮层 | `#search-panel` 仍在导航内；`--home`/`--inner` 必须 `position: fixed` + `50vh`/`50vw` 居中。`.search-panel-hud` **勿**写 `position: relative`（会压过 fixed，面板相对导航右偏） |
 | 列表 / 社交链接 | 圆角 hover、轻阴影上浮 |
 | 正文链接 / `hr` | 悬停变色；分隔线克制单色 |
 
@@ -125,12 +131,11 @@
 
 | 要点 | 约定 |
 |------|------|
-| Hero | 大圆角舞台（`2.5rem`）+ 氛围摄影底图 + 颗粒/遮罩 + 四角标；「关于」锚点到 `#about` |
-| 文案 | i18n：`home.studio.*` / `home.about.*`；品牌名取 `SITE.title` 作 hero 级信号 |
-| 关于区块 | 简介 → 理念三栏影像 → 历程时间线 → 深色联系 CTA；完整正文仍在 `/about` |
-| 交互 | Hero CTA pill 悬停上浮；理念图轻微 zoom；CTA 按钮上浮 |
-| 顶栏 | 显示胶囊导航；首页轨宽对齐 Hero |
-| 布局 | `mainClass="home-main"` 去 padding；首页启用 Ambient 背景 |
+| Hero | 70rem 大圆角纯影像舞台（无赛博角标/内框描边）；标题置左上，简介置底部；不放页面导航按钮 |
+| 文案 | i18n：`home.studio.*` / `home.about.*`；页面入口集中到顶栏图标导航 |
+| 关于区块 | `.about-page` 完整排版（简介 → 历程列表 → 图文理念 → 反相联系 CTA）；联系 CTA 宽屏左文案 / 右操作，社交仅图标；原 `/about` 已并入首页 `#about` |
+| 顶栏 | 显示胶囊导航；首页轨宽对齐 Hero（70rem） |
+| 布局 | `mainClass="home-main"` 去 padding；导航底距 = `--c-space-nav-page`；Hero→About 与 About 内区块 = `--c-space-section`；统一 70rem 轨道 |
 
 ## 样式文件分层
 
@@ -139,7 +144,7 @@
 | `main.css` | Token、胶囊导航、入场动画、搜索、滚动条 |
 | `prose.css` | 正文排版骨架（字号、间距、列表） |
 | `markdown.css` | Markdown 增强（链接、callouts、代码、TOC） |
-| `page.css` | Studio 内容壳（`.studio-page` / eyebrow / tabs / 404）、列表 hover、相册、标签筛选 |
+| `page.css` | Studio 内容壳（`.studio-page` / `.about-page` / eyebrow / tabs / 404）、列表 hover、相册、标签筛选 |
 
 页面级样式写在 `page.css` 或组件 `<style>` 内，并复用 token；不要在 UnoCSS shortcuts 里扩散新的硬编码色板。
 

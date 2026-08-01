@@ -20,25 +20,64 @@ const t = useTranslations(locale)
   id="nav-panel"
   class="hidden! z-200 fixed top-50vh left-50vw translate-x--50% translate-y--50%
     overflow-y-auto flex-col gap-5
-    w-90% max-w-md max-h-80vh py-5 px-6 rounded-3xl
-  border shadow-custom_0_0_10_0 text-(--c-text)"
+    w-90% max-w-md max-h-80vh py-5 px-6 rounded-3xl border"
 >
-  <ul>
+  <ul class="nav-panel__list">
     <slot name="text" />
   </ul>
-  <div class="flex justify-center items-center gap-4">
+  <div class="nav-panel__icons flex justify-center items-center gap-4">
     <slot name="icon" />
   </div>
 </div>
 
-<style>
+<style is:global>
+  /* 面板在 .site-nav__shell 内，须重置胶囊导航色，否则暗色主题会变成深字深底 */
   #nav-panel {
-    /* sticky 导航会形成 fixed 包含块，须用 vh/vw 相对视口 */
     display: flex;
     max-height: min(80vh, calc(100dvh - 2rem));
-    border-color: color-mix(in srgb, var(--c-border) 80%, transparent);
-    background-color: color-mix(in srgb, var(--c-surface) 92%, var(--c-bg));
+    color: var(--c-text);
+    border-color: var(--c-border);
+    background: var(--c-bg);
     box-shadow: var(--c-shadow-hover);
+  }
+
+  #nav-panel .nav-panel__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  #nav-panel .nav-panel__list li {
+    border-color: var(--c-border) !important;
+  }
+
+  #nav-panel a,
+  #nav-panel button {
+    color: var(--c-text) !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+    border-radius: 0.65rem;
+  }
+
+  #nav-panel a:hover,
+  #nav-panel a:focus-visible,
+  #nav-panel button:hover,
+  #nav-panel button:focus-visible {
+    color: var(--c-text) !important;
+    background: var(--c-surface-hover) !important;
+  }
+
+  #nav-panel a[aria-current='page'] {
+    color: var(--c-text) !important;
+    background: var(--c-accent-soft) !important;
+    font-weight: 600;
+  }
+
+  #nav-panel .nav-panel__icons a,
+  #nav-panel .nav-panel__icons button {
+    border-radius: 999px;
   }
 </style>
 

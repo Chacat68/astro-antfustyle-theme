@@ -66,12 +66,11 @@ const socialIcons = socialLinks
 
 const projectIcons = projecstData.map((item) => item.icon)
 
-// 首页 GlitchHero 右侧入口：about / blog / projects 等图标不在 navIcons（alwaysText 无 icon 字段），需单独 safelist
+// 历史入口 / 组件遗留图标 safelist（主导航图标已由 navIcons 从 config 收集）
 const portalIcons = [
   'i-ri-user-smile-line',
-  'i-ri-article-line',
-  'i-ri-code-box-line',
   'i-ri-arrow-right-up-line',
+  'i-ri-translate-2',
 ]
 
 // 终端青系语义色（与 HUD accent 同族）

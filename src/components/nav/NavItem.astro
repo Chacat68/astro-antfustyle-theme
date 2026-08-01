@@ -35,11 +35,13 @@ const href =
 const rel = type === 'internal' ? undefined : 'me'
 const external = type === 'internal' ? false : true
 const ariaCurrent =
-  type === 'internal'
-    ? ensureTrailingSlash(Astro.url.pathname) === ensureTrailingSlash(href)
-      ? 'page'
-      : false
+  type === 'internal' &&
+  ensureTrailingSlash(Astro.url.pathname) === ensureTrailingSlash(href)
+    ? 'page'
     : undefined
+
+/** 文字入口优先用 text；纯图标项回退 title（避免联合类型收窄成 never） */
+const label = 'text' in item ? item.text : item.title
 ---
 
 {
@@ -47,7 +49,9 @@ const ariaCurrent =
     mobileItemType ? (
       mobileItemType === 'text' ? (
         (item.displayMode === 'alwaysText' ||
-          item.displayMode === 'iconToTextOnMobile') && (
+          item.displayMode === 'iconToTextOnMobile' ||
+          item.displayMode === 'textToIconOnMobile' ||
+          item.displayMode === 'textHiddenOnMobile') && (
           <li class="block py-3 border-b b-[var(--c-scrollbar)] leading-6">
             <Link
               class="block op-85! op-transition"
@@ -57,7 +61,7 @@ const ariaCurrent =
               external={external}
               aria-current={ariaCurrent}
             >
-              <span>{item.text}</span>
+              <span>{label}</span>
             </Link>
           </li>
         )
@@ -78,7 +82,7 @@ const ariaCurrent =
       )
     ) : (
       <Link
-        class="nav-item--desktop lt-lg:hidden op-50! op-transition"
+        class="nav-item--desktop lt-lg:hidden op-transition"
         href={href}
         title={item.title}
         rel={rel}
@@ -99,12 +103,12 @@ const ariaCurrent =
     )
   ) : (
     <Link
-      class={`${
-        item.displayMode === 'iconHiddenOnMobile' ||
-        item.displayMode === 'textHiddenOnMobile'
-          ? 'lt-lg:hidden'
-          : ''
-      } op-transition`}
+      class:list={[
+        'op-transition',
+        (item.displayMode === 'iconHiddenOnMobile' ||
+          item.displayMode === 'textHiddenOnMobile') &&
+          'lt-lg:hidden',
+      ]}
       href={href}
       title={item.title}
       rel={rel}

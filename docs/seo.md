@@ -72,7 +72,7 @@
 
 - 中英文首页 `page.home.title` 均使用站点品牌「付之一笑」，避免英文页出现「FOO-Z - 付之一笑」式重复后缀。
 - 英文 description / about 文案可使用 `Foo-Z (付之一笑)` 作为可读别名；JSON-LD `WebSite.alternateName` 同步声明。
-- Sitemap `customPages` 需包含 `/en/about/` 等静态双语页，避免仅依赖 fallback rewrite 时漏收录。
+- Sitemap `customPages` 需包含 `/en/friends/`、`/en/photos/` 等静态双语页，避免仅依赖 fallback rewrite 时漏收录（`/about` 已并入首页，不再单独收录）。
 
 ## 页面文案规范
 

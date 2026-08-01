@@ -47,7 +47,11 @@ if (collectionType === 'blog' || collectionType === 'changelog') {
     collectionType === 'blog'
       ? await getLocalizedBlogPosts(Astro.currentLocale)
       : await getFilteredPosts(collectionType)
-  sortedBlogItems = getSortedPosts(blogItems)
+  // 博客：新→旧；日志：旧→新（01 = 最早一条）
+  sortedBlogItems =
+    collectionType === 'changelog'
+      ? [...getSortedPosts(blogItems)].reverse()
+      : getSortedPosts(blogItems)
 
   if (tocEnabled) {
     const yearsSet = new Set<number>()
@@ -57,7 +61,9 @@ if (collectionType === 'blog' || collectionType === 'changelog') {
     })
 
     years = Array.from(yearsSet)
-      .sort((a, b) => b - a)
+      .sort((a, b) =>
+        collectionType === 'changelog' ? a - b : b - a
+      )
       .map((year) => year.toString())
   }
 }

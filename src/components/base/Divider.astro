@@ -1,12 +1,12 @@
 ---
 interface Props {
-  class?: string
+  class?: string | string[] | Record<string, boolean | undefined | null>
 }
 
 const { class: className } = Astro.props
 ---
 
 <hr
-  class={`w-0.25 h-[85%] b-t-0 bg-[#ddd] dark:bg-[#333] ${className}`}
+  class:list={['w-px h-[1.05rem] border-0 bg-[var(--c-border)]', className]}
   aria-hidden={true}
 />

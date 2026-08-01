@@ -60,12 +60,7 @@ const searchPanelI18n = JSON.stringify({
   id="search-panel"
   class:list={[
     'hidden text-(--c-text) search-panel-hud',
-    isHomeSearch
-      ? `search-panel--home z-200 fixed top-50vh left-50vw
-        translate-x--50% translate-y--50% grid-rows-[auto_1fr_auto]
-        w-42rem lt-lgp:(w-90%) max-h-70vh lt-lgp:(max-h-80vh)
-        p-3 lt-lgp:(pb-1)`
-      : 'search-panel--inner',
+    isHomeSearch ? 'search-panel--home' : 'search-panel--inner',
   ]}
   aria-modal="true"
   aria-labelledby={isHomeSearch ? 'search-label' : 'search-dialog-title'}
@@ -291,8 +286,8 @@ const searchPanelI18n = JSON.stringify({
     display: grid;
   }
 
+  /* 勿写 position:relative：会压过 Uno fixed，导致面板相对导航偏移到右侧 */
   .search-panel-hud {
-    position: relative;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
     border-radius: var(--c-radius-lg);
@@ -302,17 +297,28 @@ const searchPanelI18n = JSON.stringify({
       var(--c-shadow-hover);
   }
 
+  .search-panel--home,
   .search-panel--inner {
     position: fixed;
     z-index: 200;
-    /* site-nav 的 backdrop-filter 会建立 fixed containing block，必须显式按视口定位 */
     top: 50vh;
     left: 50vw;
+    transform: translate(-50%, -50%);
+  }
+
+  .search-panel--home {
+    width: min(42rem, 90vw);
+    max-height: 70vh;
+    padding: 0.75rem;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.5rem;
+  }
+
+  .search-panel--inner {
     width: min(var(--page-content-max), calc(100vw - 2.5rem));
     height: min(46rem, calc(100dvh - 6rem));
     max-height: 46rem;
     padding: 1rem;
-    transform: translate(-50%, -50%);
     grid-template-rows: auto auto minmax(0, 1fr) auto;
     gap: 0.75rem;
     background:
