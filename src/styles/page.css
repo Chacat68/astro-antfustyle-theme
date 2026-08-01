@@ -134,58 +134,6 @@
   box-shadow: var(--c-shadow);
 }
 
-.prose .home-roles {
-  position: relative;
-  padding: 0.95rem 1.1rem 0.95rem 1.2rem;
-  border: 1px solid var(--c-border);
-  border-radius: var(--c-radius);
-  margin-block: 1.6rem;
-  background: var(--c-surface);
-  box-shadow: var(--c-shadow);
-}
-
-.prose .home-roles::before {
-  content: '';
-  position: absolute;
-  top: 0.85rem;
-  bottom: 0.85rem;
-  left: 0;
-  width: 2px;
-  border-radius: 999px;
-  background: var(--c-accent);
-  opacity: 0.55;
-}
-
-.prose .home-roles strong {
-  color: var(--fg-deeper);
-  font-weight: 600;
-}
-
-.home-socials {
-  margin-block: 0;
-}
-
-.home-social-links a {
-  padding: 0.32rem 0.55rem;
-  border: 1px solid transparent;
-  border-radius: var(--c-radius);
-  background: transparent;
-  transition:
-    background var(--duration) var(--ease-out),
-    border-color var(--duration) var(--ease-out),
-    opacity var(--duration) var(--ease-out),
-    transform var(--duration) var(--ease-out),
-    box-shadow var(--duration) var(--ease-out);
-}
-
-.home-social-links a:hover,
-.home-social-links a:focus-visible {
-  border-color: color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
-  background: var(--c-surface-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--c-shadow);
-}
-
 .prose .list-item-link {
   position: relative;
   z-index: 1;
@@ -219,10 +167,6 @@
 }
 
 @media (max-width: 767.9px) {
-  .prose .home-roles {
-    padding: 0.75rem 0.85rem 0.75rem 1rem;
-  }
-
   .prose .list-item-link {
     margin-inline: -0.35rem;
     padding-inline: 0.35rem;

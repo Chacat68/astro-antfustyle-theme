@@ -1,8 +1,8 @@
 # 科幻 HUD 视觉改造方案（A：克制型）
 
-> 状态：已落地（A：克制 HUD + 青蓝霓虹）  
-> 方向：**克制 HUD + 青蓝霓虹**  
-> 原则：扩展现有 `AboutScreen` / `LogoButton` 语言，不推翻 antfu 正文优先哲学
+> 状态：**历史参考 / 已退役**（全站主视觉为 Studio Agency，见 [design-system.md](./design-system.md)）  
+> 方向：曾为克制 HUD + 青蓝霓虹；`hud.css`、`AboutScreen`、`LatestPosts`、搜索/Categorizer/正文装饰均已去赛博  
+> 原则：本文档仅保留决策痕迹，**勿**再按本文改造新 UI；文中链接的组件路径可能已删除
 
 ## 1. 目标与边界
 
@@ -170,7 +170,7 @@
 2. `NavBar`：底部分割线用 `--c-hud-line`；active 链接触发细 neon underline
 3. `LatestPosts`：`.hud-frame` + mono 日期 / category
 4. `SiteStats`：博客列表顶统计面板对齐 AboutScreen（角标 / LED / 扫描线 / mono 状态栏）
-5. `SearchSwitch`：面板加角标；输入框前 `>` prompt（克制，非全终端主题）
+5. `SearchSwitch`：~~面板加角标；输入框前 `>` prompt~~ → 已改为 Studio 胶囊搜索（`.search-panel-studio`）
 6. `Footer`：mono 轻状态行
 
 验收：首页 → 列表 → 搜索视觉同属一套语法。

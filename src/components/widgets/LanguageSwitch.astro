@@ -1,6 +1,7 @@
 ---
 /**
  * 语言切换：单图标按钮，交互对齐 ThemeSwitch（点击切换到另一语言）
+ * 保留 location.hash（如首页 #about），避免关于区切换语言掉回页顶。
  */
 import { getRelativeLocaleUrl } from 'astro:i18n'
 
@@ -21,9 +22,10 @@ const pathWithinLocale = currentPathname.startsWith(currentLocaleRoot)
 const normalizedPath = pathWithinLocale.replace(/^\/+/, '').replace(/\/+$/, '')
 
 const otherLocale: AppLocale = locale === 'zh' ? 'en' : 'zh'
-const href = ensureTrailingSlash(
+const hrefBase = ensureTrailingSlash(
   getRelativeLocaleUrl(otherLocale, normalizedPath)
 )
+const href = `${hrefBase}${Astro.url.hash}`
 const otherName = t(`lang.${otherLocale}`)
 const label = `${t('a11y.languageSwitch')}: ${otherName}`
 ---
@@ -38,3 +40,18 @@ const label = `${t('a11y.languageSwitch')}: ${otherName}`
 >
   <div class="i-ri-translate-2" aria-hidden="true"></div>
 </a>
+
+<script>
+  function syncLangSwitchHash() {
+    const anchor = document.getElementById('lang-switch')
+    if (!(anchor instanceof HTMLAnchorElement)) return
+
+    const url = new URL(anchor.href, location.origin)
+    url.hash = location.hash
+    anchor.href = `${url.pathname}${url.search}${url.hash}`
+  }
+
+  syncLangSwitchHash()
+  document.addEventListener('astro:page-load', syncLangSwitchHash)
+  window.addEventListener('hashchange', syncLangSwitchHash)
+</script>

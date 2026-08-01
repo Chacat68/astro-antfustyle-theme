@@ -11,7 +11,7 @@
 | Pagefind | 首屏急切 `import(pagefind.js)` ≈35KB+ | 打开搜索或 `?search=` 再加载；SPA（View Transitions）落到 `?search=` 时在 `astro:page-load` 中 `await` 装载高亮后再 `highlight()` |
 | viewerjs CSS | script 内 `import` 易进公共样式 | `?url` + 组件模板 `<link>` |
 
-内页背景仍用 Three.js `lite`（`Glitch.astro`，idle 延迟），以视觉为准，不为此换成纯 CSS。
+全站背景默认 Ambient（CSS 色晕 + 细颗粒）；Three.js `Glitch.astro` 保留源码但默认不挂载。
 
 ## 红线
 

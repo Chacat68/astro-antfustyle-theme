@@ -129,31 +129,18 @@ html.dark .prose {
   position: relative;
 }
 
+/* Studio 正文：克制 accent 提示，无 HUD 角标 / glow / NOTE 标签 */
 .page-article > h2 {
   position: relative;
-  padding: 0.6rem 0.75rem 0.6rem 1rem;
-  border-left: 2px solid var(--c-accent);
-  background: linear-gradient(
-    90deg,
-    var(--c-accent-soft),
-    color-mix(in srgb, var(--c-surface) 35%, transparent) 52%,
-    transparent
-  );
-}
-
-.page-article > h2::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 3.5rem;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--c-hud-line));
+  padding: 0.35rem 0 0.55rem;
+  border-bottom: 1px solid var(--c-border);
+  letter-spacing: -0.02em;
 }
 
 .page-article > h3 {
   position: relative;
-  padding-left: 0.8rem;
+  padding-left: 0.85rem;
+  letter-spacing: -0.015em;
 }
 
 .page-article > h3::before {
@@ -161,56 +148,31 @@ html.dark .prose {
   position: absolute;
   top: 0.72em;
   left: 0;
-  width: 0.28rem;
-  height: 0.28rem;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
   background: var(--c-accent);
-  box-shadow: 0 0 7px var(--c-glow);
-  transform: rotate(45deg);
+  opacity: 0.7;
 }
 
 .page-article blockquote {
   position: relative;
-  padding: 0.9rem 1rem 0.9rem 1.2rem;
-  border: 1px solid color-mix(in srgb, var(--c-accent) 20%, var(--c-border));
-  border-left: 2px solid var(--c-accent);
+  padding: 0.95rem 1.1rem;
+  border: 1px solid var(--c-border);
+  border-left: 3px solid var(--c-accent);
   margin-left: 0;
-  background: color-mix(in srgb, var(--c-surface) 62%, transparent);
-}
-
-.page-article blockquote::before {
-  content: 'NOTE';
-  position: absolute;
-  top: -0.55rem;
-  right: 0.65rem;
-  padding-inline: 0.3rem;
-  color: color-mix(in srgb, var(--c-accent) 80%, var(--c-muted));
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.6rem;
-  letter-spacing: 0.09em;
-  background: var(--c-bg);
+  border-radius: var(--c-radius-sm);
+  background: color-mix(in srgb, var(--c-surface) 72%, transparent);
 }
 
 .page-article img {
-  border: 1px solid color-mix(in srgb, var(--c-accent) 16%, var(--c-border));
+  border: 1px solid var(--c-border);
   border-radius: var(--c-radius);
   box-shadow: var(--c-shadow);
 }
 
 .page-article figure {
   position: relative;
-}
-
-.page-article figure::after {
-  content: '';
-  position: absolute;
-  top: -0.3rem;
-  right: -0.3rem;
-  width: 0.9rem;
-  height: 0.9rem;
-  border-top: 1px solid var(--c-accent);
-  border-right: 1px solid var(--c-accent);
-  opacity: 0.65;
-  pointer-events: none;
 }
 
 .page-article table {
@@ -242,11 +204,7 @@ html.dark .prose {
 
 @media (max-width: 639.9px) {
   .page-article > h2 {
-    padding-inline: 0.75rem 0.5rem;
-  }
-
-  .page-article figure::after {
-    right: 0;
+    padding-bottom: 0.45rem;
   }
 }
 

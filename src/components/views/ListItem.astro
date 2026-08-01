@@ -75,7 +75,7 @@ const internalHref = ensureTrailingSlash(
         )
       }
       <time
-        class="op-50 text-sm ws-nowrap font-mono tracking-wide"
+        class="op-50 text-sm ws-nowrap tracking-wide"
         datetime={new Date(date).toISOString()}
       >
         {formatDate(date, false, false, dateLocale)}
@@ -142,27 +142,6 @@ const internalHref = ensureTrailingSlash(
     color: var(--c-muted);
   }
 
-  .list-item-link::after {
-    content: '↗';
-    position: absolute;
-    top: 50%;
-    right: 0.7rem;
-    color: var(--c-accent);
-    font-family: var(--font-mono, ui-monospace, monospace);
-    font-size: 0.75rem;
-    opacity: 0;
-    transform: translate(-0.4rem, -50%);
-    transition:
-      opacity var(--duration-fast) var(--ease-out),
-      transform var(--duration-fast) var(--ease-out);
-  }
-
-  .list-item-link:hover::after,
-  .list-item-link:focus-visible::after {
-    opacity: 0.75;
-    transform: translate(0, -50%);
-  }
-
   @media (max-width: 767.9px) {
     .list-item-link {
       grid-template-columns: 2.35rem minmax(0, 1fr);
@@ -179,10 +158,6 @@ const internalHref = ensureTrailingSlash(
       grid-column: 2;
       justify-content: flex-start;
       flex-wrap: wrap;
-    }
-
-    .list-item-link::after {
-      display: none;
     }
   }
 </style>

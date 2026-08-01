@@ -51,7 +51,8 @@
 - **站内搜索（Pagefind）**：`postbuild` 使用 Pagefind **≥ 1.5**，`--force-language zh-cn` 统一索引；`pagefind.init('zh-cn')`。`noindex` 页（英文回退中文稿）不入索引，避免重复占位。正文内注入标题/标签及 CJK 整词·单字·二元组增强召回；查询侧对中文做变体搜索合并。`postbuild` 同步索引到 `public/pagefind/`（gitignore）供 `pnpm dev` 联调。`SearchSwitch` 默认不急切加载；打开搜索（或 URL `?search=`）再 `__loadPagefind()` / `__loadPagefindHighlight()`。`astro:page-load` 在 View Transitions 落到 `?search=` 时须先 `await` 装载再 `highlight()`（内联脚本不会随 SPA 重跑）。
 - **`src/components/backgrounds/Ambient.astro`**：默认全站轻量氛围背景（CSS 色晕 + 细颗粒）。`Background.astro` 将旧 `bgType`（glitch/dot/plum/rose…）映射到 Ambient；页面默认传 `bgType: 'ambient'`。
 - **首页展示台**：[`StudioHero.astro`](../src/components/home/StudioHero.astro) 为大圆角氛围舞台 + 核心主题；下方 [`HomeAbout.astro`](../src/components/home/HomeAbout.astro) 承载完整关于内容（`.about-page`，样式在 `page.css`；`#about`）。独立 `/about` 已删除，旧链经 `public/_redirects` 回首页。文案 `about.*` / `home.about.*`；理念配图 `src/assets/about/`。全站页面轨宽统一 `70rem`；垂直节奏用 `--c-space-nav-page` / `--c-space-section` / `--c-space-block`（见 `main.css`）。
-- **内容页布局**：[`StandardLayout.astro`](../src/layouts/StandardLayout.astro) / [`TabbedLayout.astro`](../src/layouts/TabbedLayout.astro) 提供 Studio 内容壳（eyebrow、宽轨、胶囊 Tab）；列表/卡片/项目组件见 `GroupItem` / `CardItem` / `GithubItem`。
+- **内容页布局**：[`StandardLayout.astro`](../src/layouts/StandardLayout.astro) / [`TabbedLayout.astro`](../src/layouts/TabbedLayout.astro) 提供 Studio 内容壳（eyebrow、宽轨、胶囊 Tab）；列表/卡片/项目组件见 `GroupItem` / `CardItem` / `GithubItem` / `Categorizer`。
+- **视觉退役**：`hud.css`、`AboutScreen`、`LatestPosts`、未挂载的 `home` content collection 已删除；新 UI 勿再引入 HUD primitives。
 - **字体**：`src/styles/fonts.css`（若启用本地子集）或 Bunny Fonts / 等价 CDN；`Head.astro` preload 主字重。禁止用 `presetWebFonts` 拉全子集。搜索浮层约束见 [design-system.md](./design-system.md)。
 - **KaTeX**：样式仅在 `RenderPost.astro` 引入，勿写回 `markdown.css` 全站 `@import`。
 - **`src/components/backgrounds/three-background.ts`** + **`glitch-engine.ts`** / **`Glitch.astro`**：历史 Three.js 故障背景，源码保留但默认不再挂载。

@@ -38,6 +38,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     // Search panel
     'search.title': '搜索站点',
     'search.description': '从文章、英文内容与更新日志中定位关键词。',
+    'search.eyebrow': '站内检索',
     'search.scope': '搜索范围',
     'search.ready': '索引就绪',
     'search.clear': '清除关键词',
@@ -71,28 +72,16 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'list.video': '提供视频版本',
     'list.radio': '提供音频版本',
 
-    // Widgets
-    'widget.latestPosts': '最新文章',
-    'widget.categories': '内容分类',
-
     // Site stats
     'sitestats.eyebrow': 'Stats',
     'sitestats.title': '网站数据统计',
-    'sitestats.tag': 'SYS://TELEMETRY',
-    'sitestats.status': 'LIVE',
     'sitestats.operatingTime': '经营时间',
     'sitestats.operatingTimeMain': '自 {start} 至今，共 {days} 天',
     'sitestats.operatingTimeSub': '（{years}年{months}个月{days}天）',
-    'sitestats.daysUnit': '天',
-    'sitestats.sinceStart': 'SINCE {start}',
     'sitestats.totalWords': '全部文章总字数',
     'sitestats.postsPerYear': '每年发文',
     'sitestats.yearItemCount': '{count} 篇',
     'sitestats.noData': '暂无数据',
-    'sitestats.metrics': 'CORE METRICS',
-    'sitestats.timeline': 'YEARLY OUTPUT',
-    'sitestats.footerLeft': 'NODE // BLOG',
-    'sitestats.footerRight': 'UPLINK STABLE',
 
     // ToC
     'toc.title': '目录',
@@ -286,31 +275,11 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.about.journey.2024': '加入十年之约，立志持续更新十年以上',
     'home.about.journey.2025': 'Astro 静态化重构，显著提升访问速度',
     'home.about.contactEyebrow': 'Contact',
-    'home.glitch.line1': '付之',
-    'home.glitch.line2': '一笑',
-    'home.glitch.skip': '跳过',
-    'home.glitch.aria': '首页展示台',
-    'home.glitch.portalsAria': '站点功能入口',
-    'home.glitch.socialsAria': '社交媒体',
-    'home.glitch.toolsAria': '站点工具',
     'home.intro1':
       '85后，从小就是游戏迷和书迷，这两样爱好至今仍是我生活的重要支柱。',
     'home.intro2':
       '最近专注于读书、创作和跑步，享受安静而有趣的生活节奏。喜欢喝茶聊天，持续创作新内容，为自己源源不断地创造心流体验。',
-    'home.roles':
-      '🎮 游戏开发者 | ✍️ 内容创作者 | 📱 手机摄影师 | 💻 vibe coding 苦手',
-    'home.role.game': '🎮 游戏开发者',
-    'home.role.creator': '✍️ 内容创作者',
-    'home.role.photo': '📱 手机摄影师',
-    'home.role.code': '💻 vibe coding 苦手',
-    'home.screen.tag': 'SYS://PROFILE',
-    'home.screen.status': '在线',
-    'home.screen.modules': '角色模块',
-    'home.screen.coords': 'LOC // 广州',
-    'home.screen.signal': '信号稳定',
     'home.findMeOn': '找到我：',
-    'home.thanks':
-      '感谢你阅读我的博客！如果这些内容对你有所启发或帮助，那就是对我最大的鼓励。你的支持和陪伴，意义非凡。谢谢！❤️',
 
     // Language names
     'lang.zh': '中文',
@@ -354,6 +323,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'search.title': 'Search site',
     'search.description':
       'Find keywords across posts, English content, and changelogs.',
+    'search.eyebrow': 'Site search',
     'search.scope': 'Search scope',
     'search.ready': 'Index ready',
     'search.clear': 'Clear query',
@@ -388,43 +358,31 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'list.video': 'Provided in video',
     'list.radio': 'Provided in radio',
 
-    // Widgets
-    'widget.latestPosts': 'Latest posts',
-    'widget.categories': 'Categories',
-
     // Site stats
     'sitestats.eyebrow': 'Stats',
     'sitestats.title': 'Site stats',
-    'sitestats.tag': 'SYS://TELEMETRY',
-    'sitestats.status': 'LIVE',
     'sitestats.operatingTime': 'Uptime',
     'sitestats.operatingTimeMain': 'Since {start}, {days} days in total',
     'sitestats.operatingTimeSub': '({years}y {months}m {days}d)',
-    'sitestats.daysUnit': 'days',
-    'sitestats.sinceStart': 'SINCE {start}',
     'sitestats.totalWords': 'Total words',
     'sitestats.postsPerYear': 'Posts per year',
     'sitestats.yearItemCount': '{count} posts',
     'sitestats.noData': 'No data yet',
-    'sitestats.metrics': 'CORE METRICS',
-    'sitestats.timeline': 'YEARLY OUTPUT',
-    'sitestats.footerLeft': 'NODE // BLOG',
-    'sitestats.footerRight': 'UPLINK STABLE',
 
     // ToC
     'toc.title': 'Table of Contents',
     'toc.scrollTo': 'Scroll to {text}',
 
     // Footer
-    'footer.back': 'cd ..',
+    'footer.back': 'Back',
 
     // Empty states
-    'list.empty': 'nothing here yet',
+    'list.empty': 'Nothing here yet',
     'photo.empty': 'No images yet',
     'photo.error': 'Failed to load images. Please try again later.',
 
     // Callouts
-    'callout.warning': 'WARNING',
+    'callout.warning': 'Note',
 
     // Warnings (HTML)
     'warning.noContentHtml':
@@ -615,31 +573,11 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'home.about.journey.2025':
       'Rebuilt with Astro for a much faster static experience',
     'home.about.contactEyebrow': 'Contact',
-    'home.glitch.line1': 'FOO',
-    'home.glitch.line2': 'Z',
-    'home.glitch.skip': 'Skip',
-    'home.glitch.aria': 'Home stage',
-    'home.glitch.portalsAria': 'Site portals',
-    'home.glitch.socialsAria': 'Social links',
-    'home.glitch.toolsAria': 'Site tools',
     'home.intro1':
       "I've been a gamer and a bookworm since childhood—both are still a big part of my life today.",
     'home.intro2':
       "Lately I'm focusing on reading, creating, and running—enjoying a quiet but interesting rhythm. I love tea and long chats, and I keep making new things to stay in flow.",
-    'home.roles':
-      '🎮 Game developer | ✍️ Creator | 📱 Mobile photographer | 💻 Vibe-coding newbie',
-    'home.role.game': '🎮 Game developer',
-    'home.role.creator': '✍️ Creator',
-    'home.role.photo': '📱 Mobile photographer',
-    'home.role.code': '💻 Vibe-coding newbie',
-    'home.screen.tag': 'SYS://PROFILE',
-    'home.screen.status': 'Online',
-    'home.screen.modules': 'Role modules',
-    'home.screen.coords': 'LOC // Guangzhou',
-    'home.screen.signal': 'Signal stable',
     'home.findMeOn': 'Find me on',
-    'home.thanks':
-      'Thanks for reading! If anything here helps or inspires you, that means a lot to me. Your support and company matter more than you know. Thank you! ❤️',
 
     // Language names
     'lang.zh': '中文',

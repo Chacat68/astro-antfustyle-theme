@@ -59,7 +59,7 @@ const searchPanelI18n = JSON.stringify({
   role="dialog"
   id="search-panel"
   class:list={[
-    'hidden text-(--c-text) search-panel-hud',
+    'hidden text-(--c-text) search-panel-studio',
     isHomeSearch ? 'search-panel--home' : 'search-panel--inner',
   ]}
   aria-modal="true"
@@ -73,95 +73,55 @@ const searchPanelI18n = JSON.stringify({
   data-state="idle"
   data-has-query="false"
 >
-  <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
-  <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
-  <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
-  <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
   <header class="search-panel__header">
     <div class="search-panel__heading">
-      <span class="search-panel__eyebrow" aria-hidden="true">
-        SYS://GLOBAL_INDEX
+      <span class="search-panel__eyebrow">
+        <span class="search-panel__eyebrow-dot" aria-hidden="true"></span>
+        {t('search.eyebrow')}
       </span>
       <h2 id="search-dialog-title">{t('search.title')}</h2>
       <p id="search-dialog-description">{t('search.description')}</p>
     </div>
-    <div class="search-panel__header-actions">
-      <span class="search-panel__status" aria-hidden="true">
-        <span class="hud-led hud-led--sm"></span>
-        {t('search.ready')}
-      </span>
-      <button
-        type="button"
-        id="search-close"
-        class="search-panel__close"
-        aria-label={t('search.close')}
-        title={t('search.close')}
-      >
-        <span aria-hidden="true">ESC</span>
-        <span class="search-panel__close-mark" aria-hidden="true">×</span>
-      </button>
-    </div>
+    <button
+      type="button"
+      id="search-close"
+      class="search-panel__close touch-target"
+      aria-label={t('search.close')}
+      title={t('search.close')}
+    >
+      <span class="search-panel__close-mark" aria-hidden="true">×</span>
+    </button>
   </header>
 
-  <div class="search-panel__controls flex flex-col gap-2">
-    <!-- Tab list -->
+  <div class="search-panel__controls flex flex-col gap-2.5">
     {
       filterEnabled && (
         <div class="search-tabs-shell">
-          <span class="search-tabs-label" aria-hidden="true">
-            {t('search.scope')} /
-          </span>
+          <span class="search-tabs-label">{t('search.scope')}</span>
           <div
             role="tablist"
-            class="search-tabs flex gap-2 justify-start items-center text-xs font-mono"
+            class="search-tabs flex gap-1.5 justify-start items-center"
             aria-label={t('a11y.searchCategories')}
           >
             {includes.map((item) => (
               <button
                 type="button"
                 role="tab"
-                class="px-1.5 py-0.5 rounded
-                  bg-[var(--c-accent-soft)]!
-                  aria-[selected=false]:op-40 aria-[selected=true]:op-100
-                  aria-[selected=false]:hover:op-70 op-transition cursor-pointer"
+                class="search-tabs__tab"
                 data-type={item.toLowerCase()}
               >
-                {
-                  isHomeSearch
-                    ? item.charAt(0).toUpperCase() + item.slice(1)
-                    : item
-                        .split('_')
-                        .map((part) => part.toUpperCase())
-                        .join(' / ')
-                }
+                {item
+                  .split('_')
+                  .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+                  .join(' ')}
               </button>
             ))}
           </div>
         </div>
       )
     }
-    <!-- Search Bar -->
-    <div
-      class="search-query grid grid-cols-[auto_auto_1fr_auto] items-center
-        h-10 px-3 rounded-md
-        bg-[var(--c-accent-soft)] border border-[var(--c-border)]"
-    >
-      {
-        isHomeSearch ? (
-          <span
-            class="font-mono text-(--c-accent) op-70 pr-1 select-none"
-            aria-hidden="true"
-          >
-            &gt;
-          </span>
-        ) : (
-          <span class="search-query__prompt" aria-hidden="true">QUERY /</span>
-        )
-      }
-      <div
-        u-i-grommet-icons-search
-        class:list={[isHomeSearch ? 'op-60' : 'search-query__icon']}
-      ></div>
+    <div class="search-query">
+      <div u-i-grommet-icons-search class="search-query__icon"></div>
       <label for="search-input" id="search-label" class="sr-only">
         {t('a11y.search')}
       </label>
@@ -169,7 +129,7 @@ const searchPanelI18n = JSON.stringify({
         type="search"
         role="combobox"
         id="search-input"
-        class="col-start-3 h-full pl-2 bg-transparent outline-0 font-mono"
+        class="search-query__input"
         autocomplete="off"
         autocorrect="off"
         spellcheck="false"
@@ -185,13 +145,11 @@ const searchPanelI18n = JSON.stringify({
         aria-label={t('search.clear')}
         title={t('search.clear')}
       >
-        <span aria-hidden="true">CLEAR</span>
         <span aria-hidden="true">×</span>
       </button>
     </div>
   </div>
 
-  <!-- Search Results -->
   <div
     role="listbox"
     id="search-results"
@@ -204,42 +162,38 @@ const searchPanelI18n = JSON.stringify({
     </div>
     <div id="search-empty" class="search-state search-state--empty">
       <div class="search-state__visual" aria-hidden="true">
-        <span class="search-state__reticle"></span>
         <div u-i-grommet-icons-search></div>
       </div>
       <strong>{t('search.emptyTitle')}</strong>
       <span>{t('search.emptyHint')}</span>
     </div>
-    <!-- Results -->
     <div id="search-content"></div>
-    <!-- Feedback -->
     <div
       id="search-feedback"
       class="search-state search-state--feedback hidden"
       role="status"
       aria-live="polite"
     >
-      <div class="search-state__visual" aria-hidden="true">
+      <div class="search-state__visual search-state__visual--pulse" aria-hidden="true">
         <span></span><span></span><span></span>
       </div>
       <strong id="search-feedback-label"></strong>
       <span id="search-feedback-detail"></span>
     </div>
-    <!-- Pagination -->
     <div
       id="search-pagination"
       style="display: none"
-      class="items-center justify-center gap-4 pt-4 pb-3 text-xs"
+      class="items-center justify-center gap-3 pt-4 pb-3 text-xs"
     >
       <button
-        class="flex items-center justify-center gap-1 op-40 hover:op-100 op-transition"
+        class="search-pagination__btn"
         data-action="more"
       >
         <div u-i-material-symbols-arrow-cool-down></div>
         <span></span>
       </button>
       <button
-        class="flex items-center justify-center gap-1 op-40 hover:op-100 op-transition"
+        class="search-pagination__btn"
         data-action="all"
       >
         <div u-i-material-symbols-expand-all></div>
@@ -247,7 +201,7 @@ const searchPanelI18n = JSON.stringify({
       </button>
     </div>
   </div>
-  <!-- Shortcuts Footer -->
+
   <footer
     class="search-panel__footer"
     role="note"
@@ -256,9 +210,9 @@ const searchPanelI18n = JSON.stringify({
     <ul
       class="flex flex-wrap items-center gap-4.5 lt-md:hidden
         pt-3 border-t border-[var(--c-border)]
-        text-xs op-40 select-none"
+        text-xs op-45 select-none"
     >
-      <li class="flex items-center gap-1">
+      <li class="flex items-center gap-1.5">
         <kbd class="search-kbd-key">
           <div u-i-material-symbols-arrow-upward></div>
         </kbd>
@@ -267,13 +221,13 @@ const searchPanelI18n = JSON.stringify({
         </kbd>
         <span>{t('search.navigate')}</span>
       </li>
-      <li class="flex items-center gap-1">
+      <li class="flex items-center gap-1.5">
         <kbd class="search-kbd-key">
           <div u-i-grommet-icons-return></div>
         </kbd>
         <span>{t('search.goToPage')}</span>
       </li>
-      <li class="flex items-center gap-1">
+      <li class="flex items-center gap-1.5">
         <kbd class="search-kbd-key">esc</kbd>
         <span>{t('search.close')}</span>
       </li>
@@ -286,15 +240,13 @@ const searchPanelI18n = JSON.stringify({
     display: grid;
   }
 
-  /* 勿写 position:relative：会压过 Uno fixed，导致面板相对导航偏移到右侧 */
-  .search-panel-hud {
+  /* 勿写 position:relative：会压过 fixed，导致面板相对导航偏移到右侧 */
+  .search-panel-studio {
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
+    border: 1px solid var(--c-border);
     border-radius: var(--c-radius-lg);
-    background: var(--c-bg);
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--c-accent) 8%, transparent) inset,
-      var(--c-shadow-hover);
+    background: var(--c-surface);
+    box-shadow: var(--c-shadow-hover);
   }
 
   .search-panel--home,
@@ -309,124 +261,101 @@ const searchPanelI18n = JSON.stringify({
   .search-panel--home {
     width: min(42rem, 90vw);
     max-height: 70vh;
-    padding: 0.75rem;
+    padding: 0.85rem;
     grid-template-rows: auto 1fr auto;
-    gap: 0.5rem;
+    gap: 0.65rem;
   }
 
   .search-panel--inner {
-    width: min(var(--page-content-max), calc(100vw - 2.5rem));
-    height: min(46rem, calc(100dvh - 6rem));
-    max-height: 46rem;
-    padding: 1rem;
+    width: min(40rem, calc(100vw - 2.5rem));
+    height: min(42rem, calc(100dvh - 6rem));
+    max-height: 42rem;
+    padding: 1.25rem 1.35rem 1rem;
     grid-template-rows: auto auto minmax(0, 1fr) auto;
-    gap: 0.75rem;
-    background:
-      linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--c-accent) 4%, transparent),
-        transparent 42%
-      ),
-      var(--c-bg);
+    gap: 1rem;
   }
 
   .search-panel__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 1.25rem;
+    gap: 1rem;
     min-width: 0;
-    padding: 0.25rem 0.35rem 0.9rem;
-    border-bottom: 1px solid
-      color-mix(in srgb, var(--c-accent) 18%, var(--c-border));
+    padding: 0 0 1rem;
+    border-bottom: 1px solid var(--c-border);
   }
 
   .search-panel__heading {
     min-width: 0;
   }
 
-  .search-panel__eyebrow,
-  .search-panel__status,
-  .search-panel__close,
-  .search-tabs-label,
-  .search-query__prompt,
-  .search-query__clear {
-    font-family: var(--font-mono);
+  .search-panel__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.55rem;
+    color: var(--c-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
   }
 
-  .search-panel__eyebrow {
-    display: block;
-    margin-bottom: 0.3rem;
-    color: color-mix(in srgb, var(--c-accent) 75%, var(--c-muted));
-    font-size: 0.65rem;
+  .search-panel__eyebrow-dot {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 999px;
+    background: currentColor;
   }
 
   .search-panel__heading h2 {
     margin: 0;
     color: var(--c-text);
-    font-size: clamp(1.35rem, 3vw, 1.75rem);
-    font-weight: 650;
-    line-height: 1.2;
-    letter-spacing: -0.025em;
+    font-size: clamp(1.4rem, 3vw, 1.85rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
   }
 
   .search-panel__heading p {
-    max-width: 30rem;
-    margin: 0.4rem 0 0;
+    max-width: 28rem;
+    margin: 0.55rem 0 0;
     color: var(--c-muted);
-    font-size: 0.84rem;
-    line-height: 1.55;
-  }
-
-  .search-panel__header-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    flex: 0 0 auto;
-  }
-
-  .search-panel__status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.32rem 0.5rem;
-    border: 1px solid color-mix(in srgb, var(--c-accent) 18%, var(--c-border));
-    color: var(--c-muted);
-    font-size: 0.58rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
   }
 
   .search-panel__close {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    min-height: 2rem;
-    padding: 0.3rem 0.5rem;
-    border: 1px solid var(--c-border);
-    border-radius: var(--c-radius-sm);
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: -0.35rem -0.35rem 0 0;
+    border: 1px solid transparent;
+    border-radius: 999px;
     color: var(--c-muted);
-    background: color-mix(in srgb, var(--c-surface) 70%, transparent);
-    font-size: 0.58rem;
+    background: transparent;
     cursor: pointer;
     transition:
       color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out),
-      background var(--duration-fast) var(--ease-out);
+      background var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
   }
 
   .search-panel__close:hover,
   .search-panel__close:focus-visible {
-    border-color: color-mix(in srgb, var(--c-accent) 48%, var(--c-border));
     color: var(--c-text);
     background: var(--c-accent-soft);
+    border-color: var(--c-border);
     outline: none;
   }
 
   .search-panel__close-mark {
-    color: var(--c-accent);
-    font-size: 1rem;
-    line-height: 0.8;
+    font-size: 1.35rem;
+    line-height: 1;
   }
 
   .search-panel__controls {
@@ -438,93 +367,104 @@ const searchPanelI18n = JSON.stringify({
     align-items: center;
     gap: 0.75rem;
     min-width: 0;
-    padding: 0 0.25rem;
   }
 
   .search-tabs-label {
     flex: 0 0 auto;
     color: var(--c-muted);
-    font-size: 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 500;
   }
 
   .search-tabs {
     min-width: 0;
-    padding-bottom: 0.1rem;
     overflow-x: auto;
     scrollbar-width: none;
   }
 
-  .search-panel--inner :global(.search-tabs [role='tab']) {
+  .search-tabs__tab {
     flex: 0 0 auto;
-    min-height: 1.75rem;
-    padding: 0.28rem 0.65rem;
+    min-height: 2.1rem;
+    padding: 0.35rem 0.9rem;
     border: 1px solid transparent;
     border-radius: 999px;
-    background: transparent !important;
+    color: var(--c-muted);
+    background: transparent;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    transition:
+      color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
   }
 
-  .search-panel--inner
-    :global(.search-tabs [role='tab'][aria-selected='true']) {
-    border-color: color-mix(in srgb, var(--c-accent) 38%, var(--c-border));
+  .search-tabs__tab:hover,
+  .search-tabs__tab:focus-visible {
     color: var(--c-text);
-    background: var(--c-accent-soft) !important;
+    background: var(--c-surface-hover);
+    outline: none;
+  }
+
+  .search-tabs__tab[aria-selected='true'] {
+    color: var(--c-text);
+    border-color: var(--c-border);
+    background: var(--c-bg);
+    box-shadow: var(--c-shadow);
   }
 
   .search-query {
-    min-height: 3.5rem;
-    height: auto;
-    padding: 0 0.8rem;
-    border-radius: var(--c-radius);
-    background:
-      linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--c-accent) 8%, transparent),
-        transparent 52%
-      ),
-      color-mix(in srgb, var(--c-surface) 74%, transparent);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 3.25rem;
+    padding: 0 0.65rem 0 1rem;
+    border: 1px solid var(--c-border);
+    border-radius: 999px;
+    background: var(--c-bg);
     transition:
       border-color var(--duration-fast) var(--ease-out),
       box-shadow var(--duration-fast) var(--ease-out);
   }
 
   .search-query:focus-within {
-    border-color: color-mix(in srgb, var(--c-accent) 65%, var(--c-border));
-    box-shadow:
-      -2px 0 0 color-mix(in srgb, var(--c-glitch-red) 28%, transparent),
-      2px 0 0 color-mix(in srgb, var(--c-glitch-cyan) 28%, transparent),
-      0 0 0 3px color-mix(in srgb, var(--c-accent) 8%, transparent);
-  }
-
-  .search-query__prompt {
-    padding-right: 0.7rem;
-    color: color-mix(in srgb, var(--c-accent) 72%, var(--c-muted));
-    font-size: 0.65rem;
-    white-space: nowrap;
+    border-color: color-mix(in srgb, var(--c-accent) 42%, var(--c-border));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 10%, transparent);
   }
 
   .search-query__icon {
     color: var(--c-muted);
-    opacity: 0.72;
+    opacity: 0.7;
   }
 
-  .search-query :global(#search-input) {
+  .search-query__input {
     min-width: 0;
     width: 100%;
-    height: 3.4rem;
-    padding: 0 0.75rem;
+    height: 3.15rem;
+    padding: 0 0.5rem;
+    border: 0;
     color: var(--c-text);
+    background: transparent;
     font-size: 1rem;
+    letter-spacing: -0.01em;
+    outline: none;
   }
 
   .search-query__clear {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    min-height: 2rem;
-    padding: 0.25rem 0.4rem;
-    border-radius: var(--c-radius-sm);
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 999px;
     color: var(--c-muted);
-    font-size: 0.56rem;
+    background: transparent;
+    font-size: 1.15rem;
+    line-height: 1;
     cursor: pointer;
     transition:
       opacity var(--duration-fast) var(--ease-out),
@@ -539,7 +479,9 @@ const searchPanelI18n = JSON.stringify({
     outline: none;
   }
 
-  .search-panel--inner[data-has-query='false'] .search-query__clear {
+  .search-panel--inner[data-has-query='false'] .search-query__clear,
+  .search-panel--home[data-has-query='false'] .search-query__clear {
+    visibility: hidden;
     opacity: 0;
     pointer-events: none;
   }
@@ -547,10 +489,9 @@ const searchPanelI18n = JSON.stringify({
   .search-results {
     min-height: 0;
     margin: 0;
-    padding: 0 0.35rem 0.35rem;
-    border-block: 1px solid
-      color-mix(in srgb, var(--c-accent) 10%, var(--c-border));
-    background: color-mix(in srgb, var(--c-surface) 38%, transparent);
+    padding: 0.15rem 0.1rem;
+    border: 0;
+    background: transparent;
     scroll-padding-block: 3rem 1rem;
   }
 
@@ -558,20 +499,14 @@ const searchPanelI18n = JSON.stringify({
     position: sticky;
     z-index: 2;
     top: 0;
-    padding: 0.55rem 0.7rem;
-    border-bottom: 1px solid var(--c-border);
+    padding: 0.55rem 0.85rem;
+    margin-bottom: 0.25rem;
+    border-radius: var(--c-radius-sm);
     color: var(--c-muted);
-    background: color-mix(in srgb, var(--c-bg) 94%, transparent);
-    backdrop-filter: blur(10px);
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .search-summary::before {
-    content: 'RESULT_SET / ';
-    color: var(--c-accent);
+    background: color-mix(in srgb, var(--c-surface) 92%, var(--c-bg));
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
 
   .search-state {
@@ -600,63 +535,56 @@ const searchPanelI18n = JSON.stringify({
   .search-state strong {
     margin-top: 1rem;
     color: var(--c-text);
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 600;
+    letter-spacing: -0.02em;
   }
 
   .search-state > span {
-    max-width: 25rem;
-    margin-top: 0.35rem;
-    font-size: 0.78rem;
-    line-height: 1.55;
+    max-width: 24rem;
+    margin-top: 0.4rem;
+    font-size: 0.86rem;
+    line-height: 1.6;
   }
 
   .search-state__visual {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3.5rem;
-    height: 3.5rem;
-    border: 1px solid color-mix(in srgb, var(--c-accent) 25%, var(--c-border));
-    color: var(--c-accent);
-    background: color-mix(in srgb, var(--c-accent) 7%, transparent);
+    width: 3.75rem;
+    height: 3.75rem;
+    border: 1px solid var(--c-border);
+    border-radius: 999px;
+    color: var(--c-muted);
+    background: var(--c-bg);
   }
 
-  .search-state__reticle {
-    position: absolute;
-    inset: -0.35rem;
-    border: 1px dashed
-      color-mix(in srgb, var(--c-accent) 20%, transparent);
+  .search-state__visual--pulse {
+    gap: 0.35rem;
   }
 
-  .search-state--feedback .search-state__visual {
-    gap: 0.22rem;
-  }
-
-  .search-state--feedback .search-state__visual span {
-    width: 0.22rem;
-    height: 1.35rem;
+  .search-state__visual--pulse span {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
     background: currentColor;
-    opacity: 0.3;
+    opacity: 0.35;
   }
 
   .search-panel--inner:is(
       [data-state='loading'],
       [data-state='loading-more']
     )
-    .search-state--feedback
-    .search-state__visual
+    .search-state__visual--pulse
     span {
-    animation: search-signal 0.85s ease-in-out infinite alternate;
+    animation: search-pulse 0.9s ease-in-out infinite alternate;
   }
 
   .search-panel--inner:is(
       [data-state='loading'],
       [data-state='loading-more']
     )
-    .search-state--feedback
-    .search-state__visual
+    .search-state__visual--pulse
     span:nth-child(2) {
     animation-delay: 0.14s;
   }
@@ -665,16 +593,14 @@ const searchPanelI18n = JSON.stringify({
       [data-state='loading'],
       [data-state='loading-more']
     )
-    .search-state--feedback
-    .search-state__visual
+    .search-state__visual--pulse
     span:nth-child(3) {
     animation-delay: 0.28s;
   }
 
-  .search-panel--inner[data-state='loading-more']
-    .search-state--feedback {
+  .search-panel--inner[data-state='loading-more'] .search-state--feedback {
     min-height: auto;
-    padding: 1rem;
+    padding: 0.85rem;
     flex-direction: row;
     gap: 0.65rem;
   }
@@ -682,8 +608,8 @@ const searchPanelI18n = JSON.stringify({
   .search-panel--inner[data-state='loading-more']
     .search-state--feedback
     .search-state__visual {
-    width: 2rem;
-    height: 2rem;
+    width: 2.25rem;
+    height: 2.25rem;
   }
 
   .search-panel--inner[data-state='loading-more']
@@ -697,7 +623,37 @@ const searchPanelI18n = JSON.stringify({
   }
 
   .search-panel--inner[data-state='error'] .search-state__visual {
-    color: var(--c-glitch-red);
+    color: var(--c-text);
+    border-color: color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
+    background: var(--c-accent-soft);
+  }
+
+  .search-pagination__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: 2.35rem;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--c-border);
+    border-radius: 999px;
+    color: var(--c-muted);
+    background: var(--c-bg);
+    cursor: pointer;
+    transition:
+      color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+
+  .search-pagination__btn:hover,
+  .search-pagination__btn:focus-visible {
+    color: var(--c-text);
+    background: var(--c-accent-soft);
+    border-color: color-mix(in srgb, var(--c-accent) 30%, var(--c-border));
+    transform: translateY(-1px);
+    outline: none;
   }
 
   .search-panel__footer {
@@ -712,8 +668,7 @@ const searchPanelI18n = JSON.stringify({
   .search-panel--home .search-state--empty,
   .search-panel--home .search-state__visual,
   .search-panel--home #search-feedback-detail,
-  .search-panel--home .search-summary,
-  .search-panel--home .search-query__clear {
+  .search-panel--home .search-summary {
     display: none !important;
   }
 
@@ -731,31 +686,18 @@ const searchPanelI18n = JSON.stringify({
   }
 
   .search-panel--home .search-query {
-    min-height: 2.5rem;
-    height: 2.5rem;
-    padding: 0 0.75rem;
-    border-radius: var(--c-radius);
-    background: var(--c-accent-soft);
-    box-shadow: none;
+    min-height: 2.75rem;
   }
 
-  .search-panel--home .search-query:focus-within {
-    border-color: var(--c-border);
-    box-shadow: none;
-  }
-
-  .search-panel--home .search-query :global(#search-input) {
-    height: 100%;
-    padding: 0 0 0 0.5rem;
-    font-size: inherit;
+  .search-panel--home .search-query__input {
+    height: 2.65rem;
+    font-size: 0.95rem;
   }
 
   .search-panel--home .search-results {
     min-height: 0;
-    margin: 0.25rem 0;
+    margin: 0.15rem 0;
     padding: 0;
-    border: 0;
-    background: transparent;
   }
 
   .search-panel--home .search-state--feedback {
@@ -763,7 +705,7 @@ const searchPanelI18n = JSON.stringify({
     padding: 0.75rem;
     display: block;
     font-size: 0.875rem;
-    opacity: 0.4;
+    opacity: 0.45;
   }
 
   .search-panel--home .search-state--feedback.hidden {
@@ -781,20 +723,13 @@ const searchPanelI18n = JSON.stringify({
     min-height: 0;
   }
 
-  :global(:root.dark) .search-panel-hud {
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--c-accent) 14%, transparent) inset,
-      0 0 28px color-mix(in srgb, var(--c-glow) 35%, transparent),
-      var(--c-shadow-hover);
-  }
-
-  @keyframes search-signal {
+  @keyframes search-pulse {
     from {
-      transform: scaleY(0.35);
+      transform: scale(0.7);
       opacity: 0.25;
     }
     to {
-      transform: scaleY(1);
+      transform: scale(1);
       opacity: 0.9;
     }
   }
@@ -814,43 +749,28 @@ const searchPanelI18n = JSON.stringify({
           env(safe-area-inset-bottom, 0px)
       );
       max-height: none;
-      padding: 0.8rem;
+      padding: 1rem 1rem 0.85rem;
       transform: translateX(-50%);
-      gap: 0.65rem;
+      gap: 0.85rem;
     }
 
     .search-panel__header {
-      gap: 0.75rem;
-      padding: 0.1rem 0.15rem 0.7rem;
+      gap: 0.65rem;
+      padding-bottom: 0.85rem;
     }
 
-    .search-panel__heading p,
-    .search-panel__status {
+    .search-panel__heading p {
       display: none;
-    }
-
-    .search-panel__eyebrow {
-      font-size: 0.58rem;
     }
 
     .search-panel__heading h2 {
-      font-size: 1.3rem;
-    }
-
-    .search-panel__close > span:first-child {
-      display: none;
-    }
-
-    .search-panel__close {
-      min-width: 2.25rem;
-      justify-content: center;
+      font-size: 1.35rem;
     }
 
     .search-tabs-shell {
       align-items: flex-start;
       gap: 0.45rem;
       flex-direction: column;
-      padding: 0;
     }
 
     .search-tabs {
@@ -858,26 +778,12 @@ const searchPanelI18n = JSON.stringify({
     }
 
     .search-query {
-      min-height: 3.25rem;
-      padding: 0 0.6rem;
+      min-height: 3.1rem;
+      padding-inline: 0.85rem 0.55rem;
     }
 
-    .search-query__prompt {
-      display: none;
-    }
-
-    .search-query :global(#search-input) {
-      height: 3.15rem;
-      padding-inline: 0.65rem;
-      font-size: 1rem;
-    }
-
-    .search-query__clear > span:first-child {
-      display: none;
-    }
-
-    .search-results {
-      padding-inline: 0.15rem;
+    .search-query__input {
+      height: 3rem;
     }
 
     .search-state {
@@ -890,8 +796,13 @@ const searchPanelI18n = JSON.stringify({
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .search-state--feedback .search-state__visual span {
+    .search-state__visual--pulse span {
       animation: none !important;
+    }
+
+    .search-pagination__btn:hover,
+    .search-pagination__btn:focus-visible {
+      transform: none;
     }
   }
 </style>

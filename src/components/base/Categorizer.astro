@@ -24,20 +24,17 @@ if (idx !== undefined) style['--enter-stage'] = idx - 2
 <div
   {...needId ? { id: slug(text) } : {}}
   class:list={[
-    'toc-heading categorizer relative',
+    'toc-heading categorizer',
     wide ? 'categorizer--wide' : 'categorizer--narrow',
     idx !== undefined ? 'slide-enter' : '',
   ]}
   style={Object.keys(style).length !== 0 ? style : undefined}
 >
-  <span class="categorizer__watermark" aria-hidden="true">{text}</span>
   {
     showLabel ? (
       <span class="categorizer__label">
-        <span class="categorizer__label-prefix" aria-hidden="true">
-          SECTOR /
-        </span>
-        <span class="categorizer__label-text">{text}</span>
+        <span class="categorizer__dot" aria-hidden="true"></span>
+        <span class="categorizer__text">{text}</span>
       </span>
     ) : (
       <span class="sr-only">{text}</span>
@@ -46,107 +43,51 @@ if (idx !== undefined) style['--enter-stage'] = idx - 2
 </div>
 
 <style>
-  /* 分组水印：描边色与 HUD 同色相。
-   * 这里不能直接用半透明的 --c-hud-line：它会与下面的 opacity 相乘，水印几乎消失。 */
-  .categorizer__watermark {
-    position: absolute;
-
-    color: transparent;
-    font-weight: 700;
-    pointer-events: none;
-    user-select: none;
-
-    -webkit-text-stroke-color: color-mix(
-      in srgb,
-      var(--c-accent) 55%,
-      var(--c-text)
-    );
-  }
-
-  .categorizer--narrow .categorizer__watermark {
-    top: -2.5rem;
-    left: -3rem;
-
-    font-size: 8em;
-    opacity: 0.12;
-
-    -webkit-text-stroke-width: 2px;
-  }
-
-  /* 宽模式与 GroupItem 网格共同铺满页面壳，保持标题、分组与卡片同轴。 */
-  .categorizer--wide {
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .categorizer--wide .categorizer__watermark {
-    top: 0;
-    left: 0;
-
-    font-size: 5em;
-    line-height: 1em;
-    opacity: 0.26;
-
-    -webkit-text-stroke-width: 1.5px;
-  }
-
-  :global(:root.dark) .categorizer--narrow .categorizer__watermark {
-    opacity: 0.14;
-  }
-
-  :global(:root.dark) .categorizer--wide .categorizer__watermark {
-    opacity: 0.2;
-  }
-
-  /* mono 分组标识：贴在本组首项之上，替代仅靠巨字水印传达分组。
-   * 走正常流 + 容器底对齐，避免绝对定位在紧凑列表里压到上一项。 */
-  /* 高度写在组件内而非依赖 h-20 工具类：水印是绝对定位的，
-   * 容器必须自己占住这段纵向空间，否则流内标签会溢出压到上一项。 */
+  /* Studio 分组：圆点眉题 + 底部分隔线；无 SECTOR / 水印 / mono 科技前缀 */
   .categorizer {
     display: flex;
     align-items: flex-end;
-    min-height: 5rem;
+    min-height: 3.25rem;
+    margin-top: 0.5rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .categorizer--wide {
+    width: 100%;
   }
 
   .categorizer__label {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.4rem;
-
-    padding-bottom: 0.3rem;
-
-    font-family: var(--font-mono, ui-monospace, monospace);
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-  }
-
-  .categorizer__label-prefix {
-    color: color-mix(in srgb, var(--c-accent) 70%, transparent);
-  }
-
-  .categorizer__label-text {
+    align-items: center;
+    gap: 0.5rem;
     color: var(--c-muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
-  @media (max-width: 639.9px) {
-    .categorizer--narrow .categorizer__watermark {
-      top: -1.8rem;
-      left: -1rem;
-
-      font-size: 5.5em;
-    }
-
-    .categorizer--wide .categorizer__watermark {
-      top: 0.5rem;
-
-      font-size: 3.6em;
-    }
+  .categorizer__dot {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 999px;
+    background: currentColor;
   }
 
-  @media (min-width: 640px) and (max-width: 1023.9px) {
-    .categorizer--wide .categorizer__watermark {
-      font-size: 4.5em;
+  .categorizer__text {
+    color: inherit;
+  }
+
+  @media (max-width: 639.9px) {
+    .categorizer {
+      min-height: 2.75rem;
+      padding-bottom: 0.55rem;
+    }
+
+    .categorizer__label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
     }
   }
 </style>
