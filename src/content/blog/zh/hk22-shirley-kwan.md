@@ -18,7 +18,7 @@ draft: false
 
 歌词里"甜蜜地与爱人风里飞奔"，配合当时热播的日本剧集《结婚物语》做主题曲，一炮而红。专辑卖了白金，1989 年底的女新人奖几乎被她包揽。
 
-<iframe width="750" height="420" src="https://www.youtube.com/embed/lu94uqyuO1w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="750" height="420" src="https://www.youtube.com/embed/hTGooyHuSDc?si=wlLwZJGT5wvo_Uh8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 歌词：
 
