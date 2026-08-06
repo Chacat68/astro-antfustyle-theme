@@ -3,6 +3,7 @@ import rss from '@astrojs/rss'
 
 import { SITE } from '~/config'
 import { withBasePath } from '~/utils/path'
+import { getSiteDescription } from '~/utils/seo'
 
 function getAbsoluteSiteUrl(path) {
   const url = new URL(withBasePath(path), SITE.website)
@@ -16,10 +17,11 @@ export async function GET() {
   const sortedBlogItems = filteredBlogItems.sort(
     (a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate)
   )
+  const description = getSiteDescription('en')
 
   return rss({
     title: `${SITE.title} (English)`,
-    description: SITE.description,
+    description,
     site: getAbsoluteSiteUrl('/en/'),
     customData: `
       <language>en</language>

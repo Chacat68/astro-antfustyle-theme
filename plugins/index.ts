@@ -14,6 +14,7 @@ import rehypeExternalLinks from 'rehype-external-links'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 // @ts-expect-error(rehype-wrap-all is not typed)
 import rehypeWrapAll from 'rehype-wrap-all'
+import rehypeOptimizeImages from './rehype-optimize-images'
 
 import { UI, FEATURES } from '../src/config'
 
@@ -65,6 +66,8 @@ export const remarkPlugins: RemarkPlugins = [
 export const rehypePlugins: RehypePlugins = [
   // https://docs.astro.build/en/guides/markdown-content/#heading-ids-and-plugins
   [rehypeHeadingIds, { headingIdCompat: true }],
+  // 正文 img：首图 eager，其余 lazy；不在构建期拉取 COS 尺寸
+  rehypeOptimizeImages,
   // https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex
   rehypeKatex,
   // https://github.com/lin-stephanie/rehype-callouts

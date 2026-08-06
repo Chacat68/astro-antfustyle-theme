@@ -37,6 +37,12 @@ export interface Site {
   description: string
 
   /**
+   * English site description for `/en/*` meta、JSON-LD、RSS。
+   * 缺省时回退到 `description`。
+   */
+  descriptionEn?: string
+
+  /**
    * Specifies your name for meta tags, found in `src/components/base/Head.astro`.
    */
   author: string

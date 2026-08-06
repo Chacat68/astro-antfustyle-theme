@@ -54,7 +54,7 @@
 - **内容页布局**：[`StandardLayout.astro`](../src/layouts/StandardLayout.astro) / [`TabbedLayout.astro`](../src/layouts/TabbedLayout.astro) 提供 Studio 内容壳（eyebrow、宽轨、胶囊 Tab）；列表/卡片/项目组件见 `GroupItem` / `CardItem` / `GithubItem` / `Categorizer`。
 - **视觉退役**：`hud.css`、`AboutScreen`、`LatestPosts`、未挂载的 `home` content collection 已删除；新 UI 勿再引入 HUD primitives。
 - **字体**：`src/styles/fonts.css`（若启用本地子集）或 Bunny Fonts / 等价 CDN；`Head.astro` preload 主字重。禁止用 `presetWebFonts` 拉全子集。搜索浮层约束见 [design-system.md](./design-system.md)。
-- **KaTeX**：样式仅在 `RenderPost.astro` 引入，勿写回 `markdown.css` 全站 `@import`。
+- **KaTeX**：勿在 `markdown.css` 全站 `@import`；公式页再按需挂样式（详见 [performance.md](./performance.md)）。
 - **`src/components/backgrounds/three-background.ts`** + **`glitch-engine.ts`** / **`Glitch.astro`**：历史 Three.js 故障背景，源码保留但默认不再挂载。
 - **OG 图底图**：`plugins/og-template/markup.ts` 仅有 plum/dot/rose/particle 静态资源；页面 `bgType: ambient` / `glitch`（及 wave/constellation）会映射为可用底图，避免生成失败。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。主题相关逻辑走此工具；禁止只读 `html.dark`。
@@ -76,8 +76,9 @@
 
 ## 样式加载
 
-- viewerjs 主样式用 `viewerjs/dist/viewer.css?url` 挂在 `ImageViewer.astro` 模板（仅渲染该组件的页面），不要在 `<script>` 里 `import` CSS（易被抽进全站公共样式），也不要加回 `markdown.css`；`markdown.css` 中仅保留主题对 `.viewer-*` 的覆盖规则。
-- KaTeX 样式仅 `RenderPost.astro` 引入；`markdown.css` 禁止 `@import` KaTeX。
+- viewerjs：`ImageViewer` 用 `viewerjs/dist/viewer.css?url` 作 data 属性，**首次点击图片**再动态 `import('viewerjs')` 并注入 `<link>`；勿在 `<script>` 顶层静态 `import` CSS/JS，勿写回 `markdown.css`；主题对 `.viewer-*` 的覆盖可留在 `markdown.css`。
+- KaTeX：`markdown.css` 禁止 `@import`；有公式的文章再按需引入 CSS。
+- 正文图片：`plugins/rehype-optimize-images.ts` 为首图设 `eager`/`fetchpriority=high`，其余 `lazy`；COS 宽高请在 markdown 用 remark-imgattr 声明。
 - 设计 token、字体、背景色系统与页面分配约定见 [design-system.md](./design-system.md)。
 - UnoCSS 图标：`unocss.config.ts` 中 `presetIcons.collections` 从 `@iconify/json` 显式加载。Cursor/VS Code 会设置 `VSCODE_CWD`，导致默认 node-loader 被跳过；新增图标集合时需同步加入 `iconCollections` 列表。
 - UnoCSS attributify（`prefixedOnly: false`）偶发只生成 `[util=""]`、缺少 `.util`：导航曾因此丢失 `grid-flow-col` 导致顶栏竖排。顶栏改用 `flex`；易踩坑工具类（如 `grid-flow-col`、`print:op-0`）放入 `safelist`。条件 class 用 `class:list`，避免模板字符串插入字面量 `false`。
@@ -105,4 +106,4 @@ node -e "require('sharp')('in.webp').resize({width:2000,height:2000,fit:'inside'
 - 本地 Pagefind 索引目录 `public/pagefind/` 已从 `tsconfig` exclude，避免 `astro check` 扫描生成物。
 - `wrangler.toml` 为 Cloudflare Workers 生产部署配置（Worker `blog-4`，含 observability 日志），**不可删除**，详见 [deployment.md](./deployment.md)。
 - 单元测试：`pnpm test`（Node 内置 test runner + `--experimental-strip-types`），覆盖 `sanitize-html` / `reading-time` / `markdown-headings` / `httpUrlSchema` / `resolveLocalImagePath`。CI（`.github/workflows/ci.yml`）在 check、lint 之后、build 之前执行 `pnpm test`。
-- 英文博客 sitemap：`astro.config.ts` 的 `collectMarkdownContentIds` **保持与 Astro content id 相同的大小写**（勿 `toLowerCase`），避免 Linux 生产环境路径错误。
+- 英文博客 sitemap：`astro.config.ts` 的 `collectMarkdownContentIds` 对 id **`toLowerCase()`**，与 Astro glob loader 的 content id / 实际路由一致（例如 `Steam2022.md` → `/en/blog/steam2022/`）。文件名本身也应使用小写 slug，避免 macOS 与 Linux 大小写差异。

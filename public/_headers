@@ -37,3 +37,10 @@
 /llms.txt
   Content-Type: text/plain; charset=utf-8
   Cache-Control: public, max-age=3600
+
+# 带 hash 的构建产物与 Pagefind 索引：长期缓存
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/pagefind/*
+  Cache-Control: public, max-age=31536000, immutable

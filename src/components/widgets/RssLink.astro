@@ -2,6 +2,7 @@
 import Link from '~/components/base/Link.astro'
 import { withBasePath } from '~/utils/path'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import { isDefaultLocale } from '~/i18n/locales'
 
 interface Props {
   class?: string
@@ -11,11 +12,12 @@ const { class: className } = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+const rssPath = isDefaultLocale(locale) ? '/rss.xml' : '/en/rss.xml'
 ---
 
 <Link
   class:list={['touch-target op-transition', className]}
-  href={withBasePath('/rss.xml')}
+  href={withBasePath(rssPath)}
   title={t('a11y.rssFeed')}
   external={true}
 >

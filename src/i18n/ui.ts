@@ -133,7 +133,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Pages
     'page.404.eyebrow': '出错了',
-    'page.404.description': '页面未找到',
+    'page.404.description': '页面未找到。返回付之一笑首页继续浏览文章与相册。',
     'page.404.message': '这里什么也没有，不过很高兴见到你！',
     'page.404.home': '返回首页',
     'page.blog.title': '博客',
@@ -198,7 +198,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     'page.home.title': '付之一笑',
     'page.home.description':
-      '付之一笑 — Charliefoo 的个人博客入口。阅读、跑步、思考与创作。',
+      '付之一笑 — Charliefoo 的个人博客。分享阅读笔记、跑步记录、技术思考与创作心得，记录值得回味的生活瞬间。',
     // 首页 About 区块 — 博客故事与理念
     'about.blog.title': '关于博客',
     'about.history.title': '博客历程',
@@ -419,7 +419,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     // Pages
     'page.404.eyebrow': 'Error',
-    'page.404.description': 'Page not found',
+    'page.404.description':
+      'Page not found. Return to the Foo-Z homepage to continue browsing.',
     'page.404.message': 'Nice to meet you tho!',
     'page.404.home': 'Back home',
     'page.blog.title': 'Blog',
@@ -486,7 +487,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
 
     'page.home.title': '付之一笑',
     'page.home.description':
-      "Charliefoo's personal blog portal — reading, running, thinking, and creating.",
+      "Foo-Z (付之一笑) — Charliefoo's personal blog portal for reading notes, running logs, technical thinking, and creative writing.",
     // Home About section — blog story & philosophy
     'about.blog.title': 'About this blog',
     'about.history.title': 'Blog journey',

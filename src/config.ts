@@ -6,6 +6,8 @@ export const SITE: Site = {
   title: '付之一笑',
   description:
     '付之一笑 — Charliefoo 的个人博客。分享阅读笔记、跑步记录、技术思考与创作心得，记录生活中的每一个值得回味的瞬间。',
+  descriptionEn:
+    "Foo-Z (付之一笑) — Charliefoo's personal blog: reading notes, running logs, technical thinking, and creative writing.",
   author: 'Charliefoo',
   lang: 'zh-CN',
   ogLocale: 'zh_CN',

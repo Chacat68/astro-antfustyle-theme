@@ -62,12 +62,14 @@ function collectMarkdownContentIds(
     const extension = extname(entry.name)
     if (!markdownExtensions.has(extension)) continue
 
-    // 保持与 Astro content id 一致的大小写（勿 toLowerCase），
-    // 否则 Linux 生产环境下 sitemap 可能生成错误路径（如 Steam2022 → steam2022）
+    // 与 Astro content id / 实际路由对齐：glob loader 会把 id 规范为小写
+    // （如 Steam2022.md → steam2022）。customPages 必须用小写，否则 sitemap
+    // 会出现 /en/blog/Steam2022/ 而产物只有 /en/blog/steam2022/。
     const relativePath = relative(baseDirectory, entryPath)
       .split(sep)
       .join('/')
       .replace(/\.mdx?$/, '')
+      .toLowerCase()
     contentIds.add(relativePath)
   }
 

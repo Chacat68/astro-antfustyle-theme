@@ -15,11 +15,15 @@
 /article/hk18-kiri-t-outrageous-thing-cover https://foo-z.com/blog/hk19-kiri-t-outrageous-thing-cover/ 301
 /article/hk18-kiri-t-outrageous-thing-cover/ https://foo-z.com/blog/hk19-kiri-t-outrageous-thing-cover/ 301
 
-# Astro normalizes this filename to a lowercase content ID.
+# Astro content id / 路由为小写 steam2022；兼容旧文件名与错误 sitemap 大小写。
 /posts/Steam2022 https://foo-z.com/blog/steam2022/ 301
 /posts/Steam2022/ https://foo-z.com/blog/steam2022/ 301
 /article/Steam2022 https://foo-z.com/blog/steam2022/ 301
 /article/Steam2022/ https://foo-z.com/blog/steam2022/ 301
+/blog/Steam2022 https://foo-z.com/blog/steam2022/ 301
+/blog/Steam2022/ https://foo-z.com/blog/steam2022/ 301
+/en/blog/Steam2022 https://foo-z.com/en/blog/steam2022/ 301
+/en/blog/Steam2022/ https://foo-z.com/en/blog/steam2022/ 301
 
 # Old top-level pages whose purpose or location changed.
 # 关于内容已并入首页 #about（Location 带 hash，浏览器落点到关于区）
@@ -35,10 +39,11 @@
 /posts/ https://foo-z.com/blog/ 301
 /look https://foo-z.com/ 301
 /look/ https://foo-z.com/ 301
-/moments https://foo-z.com/shorts/ 301
-/moments/ https://foo-z.com/shorts/ 301
-/moments/my-moments https://foo-z.com/shorts/ 301
-/moments/my-moments/ https://foo-z.com/shorts/ 301
+# 旧「动态」入口：shorts 为 noindex，改指可索引的博客列表
+/moments https://foo-z.com/blog/ 301
+/moments/ https://foo-z.com/blog/ 301
+/moments/my-moments https://foo-z.com/blog/ 301
+/moments/my-moments/ https://foo-z.com/blog/ 301
 /page https://foo-z.com/blog/ 301
 /page/ https://foo-z.com/blog/ 301
 

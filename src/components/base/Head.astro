@@ -5,7 +5,11 @@ import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n'
 
 import { checkFileExistsInDir } from '../../../plugins/remark-generate-og-image'
 import { withBasePath } from '~/utils/path'
-import { formatPageTitle, truncateMetaDescription } from '~/utils/seo'
+import {
+  formatPageTitle,
+  getSiteDescription,
+  truncateMetaDescription,
+} from '~/utils/seo'
 import { FEATURES, SITE, UI } from '~/config'
 import { getLocale } from '~/i18n/translate'
 import { isDefaultLocale } from '~/i18n/locales'
@@ -45,9 +49,10 @@ const canonicalLocale = getLocale(canonicalLocaleProp ?? locale)
 const pageTitle = formatPageTitle(title, SITE.title)
 
 const pageDescription = truncateMetaDescription(
-  description || SITE.description
+  description || getSiteDescription(canonicalLocale)
 )
 const schemaName = title || SITE.title
+const siteDescription = getSiteDescription(canonicalLocale)
 const normalizedTags = tags.filter((tag) => tag.trim().length > 0)
 const robotsContent = noindex
   ? 'noindex, follow'
@@ -64,19 +69,22 @@ const canonicalURL = new URL(
 )
 canonicalURL.protocol = 'https:'
 
-const alternateUrlEntries = Array.from(new Set(availableLocales)).map(
-  (availableLocale) => {
-    const hrefURL = new URL(
-      getAbsoluteLocaleUrl(availableLocale, pathWithinLocale)
-    )
-    hrefURL.protocol = 'https:'
+// noindex 页不输出跨语言 hreflang，避免指向同样不可索引的交替 URL
+const hreflangLocales = noindex
+  ? [canonicalLocale]
+  : Array.from(new Set(availableLocales))
 
-    return {
-      locale: availableLocale,
-      href: hrefURL.href,
-    }
+const alternateUrlEntries = hreflangLocales.map((availableLocale) => {
+  const hrefURL = new URL(
+    getAbsoluteLocaleUrl(availableLocale, pathWithinLocale)
+  )
+  hrefURL.protocol = 'https:'
+
+  return {
+    locale: availableLocale,
+    href: hrefURL.href,
   }
-)
+})
 const xDefaultURL = new URL(getAbsoluteLocaleUrl('zh', pathWithinLocale))
 xDefaultURL.protocol = 'https:'
 
@@ -100,7 +108,8 @@ const ogImageURL = new URL(
     withBasePath('og-images', 'og-image.png'),
   SITE.website
 ).href
-const ogImageAlt = `${schemaName} - ${SITE.title}`
+const ogImageAlt =
+  schemaName === SITE.title ? SITE.title : `${schemaName} - ${SITE.title}`
 const sitemapURL = new URL(withBasePath('/sitemap-index.xml'), SITE.website)
   .href
 const rssURL = new URL(
@@ -194,7 +203,7 @@ const websiteData = {
   'url': siteRootURL.href,
   'name': SITE.title,
   'alternateName': ['Foo-Z', 'FOO-Z', SITE.author],
-  'description': SITE.description,
+  'description': siteDescription,
   'inLanguage': localeToHtmlLang(canonicalLocale),
   'publisher': {
     '@id': personId,
@@ -345,17 +354,17 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 }
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL.href} />
-<meta property="twitter:title" content={pageTitle} />
-<meta property="twitter:description" content={pageDescription} />
-<meta property="twitter:image" content={ogImageURL} />
-<meta property="twitter:image:alt" content={ogImageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL.href} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+<meta name="twitter:image" content={ogImageURL} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
 {
   twitterCreator && (
     <>
-      <meta property="twitter:site" content={twitterCreator} />
-      <meta property="twitter:creator" content={twitterCreator} />
+      <meta name="twitter:site" content={twitterCreator} />
+      <meta name="twitter:creator" content={twitterCreator} />
     </>
   )
 }
@@ -369,7 +378,11 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
     <link rel="alternate" hreflang={localeToHtmlLang(locale)} href={href} />
   ))
 }
-<link rel="alternate" hreflang="x-default" href={xDefaultURL.href} />
+{
+  !noindex && (
+    <link rel="alternate" hreflang="x-default" href={xDefaultURL.href} />
+  )
+}
 
 <!-- 关键拉丁字体预加载（中文走系统栈；完整 @font-face 见 fonts.css） -->
 <link

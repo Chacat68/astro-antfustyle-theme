@@ -24,7 +24,8 @@
 | `/2/` 至 `/15/` | `/blog/` | 新站不分页，统一到文章总览 |
 | `/page/<number>/` | `/blog/` | 兼容旧分页格式 |
 | `/about/` | `/#about` | 关于内容已并入首页；`public/_redirects` 永久重定向到带锚点地址 |
-| `/moments/my-moments/` | `/shorts/` | 两者都是短内容/日常随笔入口 |
+| `/blog/Steam2022/`、`/en/blog/Steam2022/` | `/blog/steam2022/`、`/en/blog/steam2022/` | 兼容旧文件名大小写与曾错误写入 sitemap 的 URL |
+| `/moments/`、`/moments/my-moments/` | `/blog/` | 旧动态入口；`/shorts/` 为 noindex，故改指可索引的博客列表 |
 | `/projects/` | `/projects/` | 只迁移域名，路径不变 |
 | `/friends/` | `/friends/` | 只迁移域名，路径不变 |
 | `/rss.xml` | `/rss.xml` | 只迁移域名，路径不变 |

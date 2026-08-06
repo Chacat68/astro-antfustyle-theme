@@ -35,6 +35,14 @@ export function getAbsoluteSiteUrl(routePath: string) {
   return url.href
 }
 
+/** 按语言取站点级 description（英文优先 `descriptionEn`）。 */
+export function getSiteDescription(locale: 'zh' | 'en' | string = 'zh') {
+  if (locale === 'en' || locale === 'en-US' || locale === 'en_US') {
+    return SITE.descriptionEn?.trim() || SITE.description
+  }
+  return SITE.description
+}
+
 export function formatPageTitle(
   title: string | undefined,
   siteTitle: string,

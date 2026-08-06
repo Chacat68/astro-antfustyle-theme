@@ -44,14 +44,24 @@
 `Head.astro` 输出 Schema.org JSON-LD `@graph`，包含：
 
 - `Person`（作者，含 `sameAs`）
-- `WebSite`（站点，含 `Foo-Z` / 作者别名）
+- `WebSite`（站点，含 `Foo-Z` / 作者别名；`description` 按 canonical 语言取 `SITE.description` / `SITE.descriptionEn`）
 - `ImageObject`（OG 图）
 - `WebPage` 或 `BlogPosting`（按是否有 `pubDate` 区分）
 - `BreadcrumbList`（非首页）
 
 ### Twitter Card 账号
 
-当 `FEATURES.share.twitter` 启用时，`Head.astro` 输出 `twitter:site` 与 `twitter:creator`（当前 `@Chacat68`）。
+当 `FEATURES.share.twitter` 启用时，`Head.astro` 输出 `twitter:site` 与 `twitter:creator`（当前 `@Chacat68`）。Twitter 标签使用 `name="twitter:*"`。
+
+### RSS
+
+- 中文：`/rss.xml`（`SITE.description`）
+- 英文：`/en/rss.xml`（`SITE.descriptionEn`）
+- 导航 `RssLink` 按当前语言指向对应 feed
+
+### noindex 与 hreflang
+
+`noindex` 页面只输出当前 canonical 语言的 `hreflang`，并省略 `x-default`，避免把不可索引交替页互相串联。
 
 ### AI 抓取入口
 
@@ -128,9 +138,10 @@ pnpm seo:audit
 ### 新增博客文章 checklist
 
 1. frontmatter 填写 `title`、`description`（50–160 字符为佳，完整句子，勿用「欢迎阅读全文…」填充）、`pubDate`
-2. 可选：设置 `ogImage` 或在 `public/og-images/` 放置对应 PNG
-3. 若有英文版，在 `src/content/blog/en/` 添加同名 slug 文件；无英译时勿手动创建空壳，交由 fallback + noindex 处理
-4. 重要文章尽量补齐英译，以便进入英文 sitemap 与 `llms.txt`
+2. 文件名使用**小写 slug**（如 `steam2022.md`）；Astro content id 与 sitemap `customPages` 均按小写生成，混用大小写会导致 Linux 上 404 或 sitemap 与 canonical 不一致
+3. 可选：设置 `ogImage` 或在 `public/og-images/` 放置对应 PNG
+4. 若有英文版，在 `src/content/blog/en/` 添加同名 slug 文件；无英译时勿手动创建空壳，交由 fallback + noindex 处理
+5. 重要文章尽量补齐英译，以便进入英文 sitemap 与 `llms.txt`
 
 ### 生产环境抽检（部署后）
 
