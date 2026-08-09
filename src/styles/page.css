@@ -84,7 +84,7 @@
   opacity: 1 !important;
 }
 
-.page-header :global(.mt--6\!) {
+.page-header .mt--6\! {
   margin-top: 0.85rem !important;
 }
 
