@@ -123,6 +123,11 @@ export const UI: Ui = {
     { title: 'AstroBlog', path: '/feeds' },
     { title: 'AstroStreams', path: '/streams' },
   ],
+  postView: {
+    postMetaStyle: 'minimal',
+    useCoverAltAsCaption: true,
+  },
+  postMetaStyle: 'minimal',
   groupView: {
     showGroupItemColorOnHover: true,
   },
@@ -138,7 +143,8 @@ export const UI: Ui = {
     subLogoMatches: [
       [/theme/, 'i-unjs-theme-colors'],
       [/github/, 'https://github.githubassets.com/favicons/favicon.svg'],
-      [/tweet/, 'i-logos-twitter'],
+      [/tweet/, 'i-prime-twitter'],
+      [/ins/, 'i-skill-icons-instagram'],
       [/bluesky/, 'i-logos-bluesky'],
     ],
   },
@@ -147,11 +153,10 @@ export const UI: Ui = {
     cursorType: '',
     showNewTabIcon: false,
   },
-  postMetaStyle: 'minimal',
 }
 
 /**
- * Configures whether to enable special features:
+ * Globally controls whether to enable special features:
  *  - Set to `false` or `[false, {...}]` to disable the feature.
  *  - Set to `[true, {...}]` to enable and configure the feature.
  */
@@ -166,6 +171,11 @@ export const FEATURES: Features = {
       authorOrBrand: `${SITE.title}`,
       fallbackTitle: `${SITE.description}`,
       fallbackBgType: 'plum',
+      collections: [
+        { collection: 'blog', pathnamePrefix: '/blog' },
+        { collection: 'changelog', pathnamePrefix: '/changelog' },
+        { collection: 'shorts', pathnamePrefix: '/shorts' },
+      ],
     },
   ],
 
@@ -176,7 +186,7 @@ export const FEATURES: Features = {
     {
       minHeadingLevel: 2,
       maxHeadingLevel: 4,
-      displayPosition: 'left',
+      displayPosition: 'right',
       displayMode: 'content',
     },
   ],
@@ -218,11 +228,19 @@ export const FEATURES: Features = {
   search: [
     true,
     {
-      includes: ['blog', 'blog_en', 'changelog'],
+      includes: ['blog', 'blog_en', 'shorts', 'changelog'],
       filter: true,
       navHighlight: true,
       batchLoadSize: [true, 8],
       maxItemsPerPage: [true, 3],
+    },
+  ],
+  tag: [
+    true,
+    {
+      displayPosition: 'right',
+      displayMode: 'content',
+      filterMode: 'AND',
     },
   ],
 }

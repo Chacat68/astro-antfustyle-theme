@@ -21,11 +21,7 @@ const { showGroupItemColorOnHover } = UI.groupView
 <div class="group-grid">
   {
     items.map((item) => (
-      <Link
-        class="group-card"
-        href={item.link}
-        external={true}
-      >
+      <Link class="group-card" href={item.link} external={true}>
         <div class="group-card__media">
           {item.avatar ? (
             <img src={item.avatar} alt={item.id} class="group-card__avatar" />
@@ -52,10 +48,7 @@ const { showGroupItemColorOnHover } = UI.groupView
   /* 与 .studio-page 内容轨同宽；列数由 auto-fill + 最小卡宽决定 */
   .group-grid {
     display: grid;
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(min(100%, 17.5rem), 1fr)
-    );
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr));
     gap: 0.85rem;
     width: 100%;
     max-width: none;

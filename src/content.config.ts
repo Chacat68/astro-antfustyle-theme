@@ -13,7 +13,7 @@ import {
   streamSchema,
   photoSchema,
   aiGallerySchema,
-} from '~/content/schema'
+} from '~/schema'
 
 const githubToken = process.env.GITHUB_TOKEN?.trim()
 
@@ -103,6 +103,11 @@ const aiGallery = defineCollection({
   schema: aiGallerySchema,
 })
 
+const shorts = defineCollection({
+  loader: glob({ base: './src/content/shorts', pattern: '**/[^_]*.{md,mdx}' }),
+  schema: postSchema,
+})
+
 const changelog = defineCollection({
   loader: glob({
     base: './src/content/changelog',
@@ -134,6 +139,7 @@ export const collections = {
   prs,
   photos,
   aiGallery,
+  shorts,
   changelog,
   streams,
   feeds,

@@ -64,10 +64,10 @@ export const pageSchema = z.object({
 
 export type PageSchema = z.infer<typeof pageSchema>
 
-function createDateOnlySchema(fieldName: string) {
-  return z.iso
-    .date({ error: `${fieldName} must be YYYY-MM-DD.` })
-    .transform((value) => new Date(value))
+function createDateOnlySchema(_fieldName: string) {
+  // Astro 7 的 frontmatter YAML 日期会先被解析成 Date；使用 coerce 同时兼容
+  // Date 实例与旧内容中的 YYYY-MM-DD 字符串。
+  return z.coerce.date()
 }
 
 /* Posts */

@@ -37,7 +37,7 @@ export function parseTuple(
  * In production, it filters out draft posts.
  */
 export async function getFilteredPosts<
-  K extends 'blog' | 'blog_en' | 'changelog',
+  K extends 'blog' | 'blog_en' | 'changelog' | 'shorts',
 >(collection: K) {
   return await getCollection(collection, ({ data }) => {
     return import.meta.env.PROD ? !data.draft : true
@@ -158,6 +158,52 @@ export function processVersion(
  * Processes blog posts and converts them into `CardItemData` interface.
  * 从 Markdown body 提取 h2，避免对每篇 `await render()`。
  */
+/**
+ * 根据多组标签建立去重后的标签关系，供标签筛选面板使用。
+ */
+export function buildTagRelations(
+  input: string[][] | string[] | Record<string, string[]>
+): { unique: string[]; relations: Record<string, string[]> } {
+  const relationMap = new Map<string, Set<string>>()
+  const ensure = (tag: string) => {
+    let set = relationMap.get(tag)
+    if (!set) {
+      set = new Set<string>()
+      relationMap.set(tag, set)
+    }
+    return set
+  }
+
+  if (Array.isArray(input)) {
+    if (input.length > 0 && Array.isArray(input[0])) {
+      for (const group of input as string[][]) {
+        const tags = [
+          ...new Set(group.map((tag) => tag.trim()).filter(Boolean)),
+        ]
+        for (const tag of tags) {
+          const related = ensure(tag)
+          for (const other of tags) if (other !== tag) related.add(other)
+        }
+      }
+    } else {
+      for (const tag of input as string[]) ensure(String(tag).trim())
+    }
+  } else {
+    for (const [tag, relatedTags] of Object.entries(input)) {
+      const related = ensure(tag)
+      for (const relatedTag of relatedTags) {
+        if (relatedTag && relatedTag !== tag) related.add(relatedTag)
+      }
+    }
+  }
+
+  const unique = [...relationMap.keys()].sort((a, b) => a.localeCompare(b))
+  const relations = Object.fromEntries(
+    unique.map((tag) => [tag, [...(relationMap.get(tag) ?? [])]])
+  )
+  return { unique, relations }
+}
+
 export function getShortsFromBlog(data: CollectionEntryList<'blog'>) {
   const cards: CardItemData[] = []
   const basePath = resolvePath('/blog')

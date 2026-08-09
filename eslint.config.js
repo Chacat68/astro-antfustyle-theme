@@ -22,7 +22,6 @@ export default defineConfig(
     },
   },
   js.configs.recommended,
-  ts.configs.eslintRecommended,
   ts.configs.recommended,
   ts.configs.stylistic,
   astro.configs.recommended,

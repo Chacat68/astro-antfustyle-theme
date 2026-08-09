@@ -19,7 +19,7 @@ export default defineEcConfig({
 
   /* Styles */
   styleOverrides: {
-    uiFontFamily: "'DM Mono', 'Input Mono', 'Fira Code', 'monospace'",
+    uiFontFamily: 'var(--font-mono)',
     uiFontSize: '1em',
     codeBackground: (context) =>
       context.theme.name === 'vitesse-dark' ? '#06080c' : '#f4f7f9',

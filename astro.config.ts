@@ -14,11 +14,13 @@ import { unified } from '@astrojs/markdown-remark'
 import { remarkPlugins, rehypePlugins } from './plugins'
 import { SITE } from './src/config'
 import { getAbsoluteSiteUrl, shouldIncludeInSitemap } from './src/utils/seo'
+
 const markdownExtensions = new Set(['.md', '.mdx'])
 const englishBlogIds = collectMarkdownContentIds(
   fileURLToPath(new URL('./src/content/blog/en', import.meta.url))
 )
-// 仅列入可索引英文路由；noindex 页（如 /en/shorts/）勿加入，以免污染 sitemap
+
+// 仅列入可索引英文路由；noindex 页（如 /en/shorts/）勿加入 sitemap
 const englishStaticRoutePaths = [
   '/en/',
   '/en/blog/',
@@ -27,6 +29,7 @@ const englishStaticRoutePaths = [
   '/en/gallery/',
   '/en/projects/',
 ]
+
 const customSitemapPages = Array.from(
   new Set([
     ...englishStaticRoutePaths.map((routePath) =>
@@ -63,8 +66,6 @@ function collectMarkdownContentIds(
     if (!markdownExtensions.has(extension)) continue
 
     // 与 Astro content id / 实际路由对齐：glob loader 会把 id 规范为小写
-    // （如 Steam2022.md → steam2022）。customPages 必须用小写，否则 sitemap
-    // 会出现 /en/blog/Steam2022/ 而产物只有 /en/blog/steam2022/。
     const relativePath = relative(baseDirectory, entryPath)
       .split(sep)
       .join('/')
@@ -92,11 +93,13 @@ const aiCrawlerUserAgents = [
 export default defineConfig({
   site: SITE.website,
   base: SITE.base,
+  build: {
+    inlineStylesheets: 'never',
+  },
   i18n: {
-    // Default language lives at root (e.g. /blog), non-default languages are prefixed (e.g. /en/blog)
+    // 默认语言使用根路径，英文使用 /en 前缀
     locales: ['zh', 'en'],
     defaultLocale: 'zh',
-    // Generate /en/* routes by rewriting to zh content until translations exist
     fallback: {
       en: 'zh',
     },
@@ -132,11 +135,9 @@ export default defineConfig({
     astroExpressiveCode(),
     mdx(),
   ],
-  // 对齐升级前 experimental.failOnPrerenderConflict：路由冲突时直接失败
   prerenderConflictBehavior: 'error',
   markdown: {
     syntaxHighlight: false,
-    // Astro 6：remark/rehype 插件经 unified processor 传入（旧顶层字段已弃用）
     processor: unified({
       remarkPlugins,
       rehypePlugins,
@@ -144,23 +145,27 @@ export default defineConfig({
   },
   image: {
     domains: SITE.imageDomains,
-    // https://docs.astro.build/en/guides/images/#responsive-image-behavior
-    // Used for all local (except `/public`) and authorized remote images using `![]()` syntax; not configurable per-image
-    // Used for all `<Image />` and `<Picture />` components unless overridden with `layout` prop
     layout: 'constrained',
     responsiveStyles: true,
   },
+  security: {
+    // 允许 Giscus 在 Astro 开发请求过滤器中加载主题样式
+    allowedDomains: [
+      {
+        hostname: 'giscus.app',
+        protocol: 'https',
+      },
+    ],
+  },
   vite: {
+    logLevel: 'warn',
+    build: { chunkSizeWarningLimit: 700 },
     server: {
       headers: {
-        // Enable CORS for dev: allow Giscus iframe to load local styles
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'https://giscus.app',
       },
     },
-    build: { chunkSizeWarningLimit: 700 },
   },
-  // https://docs.astro.build/en/reference/experimental-flags/
-  // preserveScriptOrder / headingIdCompat / failOnPrerenderConflict 已在 Astro 6 稳定或迁出 experimental
   experimental: {
     contentIntellisense: true,
     chromeDevtoolsWorkspace: true,

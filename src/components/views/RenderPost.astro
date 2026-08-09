@@ -12,12 +12,13 @@ import ImageViewer from '~/components/widgets/ImageViewer.astro'
 import { FEATURES } from '~/config'
 import { getLocale, useTranslations } from '~/i18n/translate'
 import { buildCjkSearchBoost } from '~/utils/pagefind-cjk'
+import { resolveMinutesRead } from '~/utils/reading-time'
 
 import type { CollectionEntry } from 'astro:content'
 import type { AppLocale } from '~/i18n/locales'
 
 interface Props {
-  post: CollectionEntry<'blog' | 'blog_en' | 'changelog'>
+  post: CollectionEntry<'blog' | 'blog_en' | 'changelog' | 'shorts'>
   isCommentable?: boolean
   availableLocales?: AppLocale[]
   canonicalLocale?: AppLocale
@@ -49,7 +50,9 @@ const lastModDate =
   frontmatter.lastModDate && frontmatter.lastModDate.toISOString()
 const subtitle = frontmatter.subtitle
 const minutesRead =
-  frontmatter.minutesRead || (remarkPluginFrontmatter.minutesRead as number)
+  resolveMinutesRead(frontmatter.minutesRead, post.body) ??
+  (remarkPluginFrontmatter.minutesRead as number | undefined) ??
+  0
 const isDraft = frontmatter.draft
 
 const tocEnabled = Array.isArray(toc) && toc[0] && frontmatter.toc

@@ -1,9 +1,9 @@
 ---
 import { ClientRouter } from 'astro:transitions'
-import { basename } from 'node:path'
+import { existsSync } from 'node:fs'
+import { basename, join } from 'node:path'
 import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n'
 
-import { checkFileExistsInDir } from '../../../plugins/remark-generate-og-image'
 import { withBasePath } from '~/utils/path'
 import {
   formatPageTitle,
@@ -16,6 +16,10 @@ import { isDefaultLocale } from '~/i18n/locales'
 import { localeToHtmlLang, localeToOgLocale } from '~/i18n/locale-meta'
 
 import type { AppLocale } from '~/i18n/locales'
+
+function checkFileExistsInDir(directory: string, filename: string) {
+  return existsSync(join(process.cwd(), directory, filename))
+}
 
 interface Props {
   title?: string

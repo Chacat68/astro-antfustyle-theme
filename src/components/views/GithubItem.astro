@@ -62,7 +62,9 @@ const content = sanitizeHtml(
   style={{ '--enter-stage': idx }}
 >
   {/* Logo */}
-  <summary class="github-item__summary flex items-center gap-4 lt-sm:gap-2 cursor-pointer">
+  <summary
+    class="github-item__summary flex items-center gap-4 lt-sm:gap-2 cursor-pointer"
+  >
     <div class="flex-none relative">
       <img
         class:list={[
@@ -124,17 +126,26 @@ const content = sanitizeHtml(
           {
             collectionType === 'releases' && (
               <span>
-                v{item.versionParts[0]}<span class={`github-${item.versionType}`}>{item.versionParts[1]}</span>
+                v{item.versionParts[0]}
+                <span class={`github-${item.versionType}`}>
+                  {item.versionParts[1]}
+                </span>
               </span>
             )
           }
           {collectionType === 'prs' && <span>#{item.number}</span>}
         </Link>
-        {time && (
-          <time class="op-60 text-sm lt-sm:text-3.2" datetime={time} title={time}>
-            {formatDate(time, false, false, dateLocale)}
-          </time>
-        )}
+        {
+          time && (
+            <time
+              class="op-60 text-sm lt-sm:text-3.2"
+              datetime={time}
+              title={time}
+            >
+              {formatDate(time, false, false, dateLocale)}
+            </time>
+          )
+        }
       </div>
     </div>
   </summary>

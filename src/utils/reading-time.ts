@@ -16,10 +16,10 @@ export function estimateMinutesReadFromText(text: string): number {
  * - 未设置：用正文 `body` 估算（避免列表页对每篇 `render()`）
  */
 export function resolveMinutesRead(
-  explicit: number | undefined,
+  explicit: number | boolean | undefined,
   body: string | undefined
 ): number | undefined {
-  if (explicit === 0) return 0
+  if (explicit === false || explicit === 0) return 0
   if (typeof explicit === 'number') return explicit
   if (!body) return undefined
   return estimateMinutesReadFromText(body)

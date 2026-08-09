@@ -7,38 +7,34 @@ import { FEATURES } from '~/config'
 import type { MarkdownHeading } from 'astro'
 import type { TocConfig } from '~/types'
 
-type Props =
-  | {
-      headings: MarkdownHeading[]
-      anchors?: never
-      style?: string
-    }
-  | {
-      anchors: string[]
-      headings?: never
-      style?: string
-    }
-
-const { headings = [], anchors = [], style } = Astro.props
-
-const getTocConfig = () => {
-  const defaultConfig: TocConfig = {
-    minHeadingLevel: 2,
-    maxHeadingLevel: 4,
-    displayPosition: 'left',
-    displayMode: 'hover',
-  }
-
-  if (!Array.isArray(FEATURES.toc) || !FEATURES.toc[0]) {
-    return defaultConfig
-  }
-
-  return { ...defaultConfig, ...FEATURES.toc[1] }
+interface Props {
+  headings?: MarkdownHeading[]
+  anchors?: string[]
+  isArticle?: boolean
+  style?: string
 }
 
-const isArticle = !!headings.length
+const {
+  headings = [],
+  anchors = [],
+  style,
+  isArticle: articleProp,
+} = Astro.props
+
+const defaultConfig: TocConfig = {
+  minHeadingLevel: 2,
+  maxHeadingLevel: 4,
+  displayPosition: 'left',
+  displayMode: 'hover',
+}
+const tocConfig =
+  Array.isArray(FEATURES.toc) && FEATURES.toc[0]
+    ? { ...defaultConfig, ...FEATURES.toc[1] }
+    : defaultConfig
 const { minHeadingLevel, maxHeadingLevel, displayPosition, displayMode } =
-  getTocConfig()
+  tocConfig
+const isArticle = articleProp ?? headings.length > 0
+const hasSlot = Astro.slots.has('default')
 const specHeadings = generateToc(headings, minHeadingLevel, maxHeadingLevel)
 ---
 
@@ -46,8 +42,8 @@ const specHeadings = generateToc(headings, minHeadingLevel, maxHeadingLevel)
   <table-of-contents
     data-min-h={isArticle ? minHeadingLevel : undefined}
     data-max-h={isArticle ? maxHeadingLevel : undefined}
+    data-pagefind-ignore="all"
   >
-    <!-- Greater than or equal to 1128px -->
     <nav
       class:list={{
         'toc-desktop': true,
@@ -60,19 +56,24 @@ const specHeadings = generateToc(headings, minHeadingLevel, maxHeadingLevel)
       <div class="toc-desktop-anchor i-ri-menu-2-fill"></div>
       <ul>
         {
-          !!specHeadings.length &&
+          hasSlot ? (
+            <slot />
+          ) : (
             specHeadings.map((heading) => <TocItem {heading} />)
+          )
         }
-        {!!anchors.length && <TocItem {anchors} />}
+        {!hasSlot && !!anchors.length && <TocItem {anchors} />}
       </ul>
     </nav>
-    <!-- less than 1128px -->
     <TocButton>
       {
-        !!specHeadings.length &&
+        hasSlot ? (
+          <slot />
+        ) : (
           specHeadings.map((heading) => <TocItem {heading} />)
+        )
       }
-      {!!anchors.length && <TocItem {anchors} />}
+      {!hasSlot && !!anchors.length && <TocItem {anchors} />}
     </TocButton>
   </table-of-contents>
 </aside>

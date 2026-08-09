@@ -1,3 +1,5 @@
+import type { CollectionKey } from 'astro:content'
+
 /* SITE */
 export type Url = `http://${string}` | `https://${string}`
 type Path = `/${string}`
@@ -460,6 +462,11 @@ interface ExternalLink {
   showNewTabIcon: boolean
 }
 
+interface PostView {
+  postMetaStyle: 'minimal' | 'icon'
+  useCoverAltAsCaption: boolean
+}
+
 export interface Ui {
   /**
    * Sets internal navigation links in display order.
@@ -493,6 +500,14 @@ export interface Ui {
   tabbedLayoutTabs: false | Tabs
 
   /**
+   * Configures post metadata and cover presentation.
+   */
+  postView: PostView
+
+  /** Legacy alias retained for the customized PostMeta component. */
+  postMetaStyle: 'minimal' | 'icon'
+
+  /**
    * Configures the `/projects` UIs.
    *
    * Used in `src/components/views/GroupItem.astro` and `src/components/base/Categorizer.astro`.
@@ -513,17 +528,6 @@ export interface Ui {
    * and `src/layouts/BaseLayout.astro`.
    */
   externalLink: ExternalLink
-
-  /**
-   * Controls the display style of post metadata (creation date, read time, modified date):
-   * - 'minimal': Plain text with middle dots.
-   * - 'icon': Includes icons before each metadata item.
-   *
-   * On mobile devices, the modified date (if present) is hidden.
-   *
-   * Used in `src/components/base/PostMeta.astro`.
-   */
-  postMetaStyle: 'minimal' | 'icon'
 }
 
 /* FEATURES */
@@ -546,6 +550,11 @@ interface slideEnterAnimConfig {
    * Adjusts the animation speed (ms). Smaller values speed up; larger values slow down.
    */
   enterStep: number
+}
+
+export interface OgImageCollectionConfig {
+  collection: Exclude<CollectionKey, 'pages'>
+  pathnamePrefix: Path
 }
 
 interface OgImageConfig {
@@ -572,6 +581,7 @@ interface OgImageConfig {
    * You can delete the existing file to regenerate a new one.
    */
   fallbackBgType: BgType
+  collections: OgImageCollectionConfig[]
 }
 
 export interface TocConfig {
@@ -724,6 +734,12 @@ interface GiscusConfig {
   'data-lang': string
 }
 
+interface TagConfig {
+  displayPosition: 'left' | 'right'
+  displayMode: 'always' | 'content' | 'hover'
+  filterMode: 'AND' | 'OR'
+}
+
 interface SearchConfig {
   /**
    * Specify which content collections rendered by `RenderPost.astro` are indexed.
@@ -823,6 +839,7 @@ export interface Features {
    * For Pagefind’s built-in configuration, directly modify `src/components/widgets/SearchSwitch.astro`.
    */
   search: FeatureConfig<SearchConfig>
+  tag: FeatureConfig<TagConfig>
 }
 
 /* Re-exports（统一从 `~/types` 引入跨模块类型） */
