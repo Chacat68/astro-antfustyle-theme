@@ -25,6 +25,25 @@
 /en/blog/Steam2022 https://foo-z.com/en/blog/steam2022/ 301
 /en/blog/Steam2022/ https://foo-z.com/en/blog/steam2022/ 301
 
+# Astro 7 glob loader 会把版本文件名中的点移出 content id（3.0.0 -> 300）。
+# 保留直观的语义版本 URL，避免旧书签或手动输入版本号时落到 404。
+/changelog/1.0.0 https://foo-z.com/changelog/100/ 301
+/changelog/1.0.0/ https://foo-z.com/changelog/100/ 301
+/changelog/1.1.0 https://foo-z.com/changelog/110/ 301
+/changelog/1.1.0/ https://foo-z.com/changelog/110/ 301
+/changelog/1.2.0 https://foo-z.com/changelog/120/ 301
+/changelog/1.2.0/ https://foo-z.com/changelog/120/ 301
+/changelog/1.3.0 https://foo-z.com/changelog/130/ 301
+/changelog/1.3.0/ https://foo-z.com/changelog/130/ 301
+/changelog/1.4.0 https://foo-z.com/changelog/140/ 301
+/changelog/1.4.0/ https://foo-z.com/changelog/140/ 301
+/changelog/1.5.0 https://foo-z.com/changelog/150/ 301
+/changelog/1.5.0/ https://foo-z.com/changelog/150/ 301
+/changelog/2.4.0 https://foo-z.com/changelog/240/ 301
+/changelog/2.4.0/ https://foo-z.com/changelog/240/ 301
+/changelog/3.0.0 https://foo-z.com/changelog/300/ 301
+/changelog/3.0.0/ https://foo-z.com/changelog/300/ 301
+
 # Old top-level pages whose purpose or location changed.
 # 关于内容已并入首页 #about（Location 带 hash，浏览器落点到关于区）
 /about https://foo-z.com/#about 301

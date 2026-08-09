@@ -65,7 +65,7 @@ export function toggleFadeEffect(
  */
 export function withClientBasePath(path: string): string {
   const resolvedPath = `/${import.meta.env.BASE_URL}/${path}`.replace(
-    /\/+/,
+    /\/+/g,
     '/'
   )
 

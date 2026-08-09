@@ -6,8 +6,6 @@ import GithubItem from '~/components/views/GithubItem.astro'
 import Warning from '~/components/base/Warning.astro'
 import { UI } from '~/config'
 import { formatDate, isDiffMonth } from '~/utils/datetime'
-import { ensureTrailingSlash } from '~/utils/path'
-import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getLocale, useTranslations } from '~/i18n/translate'
 import { localeToHtmlLang } from '~/i18n/locale-meta'
 import {
@@ -45,9 +43,10 @@ const { monorepos, mainLogoOverrides, subLogoMatches } = UI.githubView
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 const dateLocale = localeToHtmlLang(locale)
-const configGuideHref = ensureTrailingSlash(
-  getRelativeLocaleUrl(locale, 'blog/customizing-github-activity-pages')
-)
+const configGuideHref =
+  collectionType === 'releases'
+    ? 'https://www.npmjs.com/package/astro-loader-github-releases'
+    : 'https://www.npmjs.com/package/astro-loader-github-prs'
 
 const MAX_PER_PKG = 5
 const WARNING = t('github.noDataWarningHtml', { href: configGuideHref })
@@ -214,7 +213,7 @@ if (collectionType === 'prs') {
         </p>
         <p class="my-0! lt-sm:my-1.5!">
           {t('github.see')}
-          <Link class="op-100!" href={configGuideHref}>
+          <Link class="op-100!" href={configGuideHref} external>
             {t('github.configGuideTitle')}
           </Link>
           {t('github.toConfigure')}

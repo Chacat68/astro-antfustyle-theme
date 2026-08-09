@@ -85,6 +85,24 @@ function isIndexable(robots) {
   return !robots || !robots.includes('noindex')
 }
 
+function decodeUrlPathname(pathname) {
+  try {
+    return decodeURIComponent(pathname)
+  } catch {
+    return pathname
+  }
+}
+
+function distPathExists(pathname) {
+  const relativePath = decodeUrlPathname(pathname).replace(/^\/+|\/+$/g, '')
+  const target = join(DIST_DIR, relativePath)
+  return (
+    existsSync(target) ||
+    existsSync(join(target, 'index.html')) ||
+    existsSync(`${target}.html`)
+  )
+}
+
 function auditDist() {
   const htmlFiles = walkHtmlFiles(DIST_DIR)
   const errors = []
@@ -107,6 +125,59 @@ function auditDist() {
 
     if (meta.canonical && !meta.canonical.startsWith(`https://${SITE_HOST}`)) {
       errors.push(`${rel}: canonical 不是 https://${SITE_HOST} 域名`)
+    }
+
+    if (typeof meta.ogImage === 'string') {
+      try {
+        const imageUrl = new URL(decodeHtmlEntities(meta.ogImage))
+        if (
+          imageUrl.hostname === SITE_HOST &&
+          !distPathExists(imageUrl.pathname)
+        ) {
+          errors.push(`${rel}: og:image 指向不存在的文件 ${imageUrl.pathname}`)
+        }
+      } catch {
+        errors.push(`${rel}: og:image 不是有效 URL`)
+      }
+    }
+
+    const ids = Array.from(
+      html.matchAll(/\sid="([^"]+)"/g),
+      (match) => match[1]
+    )
+    const duplicateIds = Array.from(
+      new Set(ids.filter((id, index) => ids.indexOf(id) !== index))
+    )
+    if (duplicateIds.length > 0) {
+      errors.push(`${rel}: 存在重复 id：${duplicateIds.join(', ')}`)
+    }
+
+    const pageUrl = new URL(
+      rel.replace(/index\.html$/, ''),
+      `https://${SITE_HOST}/`
+    )
+    for (const match of html.matchAll(/<a\b[^>]*\bhref="([^"]*)"/g)) {
+      const href = decodeHtmlEntities(match[1]).trim()
+      if (!href) {
+        errors.push(`${rel}: 存在空 href`)
+        continue
+      }
+
+      let linkUrl
+      try {
+        linkUrl = new URL(href, pageUrl)
+      } catch {
+        errors.push(`${rel}: 存在无效链接 ${href}`)
+        continue
+      }
+
+      if (
+        linkUrl.hostname === SITE_HOST &&
+        (linkUrl.protocol === 'http:' || linkUrl.protocol === 'https:') &&
+        !distPathExists(linkUrl.pathname)
+      ) {
+        errors.push(`${rel}: 内链指向不存在的页面 ${linkUrl.pathname}`)
+      }
     }
 
     if (!isIndexable(meta.robots)) continue

@@ -31,11 +31,11 @@ const label = `${t('a11y.languageSwitch')}: ${otherName}`
 ---
 
 <a
-  id="lang-switch"
   class="touch-target op-60 hover:op-100 op-transition"
   {href}
   title={label}
   aria-label={label}
+  data-lang-switch
   data-locale-target={otherLocale}
 >
   <div class="i-ri-translate-2" aria-hidden="true"></div>
@@ -43,12 +43,15 @@ const label = `${t('a11y.languageSwitch')}: ${otherName}`
 
 <script>
   function syncLangSwitchHash() {
-    const anchor = document.getElementById('lang-switch')
-    if (!(anchor instanceof HTMLAnchorElement)) return
+    const anchors = document.querySelectorAll<HTMLAnchorElement>(
+      'a[data-lang-switch]'
+    )
 
-    const url = new URL(anchor.href, location.origin)
-    url.hash = location.hash
-    anchor.href = `${url.pathname}${url.search}${url.hash}`
+    for (const anchor of anchors) {
+      const url = new URL(anchor.href, location.origin)
+      url.hash = location.hash
+      anchor.href = `${url.pathname}${url.search}${url.hash}`
+    }
   }
 
   syncLangSwitchHash()

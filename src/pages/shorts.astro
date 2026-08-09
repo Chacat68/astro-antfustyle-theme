@@ -6,7 +6,7 @@ import { getLocale, useTranslations } from '~/i18n/translate'
 
 const page = {
   bgType: 'ambient' as const,
-  ogImage: true,
+  ogImage: 'fallback' as const,
 }
 
 const locale = getLocale(Astro.currentLocale)

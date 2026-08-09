@@ -2,6 +2,7 @@
 import Loader from '~/components/base/Loader.astro'
 import ImageViewer from '~/components/widgets/ImageViewer.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import { withBasePath } from '~/utils/path'
 
 import { hash as defaultPhotosHash } from '~/pages/photos/photos.[hash].json'
 
@@ -68,6 +69,7 @@ const initialTag = normalizedFilterTags.includes(requestedTag)
   ? requestedTag
   : ''
 const filterPath = Astro.url.pathname
+const resolvedJsonBase = withBasePath(jsonBase)
 const getFilterHref = (tag: string) =>
   tag ? `${filterPath}?tag=${encodeURIComponent(tag)}` : filterPath
 ---
@@ -75,7 +77,7 @@ const getFilterHref = (tag: string) =>
 <div class="w-full">
   <photo-view
     data-hash={contentHash}
-    data-json-base={jsonBase}
+    data-json-base={resolvedJsonBase}
     data-layout-storage-key={layoutStorageKey}
     data-gap={gap}
     data-min-photo-width={minPhotoWidth}
@@ -150,6 +152,7 @@ const getFilterHref = (tag: string) =>
 
 <script>
   import type { PhotoGalleryItem } from '~/types/photo-gallery'
+  import { withClientBasePath } from '~/utils/misc'
 
   class PhotoView extends HTMLElement {
     #initialized = false
@@ -364,7 +367,8 @@ const getFilterHref = (tag: string) =>
 
     #fetchData = async (signal?: AbortSignal) => {
       try {
-        const base = this.dataset.jsonBase || '/photos/photos'
+        const base =
+          this.dataset.jsonBase || withClientBasePath('photos/photos')
         const res = await fetch(`${base}.${this.dataset.hash}.json`, { signal })
         if (!res.ok) {
           throw new Error(`HTTP ${res.status} while loading ${res.url}`)
@@ -413,11 +417,17 @@ const getFilterHref = (tag: string) =>
 
     #getLayout = () => {
       const key = this.#layoutStorageKey()
-      if (localStorage.getItem(key)) {
-        this.#isMasonry = localStorage.getItem(key) === 'masonry'
-      } else {
+      try {
+        const storedLayout = localStorage.getItem(key)
+        if (storedLayout) {
+          this.#isMasonry = storedLayout === 'masonry'
+        } else {
+          this.#isMasonry = this.dataset.layout === 'masonry'
+          localStorage.setItem(key, this.#isMasonry ? 'masonry' : 'square')
+        }
+      } catch {
+        // Safari 隐私模式等场景可能禁止访问 localStorage，沿用页面默认布局。
         this.#isMasonry = this.dataset.layout === 'masonry'
-        localStorage.setItem(key, this.#isMasonry ? 'masonry' : 'square')
       }
 
       this.dataset.layout = this.#isMasonry ? 'masonry' : 'square'
@@ -623,18 +633,22 @@ const getFilterHref = (tag: string) =>
       const isNearBottom =
         documentHeight - (scrollTop + windowHeight) <= this.#distanceToBottom
 
-      if (isNearBottom) {
-        this.#isLoading = true
-        this.#isMasonry ? this.#renderMasonry() : this.#renderGrid()
-        this.#isLoading = false
-      }
+      if (!isNearBottom) return false
+
+      this.#isLoading = true
+      this.#isMasonry ? this.#renderMasonry() : this.#renderGrid()
+      this.#isLoading = false
+      return true
     }
 
     #handleWindowScroll = () => {
       if (!this.#ticking && !this.#isLoading && !this.#allLoaded) {
         requestAnimationFrame(() => {
-          this.#handleScroll()
+          const loadedBatch = this.#handleScroll()
           this.#ticking = false
+          // 超宽/超高视口中一批图片可能仍铺不满页面；继续补批次，
+          // 否则页面没有滚动条，也就永远不会再触发 scroll。
+          if (loadedBatch && !this.#allLoaded) this.#handleWindowScroll()
         })
         this.#ticking = true
       }
@@ -666,20 +680,25 @@ const getFilterHref = (tag: string) =>
 
       this.#buildLayout()
 
-      window.localStorage.setItem(
-        this.#layoutStorageKey(),
-        this.#isMasonry ? 'masonry' : 'square'
-      )
+      try {
+        window.localStorage.setItem(
+          this.#layoutStorageKey(),
+          this.#isMasonry ? 'masonry' : 'square'
+        )
+      } catch {
+        // 布局切换仍然生效，只是不在禁止存储的浏览器环境中持久化。
+      }
     }
 
-    // event delegation: open viewer when focus is on a figure and presses Enter
+    // event delegation: make role="button" figures respond like native buttons.
     #handleKeyOpen = (ev: KeyboardEvent) => {
       if (ev.defaultPrevented) return
-      if (!(ev.key === 'Enter')) return
+      if (ev.key !== 'Enter' && ev.key !== ' ') return
 
       const fig = (ev.target as HTMLElement)?.closest('.photo-figure')
       if (!fig) return
 
+      ev.preventDefault()
       const img = fig.querySelector('img')
       img?.click()
     }

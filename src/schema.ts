@@ -50,7 +50,7 @@ export const pageSchema = z.object({
     .union([z.literal('fallback'), z.string(), z.boolean()])
     .default(true)
     .describe(
-      "Controls OG image metadata. Set to `true` or omit the field to generate a page-specific OG image from the final pathname, such as `/blog/foo/` -> `/og-images/blog/foo.png`; if the `title` is empty or matches `FEATURES.ogImage[1].authorOrBrand`, the fallback is used. Set to 'fallback' to use `/og-images/og-image.png`, or false to omit OG image metadata. To use a custom image, place it in `public/og-images/` and set this field to its relative path (for example, `custom.png` or `blog/custom.png`). Missing images fall back to `/og-images/og-image.png`."
+      "Controls OG image metadata. Set to `true` or omit the field to generate a page-specific OG image from the final pathname, such as `/blog/foo/` -> `/og-images/blog/foo.png`; if the `title` is empty or matches `FEATURES.ogImage[1].authorOrBrand`, the fallback is used. Set to 'fallback' to use `/og-images/og-image.png`, or false to omit OG image metadata. To use a custom image, either provide a full HTTP(S) URL or place it in `public/og-images/` and set this field to its relative path (for example, `custom.png` or `blog/custom.png`). Missing local images fall back to `/og-images/og-image.png`."
     ),
 })
 
@@ -166,7 +166,7 @@ const createPostSchema = ({ image }: SchemaContext, titleMax: number) =>
         .union([z.literal('fallback'), z.string(), z.boolean()])
         .default(true)
         .describe(
-          "Controls OG image metadata. Set to `true` or omit the field to generate a page-specific OG image from the final pathname, such as `/blog/foo/` -> `/og-images/blog/foo.png`; if the `title` is empty or matches `FEATURES.ogImage[1].authorOrBrand`, the fallback is used. Set to 'fallback' to use `/og-images/og-image.png`, or false to omit OG image metadata. To use a custom image, place it in `public/og-images/` and set this field to its relative path (for example, `custom.png` or `blog/custom.png`). Missing images fall back to `/og-images/og-image.png`."
+          "Controls OG image metadata. Set to `true` or omit the field to generate a page-specific OG image from the final pathname, such as `/blog/foo/` -> `/og-images/blog/foo.png`; if the `title` is empty or matches `FEATURES.ogImage[1].authorOrBrand`, the fallback is used. Set to 'fallback' to use `/og-images/og-image.png`, or false to omit OG image metadata. To use a custom image, either provide a full HTTP(S) URL or place it in `public/og-images/` and set this field to its relative path (for example, `custom.png` or `blog/custom.png`). Missing local images fall back to `/og-images/og-image.png`."
         ),
       toc: z
         .boolean()

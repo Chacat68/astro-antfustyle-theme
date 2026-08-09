@@ -156,9 +156,10 @@ export function pathnameToOgImagePath(pathname: string) {
 }
 
 /**
- * Resolves the site-relative OG image path used to build `og:image` and `twitter:image` meta content.
+ * Resolves the site-relative or remote OG image URL used to build `og:image` and `twitter:image` metadata.
  *
  * @example
+ * custom field 'https://cdn.example.com/card.png' -> same remote URL
  * custom field 'custom.png' and file exists -> '/og-images/custom.png'
  * custom field 'og-images/custom.png' and file exists -> '/og-images/custom.png'
  * custom field 'missing.png' and file is missing -> '/og-images/og-image.png'
@@ -180,6 +181,14 @@ export function resolveOgImagePathname({
   if (ogImage === 'fallback') return FALLBACK_OG_IMAGE_PATHNAME
 
   if (typeof ogImage === 'string') {
+    try {
+      const remoteUrl = new URL(ogImage)
+      if (remoteUrl.protocol === 'http:' || remoteUrl.protocol === 'https:')
+        return remoteUrl.href
+    } catch {
+      // 不是绝对 URL 时继续按 public/og-images 下的相对路径解析。
+    }
+
     const publicOgImage = checkPublicOgImageExists(ogImage, logger)
 
     if (publicOgImage.exists && publicOgImage.filename)
