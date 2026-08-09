@@ -79,7 +79,7 @@ const tocEnabled = Array.isArray(toc) && toc[0] && pageToc
             text={key}
             needId={tocEnabled}
             wide={true}
-            showLabel={false}
+            compact={true}
           />
           <GroupItem items={data[key]} />
         </section>

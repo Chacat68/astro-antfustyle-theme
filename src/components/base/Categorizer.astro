@@ -6,6 +6,8 @@ interface Props {
   text: string
   needId?: boolean
   wide?: boolean
+  /** 紧凑分组标题：用于卡片网格，避免与页面壳层间距重复叠加 */
+  compact?: boolean
   showLabel?: boolean
 }
 
@@ -14,6 +16,7 @@ const {
   text,
   needId = false,
   wide = false,
+  compact = false,
   showLabel = true,
 } = Astro.props
 
@@ -26,6 +29,7 @@ if (idx !== undefined) style['--enter-stage'] = idx - 2
   class:list={[
     'toc-heading categorizer',
     wide ? 'categorizer--wide' : 'categorizer--narrow',
+    compact && 'categorizer--compact',
     idx !== undefined ? 'slide-enter' : '',
   ]}
   style={Object.keys(style).length !== 0 ? style : undefined}
@@ -55,6 +59,12 @@ if (idx !== undefined) style['--enter-stage'] = idx - 2
 
   .categorizer--wide {
     width: 100%;
+  }
+
+  /* 页面壳层已经提供区块间距，卡片分组无需再次预留标题高度。 */
+  .categorizer.categorizer--compact {
+    min-height: 0;
+    margin-top: 0;
   }
 
   .categorizer__label {

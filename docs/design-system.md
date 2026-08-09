@@ -19,6 +19,7 @@
 | `--ease-out` / `--duration` / `--duration-fast` | 动效曲线与时长 |
 | `--c-content-max` / `--c-hero-max` / `--c-wide-max` | 全站页面轨宽，统一 `70rem` |
 | `--c-space-nav-page` | 导航底边 ↔ 页面顶（`1.15rem` / `≥640px` 为 `1.35rem`） |
+| `--c-space-page-content` | 内容页页头 ↔ 正文（`2.25rem` / `≥640px` 为 `2.5rem`） |
 | `--c-space-section` | 页面大区块间距（`3.25rem` / `≥640px` 为 `3.75rem`） |
 | `--c-space-block` | 区块内小间距（标题组、页脚内边距等） |
 | `--page-gutter-x` | 内容区水平边距（`<640px` 为 `1.25rem`，`≥640px` 为 `1.75rem`） |
@@ -93,7 +94,7 @@
 | `.about-page` | 关于页与首页 About 共用排版；宽度同 `--c-content-max`（70rem） |
 | `.page-eyebrow` | 小号大写眉题 + 圆点；与首页 About 同源 |
 | `.page-header` | 底部分隔线 + 大标题（`clamp`）+ 副标题；**不再**用厚面板卡 |
-| `.studio-tabs` | TabbedLayout 胶囊 Tab（Changelog / Feeds / Streams） |
+| `.studio-tabs` | TabbedLayout 页头分割线下方的居中胶囊 Tab（Changelog / Feeds / Streams），视觉与作品页标签筛选一致 |
 | 列表分组 | `Categorizer`：圆点眉题 + 底部分隔线；**禁止** `SECTOR /`、描边水印、mono 科技前缀 |
 | 列表 / 项目 / 友链 | 博客/日志 `list-item-link`：等宽序号 + 右侧细隔线（勿用易折行的 `[01]`）；hover 时序号转 accent，**无** `↗` 箭头。`GroupItem` 为 `.group-card`（链接**勿** `aria-hidden`）；`.group-grid` 铺满内容轨 |
 | 正文 `.page-article` | h2 底部分隔线；h3 圆点 accent；blockquote 左 accent 边；图片大圆角 + 轻阴影；**禁止** HUD 渐变线 / glow 菱形 / `NOTE` 标签 / 图角标 |
@@ -120,7 +121,7 @@
 
 规则：
 
-1. **水平间距只认** `--page-gutter-x` / `--nav-gutter-x` / `--c-rail-pad`；**垂直节奏只认** `--c-space-nav-page` / `--c-space-section` / `--c-space-block`。勿再写冲突的 `py-8` / 硬编码大间距。
+1. **水平间距只认** `--page-gutter-x` / `--nav-gutter-x` / `--c-rail-pad`；**垂直节奏只认** `--c-space-nav-page` / `--c-space-page-content` / `--c-space-section` / `--c-space-block`。勿再写冲突的 `py-8` / 硬编码大间距。
 2. **网格**用 `minmax(min(100%, Npx), 1fr)`，禁止裸 `minmax(300px, 1fr)` 撑破窄屏。
 3. **图标控件**加 `.touch-target`（`min 2.75rem` ≈ 44px）。`.touch-target` **不设** `display`，避免压过 UnoCSS `hidden`；需隐藏时用 `hidden!` + 对应断点 `lt-*:inline-flex!`（见 `NavSwitch`）。
 4. **挂在 `.site-nav` 内的 fixed 面板**须用 `top-50vh left-50vw`（或 portal 到 `body`），不能用 `%`。

@@ -8,11 +8,12 @@ import { getLocale, useTranslations } from '~/i18n/translate'
 import type { Tabs } from '~/types'
 
 interface Props {
+  title?: string
   subtitle?: string
   eyebrow?: string
 }
 
-const { subtitle, eyebrow } = Astro.props
+const { title, subtitle, eyebrow } = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
@@ -42,10 +43,11 @@ const activeTab = tabs.find((tab) => isActive(tab.path))
 const activeTabTitle = activeTab
   ? t(tabKeyByPath[activeTab.path.replace(/\/+$/, '')] ?? activeTab.title)
   : ''
+const pageTitle = title ?? activeTabTitle
 ---
 
-<div class="studio-page">
-  <header class="page-header">
+<div class="studio-page studio-page--center">
+  <header class="page-header page-header--center">
     {
       eyebrow && (
         <p class="page-eyebrow">
@@ -54,7 +56,10 @@ const activeTabTitle = activeTab
         </p>
       )
     }
-    {activeTabTitle && <h1 class="sr-only">{activeTabTitle}</h1>}
+    {pageTitle && <h1 class="page-header__title">{pageTitle}</h1>}
+    {subtitle && <p class="page-header__subtitle">{subtitle}</p>}
+  </header>
+  <div class="tabbed-page__body">
     <nav class="studio-tabs" aria-label={t('a11y.pageSections')}>
       {
         tabs.map((tab) => (
@@ -71,15 +76,8 @@ const activeTabTitle = activeTab
         ))
       }
     </nav>
-    {
-      subtitle && (
-        <p class="page-header__subtitle">
-          {activeTabTitle ? `${activeTabTitle} · ${subtitle}` : subtitle}
-        </p>
-      )
-    }
-  </header>
-  <div class="prose page-article">
-    <slot />
+    <div class="prose page-article">
+      <slot />
+    </div>
   </div>
 </div>

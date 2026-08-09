@@ -43,6 +43,7 @@
 
   /* 垂直节奏：导航↔页面、页面内大区块统一 */
   --c-space-nav-page: 1.15rem;
+  --c-space-page-content: 2.25rem;
   --c-space-section: 3.25rem;
   --c-space-block: 1.15rem;
 
@@ -65,6 +66,7 @@
     --page-gutter-x: 1.75rem;
     --nav-gutter-x: 1.75rem;
     --c-space-nav-page: 1.35rem;
+    --c-space-page-content: 2.5rem;
     --c-space-section: 3.75rem;
     --c-space-block: 1.25rem;
   }

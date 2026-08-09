@@ -167,7 +167,7 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.gallery.filterAria': '按作品标签筛选',
     'page.gallery.emptyFilter': '该标签下暂无作品，试试其他标签',
     'page.changelog.title': '更新日志',
-    'page.changelog.subtitle': '',
+    'page.changelog.subtitle': '记录功能更新、设计优化与技术迭代',
     'page.changelog.description':
       '记录付之一笑博客的每一次版本迭代：功能更新、设计优化、SEO 改进与技术重构，追踪站点持续演进的全过程。',
     'page.feeds.title': 'Astro Blog',
@@ -459,7 +459,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.gallery.filterAria': 'Filter by artwork tag',
     'page.gallery.emptyFilter': 'No pieces with this tag. Try another tag.',
     'page.changelog.title': 'Changelog',
-    'page.changelog.subtitle': '',
+    'page.changelog.subtitle':
+      'Feature updates, design improvements, and technical iterations',
     'page.changelog.description':
       'Release notes for foo-z.com: feature updates, design improvements, SEO work, and technical refactors across each site version.',
     'page.feeds.title': 'Astro Blog',

@@ -25,7 +25,11 @@ const page = {
   canonicalLocale="zh"
   noindex={isEnglishFallback}
 >
-  <TabbedLayout eyebrow="Updates" subtitle={t('page.changelog.subtitle')}>
+  <TabbedLayout
+    eyebrow="Updates"
+    title={t('page.changelog.title')}
+    subtitle={t('page.changelog.subtitle')}
+  >
     <ListView collectionType="changelog" pageToc={page.toc} />
   </TabbedLayout>
 </BaseLayout>

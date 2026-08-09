@@ -21,7 +21,11 @@ const t = useTranslations(locale)
   ogImage={page.ogImage}
   noindex={true}
 >
-  <TabbedLayout eyebrow="Updates" subtitle={t('page.streams.subtitle')}>
+  <TabbedLayout
+    eyebrow="Updates"
+    title={t('page.streams.title')}
+    subtitle={t('page.streams.subtitle')}
+  >
     <ListView collectionType="streams" pageToc={page.toc} />
   </TabbedLayout>
 </BaseLayout>
