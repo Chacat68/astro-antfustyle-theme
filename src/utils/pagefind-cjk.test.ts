@@ -1,10 +1,7 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import {
-  buildCjkQueryVariants,
-  buildCjkSearchBoost,
-} from './pagefind-cjk.ts'
+import { buildCjkQueryVariants, buildCjkSearchBoost } from './pagefind-cjk.ts'
 
 describe('buildCjkSearchBoost', () => {
   it('为中文标题生成整词、单字与二元组', () => {

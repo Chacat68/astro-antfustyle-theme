@@ -109,8 +109,7 @@ export default defineConfig({
         ...baseTheme.fontFamily,
         sans: '"Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif',
         mono: '"DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-        condensed:
-          '"Outfit", ui-sans-serif, system-ui, sans-serif',
+        condensed: '"Outfit", ui-sans-serif, system-ui, sans-serif',
         serif:
           'Newsreader, ui-serif, Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif',
       },

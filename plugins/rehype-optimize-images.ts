@@ -6,7 +6,6 @@ import { visit } from 'unist-util-visit'
  * 或 CDN 侧 imageSlim / imageMogr2。
  */
 export default function rehypeOptimizeImages() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error hast 树由 unified 传入，与项目其它 rehype 插件一致不加 hast 类型包
   return (tree) => {
     let imageIndex = 0

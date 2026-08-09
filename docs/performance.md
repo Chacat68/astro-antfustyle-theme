@@ -13,13 +13,13 @@
 | 正文远程图 | 无 `loading` | `rehype-optimize-images`：首图 `eager` + `fetchpriority=high`，其余 `lazy` + `decoding=async` |
 | 静态资源缓存 | `_astro` / Pagefind 无长缓存 | `public/_headers`：`/_astro/*`、`/pagefind/*` → `max-age=31536000, immutable` |
 
-全站背景默认 Ambient（CSS 色晕 + 细颗粒）。`Glitch.astro` / Three.js 保留源码但**默认不挂载**（`Background.astro` 将旧 `glitch` 等枚举映射到 Ambient）。
+全站背景默认 Ambient（CSS 色晕 + 细颗粒）。历史 Three.js 故障背景已移除，`Background.astro` 将旧 `glitch` 等枚举映射到 Ambient，避免引入 WebGL 运行时。
 
 首页 Hero 使用 `astro:assets` WebP + `loading="eager"` / `fetchpriority="high"`；About 配图 `loading="lazy"`。
 
 ## 红线
 
-1. 禁止在默认路径重新挂载 Three.js / 第二套重引擎（如 p5）
+1. 不引入 Three.js、p5 等重型背景引擎，默认路径只使用 CSS/SVG 动效
 2. 不引入中文 Web 字体大包
 3. 第三方脚本（Umami / Ahrefs / Cloudflare Insights）保持 `defer`/`async`，勿阻塞首屏
 4. 新增全局 CSS `@import` 前确认是否每页都需要

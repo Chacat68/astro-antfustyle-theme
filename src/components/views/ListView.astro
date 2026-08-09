@@ -61,9 +61,7 @@ if (collectionType === 'blog' || collectionType === 'changelog') {
     })
 
     years = Array.from(yearsSet)
-      .sort((a, b) =>
-        collectionType === 'changelog' ? a - b : b - a
-      )
+      .sort((a, b) => (collectionType === 'changelog' ? a - b : b - a))
       .map((year) => year.toString())
   }
 }

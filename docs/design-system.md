@@ -82,7 +82,7 @@
 
 主题色读取走 `isDarkTheme()`（`src/utils/theme.ts`）。`prefers-reduced-motion` 时关闭 Hero 漂移动画。
 
-> Three.js `glitch-engine` 仍保留在仓库中（历史/可选扩展），但默认不再挂载。`hud.css` / `AboutScreen` / `LatestPosts` 已移除；历史 HUD 方案见 `docs/sci-fi-hud-redesign.md`（非当前主视觉）。
+> 历史 Three.js 故障背景实现已从仓库移除，当前仅使用轻量 CSS Ambient 背景。`hud.css` / `AboutScreen` / `LatestPosts` 已移除；历史 HUD 方案见 `docs/sci-fi-hud-redesign.md`（非当前主视觉）。
 
 ## 内容页 Studio 壳
 
@@ -97,7 +97,7 @@
 | 列表分组 | `Categorizer`：圆点眉题 + 底部分隔线；**禁止** `SECTOR /`、描边水印、mono 科技前缀 |
 | 列表 / 项目 / 友链 | 博客/日志 `list-item-link`：等宽序号 + 右侧细隔线（勿用易折行的 `[01]`）；hover 时序号转 accent，**无** `↗` 箭头。`GroupItem` 为 `.group-card`（链接**勿** `aria-hidden`）；`.group-grid` 铺满内容轨 |
 | 正文 `.page-article` | h2 底部分隔线；h3 圆点 accent；blockquote 左 accent 边；图片大圆角 + 轻阴影；**禁止** HUD 渐变线 / glow 菱形 / `NOTE` 标签 / 图角标 |
-| 卡片流 | `CardItem` 为 `.studio-card`（Highlights / Shorts） |
+| 卡片流 | `CardItem` 为 `.studio-card`（Shorts）；旧 `/highlights` 路由仅保留兼容提示页 |
 | GitHub 流 | `GithubItem` 摘要行圆角表面；版本号/PR 号用 sans 半粗，不用 mono |
 | 元信息 | `PostMeta` / 列表日期用正文 sans + muted；`font-mono` 仅留给代码 |
 | 统计 / 页脚 / 404 | `SiteStats` 表面卡；`Footer` 对齐 `--c-nav-max`；`.studio-empty`（404 的 code 作 `h1`） |

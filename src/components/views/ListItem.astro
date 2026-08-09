@@ -123,7 +123,11 @@ const internalHref = ensureTrailingSlash(
   .list-item-link:hover .list-item-link__index,
   .list-item-link:focus-visible .list-item-link__index {
     color: var(--c-accent);
-    border-right-color: color-mix(in srgb, var(--c-accent) 28%, var(--c-border));
+    border-right-color: color-mix(
+      in srgb,
+      var(--c-accent) 28%,
+      var(--c-border)
+    );
   }
 
   .list-item-link__title {

@@ -103,7 +103,10 @@ function stripFiller(description) {
   for (const pattern of FILLER_PATTERNS) {
     next = next.replace(pattern, '').trim()
   }
-  return next.replace(/[….]{2,}$/u, '').replace(/…$/u, '').trim()
+  return next
+    .replace(/[….]{2,}$/u, '')
+    .replace(/…$/u, '')
+    .trim()
 }
 
 function ensureTerminalPunctuation(text, prefersChinese) {
@@ -177,7 +180,10 @@ function truncateAtSentence(description, maxLength = MAX_LEN) {
         .trim()
         .replace(/[,:;，；、]+$/u, '')
       const next = ensureTerminalPunctuation(cut, prefersChinese)
-      if (!isIncompleteDescription(next, prefersChinese) && next.length >= MIN_LEN) {
+      if (
+        !isIncompleteDescription(next, prefersChinese) &&
+        next.length >= MIN_LEN
+      ) {
         return next
       }
     }
@@ -189,10 +195,14 @@ function truncateAtSentence(description, maxLength = MAX_LEN) {
     while (cut.length >= MIN_LEN && endsWithWeakToken(cut)) {
       const prevSpace = cut.lastIndexOf(' ')
       if (prevSpace < MIN_LEN * 0.5) break
-      cut = cut.slice(0, prevSpace).trim().replace(/[,:;]+$/u, '')
+      cut = cut
+        .slice(0, prevSpace)
+        .trim()
+        .replace(/[,:;]+$/u, '')
     }
     const next = ensureTerminalPunctuation(cut, false)
-    if (!isIncompleteDescription(next, false) && next.length >= MIN_LEN) return next
+    if (!isIncompleteDescription(next, false) && next.length >= MIN_LEN)
+      return next
   }
 
   return ensureTerminalPunctuation(truncated.trim(), prefersChinese)
@@ -257,7 +267,11 @@ function buildShortDescription(fields, body) {
     subtitle,
     firstParagraph,
     current && firstParagraph ? `${current} ${firstParagraph}` : '',
-    title && current ? (chinese ? `${title}：${current}` : `${title}: ${current}`) : '',
+    title && current
+      ? chinese
+        ? `${title}：${current}`
+        : `${title}: ${current}`
+      : '',
     current,
     title
       ? chinese
@@ -309,10 +323,7 @@ function normalizeDescription(fields, body) {
       }
     }
     const next = truncateAtSentence(source)
-    if (
-      next.length >= MIN_LEN &&
-      !isIncompleteDescription(next, chinese)
-    ) {
+    if (next.length >= MIN_LEN && !isIncompleteDescription(next, chinese)) {
       return next
     }
     if (firstParagraph) {
@@ -396,7 +407,9 @@ function main() {
   const filler = updates.filter((item) =>
     /欢迎阅读全文了解更多|点击查看全文/u.test(item.current)
   ).length
-  const truncated = updates.filter((item) => /…|\.\.\.$/u.test(item.current)).length
+  const truncated = updates.filter((item) =>
+    /…|\.\.\.$/u.test(item.current)
+  ).length
   console.log(`  其中偏短修复：${short}`)
   console.log(`  其中偏长修复：${long}`)
   console.log(`  其中填充句清理：${filler}`)

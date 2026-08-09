@@ -1,17 +1,18 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n'
+
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
-import CardView from '~/components/views/CardView.astro'
 import { getLocale, useTranslations } from '~/i18n/translate'
-
-const page = {
-  bgType: 'ambient' as const,
-  toc: false,
-  ogImage: false,
-}
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+const galleryUrl = getRelativeLocaleUrl(locale, 'gallery')
+
+const page = {
+  bgType: 'ambient' as const,
+  ogImage: false,
+}
 ---
 
 <BaseLayout
@@ -29,6 +30,14 @@ const t = useTranslations(locale)
     subtitle={t('page.highlights.subtitle')}
     isCentered={true}
   >
-    <CardView collectionType="highlights" mode="masonry" />
+    <div class="studio-empty flex flex-col items-center gap-4 text-center">
+      <p>{t('page.highlights.removed')}</p>
+      <a
+        class="rounded-full bg-[var(--c-accent)] px-5 py-2 text-[var(--c-bg)] op-transition hover:op-80"
+        href={galleryUrl}
+      >
+        {t('page.gallery.title')}
+      </a>
+    </div>
   </StandardLayout>
 </BaseLayout>

@@ -175,7 +175,13 @@ function auditDist() {
   }
 
   for (const [title, pages] of titles.entries()) {
-    if (pages.length > 1) {
+    // 中英文首页共用品牌 title「付之一笑」，这是有意的本地化首页策略。
+    const isLocalizedHomePair =
+      pages.length === 2 &&
+      pages.includes('index.html') &&
+      pages.includes('en/index.html')
+
+    if (pages.length > 1 && !isLocalizedHomePair) {
       warnings.push(
         `重复 title「${title}」出现在 ${pages.length} 个页面：${pages.join(', ')}`
       )

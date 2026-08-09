@@ -209,7 +209,7 @@
 
 ## 8. 性能与无障碍红线
 
-1. 首页：`GlitchHero` Three.js `hero`；内页：`Glitch.astro` Three.js `lite`（idle 延迟）
+1. 原方案曾计划首页使用 `GlitchHero`、内页使用 `Glitch.astro` 的 Three.js 背景；该实现未作为当前版本保留，现统一使用 CSS Ambient 背景
 2. 新装饰优先 CSS/SVG；避免再挂第二套重 JS 背景引擎（如 p5）
 3. 全局尊重 `prefers-reduced-motion`
 4. 对比度：正文与 `--c-bg` 保持 WCAG AA；accent 仅用于交互与装饰，不作大段正文色

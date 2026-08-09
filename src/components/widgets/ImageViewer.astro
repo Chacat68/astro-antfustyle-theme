@@ -161,7 +161,11 @@ const {
         this.#viewer = new ViewerCtor(container, {
           ...userOptions,
           ...(this.hasAttribute('data-tab-focus') && {
-            viewed: ({ detail }: { detail: { originalImage: HTMLImageElement } }) => {
+            viewed: ({
+              detail,
+            }: {
+              detail: { originalImage: HTMLImageElement }
+            }) => {
               this.#lastViewedImage = detail.originalImage
             },
             hidden: () => {

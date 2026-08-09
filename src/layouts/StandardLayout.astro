@@ -33,12 +33,7 @@ const {
     isCentered && 'studio-page--center',
   ]}
 >
-  <header
-    class:list={[
-      'page-header',
-      isCentered && 'page-header--center',
-    ]}
-  >
+  <header class:list={['page-header', isCentered && 'page-header--center']}>
     {
       eyebrow && (
         <p class="page-eyebrow">
@@ -48,11 +43,7 @@ const {
       )
     }
     {title && <h1 class="page-header__title">{title}</h1>}
-    {
-      subtitle && (
-        <p class="page-header__subtitle">{subtitle}</p>
-      )
-    }
+    {subtitle && <p class="page-header__subtitle">{subtitle}</p>}
     <slot name="head" />
   </header>
 

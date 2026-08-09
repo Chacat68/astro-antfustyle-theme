@@ -179,10 +179,7 @@ html[data-nav-rail='home'] .site-nav {
 #main:not(.home-main) {
   padding-top: 0 !important;
   padding-bottom: var(--c-space-section) !important;
-  padding-inline: max(
-    var(--page-gutter-x),
-    env(safe-area-inset-left, 0px)
-  )
+  padding-inline: max(var(--page-gutter-x), env(safe-area-inset-left, 0px))
     max(var(--page-gutter-x), env(safe-area-inset-right, 0px));
 }
 

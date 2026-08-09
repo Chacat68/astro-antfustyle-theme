@@ -3,11 +3,7 @@ import RenderPost from '~/components/views/RenderPost.astro'
 import { getFilteredPosts } from '~/utils/data'
 import { getLocale } from '~/i18n/translate'
 
-import {
-  isDefaultLocale,
-  DEFAULT_LOCALE,
-  type AppLocale,
-} from '~/i18n/locales'
+import { isDefaultLocale, DEFAULT_LOCALE, type AppLocale } from '~/i18n/locales'
 
 export async function getStaticPaths() {
   const posts = await getFilteredPosts('changelog')

@@ -4,10 +4,8 @@ import { defineCollection } from 'astro:content'
 import { feedLoader } from '@ascorbic/feed-loader'
 import { githubReleasesLoader } from 'astro-loader-github-releases'
 import { githubPrsLoader } from 'astro-loader-github-prs'
-import { blueskyPostsLoader } from 'astro-loader-bluesky-posts'
 
 import {
-  pageSchema,
   postSchema,
   postSchemaEn,
   projectSchema,
@@ -17,15 +15,20 @@ import {
   aiGallerySchema,
 } from '~/content/schema'
 
-const githubToken = process.env.GITHUB_TOKEN
+const githubToken = process.env.GITHUB_TOKEN?.trim()
 
-function withSafeRemoteLoader(loader: Loader, name: string): Loader {
+function withSafeRemoteLoader(
+  loader: Loader | undefined,
+  name: string
+): Loader {
   type LoaderArgs = Parameters<Loader['load']>[0]
 
   return {
-    ...loader,
+    ...(loader ?? {}),
     name,
     load: async (args: LoaderArgs) => {
+      if (!loader) return
+
       try {
         await loader.load(args)
       } catch (err) {
@@ -38,10 +41,29 @@ function withSafeRemoteLoader(loader: Loader, name: string): Loader {
   }
 }
 
-const pages = defineCollection({
-  loader: glob({ base: './src/pages', pattern: '**/*.mdx' }),
-  schema: pageSchema,
-})
+const githubReleases = githubToken
+  ? githubReleasesLoader({
+      mode: 'repoList',
+      repos: [
+        'withastro/astro',
+        'withastro/starlight',
+        'lin-stephanie/astro-loaders',
+        'lin-stephanie/astro-antfustyle-theme',
+      ],
+      monthsBack: 2,
+      entryReturnType: 'byRelease',
+      githubToken,
+    })
+  : undefined
+
+const githubPrs = githubToken
+  ? githubPrsLoader({
+      search:
+        'repo:withastro/astro repo:withastro/starlight repo:lin-stephanie/astro-antfustyle-theme',
+      monthsBack: 1,
+      githubToken,
+    })
+  : undefined
 
 const blog = defineCollection({
   loader: glob({ base: './src/content/blog/zh', pattern: '**/[^_]*.{md,mdx}' }),
@@ -64,58 +86,11 @@ const friends = defineCollection({
 })
 
 const releases = defineCollection({
-  loader: withSafeRemoteLoader(
-    githubReleasesLoader({
-      mode: 'repoList',
-      repos: [
-        'withastro/astro',
-        'withastro/starlight',
-        'lin-stephanie/astro-loaders',
-        'lin-stephanie/astro-antfustyle-theme',
-      ],
-      monthsBack: 2,
-      entryReturnType: 'byRelease',
-      githubToken,
-    }),
-    'github-releases'
-  ),
+  loader: withSafeRemoteLoader(githubReleases, 'github-releases'),
 })
 
 const prs = defineCollection({
-  loader: withSafeRemoteLoader(
-    githubPrsLoader({
-      search:
-        'repo:withastro/astro repo:withastro/starlight repo:lin-stephanie/astro-antfustyle-theme',
-      monthsBack: 1,
-      githubToken,
-    }),
-    'github-prs'
-  ),
-})
-
-const highlights = defineCollection({
-  loader: withSafeRemoteLoader(
-    blueskyPostsLoader({
-      uris: [
-        'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lifesehhok27',
-        'at://did:plc:iwhvwluesbbqtslwwdzgiize/app.bsky.feed.post/3lh3aonbqes2y',
-        'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lfwu3pka2c2j',
-        'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lfsayyhu4c2j',
-        'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lf3iyptedc2e',
-        'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lcv2yftszs2z',
-        'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lcl5ndm52c2s',
-        'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lcdimk36e226',
-        'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lbkb6hizhk2f',
-        'at://did:plc:oky5czdrnfjpqslsw2a5iclo/app.bsky.feed.post/3lbd2eaura22r',
-        'at://did:plc:oky5czdrnfjpqslsw2a5iclo/app.bsky.feed.post/3lbayyemhzs2v',
-      ],
-      newlineHandling: 'paragraph',
-      fetchThread: true,
-      threadDepth: 4,
-      fetchOnlyAuthorReplies: true,
-    }),
-    'bluesky-posts'
-  ),
+  loader: withSafeRemoteLoader(githubPrs, 'github-prs'),
 })
 
 const photos = defineCollection({
@@ -151,14 +126,12 @@ const feeds = defineCollection({
 })
 
 export const collections = {
-  pages,
   blog,
   blog_en,
   projects,
   friends,
   releases,
   prs,
-  highlights,
   photos,
   aiGallery,
   changelog,

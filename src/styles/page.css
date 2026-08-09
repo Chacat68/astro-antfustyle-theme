@@ -320,7 +320,9 @@ summary::-webkit-details-marker {
 
   object-fit: cover;
   opacity: var(--photo-opacity, 0);
-  transition: transform 0.35s var(--ease-out), opacity 0.3s ease;
+  transition:
+    transform 0.35s var(--ease-out),
+    opacity 0.3s ease;
 }
 
 .photo-figure:hover img,

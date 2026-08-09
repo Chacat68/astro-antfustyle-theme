@@ -181,6 +181,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.highlights.subtitle': '展示创意作品或精选内容',
     'page.highlights.description':
       '主题示例页，瀑布流展示精选内容。该页面不对搜索引擎开放索引。',
+    'page.highlights.removed':
+      '精选集页面已下线，前往 AI 作品集查看最新视觉内容。',
     'page.releases.title': 'AstroEco 正在发布…',
     'page.releases.description':
       '使用 astro-loader-github-releases 展示 GitHub Releases',
@@ -470,6 +472,8 @@ export const UI_STRINGS: Record<AppLocale, Record<string, string>> = {
     'page.highlights.subtitle': 'Showcase creative work or curated posts',
     'page.highlights.description':
       'Theme demo page with a masonry highlights layout. Excluded from search engine indexing.',
+    'page.highlights.removed':
+      'The highlights page has been retired. Visit the AI Art Gallery for the latest visual work.',
     'page.releases.title': 'AstroEco is Releasing...',
     'page.releases.description':
       'Display your GitHub releases using astro-loader-github-releases',

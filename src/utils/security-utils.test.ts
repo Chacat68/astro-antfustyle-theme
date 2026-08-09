@@ -9,9 +9,15 @@ import { resolveLocalImagePath } from './resolve-local-image-path.ts'
 
 describe('sanitizeHtml', () => {
   it('strips script and event handlers', () => {
-    assert.equal(sanitizeHtml('<p>hi</p><script>alert(1)</script>'), '<p>hi</p>')
+    assert.equal(
+      sanitizeHtml('<p>hi</p><script>alert(1)</script>'),
+      '<p>hi</p>'
+    )
     assert.equal(sanitizeHtml('<img src=x onerror=alert(1)>'), '<img src="x">')
-    assert.equal(sanitizeHtml('<a href="javascript:alert(1)">x</a>'), '<a>x</a>')
+    assert.equal(
+      sanitizeHtml('<a href="javascript:alert(1)">x</a>'),
+      '<a>x</a>'
+    )
   })
 
   it('keeps safe markup', () => {
@@ -39,7 +45,10 @@ describe('resolveMinutesRead', () => {
   it('respects explicit values and estimates from body', () => {
     assert.equal(resolveMinutesRead(0, 'word '.repeat(500)), 0)
     assert.equal(resolveMinutesRead(7, 'x'), 7)
-    assert.equal(typeof resolveMinutesRead(undefined, 'word '.repeat(400)), 'number')
+    assert.equal(
+      typeof resolveMinutesRead(undefined, 'word '.repeat(400)),
+      'number'
+    )
     assert.equal(resolveMinutesRead(undefined, undefined), undefined)
   })
 })
@@ -73,10 +82,7 @@ describe('httpUrlSchema', () => {
   it('accepts http(s) and rejects javascript:', () => {
     assert.equal(httpUrlSchema.safeParse('https://foo-z.com/').success, true)
     assert.equal(httpUrlSchema.safeParse('http://example.com').success, true)
-    assert.equal(
-      httpUrlSchema.safeParse('javascript:alert(1)').success,
-      false
-    )
+    assert.equal(httpUrlSchema.safeParse('javascript:alert(1)').success, false)
   })
 })
 

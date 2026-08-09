@@ -55,14 +55,14 @@
 - **视觉退役**：`hud.css`、`AboutScreen`、`LatestPosts`、未挂载的 `home` content collection 已删除；新 UI 勿再引入 HUD primitives。
 - **字体**：`src/styles/fonts.css`（若启用本地子集）或 Bunny Fonts / 等价 CDN；`Head.astro` preload 主字重。禁止用 `presetWebFonts` 拉全子集。搜索浮层约束见 [design-system.md](./design-system.md)。
 - **KaTeX**：勿在 `markdown.css` 全站 `@import`；公式页再按需挂样式（详见 [performance.md](./performance.md)）。
-- **`src/components/backgrounds/three-background.ts`** + **`glitch-engine.ts`** / **`Glitch.astro`**：历史 Three.js 故障背景，源码保留但默认不再挂载。
+- **背景实现**：`Background.astro` 统一将历史 `bgType` 映射到轻量 `Ambient.astro`；Three.js 故障背景代码已移除，新 UI 不引入 WebGL 背景引擎。
 - **OG 图底图**：`plugins/og-template/markup.ts` 仅有 plum/dot/rose/particle 静态资源；页面 `bgType: ambient` / `glitch`（及 wave/constellation）会映射为可用底图，避免生成失败。
 - **`src/utils/theme.ts`**：`isDarkTheme()` / `accentStrokeColor()`。主题相关逻辑走此工具；禁止只读 `html.dark`。
 - **`src/utils/gallery-json.ts`**：photos / gallery JSON endpoint 的公共构建逻辑（`computeGalleryHash` / `buildGalleryData` / `createGalleryResponse`）。注意 `import.meta.glob` 只接受字面量，glob 由各 endpoint 自行声明后传入。本地图路径解析见 **`resolveLocalImagePath`**（`src/utils/resolve-local-image-path.ts`）：按完整后缀 / 唯一 basename 匹配，**禁止** `path.includes(id)` 子串匹配。
 - **相册排序**：`getCollection('photos')` 经 file loader 后按 entry `id` 升序；`photos.[hash].json.ts` 再按 `id` **降序**输出，使 COS 时间戳文件名（如 `20260801….webp`）对应的新图排在 `/photos` 前面。新增相册条目时优先使用带时间戳的远程 URL，或确保 `id` 字典序越大越新。
 - **相册瀑布流**：`/photos` 使用 `PhotoView` 的 `masonryStrategy="balanced"`（每张放进当前最短列），避免 `sequential`（`idx % 列数`）把多张竖图叠进同一列、把某一列顶得特别长。`/gallery` 仍可按需覆盖该 prop。
 - **`src/components/views/PhotoView.astro`**：相册/画廊客户端 CE。`connectedCallback` 为 async：用 `#mountGeneration` + `AbortController` 在 View Transitions 离开后丢弃过期初始化；`.photo-loader` 在父级内查找，勿用全局 `document.querySelector`。
-- **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro`（Bluesky `html` / `details`）与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；带 `target` 的链接会强制 `rel="noopener noreferrer"`。新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
+- **`src/utils/sanitize-html.ts`**：远程/不可信 HTML 的 DOMPurify 净化（`sanitizeHtml`）。`CardItem.astro` 与 `GithubItem.astro`（Release `descriptionHTML` / PR `bodyHTML`）在 `set:html` 前必须调用；带 `target` 的链接会强制 `rel="noopener noreferrer"`。新增同类远程 HTML 渲染点也应复用，禁止直接注入未净化内容。
 - **`src/utils/reading-time.ts`**：阅读时间估算（`resolveMinutesRead` / `estimateMinutesReadFromText`）。列表页（`ListView.astro`）用 entry `body` 估算，**禁止**为取 `minutesRead` 对每篇 `await render()`；remark 插件 `plugins/remark-reading-time.ts` 与正文页共用同一公式。
 - **列表排序**：博客 `ListView` 按发布日新→旧；日志（changelog）按旧→新，使序号 `01` 对应最早一条更新。
 - **`src/utils/markdown-headings.ts`**：从 Markdown `body` 提取标题（`extractMarkdownHeadings`）。Shorts（`getShortsFromBlog`）用此工具取 h2 锚点，**禁止**为取 headings 对每篇 `await render()`。

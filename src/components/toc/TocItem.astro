@@ -38,7 +38,10 @@ const t = useTranslations(locale)
       {!!anchors.length &&
         anchors.map((item) => (
           <li>
-            <Link href={`#${slug(item)}`} aria-label={t('toc.scrollTo', { text: item })}>
+            <Link
+              href={`#${slug(item)}`}
+              aria-label={t('toc.scrollTo', { text: item })}
+            >
               {item}
             </Link>
           </li>
