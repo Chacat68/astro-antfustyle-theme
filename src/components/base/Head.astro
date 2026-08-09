@@ -1,9 +1,9 @@
 ---
 import { ClientRouter } from 'astro:transitions'
-import { existsSync } from 'node:fs'
-import { basename, join } from 'node:path'
 import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n'
 
+import { resolveOgImagePathname } from '~/utils/og-image/routing'
+import { silentLogger } from '~/utils/server'
 import { withBasePath } from '~/utils/path'
 import {
   formatPageTitle,
@@ -16,10 +16,6 @@ import { isDefaultLocale } from '~/i18n/locales'
 import { localeToHtmlLang, localeToOgLocale } from '~/i18n/locale-meta'
 
 import type { AppLocale } from '~/i18n/locales'
-
-function checkFileExistsInDir(directory: string, filename: string) {
-  return existsSync(join(process.cwd(), directory, filename))
-}
 
 interface Props {
   title?: string
@@ -92,26 +88,19 @@ const alternateUrlEntries = hreflangLocales.map((availableLocale) => {
 const xDefaultURL = new URL(getAbsoluteLocaleUrl('zh', pathWithinLocale))
 xDefaultURL.protocol = 'https:'
 
-const generatedOgImage = checkFileExistsInDir(
-  'public/og-images',
-  `${basename(Astro.url.pathname)}.png`
-)
-  ? withBasePath('og-images', `${basename(Astro.url.pathname)}.png`)
+const ogImagePathname = resolveOgImagePathname({
+  ogImage,
+  title,
+  authorOrBrand:
+    Array.isArray(FEATURES.ogImage) && FEATURES.ogImage[0]
+      ? FEATURES.ogImage[1].authorOrBrand
+      : SITE.title,
+  pathname: Astro.url.pathname,
+  logger: Astro.logger ?? silentLogger,
+})
+const ogImageURL = ogImagePathname
+  ? new URL(withBasePath(ogImagePathname), SITE.website).href
   : undefined
-
-const assignedOgImage =
-  ogImage &&
-  ogImage !== true &&
-  checkFileExistsInDir('public/og-images', ogImage)
-    ? withBasePath('og-images', ogImage)
-    : undefined
-
-const ogImageURL = new URL(
-  assignedOgImage ||
-    generatedOgImage ||
-    withBasePath('og-images', 'og-image.png'),
-  SITE.website
-).href
 const ogImageAlt =
   schemaName === SITE.title ? SITE.title : `${schemaName} - ${SITE.title}`
 const sitemapURL = new URL(withBasePath('/sitemap-index.xml'), SITE.website)
@@ -214,15 +203,17 @@ const websiteData = {
   },
 }
 
-const imageData = {
-  '@type': 'ImageObject',
-  '@id': imageId,
-  'url': ogImageURL,
-  'contentUrl': ogImageURL,
-  'width': 1200,
-  'height': 630,
-  'caption': ogImageAlt,
-}
+const imageData = ogImageURL
+  ? {
+      '@type': 'ImageObject',
+      '@id': imageId,
+      'url': ogImageURL,
+      'contentUrl': ogImageURL,
+      'width': 1200,
+      'height': 630,
+      'caption': ogImageAlt,
+    }
+  : undefined
 
 const pageData = pubDate
   ? {
@@ -235,10 +226,12 @@ const pageData = pubDate
       'name': schemaName,
       'description': pageDescription,
       'url': canonicalURL.href,
-      'image': {
-        '@id': imageId,
-      },
-      'thumbnailUrl': ogImageURL,
+      ...(ogImageURL && {
+        image: {
+          '@id': imageId,
+        },
+        thumbnailUrl: ogImageURL,
+      }),
       'datePublished': pubDate,
       'dateModified': lastModDate || pubDate,
       'author': {
@@ -267,12 +260,14 @@ const pageData = pubDate
       'about': {
         '@id': personId,
       },
-      'primaryImageOfPage': {
-        '@id': imageId,
-      },
-      'image': {
-        '@id': imageId,
-      },
+      ...(ogImageURL && {
+        primaryImageOfPage: {
+          '@id': imageId,
+        },
+        image: {
+          '@id': imageId,
+        },
+      }),
       'inLanguage': localeToHtmlLang(canonicalLocale),
       ...(breadcrumbData && { breadcrumb: { '@id': breadcrumbId } }),
     }
@@ -282,7 +277,7 @@ const structuredData = {
   '@graph': [
     personData,
     websiteData,
-    imageData,
+    ...(imageData ? [imageData] : []),
     pageData,
     ...(breadcrumbData ? [breadcrumbData] : []),
   ],
@@ -308,6 +303,7 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 <meta name="description" content={pageDescription} />
 <meta name="author" content={SITE.author} />
 <meta name="robots" content={robotsContent} />
+{ogImage === false && <meta name="og:image:disabled" content="true" />}
 
 <!-- Color -->
 <meta
@@ -327,11 +323,17 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 <meta property="og:url" content={canonicalURL.href} />
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={pageDescription} />
-<meta property="og:image" content={ogImageURL} />
-<meta property="og:image:secure_url" content={ogImageURL} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content={ogImageAlt} />
+{
+  ogImageURL && (
+    <>
+      <meta property="og:image" content={ogImageURL} />
+      <meta property="og:image:secure_url" content={ogImageURL} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={ogImageAlt} />
+    </>
+  )
+}
 <meta property="og:site_name" content={SITE.title} />
 <meta property="og:locale" content={localeToOgLocale(canonicalLocale)} />
 {
@@ -362,8 +364,14 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
 <meta name="twitter:url" content={canonicalURL.href} />
 <meta name="twitter:title" content={pageTitle} />
 <meta name="twitter:description" content={pageDescription} />
-<meta name="twitter:image" content={ogImageURL} />
-<meta name="twitter:image:alt" content={ogImageAlt} />
+{
+  ogImageURL && (
+    <>
+      <meta name="twitter:image" content={ogImageURL} />
+      <meta name="twitter:image:alt" content={ogImageAlt} />
+    </>
+  )
+}
 {
   twitterCreator && (
     <>

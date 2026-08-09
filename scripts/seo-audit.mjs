@@ -40,6 +40,7 @@ const META_PATTERNS = {
   canonical: /<link rel="canonical" href="([^"]+)"/,
   ogTitle: /<meta property="og:title" content="([^"]+)"/,
   ogImage: /<meta property="og:image" content="([^"]+)"/,
+  ogImageDisabled: /<meta name="og:image:disabled" content="true"/,
   robots: /<meta name="robots" content="([^"]+)"/,
   ldjson: /<script[^>]*type="application\/ld\+json"/,
 }
@@ -97,7 +98,9 @@ function auditDist() {
     const html = readFileSync(file, 'utf8')
     const meta = parsePageMeta(html)
 
-    const missing = REQUIRED_META.filter((key) => !meta[key])
+    const missing = REQUIRED_META.filter(
+      (key) => !meta[key] && !(key === 'ogImage' && meta.ogImageDisabled)
+    )
     if (missing.length > 0) {
       errors.push(`${rel}: 缺少 ${missing.join(', ')}`)
     }

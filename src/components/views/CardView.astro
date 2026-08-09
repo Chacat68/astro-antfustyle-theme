@@ -3,17 +3,43 @@ import { getCollection } from 'astro:content'
 
 import CardItem from '~/components/views/CardItem.astro'
 import Warning from '~/components/base/Warning.astro'
-import { getShortsFromBlog } from '~/utils/data'
+import { getFilteredPosts, getShortsFromBlog } from '~/utils/data'
 import { getLocale, useTranslations } from '~/i18n/translate'
+import { ensureTrailingSlash } from '~/utils/path'
+import { getRelativeLocaleUrl } from 'astro:i18n'
 
-const { gap = 16, minCardWidth, maxCardWidth } = Astro.props
+interface Props {
+  collectionType?: 'blog' | 'shorts'
+  gap?: number
+  minCardWidth?: number
+  maxCardWidth?: number
+}
+
+const {
+  collectionType = 'blog',
+  gap = 16,
+  minCardWidth,
+  maxCardWidth,
+} = Astro.props
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 const WARNING = t('warning.noContentHtml', { file: 'CardView.astro' })
 
-const posts = await getCollection('blog')
-const dataForGrid = getShortsFromBlog(posts)
+const dataForGrid =
+  collectionType === 'shorts'
+    ? (await getFilteredPosts('shorts'))
+        .sort((a, b) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf())
+        .map((post) => ({
+          link:
+            post.data.redirect ||
+            ensureTrailingSlash(
+              getRelativeLocaleUrl(locale, `shorts/${post.id}`)
+            ),
+          text: post.data.title,
+          date: post.data.pubDate,
+        }))
+    : getShortsFromBlog(await getCollection('blog'))
 ---
 
 {

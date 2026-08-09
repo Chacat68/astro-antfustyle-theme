@@ -45,9 +45,9 @@ const internalHref = ensureTrailingSlash(
 <div class="slide-enter" style={{ '--enter-stage': idx }}>
   <Link
     class="list-item-link border-b-none! op-transition!"
-    href={redirect ?? internalHref}
-    external={redirect ? true : false}
-    enableNewTabWarning={redirect ? true : false}
+    href={redirect || internalHref}
+    external={Boolean(redirect)}
+    enableNewTabWarning={Boolean(redirect)}
   >
     <span class="list-item-link__index" aria-hidden="true">
       {String(idx + 1).padStart(2, '0')}
