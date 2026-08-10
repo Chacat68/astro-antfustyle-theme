@@ -4,7 +4,7 @@
  * 客户端文案通过宿主元素的 `data-i18n`（JSON）注入，
  * 键值在 `src/i18n/ui.ts` 中维护（search.* 系列）。
  */
-import { toggleFadeEffect } from '~/utils/misc'
+import { closeFloatingPanel, openFloatingPanel } from '~/utils/misc'
 import { buildCjkQueryVariants } from '~/utils/pagefind-cjk'
 
 interface Anchor {
@@ -383,23 +383,14 @@ class SearchPanel extends HTMLElement {
   }
 
   #handleClose = () => {
-    toggleFadeEffect('search-panel', false, 'hidden')
-    toggleFadeEffect('backdrop', false, 'hidden')
-    const searchSwitch = document.getElementById('search-switch')
-    searchSwitch?.setAttribute('aria-expanded', 'false')
-    searchSwitch?.focus()
+    closeFloatingPanel('search-panel')
+    document.getElementById('search-switch')?.focus()
   }
 
   #handleResultClick = (event: MouseEvent) => {
     if (!this.#getLink(event)) return
 
-    if (!window.matchMedia('(prefers-reduced-motion)').matches)
-      this.classList.remove('fade-in')
-    this.classList.add('hidden')
-    toggleFadeEffect('backdrop', false, 'hidden')
-    document
-      .getElementById('search-switch')
-      ?.setAttribute('aria-expanded', 'false')
+    closeFloatingPanel('search-panel')
   }
 
   #handleResultsPointerOver = (event: MouseEvent) => {
@@ -736,11 +727,7 @@ document.addEventListener('astro:page-load', () => {
       }
     ).__loadPagefindHighlight?.()
 
-    toggleFadeEffect('backdrop', true, 'hidden')
-    toggleFadeEffect('search-panel', true, 'hidden')
-    document
-      .getElementById('search-switch')
-      ?.setAttribute('aria-expanded', 'true')
+    openFloatingPanel('search-panel')
 
     // auto-focus the search input after panel becomes visible
     requestAnimationFrame(() => {

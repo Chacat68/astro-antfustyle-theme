@@ -14,19 +14,20 @@ const { stacked = false } = Astro.props
     lt-lgp:(op-50 pointer-events-auto)
     hover:op-100 print:hidden"
   title="Open tags filter"
+  aria-controls="tag-panel"
+  aria-expanded="false"
 >
   <div u-i-ri-price-tag-3-line class="text-gray-700 dark:text-gray-200"></div>
 </button>
 
 <script>
-  import { toggleFadeEffect } from '~/utils/misc'
+  import { openFloatingPanel } from '~/utils/misc'
 
   document.addEventListener('astro:page-load', () => {
     /* Open tag panel when user click on button */
     const handleBtnClickToOpen = () => {
       console.debug('[tag] open panel')
-      toggleFadeEffect('backdrop', true, 'hidden')
-      toggleFadeEffect('tag-panel', true, 'hidden!')
+      openFloatingPanel('tag-panel')
     }
 
     const tagOpenButton = document.getElementById('tag-open-button')

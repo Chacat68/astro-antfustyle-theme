@@ -13,6 +13,8 @@ const t = useTranslations(locale)
     lt-lgp:(op-50 pointer-events-auto)
     hover:op-100 print:hidden"
   title={t('a11y.openToc')}
+  aria-controls="toc-panel"
+  aria-expanded="false"
 >
   <div u-i-lucide-table-of-contents class="text-[var(--c-text)]"></div>
 </button>
@@ -37,13 +39,12 @@ const t = useTranslations(locale)
 </style>
 
 <script>
-  import { toggleFadeEffect } from '~/utils/misc'
+  import { closeFloatingPanel, openFloatingPanel } from '~/utils/misc'
 
   document.addEventListener('astro:page-load', () => {
     /* Open toc panel when user click on button */
     const handleBtnClickToOpen = () => {
-      toggleFadeEffect('backdrop', true, 'hidden')
-      toggleFadeEffect('toc-panel', true, 'hidden!')
+      openFloatingPanel('toc-panel')
     }
 
     const tocOpenButton = document.getElementById('toc-open-button')
@@ -56,8 +57,7 @@ const t = useTranslations(locale)
         target instanceof HTMLElement && target.closest('a')
 
       if (isClickedOnLink) {
-        toggleFadeEffect('toc-panel', false, 'hidden!')
-        toggleFadeEffect('backdrop', false, 'hidden')
+        closeFloatingPanel('toc-panel')
       }
     }
 

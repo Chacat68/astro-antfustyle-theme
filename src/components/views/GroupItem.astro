@@ -77,11 +77,17 @@ const { showGroupItemColorOnHover } = UI.groupView
 
   .group-card:hover,
   .group-card:focus-visible {
-    transform: translateY(-2px);
     border-color: color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
     background: color-mix(in srgb, var(--c-surface) 80%, var(--c-accent-soft));
     box-shadow: var(--c-shadow-hover);
     outline: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .group-card:hover,
+    .group-card:focus-visible {
+      transform: translateY(-2px);
+    }
   }
 
   .group-card__media {

@@ -280,7 +280,13 @@ html[data-nav-rail='home'] .site-nav {
 .site-nav__shell :where(a:not(.logo-link), button):focus-visible {
   color: var(--c-nav-fg);
   background: color-mix(in srgb, var(--c-nav-fg) 10%, transparent);
-  transform: translateY(-1px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-nav__shell :where(a:not(.logo-link), button):hover,
+  .site-nav__shell :where(a:not(.logo-link), button):focus-visible {
+    transform: translateY(-1px);
+  }
 }
 
 .site-nav__shell a:not(.logo-link)[aria-current='page'] {

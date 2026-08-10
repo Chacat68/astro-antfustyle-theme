@@ -11,46 +11,19 @@
 </div>
 
 <script>
-  import { toggleFadeEffect } from '~/utils/misc'
+  import {
+    FLOATING_PANELS,
+    dismissFloatingPanels,
+    isFloatingPanelOpen,
+  } from '~/utils/misc'
 
-  const PANELS = [
-    { id: 'nav-panel', button: 'nav-open-button', hiddenClass: 'hidden!' },
-    { id: 'toc-panel', button: 'toc-open-button', hiddenClass: 'hidden!' },
-    { id: 'search-panel', button: 'search-switch', hiddenClass: 'hidden' },
-  ]
-
-  const setPanelButtonExpanded = (buttonId: string, expanded: boolean) => {
-    const button = document.getElementById(buttonId)
-    if (button?.hasAttribute('aria-expanded')) {
-      button.setAttribute('aria-expanded', expanded ? 'true' : 'false')
-    }
-  }
-
-  const closePanel = ({
-    id,
-    button,
-    hiddenClass,
-  }: {
-    id: string
-    button: string
-    hiddenClass: string
-  }) => {
-    toggleFadeEffect(id, false, hiddenClass)
-    setPanelButtonExpanded(button, false)
-  }
+  const getOpenPanels = () =>
+    FLOATING_PANELS.filter(({ id }) => isFloatingPanelOpen(id))
 
   /* Close panel when user click on backdrop */
   document.addEventListener('astro:page-load', () => {
     const handleClick = () => {
-      for (const panelConfig of PANELS) {
-        const { id, hiddenClass } = panelConfig
-        const panel = document.getElementById(id)
-        if (panel && !panel.classList.contains(hiddenClass)) {
-          closePanel(panelConfig)
-          break
-        }
-      }
-      toggleFadeEffect('backdrop', false, 'hidden')
+      dismissFloatingPanels()
     }
     const backdrop = document.getElementById('backdrop')
     backdrop?.addEventListener('click', handleClick)
@@ -62,22 +35,20 @@
     if (event.key !== 'Tab' && event.key !== 'Escape') return
 
     const focusEl = document.activeElement
-    PANELS.forEach(({ id, button, hiddenClass }) => {
-      const panel = document.getElementById(id)
-      const isFocusOutside = !panel?.contains(focusEl) && focusEl?.id !== button
+    const openPanels = getOpenPanels()
+    if (openPanels.length === 0) return
 
-      if (
-        panel &&
-        !panel.classList.contains(hiddenClass) &&
-        (isFocusOutside || event.key === 'Escape')
-      ) {
-        closePanel({ id, button, hiddenClass })
-        toggleFadeEffect('backdrop', false, 'hidden')
-        if (panel.contains(focusEl)) {
-          document.getElementById(button)?.focus()
-        }
-      }
+    const focusedPanel = openPanels.find(({ id, buttonId }) => {
+      const panel = document.getElementById(id)
+      return panel?.contains(focusEl) || focusEl?.id === buttonId
     })
+
+    if (event.key === 'Tab' && focusedPanel) return
+
+    dismissFloatingPanels()
+    if (event.key === 'Escape' && focusedPanel) {
+      document.getElementById(focusedPanel.buttonId)?.focus()
+    }
   }
   document.addEventListener('keyup', handleKeyUp)
 </script>

@@ -12,6 +12,7 @@
   max-width: var(--c-content-max, 70rem);
   margin-inline: auto;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--c-space-page-content);
 }
 
@@ -30,6 +31,7 @@
 
 .studio-page__body {
   width: 100%;
+  min-width: 0;
 }
 
 .page-share {
@@ -57,6 +59,7 @@
 
 .page-header {
   position: relative;
+  min-width: 0;
   padding: 0 0 var(--c-space-block);
   margin: 0;
   border: 0;
@@ -72,6 +75,7 @@
   font-size: clamp(1.85rem, 3.6vw, 2.5rem);
   font-weight: 600;
   line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .page-header p,
@@ -173,7 +177,13 @@
   background: color-mix(in srgb, var(--c-surface) 85%, var(--c-accent-soft));
   box-shadow: var(--c-shadow);
   opacity: 1 !important;
-  transform: translateY(-2px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .prose .list-item-link:hover,
+  .prose .list-item-link:focus-visible {
+    transform: translateY(-2px);
+  }
 }
 
 .prose .list-item-link .list-item-link__title {
@@ -259,6 +269,8 @@ summary::-webkit-details-marker {
 .tag-filter-wrap {
   position: relative;
   z-index: 1;
+  padding-bottom: var(--c-space-page-content);
+  border-bottom: 1px solid var(--c-border);
 }
 
 .tag-filter-btn {

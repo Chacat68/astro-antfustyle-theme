@@ -27,6 +27,11 @@
   color: inherit;
 }
 
+.page-article a,
+.page-article code:not(pre code):not(.expressive-code code) {
+  overflow-wrap: anywhere;
+}
+
 .prose hr {
   width: 72px;
   margin: 2em auto;
@@ -127,6 +132,7 @@ html.dark .prose {
 /* Reading surface — inner pages only */
 .page-article {
   position: relative;
+  min-width: 0;
 }
 
 /* Studio 正文：克制 accent 提示，无 HUD 角标 / glow / NOTE 标签 */
@@ -218,13 +224,18 @@ html.dark .prose {
   z-index: 100;
   display: flex;
   flex-direction: column;
-  --uno: 'lt-lgp:hidden';
   overflow: hidden;
 
   width: 15.625rem;
   max-height: 74vh;
 
   font-size: 0.875em;
+}
+
+@media (max-width: 1127.9px) {
+  .toc-desktop {
+    display: none;
+  }
 }
 
 .toc-desktop-anchor {

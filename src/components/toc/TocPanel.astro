@@ -45,7 +45,7 @@ const specHeadings = generateToc(headings, minHeadingLevel, maxHeadingLevel)
 </nav>
 
 <script>
-  import { toggleFadeEffect } from '~/utils/misc'
+  import { closeFloatingPanel } from '~/utils/misc'
 
   document.addEventListener('astro:page-load', () => {
     /* Close toc panel when user click on link */
@@ -55,8 +55,7 @@ const specHeadings = generateToc(headings, minHeadingLevel, maxHeadingLevel)
         target instanceof HTMLElement && target.closest('a')
 
       if (isClickedOnLink) {
-        toggleFadeEffect('toc-panel', false, 'hidden!')
-        toggleFadeEffect('backdrop', false, 'hidden')
+        closeFloatingPanel('toc-panel')
       }
     }
 

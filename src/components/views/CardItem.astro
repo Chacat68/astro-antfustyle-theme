@@ -312,9 +312,15 @@ const dateLocale = localeToHtmlLang(locale)
 
   .studio-card-wrap:hover .studio-card,
   .studio-card-wrap:focus-within .studio-card {
-    transform: translateY(-2px);
     border-color: color-mix(in srgb, var(--c-accent) 18%, var(--c-border));
     box-shadow: var(--c-shadow-hover);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .studio-card-wrap:hover .studio-card,
+    .studio-card-wrap:focus-within .studio-card {
+      transform: translateY(-2px);
+    }
   }
 
   .studio-card__media {
