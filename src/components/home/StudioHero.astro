@@ -3,12 +3,12 @@
  * 首页工作室 Hero（视觉参考 Zypher Agency）
  * 大圆角纯影像舞台 + 核心主题（无赛博角标）；页面入口统一由顶栏承接
  */
-import { Image } from 'astro:assets'
 import { getLocale, useTranslations } from '~/i18n/translate'
-import heroImage from '~/assets/home/studio-hero.webp'
 
 const locale = getLocale(Astro.currentLocale)
 const t = useTranslations(locale)
+const heroImage =
+  'https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260102174815976.webp?imageSlim'
 ---
 
 <section
@@ -19,15 +19,15 @@ const t = useTranslations(locale)
 >
   <div class="studio-hero__stage">
     <div class="studio-hero__visual" aria-hidden="true">
-      <Image
+      <img
         class="studio-hero__photo"
         src={heroImage}
         alt=""
-        widths={[960, 1440, 1920]}
-        sizes="100vw"
+        width="1086"
+        height="724"
         loading="eager"
         fetchpriority="high"
-        quality={80}
+        decoding="async"
       />
       <div class="studio-hero__grain"></div>
       <div class="studio-hero__shade"></div>

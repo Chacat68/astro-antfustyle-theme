@@ -11,7 +11,7 @@ draft: false
 
 > OpenAI已经将模型的能力推向了一个极度易用的程度，多模态的结合使我原本需要在脑海或物理上进行的整合工作减少了。下一步，我将基于自己的工作流，抽象出需要完成的任务的能力，制作成定制的GPTs，这将极大地扩展我们的能力边界。
 
-![AI小记](https://blog-1259751088.cos.ap-shanghai.myqcloud.com/uPic/uvN7La.png)
+![AI小记](https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260102174815976.webp?imageSlim)
 
 ## 通用场景的魅力
 

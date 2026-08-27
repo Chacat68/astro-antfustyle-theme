@@ -12,7 +12,7 @@ lang: en
 
 > OpenAI has pushed model capabilities to an extremely user-friendly level. The integration of multimodal features has reduced the mental or physical integration work I previously needed to do. The next step is to abstract the required task capabilities based on my own workflow and create customized GPTs, which will greatly expand our boundaries of capability.
 
-![AI Notes](https://blog-1259751088.cos.ap-shanghai.myqcloud.com/uPic/uvN7La.png)
+![AI Notes](https://blog-1259751088.cos.ap-shanghai.myqcloud.com/20260102174815976.webp?imageSlim)
 
 ## The Allure of General-Purpose Scenarios
 
