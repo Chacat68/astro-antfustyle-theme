@@ -35,6 +35,8 @@ const t = useTranslations(locale)
           class="aspect-16/9 object-cover"
           src={item.src}
           alt={item.alt}
+          loading="lazy"
+          decoding="async"
           {...(typeof item.src === 'string'
             ? { width: 1600, height: 900 }
             : {})}
@@ -95,6 +97,7 @@ const t = useTranslations(locale)
     }
 
     #startAutoplay = () => {
+      if (this.#slides.length < 2 || this.#autoplayTimer !== null) return
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
       this.#autoplayTimer = window.setInterval(this.#next, this.#autoplayDelay)
     }

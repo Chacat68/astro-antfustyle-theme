@@ -11,7 +11,10 @@
 | Pagefind | 首屏急切 `import(pagefind.js)` ≈35KB+ | 打开搜索或 `?search=` 再加载；SPA（View Transitions）落到 `?search=` 时在 `astro:page-load` 中 `await` 装载高亮后再 `highlight()` |
 | viewerjs | 组件挂载即拉取 JS/CSS | `ImageViewer` 首次点击图片再 `import('viewerjs')` 并注入 CSS |
 | 正文远程图 | 无 `loading` | `rehype-optimize-images`：首图 `eager` + `fetchpriority=high`，其余 `lazy` + `decoding=async` |
-| 静态资源缓存 | `_astro` / Pagefind 无长缓存 | `public/_headers`：`/_astro/*`、`/pagefind/*` → `max-age=31536000, immutable` |
+| 搜索索引膨胀 | `public/pagefind` 被复制进 `dist` 后与新索引叠加 | `postbuild` 先清空 `dist/pagefind` 再生成，避免旧分片累积 |
+| 静态资源缓存 | 未区分带 hash 与稳定文件名 | `_astro` / Pagefind 分片 / 相册 JSON 长缓存；Pagefind 入口短缓存 |
+| 长列表 | 所有条目同时渲染并执行入场动画 | 仅首批条目入场，列表项用 `content-visibility: auto` 延迟离屏渲染 |
+| 列表图片 | 头像与卡片图急切加载、缺少固有尺寸 | 补齐 `loading` / `decoding` / 尺寸；相册首图提升请求优先级 |
 
 全站背景默认 Ambient（CSS 色晕 + 细颗粒）。历史 Three.js 故障背景已移除，`Background.astro` 将旧 `glitch` 等枚举映射到 Ambient，避免引入 WebGL 运行时。
 
@@ -29,9 +32,10 @@
 ## 复测要点
 
 - `/`：未点击图片前无 `viewer*.css` / `viewerjs` chunk；无 katex / pagefind（未开搜索）；背景为 Ambient，无 `glitch-engine`
-- `/blog/`：同上；打开搜索后 Pagefind 正常
+- `/blog/`：同上；仅首批条目执行入场动画；打开搜索后 Pagefind 正常
 - 文章页：正文非首图带 `loading="lazy"`；点击图片后才加载 viewerjs
 - 有公式的文章：确认 KaTeX 样式按约定引入后渲染正常
+- 连续执行两次 `pnpm build`：`dist/pagefind` 体积与分片数量保持稳定，不随构建次数增长
 
 ## 已知限制
 

@@ -507,9 +507,11 @@ const getFilterHref = (tag: string) =>
         fig.style.setProperty('--photo-placeholder', `url(${item.placeholder})`)
 
         const img = document.createElement('img')
+        const isFirstImage = idx === 0
         img.src = item.thumbnail
         img.alt = item.desc
-        img.loading = 'lazy'
+        img.loading = isFirstImage ? 'eager' : 'lazy'
+        if (isFirstImage) img.fetchPriority = 'high'
         img.decoding = 'async'
         img.dataset.origin = item.viewer || item.src
         img.addEventListener(
@@ -561,7 +563,7 @@ const getFilterHref = (tag: string) =>
       }
 
       const fragment = document.createDocumentFragment()
-      for (const item of items) {
+      for (const [itemIndex, item] of items.entries()) {
         const fig = document.createElement('figure')
         fig.className = 'photo-figure'
         fig.setAttribute('role', 'button')
@@ -573,9 +575,11 @@ const getFilterHref = (tag: string) =>
         fig.style.setProperty('--photo-placeholder', `url(${item.placeholder})`)
 
         const img = document.createElement('img')
+        const isFirstImage = startIndex + itemIndex === 0
         img.src = item.thumbnail
         img.alt = item.desc
-        img.loading = 'lazy'
+        img.loading = isFirstImage ? 'eager' : 'lazy'
+        if (isFirstImage) img.fetchPriority = 'high'
         img.decoding = 'async'
         img.dataset.origin = item.viewer || item.src
         img.addEventListener(

@@ -42,7 +42,10 @@ const internalHref = ensureTrailingSlash(
 )
 ---
 
-<div class="slide-enter" style={{ '--enter-stage': idx }}>
+<div
+  class:list={['list-item', idx < 10 && 'slide-enter']}
+  style={idx < 10 ? { '--enter-stage': idx } : undefined}
+>
   <Link
     class="list-item-link border-b-none! op-transition!"
     href={redirect || internalHref}
@@ -93,6 +96,11 @@ const internalHref = ensureTrailingSlash(
 </div>
 
 <style>
+  .list-item {
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto 4.5rem;
+  }
+
   .list-item-link {
     display: grid;
     grid-template-columns: 2.75rem minmax(0, 1fr) auto;

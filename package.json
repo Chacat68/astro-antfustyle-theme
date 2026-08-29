@@ -19,7 +19,7 @@
     "toolbar:on": "astro preferences enable devToolbar",
     "toolbar:off": "astro preferences disable devToolbar",
     "prepare": "simple-git-hooks",
-    "postbuild": "pagefind --site dist --force-language zh-cn --exclude-selectors \"pre\" --include-characters \"<>\" && del-cli \"dist/pagefind/*ui*\" && node scripts/sync-pagefind-public.mjs",
+    "postbuild": "del-cli \"dist/pagefind\" && pagefind --site dist --force-language zh-cn --exclude-selectors \"pre\" --include-characters \"<>\" && del-cli \"dist/pagefind/*ui*\" && node scripts/sync-pagefind-public.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:fix-descriptions": "node scripts/fix-blog-descriptions.mjs",
     "test": "node --experimental-strip-types --test src/utils/*.test.ts"
@@ -99,8 +99,5 @@
   },
   "engines": {
     "node": ">=22.12.0"
-  },
-  "dependencies": {
-    "@iconify/utils": "^3.1.4"
   }
 }

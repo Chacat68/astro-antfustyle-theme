@@ -24,7 +24,15 @@ const { showGroupItemColorOnHover } = UI.groupView
       <Link class="group-card" href={item.link} external={true}>
         <div class="group-card__media">
           {item.avatar ? (
-            <img src={item.avatar} alt={item.id} class="group-card__avatar" />
+            <img
+              src={item.avatar}
+              alt={item.id}
+              class="group-card__avatar"
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
+            />
           ) : (
             <div
               class:list={[
